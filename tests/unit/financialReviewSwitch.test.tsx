@@ -19,9 +19,9 @@ function Harness() {
 describe("financial review navigation", () => {
   it("keeps financial approvals inside the Head review workspace", () => {
     render(<Harness />);
-    fireEvent.click(screen.getByRole("button", { name: "Budget", exact: true }));
+    fireEvent.click(screen.getByRole("tab", { name: "Budget", exact: true }));
     expect(screen.getByText("budget", { selector: "output" })).toBeTruthy();
-    expect(screen.getByRole("button", { name: "Budget", exact: true }).classList.contains("bg-white")).toBe(true);
+    expect(screen.getByRole("tab", { name: "Budget", exact: true }).getAttribute("aria-selected")).toBe("true");
   });
 
   it("exposes financial approvals to a Task Leader without granting department-wide scope", () => {

@@ -75,8 +75,8 @@ export function ProgressUpdateForm({
           <Gauge size={15} />
         </div>
         <div>
-          <div className="text-[13px] font-['Lexend:Medium',_sans-serif] text-neutral-900">Post a progress update</div>
-          <div className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500">
+          <div className="text-[13px] font-medium text-neutral-900">Post a progress update</div>
+          <div className="text-[11px] font-normal text-neutral-500">
             Your first update starts the task. At 100%, submit it to the review queue below.
           </div>
         </div>
@@ -85,8 +85,8 @@ export function ProgressUpdateForm({
       {/* Percent complete */}
       <label className="block mb-3">
         <div className="flex items-center justify-between mb-1">
-          <span className="text-[11.5px] font-['Lexend:Medium',_sans-serif] text-neutral-600">Percent complete</span>
-          <span className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-blue-700 tabular-nums">{percent}%</span>
+          <span className="text-[11.5px] font-medium text-neutral-600">Percent complete</span>
+          <span className="text-[13px] font-semibold text-blue-700 tabular-nums">{percent}%</span>
         </div>
         <input
           type="range"
@@ -102,11 +102,11 @@ export function ProgressUpdateForm({
       {/* Blocker */}
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 mb-3">
         <label className="block">
-          <span className="text-[11.5px] font-['Lexend:Medium',_sans-serif] text-neutral-600 mb-1 block">Blocker</span>
+          <span className="text-[11.5px] font-medium text-neutral-600 mb-1 block">Blocker</span>
           <select
             value={blockerCategory}
             onChange={(e) => setBlockerCategory(e.target.value)}
-            className="w-full h-9 px-2.5 border border-neutral-200 rounded-lg text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-800 bg-white focus:outline-none focus:border-neutral-400"
+            className="w-full h-9 px-2.5 border border-neutral-200 rounded-lg text-[12px] font-normal text-neutral-800 bg-white focus:outline-none focus:border-neutral-400"
           >
             {BLOCKER_CATEGORIES.map((c) => (
               <option key={c} value={c}>{c}</option>
@@ -114,44 +114,44 @@ export function ProgressUpdateForm({
           </select>
         </label>
         <label className="block">
-          <span className="text-[11.5px] font-['Lexend:Medium',_sans-serif] text-neutral-600 mb-1 block">Next step</span>
+          <span className="text-[11.5px] font-medium text-neutral-600 mb-1 block">Next step</span>
           <input
             value={nextStep}
             onChange={(e) => setNextStep(e.target.value)}
             placeholder="What comes next?"
-            className="w-full h-9 px-2.5 border border-neutral-200 rounded-lg text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-800 placeholder:text-neutral-400 focus:outline-none focus:border-neutral-400"
+            className="w-full h-9 px-2.5 border border-neutral-200 rounded-lg text-[12px] font-normal text-neutral-800 placeholder:text-neutral-400 focus:outline-none focus:border-neutral-400"
           />
         </label>
       </div>
 
       {hasBlocker && (
         <label className="block mb-3">
-          <span className="text-[11.5px] font-['Lexend:Medium',_sans-serif] text-neutral-600 mb-1 block">
+          <span className="text-[11.5px] font-medium text-neutral-600 mb-1 block">
             Describe the blocker
           </span>
           <input
             value={blocker}
             onChange={(e) => setBlocker(e.target.value)}
             placeholder="What's blocking you? Your reviewer is notified."
-            className="w-full h-9 px-2.5 border border-amber-200 bg-amber-50/40 rounded-lg text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-800 placeholder:text-neutral-400 focus:outline-none focus:border-amber-400"
+            className="w-full h-9 px-2.5 border border-amber-200 bg-amber-50/40 rounded-lg text-[12px] font-normal text-neutral-800 placeholder:text-neutral-400 focus:outline-none focus:border-amber-400"
           />
         </label>
       )}
 
       <label className="block mb-3">
-        <span className="text-[11.5px] font-['Lexend:Medium',_sans-serif] text-neutral-600 mb-1 block">Note (optional)</span>
+        <span className="text-[11.5px] font-medium text-neutral-600 mb-1 block">Note (optional)</span>
         <textarea
           value={note}
           onChange={(e) => setNote(e.target.value)}
           rows={2}
           placeholder="Add any context…"
-          className="w-full resize-none rounded-lg border border-neutral-200 px-2.5 py-2 text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-800 placeholder:text-neutral-400 focus:outline-none focus:border-neutral-400"
+          className="w-full resize-none rounded-lg border border-neutral-200 px-2.5 py-2 text-[12px] font-normal text-neutral-800 placeholder:text-neutral-400 focus:outline-none focus:border-neutral-400"
         />
       </label>
 
       <div className="flex items-center justify-between gap-2">
         {file ? (
-          <div className="flex items-center gap-1.5 text-[11.5px] font-['Lexend:Regular',_sans-serif] text-neutral-600 bg-neutral-50 border border-neutral-200 rounded-lg px-2 py-1.5 min-w-0">
+          <div className="flex items-center gap-1.5 text-[11.5px] font-normal text-neutral-600 bg-neutral-50 border border-neutral-200 rounded-lg px-2 py-1.5 min-w-0">
             <Paperclip size={12} className="shrink-0" />
             <span className="truncate max-w-[160px]">{file.name}</span>
             <button onClick={() => setFile(null)} className="text-neutral-400 hover:text-neutral-700 shrink-0">
@@ -159,7 +159,7 @@ export function ProgressUpdateForm({
             </button>
           </div>
         ) : (
-          <label className="flex items-center gap-1.5 text-[11.5px] font-['Lexend:Medium',_sans-serif] text-neutral-600 hover:text-neutral-900 cursor-pointer">
+          <label className="flex items-center gap-1.5 text-[11.5px] font-medium text-neutral-600 hover:text-neutral-900 cursor-pointer">
             <Paperclip size={13} /> Attach file
             <input
               type="file"
@@ -171,7 +171,7 @@ export function ProgressUpdateForm({
         <button
           onClick={save}
           disabled={saving}
-          className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-neutral-900 text-white text-[12px] font-['Lexend:Medium',_sans-serif] hover:bg-neutral-800 disabled:opacity-40"
+          className="inline-flex items-center gap-1.5 px-3 py-2 rounded-lg bg-neutral-900 text-white text-[12px] font-medium hover:bg-neutral-800 disabled:opacity-40"
         >
           <Send size={13} /> {saving ? "Saving…" : "Save update"}
         </button>

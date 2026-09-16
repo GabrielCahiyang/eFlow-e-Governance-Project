@@ -29,7 +29,7 @@ export function BlockchainCommits() {
 
       <div className="grid grid-cols-[1.4fr_1fr] gap-4">
         <div className="bg-neutral-950 rounded-xl p-5 text-neutral-100 min-h-[440px]">
-          <div className="flex items-center gap-2 text-[11px] font-['Lexend:Medium',_sans-serif] text-emerald-400 uppercase tracking-wider mb-4">
+          <div className="flex items-center gap-2 text-[11px] font-medium text-emerald-400 uppercase tracking-wider mb-4">
             <Terminal size={12} /> Live Block Feed · eflow-chain://mainnet
           </div>
           <div className="space-y-2 font-mono text-[11px]">
@@ -50,7 +50,7 @@ export function BlockchainCommits() {
 
         <div className="space-y-3">
           <div className="bg-white border border-neutral-200 rounded-xl p-4">
-            <div className="text-[11px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400 mb-3">Chain Health</div>
+            <div className="text-[11px] font-medium uppercase tracking-wider text-neutral-400 mb-3">Chain Health</div>
             <div className="space-y-2.5">
               {[
                 { label: "Block Finality", value: "Instant", tone: "good" },
@@ -60,8 +60,8 @@ export function BlockchainCommits() {
                 { label: "Avg. Commit Interval", value: "9m 58s", tone: "good" },
               ].map(r => (
                 <div key={r.label} className="flex items-center justify-between">
-                  <div className="text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-600">{r.label}</div>
-                  <div className={`text-[12px] font-['Lexend:Medium',_sans-serif] tabular-nums ${r.tone === "good" ? "text-emerald-700" : "text-neutral-900"}`}>{r.value}</div>
+                  <div className="text-[12px] font-normal text-neutral-600">{r.label}</div>
+                  <div className={`text-[12px] font-medium tabular-nums ${r.tone === "good" ? "text-emerald-700" : "text-neutral-900"}`}>{r.value}</div>
                 </div>
               ))}
             </div>
@@ -69,8 +69,8 @@ export function BlockchainCommits() {
           <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-4">
             <div className="flex items-start gap-2">
               <Shield size={14} className="text-emerald-700 mt-0.5" />
-              <div className="text-[11.5px] font-['Lexend:Regular',_sans-serif] text-emerald-900 leading-relaxed">
-                <span className="font-['Lexend:Medium',_sans-serif]">System healthy.</span> Every 10 minutes a new block seals ~20 vouchers. COA and DILG validator nodes independently confirm the chain — one corrupt official cannot rewrite history alone.
+              <div className="text-[11.5px] font-normal text-emerald-900 leading-relaxed">
+                <span className="font-medium">System healthy.</span> Every 10 minutes a new block seals ~20 vouchers. COA and DILG validator nodes independently confirm the chain — one corrupt official cannot rewrite history alone.
               </div>
             </div>
           </div>

@@ -111,8 +111,8 @@ export function ProposedMunicipalBudget() {
         {/* Tree Map */}
         <div className="bg-white rounded-xl border border-neutral-200 p-5">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-[14px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">Budget Allocation Tree-Map</h3>
-            <span className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-400">Click a block to inspect</span>
+            <h3 className="text-[14px] font-semibold text-neutral-900">Budget Allocation Tree-Map</h3>
+            <span className="text-[11px] font-normal text-neutral-400">Click a block to inspect</span>
           </div>
           <div className="h-[340px] relative rounded-lg overflow-hidden">
             {treemapRects.map((r, i) => (
@@ -134,8 +134,8 @@ export function ProposedMunicipalBudget() {
               >
                 {r.w > 12 && r.h > 12 && (
                   <>
-                    <span className="text-white text-[12px] font-['Lexend:Medium',_sans-serif] leading-tight truncate">{r.item.name}</span>
-                    <span className="text-white/70 text-[10px] font-['Lexend:Regular',_sans-serif] mt-0.5">₱{r.item.size}M · {r.item.pct}%</span>
+                    <span className="text-white text-[12px] font-medium leading-tight truncate">{r.item.name}</span>
+                    <span className="text-white/70 text-[10px] font-normal mt-0.5">₱{r.item.size}M · {r.item.pct}%</span>
                   </>
                 )}
               </div>
@@ -146,7 +146,7 @@ export function ProposedMunicipalBudget() {
             {budgetTreeData.map(d => (
               <button key={d.name} onClick={() => setSelectedBlock(d)} className="flex items-center gap-1.5 cursor-pointer hover:opacity-70 transition-opacity">
                 <div className="size-2.5 rounded-sm" style={{ backgroundColor: d.color }} />
-                <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-600">{d.name} ({d.pct}%)</span>
+                <span className="text-[10px] font-normal text-neutral-600">{d.name} ({d.pct}%)</span>
               </button>
             ))}
           </div>
@@ -158,11 +158,11 @@ export function ProposedMunicipalBudget() {
             <div className="bg-white rounded-xl border border-neutral-200 p-5">
               <div className="flex items-center gap-2 mb-3">
                 <div className="size-3 rounded-sm" style={{ backgroundColor: selectedBlock.color }} />
-                <h4 className="text-[14px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">{selectedBlock.fullName}</h4>
+                <h4 className="text-[14px] font-semibold text-neutral-900">{selectedBlock.fullName}</h4>
               </div>
               <div className="flex items-baseline gap-2 mb-4">
-                <span className="text-[28px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">₱{selectedBlock.size}M</span>
-                <span className={`text-[12px] font-['Lexend:Medium',_sans-serif] ${selectedBlock.yoy.startsWith("+") ? "text-emerald-600" : selectedBlock.yoy.startsWith("-") ? "text-blue-600" : "text-neutral-500"}`}>
+                <span className="text-[28px] font-semibold text-neutral-900">₱{selectedBlock.size}M</span>
+                <span className={`text-[12px] font-medium ${selectedBlock.yoy.startsWith("+") ? "text-emerald-600" : selectedBlock.yoy.startsWith("-") ? "text-blue-600" : "text-neutral-500"}`}>
                   {selectedBlock.yoy} YoY
                 </span>
               </div>
@@ -170,17 +170,17 @@ export function ProposedMunicipalBudget() {
               <div className="bg-violet-50 border border-violet-200 rounded-lg p-4 mb-4">
                 <div className="flex items-center gap-1.5 mb-2">
                   <Lucide.Zap size={12} className="text-violet-600" />
-                  <span className="text-[11px] font-['Lexend:SemiBold',_sans-serif] text-violet-700">AI Fiscal Note</span>
+                  <span className="text-[11px] font-semibold text-violet-700">AI Fiscal Note</span>
                 </div>
-                <p className="text-[12px] font-['Lexend:Regular',_sans-serif] text-violet-800 leading-relaxed">
+                <p className="text-[12px] font-normal text-violet-800 leading-relaxed">
                   {selectedBlock.aiNote}
                 </p>
               </div>
               {/* Allocation Bar */}
               <div className="mb-2">
                 <div className="flex justify-between mb-1">
-                  <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500">Share of Total Budget</span>
-                  <span className="text-[10px] font-['Lexend:SemiBold',_sans-serif] text-neutral-700">{selectedBlock.pct}%</span>
+                  <span className="text-[10px] font-normal text-neutral-500">Share of Total Budget</span>
+                  <span className="text-[10px] font-semibold text-neutral-700">{selectedBlock.pct}%</span>
                 </div>
                 <div className="h-2 bg-neutral-100 rounded-full overflow-hidden">
                   <div className="h-full rounded-full transition-all duration-500" style={{ width: `${selectedBlock.pct}%`, backgroundColor: selectedBlock.color }} />
@@ -190,14 +190,14 @@ export function ProposedMunicipalBudget() {
           ) : (
             <div className="bg-white rounded-xl border border-neutral-200 p-5 flex flex-col items-center justify-center text-center h-[260px]">
               <Carbon.Analytics size={32} className="text-neutral-200 mb-3" />
-              <p className="text-[13px] font-['Lexend:Regular',_sans-serif] text-neutral-400">Click a budget block to view</p>
-              <p className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-300 mt-1">AI Fiscal Note & details</p>
+              <p className="text-[13px] font-normal text-neutral-400">Click a budget block to view</p>
+              <p className="text-[11px] font-normal text-neutral-300 mt-1">AI Fiscal Note & details</p>
             </div>
           )}
 
           {/* Quick Comparison */}
           <div className="bg-white rounded-xl border border-neutral-200 p-5">
-            <h4 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mb-3">FY 2027 vs FY 2026</h4>
+            <h4 className="text-[13px] font-semibold text-neutral-900 mb-3">FY 2027 vs FY 2026</h4>
             <div className="flex flex-col gap-2.5">
               {budgetTreeData.slice(0, 5).map(d => {
                 const fy27 = d.size;
@@ -205,7 +205,7 @@ export function ProposedMunicipalBudget() {
                 const max = Math.max(...budgetTreeData.slice(0, 5).map(x => x.size));
                 return (
                   <div key={d.name} className="flex items-center gap-2">
-                    <span className="text-[9px] font-['Lexend:Regular',_sans-serif] text-neutral-500 w-[60px] shrink-0 truncate">{d.name}</span>
+                    <span className="text-[9px] font-normal text-neutral-500 w-[60px] shrink-0 truncate">{d.name}</span>
                     <div className="flex-1 flex flex-col gap-0.5">
                       <div className="h-[8px] bg-neutral-100 rounded-full overflow-hidden">
                         <div className="h-full bg-[#D1D5DB] rounded-full" style={{ width: `${(fy26 / max) * 100}%` }} />
@@ -214,13 +214,13 @@ export function ProposedMunicipalBudget() {
                         <div className="h-full bg-blue-500 rounded-full" style={{ width: `${(fy27 / max) * 100}%` }} />
                       </div>
                     </div>
-                    <span className="text-[9px] font-['Lexend:Medium',_sans-serif] text-neutral-700 w-[32px] text-right">{fy27}M</span>
+                    <span className="text-[9px] font-medium text-neutral-700 w-[32px] text-right">{fy27}M</span>
                   </div>
                 );
               })}
               <div className="flex items-center gap-3 pt-2 border-t border-neutral-100">
-                <div className="flex items-center gap-1"><div className="size-2 rounded-sm bg-[#D1D5DB]" /><span className="text-[8px] font-['Lexend:Regular',_sans-serif] text-neutral-400">FY 2026</span></div>
-                <div className="flex items-center gap-1"><div className="size-2 rounded-sm bg-blue-500" /><span className="text-[8px] font-['Lexend:Regular',_sans-serif] text-neutral-400">FY 2027</span></div>
+                <div className="flex items-center gap-1"><div className="size-2 rounded-sm bg-[#D1D5DB]" /><span className="text-[8px] font-normal text-neutral-400">FY 2026</span></div>
+                <div className="flex items-center gap-1"><div className="size-2 rounded-sm bg-blue-500" /><span className="text-[8px] font-normal text-neutral-400">FY 2027</span></div>
               </div>
             </div>
           </div>
@@ -232,8 +232,8 @@ export function ProposedMunicipalBudget() {
         <div className="flex items-center justify-between px-5 py-4 border-b border-neutral-100">
           <div className="flex items-center gap-2">
             <Lucide.MessageSquare size={14} className="text-neutral-500" />
-            <h3 className="text-[14px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">Committee Inline Comments</h3>
-            <span className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-400">
+            <h3 className="text-[14px] font-semibold text-neutral-900">Committee Inline Comments</h3>
+            <span className="text-[11px] font-normal text-neutral-400">
               {budgetComments.filter(c => !c.resolved).length} open
             </span>
           </div>
@@ -244,19 +244,19 @@ export function ProposedMunicipalBudget() {
             <div key={c.id} className={`px-5 py-4 ${c.resolved ? "opacity-50" : ""}`}>
               <div className="flex items-start gap-3">
                 <div className="size-8 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
-                  <span className="text-[10px] font-['Lexend:SemiBold',_sans-serif] text-blue-700">{c.initials}</span>
+                  <span className="text-[10px] font-semibold text-blue-700">{c.initials}</span>
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
-                    <span className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">{c.author}</span>
-                    <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-400">on {c.department}</span>
-                    <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-400">· {c.time}</span>
+                    <span className="text-[12px] font-semibold text-neutral-900">{c.author}</span>
+                    <span className="text-[10px] font-normal text-neutral-400">on {c.department}</span>
+                    <span className="text-[10px] font-normal text-neutral-400">· {c.time}</span>
                     {c.resolved && <UI.Pill status="Resolved" className="!text-[9px] !py-0" />}
                   </div>
-                  <p className="text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-700 leading-relaxed">{c.text}</p>
+                  <p className="text-[12px] font-normal text-neutral-700 leading-relaxed">{c.text}</p>
                 </div>
                 {!c.resolved && (
-                  <button className="text-[10px] font-['Lexend:Medium',_sans-serif] text-emerald-600 hover:underline cursor-pointer whitespace-nowrap">Mark Resolved</button>
+                  <button className="text-[10px] font-medium text-emerald-600 hover:underline cursor-pointer whitespace-nowrap">Mark Resolved</button>
                 )}
               </div>
             </div>

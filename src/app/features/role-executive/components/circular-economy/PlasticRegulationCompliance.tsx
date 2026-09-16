@@ -29,7 +29,7 @@ export function PlasticRegulationCompliance() {
               placeholder="Search business..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-8 pr-3 py-2 border border-neutral-200 rounded-lg text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-900 placeholder:text-neutral-400 outline-none focus:ring-2 focus:ring-blue-100 w-48"
+              className="pl-8 pr-3 py-2 border border-neutral-200 rounded-lg text-[12px] font-normal text-neutral-900 placeholder:text-neutral-400 outline-none focus:ring-2 focus:ring-blue-100 w-48"
             />
           </div>
           <UI.Btn icon={<Carbon.Download size={14} />} label="Export Registry" />
@@ -45,7 +45,7 @@ export function PlasticRegulationCompliance() {
       {/* RLS Notice */}
       <div className="bg-blue-50 border border-blue-200 rounded-xl p-3 mb-5 flex items-center gap-2">
         <Carbon.Security size={14} className="text-blue-600" />
-        <p className="text-[11px] font-['Lexend:Regular',_sans-serif] text-blue-700">
+        <p className="text-[11px] font-normal text-blue-700">
           <strong>Row-Level Security:</strong> BPLO inspectors see only their assigned zones. ENRO Head has city-wide visibility. Current view: <strong>ENRO Head (All Zones)</strong>
         </p>
       </div>
@@ -54,11 +54,11 @@ export function PlasticRegulationCompliance() {
       <div className="flex items-center gap-2 mb-4">
         <button
           onClick={() => setZoneFilter(null)}
-          className={`px-3 py-1.5 rounded-lg text-[11px] font-['Lexend:Medium',_sans-serif] cursor-pointer transition-all ${!zoneFilter ? "bg-neutral-900 text-white" : "bg-white text-neutral-600 border border-neutral-200 hover:bg-neutral-50"}`}
+          className={`px-3 py-1.5 rounded-lg text-[11px] font-medium cursor-pointer transition-all ${!zoneFilter ? "bg-neutral-900 text-white" : "bg-white text-neutral-600 border border-neutral-200 hover:bg-neutral-50"}`}
         >All Zones</button>
         {zones.map((z) => (
           <button key={z} onClick={() => setZoneFilter(zoneFilter === z ? null : z)}
-            className={`px-3 py-1.5 rounded-lg text-[11px] font-['Lexend:Medium',_sans-serif] cursor-pointer transition-all ${zoneFilter === z ? "bg-neutral-900 text-white" : "bg-white text-neutral-600 border border-neutral-200 hover:bg-neutral-50"}`}
+            className={`px-3 py-1.5 rounded-lg text-[11px] font-medium cursor-pointer transition-all ${zoneFilter === z ? "bg-neutral-900 text-white" : "bg-white text-neutral-600 border border-neutral-200 hover:bg-neutral-50"}`}
           >{z}</button>
         ))}
       </div>
@@ -69,24 +69,24 @@ export function PlasticRegulationCompliance() {
           <thead>
             <tr className="border-b border-neutral-100">
               {["Business Name", "Zone", "Last Inspection", "Violations", "Inspector", "Status"].map((h) => (
-                <th key={h} className="py-2.5 px-3 text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase tracking-wide">{h}</th>
+                <th key={h} className="py-2.5 px-3 text-[11px] font-medium text-neutral-500 uppercase tracking-wide">{h}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             {filtered.map((b) => (
               <tr key={b.name} className="border-b border-neutral-50 hover:bg-neutral-50/50 transition-colors">
-                <td className="py-3 px-3 text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900">{b.name}</td>
-                <td className="py-3 px-3 text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-600">{b.zone}</td>
-                <td className="py-3 px-3 text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-600">{b.lastInspection}</td>
+                <td className="py-3 px-3 text-[12px] font-medium text-neutral-900">{b.name}</td>
+                <td className="py-3 px-3 text-[11px] font-normal text-neutral-600">{b.zone}</td>
+                <td className="py-3 px-3 text-[11px] font-normal text-neutral-600">{b.lastInspection}</td>
                 <td className="py-3 px-3">
                   {b.violations > 0 ? (
-                    <span className="text-[12px] font-['Lexend:Medium',_sans-serif] text-red-600">{b.violations}</span>
+                    <span className="text-[12px] font-medium text-red-600">{b.violations}</span>
                   ) : (
-                    <span className="text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-400">0</span>
+                    <span className="text-[12px] font-normal text-neutral-400">0</span>
                   )}
                 </td>
-                <td className="py-3 px-3 text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-600">{b.inspector}</td>
+                <td className="py-3 px-3 text-[11px] font-normal text-neutral-600">{b.inspector}</td>
                 <td className="py-3 px-3"><UI.Pill status={b.status} /></td>
               </tr>
             ))}

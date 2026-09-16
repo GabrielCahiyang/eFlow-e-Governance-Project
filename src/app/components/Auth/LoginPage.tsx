@@ -200,6 +200,7 @@ export function LoginPage() {
                       <div className="eflow-auth-usage-popover__list">
                         {QUICK_LOGIN_ACCOUNTS.map((account) => (
                           <button
+                            aria-label={`${account.label} — ${account.email}`}
                             className="eflow-auth-usage-popover__item"
                             key={account.email}
                             onClick={() => void handleQuickLogin(account)}

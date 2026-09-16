@@ -94,7 +94,7 @@ export function EmployeeTaskWorkspace() {
   };
 
   return (
-    <div className="min-h-full p-2">
+    <div className="eflow-operational-workspace min-h-full p-2">
       <PageHeader
         eyebrow="My Workspace"
         title="My Tasks"
@@ -107,10 +107,10 @@ export function EmployeeTaskWorkspace() {
             <Bell size={16} />
           </div>
           <div className="min-w-0 flex-1">
-            <div className="text-[10px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-amber-700">
+            <div className="text-[10px] font-medium uppercase tracking-wider text-amber-700">
               New assignment
             </div>
-            <div className="truncate text-[13px] font-['Lexend:Medium',_sans-serif] text-neutral-900">
+            <div className="truncate text-[13px] font-medium text-neutral-900">
               {assignmentBanner.title}
             </div>
             <div className="mt-0.5 text-[11px] text-neutral-600">

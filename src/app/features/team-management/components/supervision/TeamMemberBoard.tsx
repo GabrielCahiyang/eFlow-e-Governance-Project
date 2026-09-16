@@ -38,10 +38,10 @@ export function TeamMemberBoard({
           return (
             <button key={employee.id} type="button" onClick={() => onSelect(employee.id)} className={`rounded-xl border bg-white p-4 text-left transition-all duration-200 hover:-translate-y-0.5 hover:shadow-sm motion-reduce:transform-none ${selected ? "border-neutral-900 ring-1 ring-neutral-900/10" : "border-neutral-200 hover:border-neutral-300"}`}>
               <div className="flex items-start gap-3">
-                <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-neutral-900 text-[11px] font-['Lexend:SemiBold',_sans-serif] text-white">{employee.initials || "??"}</div>
+                <div className="grid h-10 w-10 shrink-0 place-items-center rounded-full bg-neutral-900 text-[11px] font-semibold text-white">{employee.initials || "??"}</div>
                 <div className="min-w-0 flex-1">
                   <div className="flex items-start justify-between gap-2">
-                    <div className="min-w-0"><h3 className="truncate text-[12.5px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">{employee.name}</h3><p className="truncate text-[10.5px] text-neutral-400">{employee.jobTitle}</p></div>
+                    <div className="min-w-0"><h3 className="truncate text-[12.5px] font-semibold text-neutral-900">{employee.name}</h3><p className="truncate text-[10.5px] text-neutral-400">{employee.jobTitle}</p></div>
                     {metric.blocked > 0 ? <ShieldAlert size={15} className="shrink-0 text-red-500" /> : metric.stale ? <Clock3 size={15} className="shrink-0 text-amber-500" /> : <CheckCircle2 size={15} className="shrink-0 text-emerald-500" />}
                   </div>
                   <div className="mt-3 flex items-center justify-between text-[10px]"><span className="uppercase tracking-wide text-neutral-400">Workload signal</span><span className={high ? "font-medium text-red-600" : medium ? "font-medium text-amber-600" : "font-medium text-emerald-600"}>{metric.workloadSignal}/100</span></div>
@@ -50,7 +50,7 @@ export function TeamMemberBoard({
               </div>
               <div className="mt-3 grid grid-cols-4 gap-1.5 border-t border-neutral-100 pt-3">
                 {[ ["Tasks", metric.activeTasks], ["Subtasks", metric.activeSubtasks], ["Due", metric.dueSoon], ["Risk", metric.overdue + metric.blocked] ].map(([label, value]) => (
-                  <div key={label as string} className="rounded-lg bg-neutral-50 px-1.5 py-2 text-center"><div className={`text-[13px] font-['Lexend:SemiBold',_sans-serif] ${label === "Risk" && Number(value) > 0 ? "text-red-600" : "text-neutral-900"}`}>{value as number}</div><div className="text-[8.5px] uppercase tracking-wide text-neutral-400">{label as string}</div></div>
+                  <div key={label as string} className="rounded-lg bg-neutral-50 px-1.5 py-2 text-center"><div className={`text-[13px] font-semibold ${label === "Risk" && Number(value) > 0 ? "text-red-600" : "text-neutral-900"}`}>{value as number}</div><div className="text-[8.5px] uppercase tracking-wide text-neutral-400">{label as string}</div></div>
                 ))}
               </div>
               {high && <p className="mt-2 flex items-center gap-1 text-[9.5px] text-red-600"><AlertTriangle size={11} /> Review priorities or redistribute work.</p>}

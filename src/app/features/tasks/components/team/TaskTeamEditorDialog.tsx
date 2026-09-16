@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
-import { Check, Crown, Search, ShieldAlert, UserMinus, UsersRound, X } from "lucide-react";
+import { AttentionBox, Button, Modal, ModalBasicLayout, ModalContent, ModalHeader, Search, Text } from "@vibe/core";
+import { Favorite, Remove, Team, Warning } from "@vibe/icons";
 import type { UserProfile } from "../../../../types";
 import type { Subtask } from "../../../../services/subtaskService";
 import { useToast } from "../../../../components/ui/Toast";
@@ -105,33 +106,31 @@ export function TaskTeamEditorDialog({
 
   if (!task) return null;
   return (
-    <div className="fixed inset-0 z-[70] flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm" onMouseDown={(event) => { if (event.target === event.currentTarget) onClose(); }}>
-      <section role="dialog" aria-modal="true" aria-label="Manage task members" className="flex max-h-[84vh] w-full max-w-xl flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-2xl">
-        <header className="flex items-start justify-between border-b border-neutral-100 px-5 py-4">
-          <div><div className="text-[9px] font-semibold uppercase tracking-[0.18em] text-neutral-400">Task team</div><h2 className="mt-1 text-[16px] font-semibold text-neutral-950">Manage members</h2><p className="mt-1 text-[10px] text-neutral-500">{task.title} · only active people from the responsible organization can be added.</p></div>
-          <button type="button" onClick={onClose} className="rounded-lg p-2 text-neutral-400 hover:bg-neutral-100 hover:text-neutral-700"><X size={15} /></button>
-        </header>
+    <Modal closeButtonAriaLabel="Close task member editor" id="task-team-editor" onClose={() => onClose()} show size="medium" useFixedPosition>
+      <ModalBasicLayout>
+        <ModalHeader title="Manage members" description={`${task.title} · only active people from the responsible organization can be added.`} />
+        <ModalContent className="flex max-h-[68vh] flex-col gap-3">
+          <Search value={search} onChange={setSearch} onClear={() => setSearch("")} autoFocus placeholder="Search members by name or role…" inputAriaLabel="Search task members" showClearIcon />
+          {error && <AttentionBox animate={false} compact text={error} type="warning" />}
 
-        <div className="border-b border-neutral-100 px-4 py-3">
-          <label className="flex h-10 items-center gap-2 rounded-xl border border-neutral-200 bg-neutral-50 px-3 focus-within:border-neutral-400 focus-within:bg-white"><Search size={14} className="text-neutral-400" /><input value={search} onChange={(event) => setSearch(event.target.value)} autoFocus placeholder="Search members by name or role…" className="min-w-0 flex-1 bg-transparent text-[11.5px] outline-none" /></label>
-          {error && <div className="mt-2 flex items-start gap-2 rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-[10px] leading-relaxed text-amber-800"><ShieldAlert size={13} className="mt-0.5 shrink-0" /> {error}</div>}
-        </div>
-
-        <div className="flex-1 space-y-1 overflow-y-auto p-3">
+        <div className="flex-1 space-y-1 overflow-y-auto">
           {filtered.map((candidate) => {
             const selected = selectedIds.includes(candidate.id);
             const blocker = blockers.get(candidate.id);
             return <button key={candidate.id} type="button" onClick={() => toggle(candidate)} disabled={!selected && !candidate.canBeAdded} className={`flex w-full items-center gap-3 rounded-xl border px-3 py-2.5 text-left transition ${selected ? "border-violet-200 bg-violet-50" : "border-transparent hover:border-neutral-200 hover:bg-neutral-50"} disabled:cursor-not-allowed disabled:opacity-40`}>
               <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-neutral-900 text-[10px] font-semibold text-white">{initials(candidate.name)}</span>
-              <span className="min-w-0 flex-1"><span className="flex items-center gap-1.5 text-[11.5px] font-semibold text-neutral-900">{candidate.name}{candidate.id === leadId && <Crown size={11} className="text-amber-500" />}</span><span className="block truncate text-[9.5px] text-neutral-400">{roleLabel(candidate.role)} · {candidate.organization}</span>{blocker && selected && <span className="mt-0.5 block truncate text-[9px] text-amber-700">{candidate.id === leadId ? "Task Lead · change the lead before removing" : `Working on: ${blocker.subtaskTitles.join(", ")}`}</span>}</span>
-              {selected ? blocker ? <span title={blocker.reason} className="rounded-lg bg-amber-100 p-1.5 text-amber-700"><ShieldAlert size={13} /></span> : <span className="rounded-lg p-1.5 text-neutral-400"><UserMinus size={13} /></span> : <span className="flex h-5 w-5 items-center justify-center rounded-md border border-neutral-300">{selected && <Check size={11} />}</span>}
+              <span className="min-w-0 flex-1"><span className="flex items-center gap-1.5 text-[11.5px] font-semibold text-neutral-900">{candidate.name}{candidate.id === leadId && <Favorite size={12} className="text-amber-500" />}</span><span className="block truncate text-[9.5px] text-neutral-400">{roleLabel(candidate.role)} · {candidate.organization}</span>{blocker && selected && <span className="mt-0.5 block truncate text-[9px] text-amber-700">{candidate.id === leadId ? "Task Lead · change the lead before removing" : `Working on: ${blocker.subtaskTitles.join(", ")}`}</span>}</span>
+              {selected ? blocker ? <span title={blocker.reason} className="rounded-lg bg-amber-100 p-1.5 text-amber-700"><Warning size={14} /></span> : <span className="rounded-lg p-1.5 text-neutral-400"><Remove size={14} /></span> : <span className="flex h-5 w-5 items-center justify-center rounded-md border border-neutral-300" />}
             </button>;
           })}
           {!filtered.length && <div className="py-12 text-center text-[11px] text-neutral-400">No eligible members match your search.</div>}
         </div>
-
-        <footer className="flex items-center justify-between border-t border-neutral-100 px-5 py-4"><span className="inline-flex items-center gap-1.5 text-[10.5px] text-neutral-500"><UsersRound size={13} /> {selectedIds.length} member{selectedIds.length === 1 ? "" : "s"} assigned</span><div className="flex gap-2"><button type="button" onClick={onClose} className="rounded-xl border border-neutral-200 px-4 py-2 text-[11px] font-semibold text-neutral-600 hover:bg-neutral-50">Cancel</button><button type="button" disabled={saving} onClick={() => void save()} className="rounded-xl bg-neutral-950 px-4 py-2 text-[11px] font-semibold text-white hover:bg-neutral-800 disabled:opacity-50">{saving ? "Saving…" : "Save members"}</button></div></footer>
-      </section>
-    </div>
+        </ModalContent>
+      </ModalBasicLayout>
+      <footer className="flex items-center justify-between border-t border-neutral-100 px-5 py-4">
+        <Text className="inline-flex items-center gap-1.5 text-neutral-500" type="text3"><Team size={14} /> <span className="tabular-nums">{selectedIds.length}</span> member{selectedIds.length === 1 ? "" : "s"} assigned</Text>
+        <div className="flex gap-2"><Button kind="secondary" onClick={onClose} size="small">Cancel</Button><Button kind="primary" loading={saving} disabled={saving} onClick={() => void save()} size="small">Save members</Button></div>
+      </footer>
+    </Modal>
   );
 }

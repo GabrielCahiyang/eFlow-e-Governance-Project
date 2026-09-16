@@ -24,12 +24,12 @@ export function WorkloadVelocityOverview() {
         >
           <div className="flex items-center gap-2 mb-2">
             <Users size={16} className="text-neutral-700" />
-            <span className="text-[13px] font-['Lexend:SemiBold',_sans-serif]">Equitable Distribution</span>
+            <span className="text-[13px] font-semibold">Equitable Distribution</span>
           </div>
-          <p className="text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-500 leading-relaxed mb-3">
+          <p className="text-[12px] font-normal text-neutral-500 leading-relaxed mb-3">
             Scatter plot of 2,068 employees mapped by tasks × complexity. Spot outliers at a glance.
           </p>
-          <div className="text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-900 flex items-center gap-1 group-hover:gap-2 transition-all">
+          <div className="text-[11px] font-medium text-neutral-900 flex items-center gap-1 group-hover:gap-2 transition-all">
             Open graph <ArrowRight size={12} />
           </div>
         </a>
@@ -39,12 +39,12 @@ export function WorkloadVelocityOverview() {
         >
           <div className="flex items-center gap-2 mb-2">
             <Dna size={16} className="text-neutral-700" />
-            <span className="text-[13px] font-['Lexend:SemiBold',_sans-serif]">GA Allocation Review</span>
+            <span className="text-[13px] font-semibold">GA Allocation Review</span>
           </div>
-          <p className="text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-500 leading-relaxed mb-3">
+          <p className="text-[12px] font-normal text-neutral-500 leading-relaxed mb-3">
             Run the Genetic Algorithm load balancer. No drag-and-drop — one click redistribution.
           </p>
-          <div className="text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-900 flex items-center gap-1 group-hover:gap-2 transition-all">
+          <div className="text-[11px] font-medium text-neutral-900 flex items-center gap-1 group-hover:gap-2 transition-all">
             Open engine <ArrowRight size={12} />
           </div>
         </a>
@@ -53,7 +53,7 @@ export function WorkloadVelocityOverview() {
       <div className="mt-5 bg-white border border-neutral-200 rounded-xl p-5">
         <div className="flex items-center gap-2 mb-3">
           <TrendingUp size={14} className="text-emerald-600" />
-          <span className="text-[12px] font-['Lexend:Medium',_sans-serif]">Task Completion Velocity · 30 days</span>
+          <span className="text-[12px] font-medium">Task Completion Velocity · 30 days</span>
         </div>
         <VelocitySparkline />
       </div>

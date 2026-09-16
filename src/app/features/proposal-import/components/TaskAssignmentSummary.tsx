@@ -14,7 +14,7 @@ export function TaskAssignmentSummary({
       <div className="flex min-w-0 items-center gap-2">
         <Users size={14} className="shrink-0 text-neutral-400" />
         <div className="min-w-0">
-          <div className="text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-600">
+          <div className="text-[11px] font-medium text-neutral-600">
             Assign team &amp; leader
           </div>
           <div className="text-[9px] text-neutral-400">
@@ -35,7 +35,7 @@ export function TaskAssignmentSummary({
           <span
             key={employee.id}
             title={employee.name}
-            className={`flex h-7 w-7 items-center justify-center rounded-full border-2 border-white text-[9px] font-['Lexend:SemiBold',_sans-serif] text-white ${
+            className={`flex h-7 w-7 items-center justify-center rounded-full border-2 border-white text-[9px] font-semibold text-white ${
               employee.id === leader.id ? "bg-violet-600" : "bg-neutral-700"
             }`}
           >
@@ -43,17 +43,17 @@ export function TaskAssignmentSummary({
           </span>
         ))}
         {employees.length > 4 && (
-          <span className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-neutral-200 text-[9px] font-['Lexend:Medium',_sans-serif] text-neutral-600">
+          <span className="flex h-7 w-7 items-center justify-center rounded-full border-2 border-white bg-neutral-200 text-[9px] font-medium text-neutral-600">
             +{employees.length - 4}
           </span>
         )}
       </div>
 
       <div className="min-w-0 flex-1">
-        <div className="flex items-center gap-1 text-[10px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wide text-amber-700">
+        <div className="flex items-center gap-1 text-[10px] font-medium uppercase tracking-wide text-amber-700">
           <Crown size={11} className="shrink-0" /> Team leader
         </div>
-        <div className="truncate text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-800">
+        <div className="truncate text-[12px] font-medium text-neutral-800">
           {leader.name}
         </div>
         <div className="text-[9px] text-neutral-400">

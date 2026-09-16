@@ -139,7 +139,7 @@ export function OverrunPrevention({}: {
         <div className="bg-white border border-neutral-200 rounded-xl p-4">
           <div className="flex items-center gap-2 mb-3">
             <ReceiptText size={14} className="text-neutral-900" />
-            <div className="text-[12.5px] font-['Lexend:Medium',_sans-serif] text-neutral-900">
+            <div className="text-[12.5px] font-medium text-neutral-900">
               Incoming Purchase Requests
             </div>
           </div>
@@ -162,18 +162,18 @@ export function OverrunPrevention({}: {
                         )}
                       </div>
                       <div>
-                        <div className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900">
+                        <div className="text-[12px] font-medium text-neutral-900">
                           {r.title}
                         </div>
-                        <div className="text-[10.5px] font-['Lexend:Regular',_sans-serif] text-neutral-500">
+                        <div className="text-[10.5px] font-normal text-neutral-500">
                           {r.requester} · {r.site}
                         </div>
-                        <span className="mt-1 inline-block text-[9px] font-['Lexend:Medium',_sans-serif] uppercase bg-neutral-100 text-neutral-600 rounded px-1.5 py-0.5">
+                        <span className="mt-1 inline-block text-[9px] font-medium uppercase bg-neutral-100 text-neutral-600 rounded px-1.5 py-0.5">
                           {r.category}
                         </span>
                       </div>
                     </div>
-                    <div className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 tabular-nums shrink-0">
+                    <div className="text-[13px] font-semibold text-neutral-900 tabular-nums shrink-0">
                       {peso(r.amount)}
                     </div>
                   </div>
@@ -186,7 +186,7 @@ export function OverrunPrevention({}: {
         <div className="bg-white border border-neutral-200 rounded-xl p-5">
           <div className="flex items-center gap-2 mb-3">
             <Gauge size={14} className="text-neutral-900" />
-            <div className="text-[12.5px] font-['Lexend:Medium',_sans-serif] text-neutral-900">
+            <div className="text-[12.5px] font-medium text-neutral-900">
               Impact Gauge · After Approval
             </div>
           </div>
@@ -246,7 +246,7 @@ export function OverrunPrevention({}: {
               <text
                 x="20"
                 y="98"
-                className="text-[7px] font-['Lexend:Medium',_sans-serif]"
+                className="text-[7px] font-medium"
                 fill="#dc2626"
               >
                 ₱0
@@ -254,7 +254,7 @@ export function OverrunPrevention({}: {
               <text
                 x="130"
                 y="98"
-                className="text-[7px] font-['Lexend:Medium',_sans-serif]"
+                className="text-[7px] font-medium"
                 fill="#10b981"
               >
                 {pesoShort(STARTING_BALANCE)}
@@ -262,16 +262,16 @@ export function OverrunPrevention({}: {
             </svg>
 
             <div className="text-center mt-1">
-              <div className="text-[10px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400">
+              <div className="text-[10px] font-medium uppercase tracking-wider text-neutral-400">
                 Projected Remaining
               </div>
               <div
-                className={`text-[24px] font-['Lexend:SemiBold',_sans-serif] tabular-nums ${wouldOverdraw ? "text-red-700" : inCritical ? "text-red-600" : "text-neutral-900"}`}
+                className={`text-[24px] font-semibold tabular-nums ${wouldOverdraw ? "text-red-700" : inCritical ? "text-red-600" : "text-neutral-900"}`}
               >
                 {peso(projected)}
               </div>
               <span
-                className={`mt-2 inline-block text-[9.5px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider rounded px-2 py-1 ${zoneTone}`}
+                className={`mt-2 inline-block text-[9.5px] font-medium uppercase tracking-wider rounded px-2 py-1 ${zoneTone}`}
               >
                 {zoneLabel}
               </span>
@@ -284,10 +284,10 @@ export function OverrunPrevention({}: {
                 size={13}
                 className="text-red-700 mt-0.5 shrink-0"
               />
-              <div className="text-[10.5px] font-['Lexend:Regular',_sans-serif] text-red-900 leading-relaxed">
+              <div className="text-[10.5px] font-normal text-red-900 leading-relaxed">
                 {wouldOverdraw ? (
                   <>
-                    <span className="font-['Lexend:Medium',_sans-serif]">
+                    <span className="font-medium">
                       This ORS will bounce.
                     </span>{" "}
                     Projected balance is negative — Finance will reject
@@ -296,7 +296,7 @@ export function OverrunPrevention({}: {
                   </>
                 ) : (
                   <>
-                    <span className="font-['Lexend:Medium',_sans-serif]">
+                    <span className="font-medium">
                       Critical buffer breached.
                     </span>{" "}
                     Only {peso(projected)} would remain for unforeseen
@@ -308,7 +308,7 @@ export function OverrunPrevention({}: {
             </div>
           )}
 
-          <div className="mt-4 pt-4 border-t border-neutral-100 space-y-1.5 text-[10.5px] font-['Lexend:Regular',_sans-serif]">
+          <div className="mt-4 pt-4 border-t border-neutral-100 space-y-1.5 text-[10.5px] font-normal">
             <div className="flex items-center justify-between">
               <span className="text-neutral-500">Starting balance</span>
               <span className="text-neutral-900 tabular-nums">
@@ -322,11 +322,11 @@ export function OverrunPrevention({}: {
               </span>
             </div>
             <div className="flex items-center justify-between pt-1.5 border-t border-neutral-100">
-              <span className="text-neutral-700 font-['Lexend:Medium',_sans-serif]">
+              <span className="text-neutral-700 font-medium">
                 Projected balance
               </span>
               <span
-                className={`tabular-nums font-['Lexend:Medium',_sans-serif] ${wouldOverdraw ? "text-red-700" : inCritical ? "text-red-600" : "text-neutral-900"}`}
+                className={`tabular-nums font-medium ${wouldOverdraw ? "text-red-700" : inCritical ? "text-red-600" : "text-neutral-900"}`}
               >
                 {peso(projected)}
               </span>

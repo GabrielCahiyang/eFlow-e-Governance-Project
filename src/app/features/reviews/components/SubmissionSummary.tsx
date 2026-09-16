@@ -20,7 +20,7 @@ export function SubmissionSummary({
         <div className="mb-3 flex items-start gap-2 rounded-lg border border-rose-200 bg-rose-50 p-2.5">
           <MessageSquareWarning size={14} className="mt-0.5 shrink-0 text-rose-600" />
           <div>
-            <div className="text-[11px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wide text-rose-700">
+            <div className="text-[11px] font-medium uppercase tracking-wide text-rose-700">
               Previous feedback
             </div>
             <div className="text-[12px] text-rose-900">{task.rejectionNote}</div>
@@ -32,7 +32,7 @@ export function SubmissionSummary({
         <div className="mb-3 rounded-lg border border-neutral-200 bg-neutral-50 p-3">
           <div className="mb-1.5 flex items-center gap-2">
             <InitialsAvatar name={submission.submitterName} size={22} />
-            <span className="text-[12.5px] font-['Lexend:Medium',_sans-serif] text-neutral-900">
+            <span className="text-[12.5px] font-medium text-neutral-900">
               {submission.submitterName}
             </span>
             {submission.version && (

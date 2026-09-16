@@ -41,8 +41,8 @@ export function MasterBudgetExecution() {
           <div className="flex items-center gap-2 mb-3">
             <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center"><Carbon.ChartBar size={16} className="text-blue-600" /></div>
             <div>
-              <h4 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">Expenditure vs Approved</h4>
-              <p className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500">Central fiscal ledger</p>
+              <h4 className="text-[13px] font-semibold text-neutral-900">Expenditure vs Approved</h4>
+              <p className="text-[10px] font-normal text-neutral-500">Central fiscal ledger</p>
             </div>
           </div>
           <Charts.ResponsiveContainer width="100%" height={80}>
@@ -59,13 +59,13 @@ export function MasterBudgetExecution() {
           <div className="flex items-center gap-2 mb-3">
             <div className="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center"><Carbon.Warning size={16} className="text-red-600" /></div>
             <div>
-              <h4 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">Overspending Risk</h4>
-              <p className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500">AI burn-rate analysis</p>
+              <h4 className="text-[13px] font-semibold text-neutral-900">Overspending Risk</h4>
+              <p className="text-[10px] font-normal text-neutral-500">AI burn-rate analysis</p>
             </div>
           </div>
           <div className="text-center py-2">
-            <span className="text-[28px] font-['Lexend:SemiBold',_sans-serif] text-red-600">₱28.5M</span>
-            <p className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mt-1">At-risk capital across 3 projects</p>
+            <span className="text-[28px] font-semibold text-red-600">₱28.5M</span>
+            <p className="text-[10px] font-normal text-neutral-500 mt-1">At-risk capital across 3 projects</p>
           </div>
           <div className="flex rounded-full overflow-hidden h-3 bg-neutral-100">
             <div className="bg-red-400" style={{ width: "35%" }} />
@@ -78,24 +78,24 @@ export function MasterBudgetExecution() {
           <div className="flex items-center gap-2 mb-3">
             <div className="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center"><Carbon.Time size={16} className="text-amber-600" /></div>
             <div>
-              <h4 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">Underutilization Alerts</h4>
-              <p className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500">Idle funds tracker</p>
+              <h4 className="text-[13px] font-semibold text-neutral-900">Underutilization Alerts</h4>
+              <p className="text-[10px] font-normal text-neutral-500">Idle funds tracker</p>
             </div>
           </div>
           <div className="text-center py-2">
-            <span className="text-[28px] font-['Lexend:SemiBold',_sans-serif] text-amber-600">₱78.3M</span>
-            <p className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mt-1">Idle funds with &lt;90 days left</p>
+            <span className="text-[28px] font-semibold text-amber-600">₱78.3M</span>
+            <p className="text-[10px] font-normal text-neutral-500 mt-1">Idle funds with &lt;90 days left</p>
           </div>
           <div className="flex items-center justify-center gap-1 mt-1">
             <div className="w-2 h-2 rounded-full bg-red-400 animate-pulse" />
-            <span className="text-[10px] font-['Lexend:Medium',_sans-serif] text-red-600">2 departments at critical countdown</span>
+            <span className="text-[10px] font-medium text-red-600">2 departments at critical countdown</span>
           </div>
         </div>
       </div>
 
       {/* Execution velocity chart */}
       <div className="bg-white rounded-xl border border-neutral-200 p-5">
-        <h3 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mb-3">Execution Velocity — All Departments</h3>
+        <h3 className="text-[13px] font-semibold text-neutral-900 mb-3">Execution Velocity — All Departments</h3>
         <Charts.ResponsiveContainer width="100%" height={240}>
           <Charts.ComposedChart data={departmentBudgets.map(d => ({
             dept: d.dept.length > 12 ? d.dept.slice(0, 12) + "…" : d.dept,
@@ -148,7 +148,7 @@ export function ExpenditureVsApproved() {
       {/* Immutable locking notice */}
       <div className="bg-violet-50 border border-violet-200 rounded-xl p-3 mb-5 flex items-center gap-2">
         <Carbon.Locked size={14} className="text-violet-600" />
-        <p className="text-[11px] font-['Lexend:Regular',_sans-serif] text-violet-700">
+        <p className="text-[11px] font-normal text-violet-700">
           <strong>Immutable Locking Active:</strong> Appropriated Budget values are cryptographically sealed by SP Resolution #402. Manual edits require legislative override.
         </p>
       </div>
@@ -158,7 +158,7 @@ export function ExpenditureVsApproved() {
         {/* Header */}
         <div className="grid grid-cols-[1fr_140px_140px_130px_180px_90px] gap-0 px-5 py-3 bg-neutral-50/50 border-b border-neutral-100">
           {["Department", "Appropriated", "Actual Disbursed", "Remaining", "Execution Velocity", "BC Seal"].map(h => (
-            <span key={h} className="text-[10px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase tracking-wide">{h}</span>
+            <span key={h} className="text-[10px] font-medium text-neutral-500 uppercase tracking-wide">{h}</span>
           ))}
         </div>
         {/* Rows */}
@@ -168,10 +168,10 @@ export function ExpenditureVsApproved() {
           const status = pct > 70 ? "On Track" : pct > 40 ? "At Risk" : "Critical";
           return (
             <div key={d.dept} className="grid grid-cols-[1fr_140px_140px_130px_180px_90px] gap-0 px-5 py-3.5 border-b border-neutral-50 hover:bg-blue-50/20 transition-colors items-center">
-              <span className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900">{d.dept}</span>
+              <span className="text-[12px] font-medium text-neutral-900">{d.dept}</span>
               {/* Appropriated — locked cell */}
               <div className="flex items-center gap-1.5">
-                <span className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900">₱{d.appropriated}M</span>
+                <span className="text-[12px] font-medium text-neutral-900">₱{d.appropriated}M</span>
                 <button
                   onClick={() => handleLockClick(d.dept)}
                   title="Cryptographically sealed by SP Resolution #402. Edits require legislative override."
@@ -181,9 +181,9 @@ export function ExpenditureVsApproved() {
                   <Carbon.Locked size={12} className={`transition-colors ${lockShake === d.dept ? "text-red-500" : "text-neutral-300"}`} />
                 </button>
               </div>
-              <span className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900">₱{d.disbursed}M</span>
+              <span className="text-[12px] font-medium text-neutral-900">₱{d.disbursed}M</span>
               <div className="flex items-center gap-2">
-                <span className="text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-600">₱{remaining.toFixed(1)}M</span>
+                <span className="text-[12px] font-normal text-neutral-600">₱{remaining.toFixed(1)}M</span>
                 <UI.Pill status={status} />
               </div>
               {/* Sparkline */}
@@ -191,7 +191,7 @@ export function ExpenditureVsApproved() {
                 <Charts.LineChart width={100} height={24} data={d.velocity.map((v, i) => ({ m: i, v }))}>
                   <Charts.Line key="v" type="monotone" dataKey="v" stroke={pct > 60 ? "#10B981" : pct > 40 ? "#F59E0B" : "#EF4444"} strokeWidth={1.5} dot={false} />
                 </Charts.LineChart>
-                <span className="text-[10px] font-['Lexend:Medium',_sans-serif] text-neutral-500">{pct}%</span>
+                <span className="text-[10px] font-medium text-neutral-500">{pct}%</span>
               </div>
               <div className="text-center"><UI.BlockchainSeal sealed={d.sealed} /></div>
             </div>

@@ -141,7 +141,7 @@ export function CreateUserModal({
         <div className="flex border-b border-neutral-200 mb-4 -mt-1">
           <button
             onClick={() => setActiveTab("basic")}
-            className={`px-4 py-2 text-[12px] font-['Lexend:Medium',_sans-serif] font-medium border-b-2 transition-colors cursor-pointer ${
+            className={`px-4 py-2 text-[12px] font-medium border-b-2 transition-colors cursor-pointer ${
               activeTab === "basic"
                 ? "border-neutral-900 text-neutral-900"
                 : "border-transparent text-neutral-400 hover:text-neutral-700"
@@ -151,7 +151,7 @@ export function CreateUserModal({
           </button>
           <button
             onClick={() => setActiveTab("skills")}
-            className={`px-4 py-2 text-[12px] font-['Lexend:Medium',_sans-serif] font-medium border-b-2 transition-colors cursor-pointer flex items-center gap-1.5 ${
+            className={`px-4 py-2 text-[12px] font-medium border-b-2 transition-colors cursor-pointer flex items-center gap-1.5 ${
               activeTab === "skills"
                 ? "border-neutral-900 text-neutral-900"
                 : "border-transparent text-neutral-400 hover:text-neutral-700"
@@ -159,7 +159,7 @@ export function CreateUserModal({
           >
             Skills
             {Object.keys(skills).length > 0 && (
-              <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-neutral-900 text-white text-[9px] font-['Lexend:SemiBold',_sans-serif]">
+              <span className="inline-flex items-center justify-center w-4 h-4 rounded-full bg-neutral-900 text-white text-[9px] font-semibold">
                 {Object.keys(skills).length}
               </span>
             )}
@@ -232,7 +232,7 @@ export function CreateUserModal({
 
         {activeTab === "skills" && (
           <div className="space-y-3">
-            <p className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500">
+            <p className="text-[11px] font-normal text-neutral-500">
               Add skills that the AI recommendation engine will use to match this employee to tasks. Each skill is a keyword (e.g. "data analysis", "coordination", "budgeting").
             </p>
             <div className="flex gap-2">
@@ -242,18 +242,18 @@ export function CreateUserModal({
                 onChange={(e) => setSkillInput(e.target.value)}
                 onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addSkill(); } }}
                 placeholder="Type a skill and press Enter or +"
-                className="flex-1 px-3 py-2 text-[12px] font-['Lexend:Regular',_sans-serif] border border-neutral-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-neutral-900 bg-white text-neutral-900 placeholder:text-neutral-400"
+                className="flex-1 px-3 py-2 text-[12px] font-normal border border-neutral-200 rounded-lg focus:outline-none focus:ring-1 focus:ring-neutral-900 bg-white text-neutral-900 placeholder:text-neutral-400"
               />
               <button
                 onClick={addSkill}
                 disabled={!skillInput.trim()}
-                className="px-3 py-2 rounded-lg bg-neutral-900 text-white text-[12px] font-['Lexend:Medium',_sans-serif] font-medium hover:bg-neutral-800 disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed transition-colors"
+                className="px-3 py-2 rounded-lg bg-neutral-900 text-white text-[12px] font-medium hover:bg-neutral-800 disabled:opacity-40 cursor-pointer disabled:cursor-not-allowed transition-colors"
               >
                 +
               </button>
             </div>
             {Object.keys(skills).length === 0 ? (
-              <div className="text-center py-8 text-neutral-400 text-[12px] font-['Lexend:Regular',_sans-serif]">
+              <div className="text-center py-8 text-neutral-400 text-[12px] font-normal">
                 No skills added yet. Skills help the AI recommend the right employee for each task.
               </div>
             ) : (
@@ -261,7 +261,7 @@ export function CreateUserModal({
                 {Object.keys(skills).map((skill) => (
                   <span
                     key={skill}
-                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-neutral-100 text-neutral-700 text-[11px] font-['Lexend:Medium',_sans-serif] font-medium"
+                    className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-neutral-100 text-neutral-700 text-[11px] font-medium"
                   >
                     {skill}
                     <button

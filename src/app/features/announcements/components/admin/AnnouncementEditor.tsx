@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { Button, IconButton } from "@vibe/core";
+import { Close } from "@vibe/icons";
 import * as Icons from "lucide-react";
 import {
   publishAnnouncement,
@@ -13,6 +15,7 @@ import { useToast } from "../../../../components/ui/Toast";
 import { InitialsAvatar } from "../../../../components/workflow/StatusBadges";
 import { formatDate } from "../../../../components/workflow/primitives";
 import { AUDIENCE_META } from "./announcementMeta";
+import { InspectorPanel } from "../../../../shared/motion";
 
 export function AnnouncementEditor({
   existing,
@@ -88,9 +91,7 @@ export function AnnouncementEditor({
   const candidates = users.filter((u) => u.role !== "super_admin");
 
   return (
-    <>
-      <div className="fixed inset-0 bg-neutral-950/40 backdrop-blur-xs z-40" onClick={onClose} />
-      <div className="fixed right-0 top-0 bottom-0 w-full sm:w-[580px] bg-white shadow-2xl z-50 flex flex-col border-l border-neutral-200 animate-[slidein_0.25s_cubic-bezier(0.25,1.1,0.4,1)]">
+      <InspectorPanel ariaLabel={existing ? "Edit announcement" : "Create announcement"} className="w-full sm:w-[580px]" layer={60} onClose={onClose} open>
         {/* Drawer Header */}
         <div className="flex items-center justify-between p-5 border-b border-neutral-100 bg-neutral-50/50">
           <div className="flex items-center gap-2.5">
@@ -98,30 +99,18 @@ export function AnnouncementEditor({
               <Icons.Megaphone size={18} />
             </div>
             <div>
-              <h2 className="text-[16px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">
+              <h2 className="text-[16px] font-semibold text-neutral-900">
                 {existing ? "Edit Announcement" : "Create New Announcement"}
               </h2>
-              <p className="text-[11.5px] font-['Lexend:Regular',_sans-serif] text-neutral-500">
+              <p className="text-[11.5px] font-normal text-neutral-500">
                 Draft official broadcast directives
               </p>
             </div>
           </div>
 
           <div className="flex items-center gap-2">
-            <button
-              onClick={() => setPreview(!preview)}
-              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-['Lexend:Medium',_sans-serif] transition-colors cursor-pointer ${
-                preview ? "bg-neutral-900 text-white" : "bg-neutral-100 text-neutral-700 hover:bg-neutral-200"
-              }`}
-            >
-              <Icons.Eye size={13} /> {preview ? "Edit Form" : "Preview"}
-            </button>
-            <button
-              onClick={onClose}
-              className="text-neutral-400 hover:text-neutral-800 p-1.5 rounded-lg hover:bg-neutral-100 transition-colors cursor-pointer"
-            >
-              <Icons.X size={18} />
-            </button>
+            <Button active={preview} kind="secondary" onClick={() => setPreview(!preview)} size="small"><Icons.Eye aria-hidden="true" size={13} /> {preview ? "Edit Form" : "Preview"}</Button>
+            <IconButton aria-label="Close announcement editor" icon={Close} kind="tertiary" onClick={onClose} size="small" />
           </div>
         </div>
 
@@ -129,21 +118,21 @@ export function AnnouncementEditor({
         <div className="flex-1 overflow-y-auto p-6">
           {preview ? (
             <div className="space-y-4">
-              <div className="text-[11px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400">
+              <div className="text-[11px] font-medium uppercase tracking-wider text-neutral-400">
                 Recipient Live Preview
               </div>
               <div className="bg-gradient-to-br from-neutral-50 via-white to-neutral-50 border border-neutral-200/90 rounded-2xl p-6 shadow-sm">
-                <div className="inline-flex items-center gap-1.5 text-[11px] font-['Lexend:Medium',_sans-serif] text-blue-700 bg-blue-50 border border-blue-200 rounded-full px-3 py-0.5 mb-3">
+                <div className="inline-flex items-center gap-1.5 text-[11px] font-medium text-blue-700 bg-blue-50 border border-blue-200 rounded-full px-3 py-0.5 mb-3">
                   <Icons.Megaphone size={12} /> Announcement · {(AUDIENCE_META[audience] || AUDIENCE_META.all).label}
                 </div>
-                <h1 className="text-xl font-['Lexend:SemiBold',_sans-serif] text-neutral-900">
+                <h1 className="text-xl font-semibold text-neutral-900">
                   {title || "Untitled Announcement"}
                 </h1>
-                <div className="text-[13.5px] font-['Lexend:Regular',_sans-serif] text-neutral-700 mt-3 whitespace-pre-wrap leading-relaxed">
+                <div className="text-[13.5px] font-normal text-neutral-700 mt-3 whitespace-pre-wrap leading-relaxed">
                   {body || "No message body typed yet."}
                 </div>
                 {expiresAt && (
-                  <div className="text-[11.5px] font-['Lexend:Medium',_sans-serif] text-amber-600 mt-4 pt-3 border-t border-neutral-100 flex items-center gap-1">
+                  <div className="text-[11.5px] font-medium text-amber-600 mt-4 pt-3 border-t border-neutral-100 flex items-center gap-1">
                     <Icons.Clock size={12} /> Expiration date set for {formatDate(expiresAt)}
                   </div>
                 )}
@@ -153,7 +142,7 @@ export function AnnouncementEditor({
             <div className="space-y-5">
               {/* Title Input */}
               <div>
-                <label className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-700 mb-1.5 flex items-center justify-between">
+                <label className="text-[12px] font-medium text-neutral-700 mb-1.5 flex items-center justify-between">
                   <span>Announcement Title <span className="text-red-500">*</span></span>
                   <span className="text-[10.5px] text-neutral-400 font-normal">{title.length}/100</span>
                 </label>
@@ -168,7 +157,7 @@ export function AnnouncementEditor({
 
               {/* Message Body */}
               <div>
-                <label className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-700 mb-1.5 block">
+                <label className="text-[12px] font-medium text-neutral-700 mb-1.5 block">
                   Announcement Message
                 </label>
                 <textarea
@@ -182,7 +171,7 @@ export function AnnouncementEditor({
 
               {/* Audience Cards Selector */}
               <div>
-                <label className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-700 mb-2 block">
+                <label className="text-[12px] font-medium text-neutral-700 mb-2 block">
                   Target Audience Scope
                 </label>
                 <div className="grid grid-cols-3 gap-2.5">
@@ -201,7 +190,7 @@ export function AnnouncementEditor({
                         }`}
                       >
                         <div className="mb-1.5">{meta.icon}</div>
-                        <div className="text-[11.5px] font-['Lexend:Medium',_sans-serif] text-center leading-tight">
+                        <div className="text-[11.5px] font-medium text-center leading-tight">
                           {a === "all" ? "Everyone" : a === "org" ? "Department" : "Selected Users"}
                         </div>
                       </button>
@@ -213,7 +202,7 @@ export function AnnouncementEditor({
               {/* Audience Details Picker */}
               {audience === "org" && (
                 <div className="bg-blue-50/50 border border-blue-200/80 rounded-xl p-4 space-y-2">
-                  <label className="text-[12px] font-['Lexend:Medium',_sans-serif] text-blue-900 block">
+                  <label className="text-[12px] font-medium text-blue-900 block">
                     Select Target Department (Includes Sub-units)
                   </label>
                   <select
@@ -233,7 +222,7 @@ export function AnnouncementEditor({
 
               {audience === "users" && (
                 <div className="bg-purple-50/50 border border-purple-200/80 rounded-xl p-4 space-y-3">
-                  <label className="text-[12px] font-['Lexend:Medium',_sans-serif] text-purple-900 block">
+                  <label className="text-[12px] font-medium text-purple-900 block">
                     Selected Recipient Personnel ({userIds.length})
                   </label>
 
@@ -243,7 +232,7 @@ export function AnnouncementEditor({
                       return (
                         <span
                           key={id}
-                          className="inline-flex items-center gap-1.5 bg-white border border-purple-200 rounded-full pl-1.5 pr-2.5 py-1 text-[11.5px] font-['Lexend:Medium',_sans-serif] shadow-2xs"
+                          className="inline-flex items-center gap-1.5 bg-white border border-purple-200 rounded-full pl-1.5 pr-2.5 py-1 text-[11.5px] font-medium shadow-2xs"
                         >
                           <InitialsAvatar name={u?.full_name} size={16} />
                           {u?.full_name?.split(" ")[0]}
@@ -282,7 +271,7 @@ export function AnnouncementEditor({
 
               {/* Expiry Input */}
               <div>
-                <label className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-700 mb-1.5 block">
+                <label className="text-[12px] font-medium text-neutral-700 mb-1.5 block">
                   Expiration Date (Optional)
                 </label>
                 <input
@@ -298,28 +287,15 @@ export function AnnouncementEditor({
 
         {/* Drawer Footer */}
         <div className="p-4 border-t border-neutral-100 bg-neutral-50/50 flex items-center justify-between gap-3">
-          <button
-            type="button"
-            onClick={doSaveDraft}
-            disabled={busy}
-            className="px-4 py-2 bg-white hover:bg-neutral-100 border border-neutral-200 text-neutral-700 rounded-xl text-[12.5px] font-['Lexend:Medium',_sans-serif] transition-colors cursor-pointer disabled:opacity-50"
-          >
-            Save Draft
-          </button>
+          <Button disabled={busy} kind="secondary" onClick={doSaveDraft} size="small">Save Draft</Button>
 
-          <button
-            type="button"
-            onClick={doPublish}
-            disabled={busy}
-            className="flex items-center gap-2 px-5 py-2 bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white rounded-xl text-[12.5px] font-['Lexend:SemiBold',_sans-serif] shadow-md shadow-blue-500/20 transition-all cursor-pointer disabled:opacity-50"
-          >
+          <Button disabled={busy} kind="primary" loading={busy} onClick={doPublish} size="small">
             <Icons.Send size={14} /> {busy ? "Publishing…" : "Publish Announcement"}
-          </button>
+          </Button>
         </div>
-      </div>
-    </>
+      </InspectorPanel>
   );
 }
 
 const inputCls =
-  "w-full h-10 px-3 bg-neutral-50/80 border border-neutral-200/80 rounded-xl text-[12.5px] font-['Lexend:Regular',_sans-serif] text-neutral-800 placeholder:text-neutral-400 focus:outline-none focus:border-neutral-400 focus:bg-white transition-all";
+  "w-full h-10 px-3 bg-neutral-50/80 border border-neutral-200/80 rounded-xl text-[12.5px] font-normal text-neutral-800 placeholder:text-neutral-400 focus:outline-none focus:border-neutral-400 focus:bg-white transition-all";

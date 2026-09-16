@@ -65,18 +65,18 @@ export function OverspendingRisk() {
       {/* At-Risk Capital Battery */}
       <div className="bg-white rounded-xl border border-neutral-200 p-5 mb-5">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">At-Risk Capital Battery</h3>
-          <span className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-red-600">₱28.5M in danger zone</span>
+          <h3 className="text-[13px] font-semibold text-neutral-900">At-Risk Capital Battery</h3>
+          <span className="text-[12px] font-semibold text-red-600">₱28.5M in danger zone</span>
         </div>
         <div className="flex rounded-full overflow-hidden h-7 bg-neutral-100">
           <div className="bg-red-400 flex items-center justify-center" style={{ width: "35%" }}>
-            <span className="text-[10px] font-['Lexend:Medium',_sans-serif] text-white">High: ₱10.2M</span>
+            <span className="text-[10px] font-medium text-white">High: ₱10.2M</span>
           </div>
           <div className="bg-amber-300 flex items-center justify-center" style={{ width: "25%" }}>
-            <span className="text-[10px] font-['Lexend:Medium',_sans-serif] text-amber-900">Medium: ₱8.3M</span>
+            <span className="text-[10px] font-medium text-amber-900">Medium: ₱8.3M</span>
           </div>
           <div className="bg-emerald-400 flex items-center justify-center" style={{ width: "40%" }}>
-            <span className="text-[10px] font-['Lexend:Medium',_sans-serif] text-white">Safe: ₱10.0M</span>
+            <span className="text-[10px] font-medium text-white">Safe: ₱10.0M</span>
           </div>
         </div>
       </div>
@@ -92,32 +92,32 @@ export function OverspendingRisk() {
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
                   <UI.Pill status={level} />
-                  <span className="text-[11px] font-['Lexend:SemiBold',_sans-serif] text-neutral-700">Risk</span>
+                  <span className="text-[11px] font-semibold text-neutral-700">Risk</span>
                 </div>
-                <span className="text-[10px] font-['Lexend:Medium',_sans-serif] bg-white text-neutral-600 rounded-full px-2 py-0.5 border border-neutral-200">{cards.length}</span>
+                <span className="text-[10px] font-medium bg-white text-neutral-600 rounded-full px-2 py-0.5 border border-neutral-200">{cards.length}</span>
               </div>
               <div className="space-y-3">
                 {cards.map((c) => (
                   <div key={c.project} className={`bg-white rounded-lg border border-t-4 ${colors[level]} p-4 shadow-sm`}>
-                    <h5 className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mb-1">{c.project}</h5>
-                    <p className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mb-3">{c.dept}</p>
+                    <h5 className="text-[12px] font-semibold text-neutral-900 mb-1">{c.project}</h5>
+                    <p className="text-[10px] font-normal text-neutral-500 mb-3">{c.dept}</p>
 
                     <div className="grid grid-cols-2 gap-2 mb-3">
                       <div>
-                        <p className="text-[9px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase">Budget</p>
-                        <p className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">₱{c.budget}M</p>
+                        <p className="text-[9px] font-medium text-neutral-500 uppercase">Budget</p>
+                        <p className="text-[13px] font-semibold text-neutral-900">₱{c.budget}M</p>
                       </div>
                       <div>
-                        <p className="text-[9px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase">Burned</p>
-                        <p className={`text-[13px] font-['Lexend:SemiBold',_sans-serif] ${c.burnRate > 100 ? "text-red-600" : "text-neutral-900"}`}>₱{c.burned}M</p>
+                        <p className="text-[9px] font-medium text-neutral-500 uppercase">Burned</p>
+                        <p className={`text-[13px] font-semibold ${c.burnRate > 100 ? "text-red-600" : "text-neutral-900"}`}>₱{c.burned}M</p>
                       </div>
                     </div>
 
                     <div className="flex items-center gap-2 mb-3">
-                      <span className="text-[10px] font-['Lexend:Medium',_sans-serif] text-neutral-500">Burn Rate:</span>
-                      <span className={`text-[12px] font-['Lexend:SemiBold',_sans-serif] ${c.burnRate > 100 ? "text-red-600" : "text-emerald-600"}`}>{c.burnRate}%</span>
+                      <span className="text-[10px] font-medium text-neutral-500">Burn Rate:</span>
+                      <span className={`text-[12px] font-semibold ${c.burnRate > 100 ? "text-red-600" : "text-emerald-600"}`}>{c.burnRate}%</span>
                       {c.daysToExhaust < 30 && (
-                        <span className="text-[9px] bg-red-100 text-red-600 px-1.5 py-0.5 rounded font-['Lexend:Medium',_sans-serif]">{c.daysToExhaust}d to exhaust</span>
+                        <span className="text-[9px] bg-red-100 text-red-600 px-1.5 py-0.5 rounded font-medium">{c.daysToExhaust}d to exhaust</span>
                       )}
                     </div>
 
@@ -125,7 +125,7 @@ export function OverspendingRisk() {
                     <div className="bg-blue-50 rounded-lg p-2.5 border border-blue-100">
                       <div className="flex items-start gap-1.5">
                         <Carbon.Analytics size={12} className="text-blue-600 mt-0.5 shrink-0" />
-                        <p className="text-[10px] font-['Lexend:Regular',_sans-serif] text-blue-800 leading-relaxed">{c.aiInsight}</p>
+                        <p className="text-[10px] font-normal text-blue-800 leading-relaxed">{c.aiInsight}</p>
                       </div>
                     </div>
                   </div>
@@ -172,9 +172,9 @@ export function UnderutilizationAlerts() {
       <div className="bg-red-50 border border-red-200 rounded-xl p-4 mb-5">
         <div className="flex items-center gap-2 mb-1">
           <Carbon.Warning size={14} className="text-red-600" />
-          <span className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-red-800">BPA Auto-Escalation Triggered</span>
+          <span className="text-[12px] font-semibold text-red-800">BPA Auto-Escalation Triggered</span>
         </div>
-        <p className="text-[11px] font-['Lexend:Regular',_sans-serif] text-red-700 ml-5">
+        <p className="text-[11px] font-normal text-red-700 ml-5">
           "Fish Cage Monitoring System" is 68% unspent with only 45 days remaining. The BPA engine has escalated this to the Mayor's Executive Cockpit for urgent intervention.
         </p>
       </div>
@@ -183,7 +183,7 @@ export function UnderutilizationAlerts() {
       <div className="bg-white rounded-xl border border-neutral-200 overflow-hidden">
         <div className="grid grid-cols-[1fr_120px_110px_110px_140px_90px] gap-0 px-5 py-3 bg-neutral-50/50 border-b border-neutral-100">
           {["Project Name", "Department", "Unspent Amount", "Expiration", "Days Remaining", "% Unspent"].map(h => (
-            <span key={h} className="text-[10px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase tracking-wide">{h}</span>
+            <span key={h} className="text-[10px] font-medium text-neutral-500 uppercase tracking-wide">{h}</span>
           ))}
         </div>
         {idleFunds.sort((a, b) => a.daysLeft - b.daysLeft).map((f) => {
@@ -197,26 +197,26 @@ export function UnderutilizationAlerts() {
               }`}
             >
               <div>
-                <span className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900">{f.project}</span>
-                {isCritical && <span className="ml-2 text-[9px] bg-red-100 text-red-600 px-1.5 py-0.5 rounded font-['Lexend:Medium',_sans-serif]">CRITICAL</span>}
+                <span className="text-[12px] font-medium text-neutral-900">{f.project}</span>
+                {isCritical && <span className="ml-2 text-[9px] bg-red-100 text-red-600 px-1.5 py-0.5 rounded font-medium">CRITICAL</span>}
               </div>
-              <span className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-600">{f.dept}</span>
-              <span className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">₱{f.unspent}M</span>
-              <span className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-600">{f.expiry}</span>
+              <span className="text-[11px] font-normal text-neutral-600">{f.dept}</span>
+              <span className="text-[12px] font-semibold text-neutral-900">₱{f.unspent}M</span>
+              <span className="text-[11px] font-normal text-neutral-600">{f.expiry}</span>
               <div className="flex items-center gap-2">
                 <div className={`flex items-center gap-1.5 px-2.5 py-1 rounded-lg ${isCritical ? "bg-red-100" : isWarning ? "bg-amber-100" : "bg-neutral-100"}`}>
                   {isCritical && <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />}
-                  <span className={`text-[13px] font-['Lexend:SemiBold',_sans-serif] ${isCritical ? "text-red-700" : isWarning ? "text-amber-700" : "text-neutral-700"}`}>
+                  <span className={`text-[13px] font-semibold ${isCritical ? "text-red-700" : isWarning ? "text-amber-700" : "text-neutral-700"}`}>
                     {f.daysLeft}d
                   </span>
                 </div>
-                <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-400">remaining</span>
+                <span className="text-[10px] font-normal text-neutral-400">remaining</span>
               </div>
               <div className="flex items-center gap-1.5">
                 <div className="w-12 h-2 bg-neutral-100 rounded-full overflow-hidden">
                   <div className="h-full rounded-full" style={{ width: `${f.pctUnspent}%`, backgroundColor: f.pctUnspent > 60 ? "#EF4444" : f.pctUnspent > 40 ? "#F59E0B" : "#10B981" }} />
                 </div>
-                <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500">{f.pctUnspent}%</span>
+                <span className="text-[10px] font-normal text-neutral-500">{f.pctUnspent}%</span>
               </div>
             </div>
           );

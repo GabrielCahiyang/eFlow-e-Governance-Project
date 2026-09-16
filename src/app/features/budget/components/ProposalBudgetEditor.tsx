@@ -48,12 +48,12 @@ export function ProposalBudgetEditor({
       <header className="flex flex-wrap items-start gap-4 border-b border-neutral-100 bg-gradient-to-r from-emerald-50/80 via-white to-white p-5">
         <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-emerald-600 text-white shadow-sm"><CircleDollarSign size={18} /></div>
         <div className="min-w-0 flex-1">
-          <h2 className="text-[14px] font-['Lexend:SemiBold',_sans-serif] text-neutral-950">Proposal funding plan</h2>
+          <h2 className="text-[14px] font-semibold text-neutral-950">Proposal funding plan</h2>
           <p className="mt-1 max-w-2xl text-[10.5px] leading-relaxed text-neutral-500">Organize the proposal by expense class and category, then add every particular underneath it. Money is reserved only after the proposal is approved and published.</p>
         </div>
         <div className="flex items-end gap-3">
           <label><span className="block text-[9px] uppercase tracking-wide text-neutral-400">Fiscal year</span><input type="number" min={2000} max={2200} disabled={readOnly} value={value.fiscalYear} onChange={(event) => onChange({ ...value, fiscalYear: Number(event.target.value) })} className="mt-1 h-9 w-24 rounded-xl border border-neutral-200 bg-white px-3 text-[10.5px] disabled:bg-neutral-50" /></label>
-          <div className="min-w-36 rounded-xl bg-neutral-950 px-4 py-2.5 text-right text-white"><div className="text-[8px] uppercase tracking-[0.16em] text-neutral-400">Proposal total</div><div className="mt-1 text-[15px] font-['Lexend:SemiBold',_sans-serif] tabular-nums">{peso.format(total)}</div></div>
+          <div className="min-w-36 rounded-xl bg-neutral-950 px-4 py-2.5 text-right text-white"><div className="text-[8px] uppercase tracking-[0.16em] text-neutral-400">Proposal total</div><div className="mt-1 text-[15px] font-semibold tabular-nums">{peso.format(total)}</div></div>
         </div>
       </header>
 
@@ -69,7 +69,7 @@ export function ProposalBudgetEditor({
           />
         ))}
         {!readOnly && nextExpenseClass && (
-          <button type="button" onClick={addExpenseClass} className="inline-flex h-10 items-center gap-1.5 rounded-xl border border-dashed border-neutral-300 bg-white px-4 text-[10px] font-['Lexend:Medium',_sans-serif] text-neutral-600 transition hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-800"><Plus size={12} /> Add expense class</button>
+          <button type="button" onClick={addExpenseClass} className="inline-flex h-10 items-center gap-1.5 rounded-xl border border-dashed border-neutral-300 bg-white px-4 text-[10px] font-medium text-neutral-600 transition hover:border-emerald-300 hover:bg-emerald-50 hover:text-emerald-800"><Plus size={12} /> Add expense class</button>
         )}
       </div>
     </section>

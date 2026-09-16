@@ -80,15 +80,15 @@ export function PublicBiddingBypasses() {
 
       <div className="grid grid-cols-[0.9fr_1.4fr] gap-4">
         <div className="space-y-2">
-          <div className="text-[11px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400 px-1 mb-1">Flagged Cases</div>
+          <div className="text-[11px] font-medium uppercase tracking-wider text-neutral-400 px-1 mb-1">Flagged Cases</div>
           {SPLIT_CASES.map(c => (
             <button key={c.id} onClick={() => setSelected(c)} className={`w-full text-left bg-white border rounded-xl p-3 hover:shadow-sm transition ${selected.id === c.id ? "border-neutral-900 shadow-sm" : "border-neutral-200"}`}>
               <div className="flex items-center justify-between mb-1">
-                <div className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900 truncate">{c.vendor}</div>
-                <span className={`text-[9px] font-['Lexend:Medium',_sans-serif] uppercase border rounded px-1.5 py-0.5 ${riskTone[c.risk]}`}>{c.risk}</span>
+                <div className="text-[12px] font-medium text-neutral-900 truncate">{c.vendor}</div>
+                <span className={`text-[9px] font-medium uppercase border rounded px-1.5 py-0.5 ${riskTone[c.risk]}`}>{c.risk}</span>
               </div>
-              <div className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500">{c.office}</div>
-              <div className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mt-0.5">{c.pos.length} POs · {peso(c.pos.reduce((s, p) => s + p.amount, 0))}</div>
+              <div className="text-[11px] font-normal text-neutral-500">{c.office}</div>
+              <div className="text-[11px] font-normal text-neutral-500 mt-0.5">{c.pos.length} POs · {peso(c.pos.reduce((s, p) => s + p.amount, 0))}</div>
             </button>
           ))}
         </div>
@@ -96,36 +96,36 @@ export function PublicBiddingBypasses() {
         <div className="bg-white border border-neutral-200 rounded-xl p-5">
           <div className="flex items-start justify-between mb-4">
             <div>
-              <div className="text-[15px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">{selected.vendor}</div>
-              <div className="text-[11.5px] font-['Lexend:Regular',_sans-serif] text-neutral-500">{selected.office} · {selected.item}</div>
+              <div className="text-[15px] font-semibold text-neutral-900">{selected.vendor}</div>
+              <div className="text-[11.5px] font-normal text-neutral-500">{selected.office} · {selected.item}</div>
             </div>
-            <div className={`text-[10px] font-['Lexend:Medium',_sans-serif] uppercase border rounded px-2 py-1 ${riskTone[selected.risk]}`}>{selected.risk} risk</div>
+            <div className={`text-[10px] font-medium uppercase border rounded px-2 py-1 ${riskTone[selected.risk]}`}>{selected.risk} risk</div>
           </div>
 
           <div className="bg-red-50 border border-red-200 rounded-lg p-3 mb-4">
             <div className="flex items-start gap-2">
               <ShieldAlert size={14} className="text-red-600 mt-0.5" />
-              <div className="text-[11.5px] font-['Lexend:Regular',_sans-serif] text-red-900 leading-relaxed">
-                <span className="font-['Lexend:Medium',_sans-serif]">AI Insight · 94% confidence.</span> The {selected.office} has issued {selected.pos.length} separate POs for "{selected.item}" to {selected.vendor} totaling {peso(total)} in 14 days. High probability of Contract Splitting to bypass the {peso(selected.threshold)} Public Bidding threshold (RA 9184).
+              <div className="text-[11.5px] font-normal text-red-900 leading-relaxed">
+                <span className="font-medium">AI Insight · 94% confidence.</span> The {selected.office} has issued {selected.pos.length} separate POs for "{selected.item}" to {selected.vendor} totaling {peso(total)} in 14 days. High probability of Contract Splitting to bypass the {peso(selected.threshold)} Public Bidding threshold (RA 9184).
               </div>
             </div>
           </div>
 
           <div className="border border-neutral-200 rounded-lg overflow-hidden mb-4">
-            <div className="grid grid-cols-[1.2fr_1fr_1fr_auto] gap-2 px-3 py-2 bg-neutral-50 text-[10px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-500">
+            <div className="grid grid-cols-[1.2fr_1fr_1fr_auto] gap-2 px-3 py-2 bg-neutral-50 text-[10px] font-medium uppercase tracking-wider text-neutral-500">
               <div>PO Number</div><div>Date Issued</div><div className="text-right">Amount</div><div>&nbsp;</div>
             </div>
             {selected.pos.map(p => (
               <div key={p.po} className="grid grid-cols-[1.2fr_1fr_1fr_auto] gap-2 px-3 py-2.5 border-t border-neutral-100 items-center">
-                <div className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900 font-mono">{p.po}</div>
-                <div className="text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-600">{p.date}, 2026</div>
-                <div className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900 tabular-nums text-right">{peso(p.amount)}</div>
+                <div className="text-[12px] font-medium text-neutral-900 font-mono">{p.po}</div>
+                <div className="text-[12px] font-normal text-neutral-600">{p.date}, 2026</div>
+                <div className="text-[12px] font-medium text-neutral-900 tabular-nums text-right">{peso(p.amount)}</div>
                 <div>{frozen.has(p.po) ? <span className="text-[10px] text-red-700 bg-red-50 border border-red-200 rounded px-1.5 py-0.5 flex items-center gap-1"><Ban size={10} /> FROZEN</span> : <span className="text-[10px] text-neutral-500">pending</span>}</div>
               </div>
             ))}
             <div className="grid grid-cols-[1.2fr_1fr_1fr_auto] gap-2 px-3 py-2.5 border-t border-neutral-200 bg-neutral-50 items-center">
-              <div className="text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-900 col-span-2">Aggregate · within 14-day window</div>
-              <div className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-red-700 tabular-nums text-right">{peso(total)}</div>
+              <div className="text-[11px] font-medium text-neutral-900 col-span-2">Aggregate · within 14-day window</div>
+              <div className="text-[13px] font-semibold text-red-700 tabular-nums text-right">{peso(total)}</div>
               <div />
             </div>
           </div>
@@ -133,12 +133,12 @@ export function PublicBiddingBypasses() {
           <div className="flex items-center gap-2">
             <button
               onClick={() => setFrozen(new Set(selected.pos.map(p => p.po)))}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-[12px] font-['Lexend:Medium',_sans-serif] bg-red-600 text-white hover:bg-red-700"
+              className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-[12px] font-medium bg-red-600 text-white hover:bg-red-700"
             >
               <Ban size={13} /> Freeze POs
             </button>
             <Btn icon={<MessageSquare size={13} />} label="Demand Written Justification" />
-            <div className="ml-auto text-[10.5px] font-['Lexend:Regular',_sans-serif] text-neutral-500">Action logged to Immutable Audit</div>
+            <div className="ml-auto text-[10.5px] font-normal text-neutral-500">Action logged to Immutable Audit</div>
           </div>
         </div>
       </div>

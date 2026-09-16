@@ -60,11 +60,11 @@ export function SystemSettings() {
 
   return (
     <div>
-      <div className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-400 mb-3">
+      <div className="text-[11px] font-normal text-neutral-400 mb-3">
         Administration <span className="mx-1.5">/</span> <span className="text-neutral-700">Settings</span>
       </div>
 
-      <h2 className="font-['Lexend:SemiBold',_sans-serif] font-semibold text-[20px] text-neutral-900 mb-6">
+      <h2 className="font-semibold text-[20px] text-neutral-900 mb-6">
         System Settings
       </h2>
 
@@ -72,14 +72,14 @@ export function SystemSettings() {
         {/* AI Configuration Card */}
         <div className="bg-white rounded-xl border border-neutral-200 overflow-hidden">
           <div className="px-5 py-3 border-b border-neutral-100 bg-neutral-50/50">
-            <span className="text-[13px] font-['Lexend:SemiBold',_sans-serif] font-semibold text-neutral-800">
+            <span className="text-[13px] font-semibold text-neutral-800">
               AI Configuration
             </span>
           </div>
           <div className="p-5 space-y-4">
             <div className="flex items-center justify-between rounded-lg bg-neutral-50 px-3 py-2.5">
               <div>
-                <div className="text-[11px] font-['Lexend:Medium',_sans-serif] font-medium text-neutral-700">
+                <div className="text-[11px] font-medium text-neutral-700">
                   Local eFlow AI Node
                 </div>
                 <div className="mt-0.5 text-[10px] text-neutral-400">
@@ -108,14 +108,14 @@ export function SystemSettings() {
               </span>
             </div>
             <div>
-              <label className="block text-[11px] font-['Lexend:Medium',_sans-serif] font-medium text-neutral-600 mb-1.5">
+              <label className="block text-[11px] font-medium text-neutral-600 mb-1.5">
                 Automatically Published AI Endpoint
               </label>
               <input
                 type="text"
                 value={aiEndpoint}
                 readOnly
-                className="w-full cursor-not-allowed rounded-lg border border-neutral-200 bg-neutral-50 px-3 py-2 text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-600"
+                className="w-full cursor-not-allowed rounded-lg border border-neutral-200 bg-neutral-50 px-3 py-2 text-[12px] font-normal text-neutral-600"
                 placeholder="Waiting for the AI server to publish its endpoint"
               />
               <p className="mt-1.5 text-[10px] leading-relaxed text-neutral-400">
@@ -128,14 +128,14 @@ export function SystemSettings() {
               )}
             </div>
             <div>
-              <label className="block text-[11px] font-['Lexend:Medium',_sans-serif] font-medium text-neutral-600 mb-1.5">
+              <label className="block text-[11px] font-medium text-neutral-600 mb-1.5">
                 AI Model
               </label>
               <input
                 type="text"
                 value={form["ai_model"] || ""}
                 onChange={(e) => setForm({ ...form, ai_model: e.target.value })}
-                className="w-full px-3 py-2 rounded-lg border border-neutral-200 text-[12px] font-['Lexend:Regular',_sans-serif] placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500/50"
+                className="w-full px-3 py-2 rounded-lg border border-neutral-200 text-[12px] font-normal placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500/50"
                 placeholder="deepseek-r1:8b"
               />
             </div>
@@ -145,13 +145,13 @@ export function SystemSettings() {
         {/* App Info Card */}
         <div className="bg-white rounded-xl border border-neutral-200 overflow-hidden">
           <div className="px-5 py-3 border-b border-neutral-100 bg-neutral-50/50">
-            <span className="text-[13px] font-['Lexend:SemiBold',_sans-serif] font-semibold text-neutral-800">
+            <span className="text-[13px] font-semibold text-neutral-800">
               Application
             </span>
           </div>
           <div className="p-5 space-y-4">
             <div className="flex items-center justify-between">
-              <span className="text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-600">
+              <span className="text-[12px] font-normal text-neutral-600">
                 App Version
               </span>
               <span className="text-[12px] font-mono text-neutral-900 bg-neutral-100 px-2 py-0.5 rounded">
@@ -159,14 +159,14 @@ export function SystemSettings() {
               </span>
             </div>
             <div>
-              <label className="block text-[11px] font-['Lexend:Medium',_sans-serif] font-medium text-neutral-600 mb-1.5">
+              <label className="block text-[11px] font-medium text-neutral-600 mb-1.5">
                 Version String
               </label>
               <input
                 type="text"
                 value={form["app_version"] || ""}
                 onChange={(e) => setForm({ ...form, app_version: e.target.value })}
-                className="w-full px-3 py-2 rounded-lg border border-neutral-200 text-[12px] font-['Lexend:Regular',_sans-serif] placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500/50"
+                className="w-full px-3 py-2 rounded-lg border border-neutral-200 text-[12px] font-normal placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500/50"
               />
             </div>
           </div>
@@ -177,7 +177,7 @@ export function SystemSettings() {
           <button
             onClick={handleSave}
             disabled={saving}
-            className="px-4 py-2.5 rounded-lg bg-neutral-900 text-white text-[12px] font-['Lexend:Medium',_sans-serif] font-medium hover:bg-neutral-800 cursor-pointer transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            className="px-4 py-2.5 rounded-lg bg-neutral-900 text-white text-[12px] font-medium hover:bg-neutral-800 cursor-pointer transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {saving ? "Saving..." : "Save Settings"}
           </button>

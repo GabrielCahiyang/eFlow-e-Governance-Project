@@ -187,7 +187,7 @@ export function HealthChip({ health }: { health: Project["health"] }) {
       className={`flex items-center gap-1.5 ${s.bg} text-white rounded-full pl-1.5 pr-2 py-0.5 w-fit`}
     >
       <span className="w-1.5 h-1.5 rounded-full bg-white" />
-      <span className="text-[10px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider">
+      <span className="text-[10px] font-medium uppercase tracking-wider">
         {s.label}
       </span>
     </div>

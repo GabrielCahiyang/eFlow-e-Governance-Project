@@ -1,4 +1,5 @@
-import { AlertCircle, Clock3, Loader2, Upload } from "lucide-react";
+import { AttentionBox, Button, Heading, Loader, Text } from "@vibe/core";
+import { Upload } from "@vibe/icons";
 import { AssignmentModal } from "./AssignmentModal";
 import { DraftCockpit } from "./DraftCockpit";
 import { useProposalImportController } from "../hooks/useProposalImportController";
@@ -17,44 +18,36 @@ export default function ProposalImport({ onClose, inDialog = false, embedded = f
   } = useProposalImportController(onClose);
 
   return (
-    <div className={`${embedded ? "p-0" : "p-6"} font-['Montserrat',sans-serif] ${inDialog ? "eflow-creation-builder" : ""}`}>
+    <div className={`${embedded ? "p-0" : "p-6"} ${inDialog ? "eflow-creation-builder" : ""}`}>
       <div className="max-w-4xl mx-auto space-y-6">
         {!embedded && (
           <div className="flex items-center justify-between pb-4 border-b border-neutral-100">
             <div>
-              <h1 className="text-[18px] font-bold text-neutral-900">
-                PDF Proposal Importer
-              </h1>
-              <p className="text-xs text-neutral-500 mt-1">
-                Decompose a government proposal PDF into Programs, Projects, and Tasks with AI recommendation.
-              </p>
+              <Heading className="text-neutral-900" type="h1" weight="medium">PDF Proposal Importer</Heading>
+              <Text className="mt-1 text-neutral-500" type="text3">Decompose a government proposal PDF into Programs, Projects, and Tasks with AI recommendation.</Text>
             </div>
             {onClose && (
-              <button
-                onClick={onClose}
-                className="text-xs font-semibold text-neutral-500 hover:text-neutral-900"
-              >
-                Cancel
-              </button>
+              <Button kind="tertiary" onClick={onClose} size="small">Cancel</Button>
             )}
           </div>
         )}
 
         <div>
           {pdfPhase === "idle" && (
-            <div
+            <label
+              aria-label="Choose a government proposal PDF"
+              htmlFor="proposal-import-file"
               onDragOver={(e) => e.preventDefault()}
               onDrop={(e) => {
                 e.preventDefault();
                 const f = e.dataTransfer.files[0];
                 if (f) handlePdfFile(f);
               }}
-              onClick={() => pdfFileRef.current?.click()}
-              className="cursor-pointer rounded-2xl border-2 border-dashed border-indigo-200 bg-indigo-50/20 p-14 text-center hover:border-indigo-400 hover:bg-indigo-50/40 transition group"
+              className="group block cursor-pointer rounded-xl border-2 border-dashed border-indigo-200 bg-indigo-50/20 p-14 text-center transition-colors duration-100 hover:border-indigo-400 hover:bg-indigo-50/40"
             >
               <Upload
                 size={40}
-                className="mx-auto mb-3 text-indigo-300 group-hover:text-indigo-500 transition"
+                className="mx-auto mb-3 text-indigo-400 transition-colors duration-100 group-hover:text-indigo-600"
               />
               <div className="text-sm font-bold text-neutral-800">
                 Drop a government proposal PDF here
@@ -66,6 +59,7 @@ export default function ProposalImport({ onClose, inDialog = false, embedded = f
                 The editable result is saved as a persistent draft before approval · no operational work is created yet
               </div>
               <input
+                id="proposal-import-file"
                 ref={pdfFileRef}
                 type="file"
                 accept=".pdf"
@@ -75,15 +69,12 @@ export default function ProposalImport({ onClose, inDialog = false, embedded = f
                   if (f) handlePdfFile(f);
                 }}
               />
-            </div>
+            </label>
           )}
 
           {(pdfPhase === "extracting" || pdfPhase === "decomposing") && (
-            <div className="rounded-2xl border border-neutral-200 bg-white p-14 text-center">
-              <Loader2
-                size={36}
-                className="mx-auto mb-4 text-indigo-600 animate-spin"
-              />
+            <div aria-live="polite" className="rounded-xl border border-neutral-200 bg-white p-14 text-center" role="status">
+              <div className="mb-4 flex justify-center"><Loader size="large" /></div>
               <div className="text-base font-bold text-neutral-800">
                 {pdfPhase === "extracting"
                   ? "Extracting text from PDF…"
@@ -102,19 +93,9 @@ export default function ProposalImport({ onClose, inDialog = false, embedded = f
                       : "Processing with DeepSeek R1 8B"}
               </div>
               {pdfPhase === "decomposing" && aiQueueStatus?.status === "queued" && (
-                <div className="mx-auto mt-5 flex max-w-md items-start gap-3 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-left">
-                  <Clock3 size={18} className="mt-0.5 shrink-0 text-amber-600" />
-                  <div>
-                    <div className="text-xs font-bold text-amber-900">
-                      Queue position {aiQueueStatus.position ?? "—"}
-                    </div>
-                    <div className="mt-0.5 text-[11px] leading-relaxed text-amber-700">
-                      {aiQueueStatus.jobsAhead > 0
+                <AttentionBox className="mx-auto mt-5 max-w-md text-left" title={`Queue position ${aiQueueStatus.position ?? "—"}`} type="warning" text={aiQueueStatus.jobsAhead > 0
                         ? "Another user is currently using the AI. Your proposal will start automatically when the requests ahead of it finish—please keep this page open."
-                        : "The AI worker is preparing your request. Processing will start automatically—please keep this page open."}
-                    </div>
-                  </div>
-                </div>
+                        : "The AI worker is preparing your request. Processing will start automatically—please keep this page open."} />
               )}
               <div className="flex justify-center gap-3 mt-6">
                 <div
@@ -128,26 +109,20 @@ export default function ProposalImport({ onClose, inDialog = false, embedded = f
           )}
 
           {pdfPhase === "error" && (
-            <div className="rounded-2xl border border-red-200 bg-red-50 p-10 text-center">
-              <AlertCircle
-                size={32}
-                className="mx-auto mb-3 text-red-500"
-              />
-              <div className="text-sm font-bold text-red-800">
-                Import Failed
-              </div>
-              <div className="text-xs text-red-600 mt-1">
-                {pdfError}
-              </div>
-              <button
+            <div className="rounded-xl border border-red-200 bg-red-50 p-10 text-center">
+              <AttentionBox text={pdfError || "The proposal could not be imported."} title="Import failed" type="negative" />
+              <Button
+                className="mt-4"
+                color="negative"
                 onClick={() => {
                   setPdfPhase("idle");
                   setPdfError("");
                 }}
-                className="mt-4 inline-flex items-center gap-1.5 px-4 py-2 bg-red-600 text-white text-xs font-semibold rounded-xl hover:bg-red-700 transition"
+                kind="primary"
+                size="small"
               >
                 Try Again
-              </button>
+              </Button>
             </div>
           )}
 
@@ -161,17 +136,18 @@ export default function ProposalImport({ onClose, inDialog = false, embedded = f
                   </span>{" "}
                   · Review the scope, responsibilities, and staffing while eFlow autosaves the draft.
                 </div>
-                <button
+                <Button
                   onClick={() => {
                     setPdfPhase("idle");
                     setPdfFileName("");
                     setCommitMessage("");
                     setDraftTasks([]);
                   }}
-                  className="text-xs font-semibold text-neutral-500 hover:text-neutral-800"
+                  kind="tertiary"
+                  size="small"
                 >
                   Import Another
-                </button>
+                </Button>
               </div>
 
               <div className="mb-4">

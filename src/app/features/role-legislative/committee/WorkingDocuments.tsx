@@ -80,7 +80,7 @@ export function WorkingDocuments() {
           <>
             <button
               onClick={() => setAiCheck(!aiCheck)}
-              className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-[12px] font-['Lexend:Medium',_sans-serif] cursor-pointer transition-colors ${
+              className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-[12px] font-medium cursor-pointer transition-colors ${
                 aiCheck ? "bg-violet-100 text-violet-700 border border-violet-200" : "bg-white text-neutral-600 border border-neutral-200"
               }`}
             >
@@ -88,7 +88,7 @@ export function WorkingDocuments() {
             </button>
             <button
               onClick={() => setShowAdopt(true)}
-              className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-[12px] font-['Lexend:Medium',_sans-serif] cursor-pointer transition-colors bg-emerald-600 text-white hover:bg-emerald-700"
+              className="flex items-center gap-1.5 px-4 py-2 rounded-lg text-[12px] font-medium cursor-pointer transition-colors bg-emerald-600 text-white hover:bg-emerald-700"
             >
               <Carbon.CheckmarkOutline size={14} /> Adopt Committee Report
             </button>
@@ -100,21 +100,21 @@ export function WorkingDocuments() {
       <div className="flex items-center justify-between bg-white rounded-xl border border-neutral-200 px-5 py-3 mb-5">
         <div className="flex items-center gap-3">
           <Lucide.Users size={14} className="text-neutral-500" />
-          <span className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-700">Live Collaborators</span>
+          <span className="text-[12px] font-medium text-neutral-700">Live Collaborators</span>
           <div className="flex -space-x-2">
             {collaborators.filter(c => c.active).map((c, i) => (
               <div key={i} className={`size-7 rounded-full ${c.color} flex items-center justify-center border-2 border-white`} title={c.name}>
-                <span className="text-[9px] text-white font-['Lexend:SemiBold',_sans-serif]">{c.initials}</span>
+                <span className="text-[9px] text-white font-semibold">{c.initials}</span>
               </div>
             ))}
           </div>
-          <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-400">
+          <span className="text-[10px] font-normal text-neutral-400">
             {collaborators.filter(c => c.active).length} editing now
           </span>
         </div>
         <div className="flex items-center gap-2">
           <div className="size-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500">All changes auto-saved</span>
+          <span className="text-[10px] font-normal text-neutral-500">All changes auto-saved</span>
         </div>
       </div>
 
@@ -124,7 +124,7 @@ export function WorkingDocuments() {
           <div className="flex items-center justify-between px-5 py-3 border-b border-neutral-100 bg-neutral-50/50">
             <div className="flex items-center gap-2">
               <Lucide.FileText size={14} className="text-neutral-500" />
-              <span className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-neutral-700">ORD-2026-044 — Marine Litter Interception</span>
+              <span className="text-[12px] font-semibold text-neutral-700">ORD-2026-044 — Marine Litter Interception</span>
               <UI.Pill status="Under Review" />
             </div>
           </div>
@@ -134,8 +134,8 @@ export function WorkingDocuments() {
             <div className="px-5 py-2.5 bg-violet-50 border-b border-violet-100 flex items-start gap-2">
               <Lucide.Zap size={12} className="text-violet-600 mt-0.5 shrink-0" />
               <div>
-                <span className="text-[11px] font-['Lexend:SemiBold',_sans-serif] text-violet-700">AI Legal Cross-Check Active</span>
-                <p className="text-[10px] font-['Lexend:Regular',_sans-serif] text-violet-600 mt-0.5">
+                <span className="text-[11px] font-semibold text-violet-700">AI Legal Cross-Check Active</span>
+                <p className="text-[10px] font-normal text-violet-600 mt-0.5">
                   1 flag: Reference to RA 9003 in Section 2(c) may be outdated — consider updating to RA 11898 (Extended Producer Responsibility Act of 2022)
                 </p>
               </div>
@@ -146,7 +146,7 @@ export function WorkingDocuments() {
             <textarea
               value={text}
               onChange={(e) => setText(e.target.value)}
-              className="w-full min-h-[560px] bg-transparent text-[13px] font-['Lexend:Regular',_sans-serif] text-neutral-700 leading-relaxed outline-none resize-none"
+              className="w-full min-h-[560px] bg-transparent text-[13px] font-normal text-neutral-700 leading-relaxed outline-none resize-none"
               style={{ whiteSpace: "pre-wrap" }}
             />
           </div>
@@ -156,7 +156,7 @@ export function WorkingDocuments() {
         <div className="flex flex-col gap-4">
           {/* Version Control Timeline */}
           <div className="bg-white rounded-xl border border-neutral-200 p-5">
-            <h4 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mb-4">Version History</h4>
+            <h4 className="text-[13px] font-semibold text-neutral-900 mb-4">Version History</h4>
             <div className="flex flex-col gap-0">
               {docVersions.map((v, i) => {
                 const isAI = v.initials === "AI";
@@ -169,12 +169,12 @@ export function WorkingDocuments() {
                     <div className={`size-8 rounded-full flex items-center justify-center shrink-0 z-10 ${
                       isAI ? "bg-violet-100" : "bg-blue-100"
                     }`}>
-                      <span className={`text-[9px] font-['Lexend:SemiBold',_sans-serif] ${isAI ? "text-violet-700" : "text-blue-700"}`}>{v.initials}</span>
+                      <span className={`text-[9px] font-semibold ${isAI ? "text-violet-700" : "text-blue-700"}`}>{v.initials}</span>
                     </div>
                     <div className="pb-5 min-w-0">
                       <div className="flex items-center gap-1.5 mb-0.5">
-                        <span className="text-[11px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">{v.author}</span>
-                        <span className={`text-[9px] font-['Lexend:Medium',_sans-serif] px-1.5 py-0.5 rounded-full ${
+                        <span className="text-[11px] font-semibold text-neutral-900">{v.author}</span>
+                        <span className={`text-[9px] font-medium px-1.5 py-0.5 rounded-full ${
                           v.action === "Added" ? "bg-emerald-100 text-emerald-700"
                           : v.action === "Revised" ? "bg-amber-100 text-amber-700"
                           : v.action === "Flagged" ? "bg-violet-100 text-violet-700"
@@ -184,8 +184,8 @@ export function WorkingDocuments() {
                           {v.action}
                         </span>
                       </div>
-                      <p className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-600 leading-relaxed">{v.detail}</p>
-                      <p className="text-[9px] font-['Lexend:Regular',_sans-serif] text-neutral-400 mt-1">{v.timestamp}</p>
+                      <p className="text-[11px] font-normal text-neutral-600 leading-relaxed">{v.detail}</p>
+                      <p className="text-[9px] font-normal text-neutral-400 mt-1">{v.timestamp}</p>
                     </div>
                   </div>
                 );
@@ -195,7 +195,7 @@ export function WorkingDocuments() {
 
           {/* Document Info */}
           <div className="bg-white rounded-xl border border-neutral-200 p-5">
-            <h4 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mb-3">Document Info</h4>
+            <h4 className="text-[13px] font-semibold text-neutral-900 mb-3">Document Info</h4>
             <div className="flex flex-col gap-2.5">
               {[
                 ["Tracking No.", "ORD-2026-044"],
@@ -207,8 +207,8 @@ export function WorkingDocuments() {
                 ["Total Revisions", "5"],
               ].map(([k, v]) => (
                 <div key={k} className="flex justify-between">
-                  <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500">{k}</span>
-                  <span className="text-[10px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">{v}</span>
+                  <span className="text-[10px] font-normal text-neutral-500">{k}</span>
+                  <span className="text-[10px] font-semibold text-neutral-900">{v}</span>
                 </div>
               ))}
             </div>
@@ -219,8 +219,8 @@ export function WorkingDocuments() {
             <div className="flex items-start gap-2">
               <Lucide.Zap size={14} className="text-blue-600 mt-0.5 shrink-0" />
               <div>
-                <p className="text-[11px] font-['Lexend:SemiBold',_sans-serif] text-blue-800 mb-1">BPA Engine Ready</p>
-                <p className="text-[10px] font-['Lexend:Regular',_sans-serif] text-blue-700 leading-relaxed">
+                <p className="text-[11px] font-semibold text-blue-800 mb-1">BPA Engine Ready</p>
+                <p className="text-[10px] font-normal text-blue-700 leading-relaxed">
                   Clicking "Adopt Committee Report" will trigger the BPA Engine to automatically move this measure to the Plenary Agenda for the next Tuesday session.
                 </p>
               </div>
@@ -238,21 +238,21 @@ export function WorkingDocuments() {
                 <Carbon.CheckmarkOutline size={24} className="text-emerald-600" />
               </div>
               <div>
-                <h3 className="text-[16px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">Adopt Committee Report?</h3>
-                <p className="text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-500">This action is recorded on the blockchain</p>
+                <h3 className="text-[16px] font-semibold text-neutral-900">Adopt Committee Report?</h3>
+                <p className="text-[12px] font-normal text-neutral-500">This action is recorded on the blockchain</p>
               </div>
             </div>
             <div className="bg-neutral-50 rounded-lg p-4 mb-4">
-              <p className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mb-1">MEASURE</p>
-              <p className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900">ORD-2026-044 — Marine Litter Interception Program</p>
-              <p className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mt-2 mb-1">NEXT STEP</p>
-              <p className="text-[12px] font-['Lexend:Medium',_sans-serif] text-emerald-700">→ Plenary Agenda (Second Reading)</p>
+              <p className="text-[11px] font-normal text-neutral-500 mb-1">MEASURE</p>
+              <p className="text-[12px] font-medium text-neutral-900">ORD-2026-044 — Marine Litter Interception Program</p>
+              <p className="text-[11px] font-normal text-neutral-500 mt-2 mb-1">NEXT STEP</p>
+              <p className="text-[12px] font-medium text-emerald-700">→ Plenary Agenda (Second Reading)</p>
             </div>
             <div className="flex gap-3">
-              <button onClick={() => setShowAdopt(false)} className="flex-1 py-2.5 bg-neutral-100 text-neutral-600 rounded-lg text-[13px] font-['Lexend:Medium',_sans-serif] cursor-pointer hover:bg-neutral-200 transition-colors">
+              <button onClick={() => setShowAdopt(false)} className="flex-1 py-2.5 bg-neutral-100 text-neutral-600 rounded-lg text-[13px] font-medium cursor-pointer hover:bg-neutral-200 transition-colors">
                 Cancel
               </button>
-              <button onClick={() => setShowAdopt(false)} className="flex-1 py-2.5 bg-emerald-600 text-white rounded-lg text-[13px] font-['Lexend:Medium',_sans-serif] cursor-pointer hover:bg-emerald-700 transition-colors">
+              <button onClick={() => setShowAdopt(false)} className="flex-1 py-2.5 bg-emerald-600 text-white rounded-lg text-[13px] font-medium cursor-pointer hover:bg-emerald-700 transition-colors">
                 Confirm & Adopt
               </button>
             </div>

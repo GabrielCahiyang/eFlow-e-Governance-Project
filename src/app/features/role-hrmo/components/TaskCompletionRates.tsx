@@ -49,7 +49,7 @@ export function TaskCompletionRates() {
               <button
                 key={p}
                 onClick={() => setPeriod(p)}
-                className={`px-3 py-1.5 rounded-md text-[11px] font-['Lexend:Medium',_sans-serif] cursor-pointer transition-colors ${
+                className={`px-3 py-1.5 rounded-md text-[11px] font-medium cursor-pointer transition-colors ${
                   period === p ? "bg-neutral-900 text-white" : "text-neutral-600 hover:bg-neutral-50"
                 }`}
               >
@@ -91,13 +91,13 @@ export function TaskCompletionRates() {
             return (
               <g key={b.rating}>
                 <rect x={bx} y={H - pad - barH} width={barW} height={barH} fill={b.color} opacity="0.85" rx="2" />
-                <text x={cx} y={H - pad - barH - 6} textAnchor="middle" fontSize="11" fontFamily="Lexend" fill={b.color} fontWeight="600">
+                <text x={cx} y={H - pad - barH - 6} textAnchor="middle" fontSize="11" fontFamily="Figtree" fill={b.color} fontWeight="600">
                   {b.count}
                 </text>
-                <text x={cx} y={H - pad + 16} textAnchor="middle" fontSize="11" fontFamily="Lexend" fill="#525252">
+                <text x={cx} y={H - pad + 16} textAnchor="middle" fontSize="11" fontFamily="Figtree" fill="#525252">
                   {b.rating} · {b.label}
                 </text>
-                <text x={cx} y={H - pad + 30} textAnchor="middle" fontSize="9" fontFamily="Lexend" fill="#a3a3a3">
+                <text x={cx} y={H - pad + 30} textAnchor="middle" fontSize="9" fontFamily="Figtree" fill="#a3a3a3">
                   {((b.count / total) * 100).toFixed(1)}%
                 </text>
                 {/* Outlier flags */}
@@ -105,7 +105,7 @@ export function TaskCompletionRates() {
                   <>
                     <line x1={cx} y1={H - pad - barH - 18} x2={cx} y2={20} stroke={b.color} strokeDasharray="2 2" />
                     <rect x={cx - 50} y={10} width="100" height="18" fill={b.color} rx="3" />
-                    <text x={cx} y={22} textAnchor="middle" fontSize="9" fontFamily="Lexend" fill="white" fontWeight="600">
+                    <text x={cx} y={22} textAnchor="middle" fontSize="9" fontFamily="Figtree" fill="white" fontWeight="600">
                       {b.rating === 5 ? "TOP 5% · FAST-TRACK" : "BOTTOM 5% · RETRAIN"}
                     </text>
                   </>
@@ -120,15 +120,15 @@ export function TaskCompletionRates() {
         {BELL_BUCKETS.map((b) => (
           <div key={b.rating} className="bg-white border border-neutral-200 rounded-xl p-4" style={{ borderTopColor: b.color, borderTopWidth: 3 }}>
             <div className="flex items-center justify-between mb-2">
-              <span className="text-[10px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider" style={{ color: b.color }}>
+              <span className="text-[10px] font-medium uppercase tracking-wider" style={{ color: b.color }}>
                 Rating {b.rating}
               </span>
               {b.rating === 5 && <Award size={12} style={{ color: b.color }} />}
               {b.rating === 1 && <AlertTriangle size={12} style={{ color: b.color }} />}
             </div>
-            <div className="text-[18px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">{b.count}</div>
-            <div className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-600">{b.label}</div>
-            <div className="mt-2 pt-2 border-t border-neutral-100 text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500">
+            <div className="text-[18px] font-semibold text-neutral-900">{b.count}</div>
+            <div className="text-[11px] font-normal text-neutral-600">{b.label}</div>
+            <div className="mt-2 pt-2 border-t border-neutral-100 text-[10px] font-normal text-neutral-500">
               {b.flag}
             </div>
           </div>

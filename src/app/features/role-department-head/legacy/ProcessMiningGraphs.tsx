@@ -155,10 +155,10 @@ export function ProcessMiningGraphs() {
       <div className="bg-white border border-neutral-200 rounded-xl p-5">
         <div className="flex items-center gap-2 mb-4">
           <GitBranch size={15} className="text-neutral-900" />
-          <div className="text-[13px] font-['Lexend:Medium',_sans-serif] text-neutral-900">
+          <div className="text-[13px] font-medium text-neutral-900">
             Department SOP Flow Map
           </div>
-          <div className="ml-auto text-[10.5px] font-['Lexend:Regular',_sans-serif] text-neutral-500">
+          <div className="ml-auto text-[10.5px] font-normal text-neutral-500">
             Edge thickness ∝ throughput delay
           </div>
         </div>
@@ -214,7 +214,7 @@ export function ProcessMiningGraphs() {
                     x={(from.x + to.x) / 2}
                     y={(from.y + to.y) / 2 - 8}
                     textAnchor="middle"
-                    className="text-[9px] font-['Lexend:Medium',_sans-serif]"
+                    className="text-[9px] font-medium"
                     fill={t.stroke}
                   >
                     {to.actualHours}h / {to.slaHours}h SLA
@@ -242,7 +242,7 @@ export function ProcessMiningGraphs() {
                     x={n.x}
                     y={n.y - 4}
                     textAnchor="middle"
-                    className="text-[11px] font-['Lexend:SemiBold',_sans-serif]"
+                    className="text-[11px] font-semibold"
                     fill="#171717"
                   >
                     {n.label}
@@ -251,7 +251,7 @@ export function ProcessMiningGraphs() {
                     x={n.x}
                     y={n.y + 12}
                     textAnchor="middle"
-                    className="text-[9px] font-['Lexend:Regular',_sans-serif]"
+                    className="text-[9px] font-normal"
                     fill={isBottleneck ? "#dc2626" : "#737373"}
                   >
                     queue: {n.inQueue} docs
@@ -262,7 +262,7 @@ export function ProcessMiningGraphs() {
           </svg>
         </div>
 
-        <div className="mt-4 flex items-center gap-4 text-[10.5px] font-['Lexend:Regular',_sans-serif] text-neutral-500 pt-3 border-t border-neutral-100">
+        <div className="mt-4 flex items-center gap-4 text-[10.5px] font-normal text-neutral-500 pt-3 border-t border-neutral-100">
           <div className="flex items-center gap-1.5">
             <span className="w-6 h-0.5 bg-emerald-500" /> On SLA
           </div>

@@ -44,8 +44,8 @@ export function UnliquidatedCashAdvances() {
           <div className="flex items-center gap-2 mb-3">
             <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center"><Carbon.ChartBar size={16} className="text-blue-600" /></div>
             <div>
-              <h4 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">Outstanding Funds</h4>
-              <p className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500">Daily tracking board</p>
+              <h4 className="text-[13px] font-semibold text-neutral-900">Outstanding Funds</h4>
+              <p className="text-[10px] font-normal text-neutral-500">Daily tracking board</p>
             </div>
           </div>
           <Charts.ResponsiveContainer width="100%" height={80}>
@@ -72,8 +72,8 @@ export function UnliquidatedCashAdvances() {
           <div className="flex items-center gap-2 mb-3">
             <div className="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center"><Carbon.UserMultiple size={16} className="text-amber-600" /></div>
             <div>
-              <h4 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">Leader Tracking</h4>
-              <p className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500">Accountability leaderboard</p>
+              <h4 className="text-[13px] font-semibold text-neutral-900">Leader Tracking</h4>
+              <p className="text-[10px] font-normal text-neutral-500">Accountability leaderboard</p>
             </div>
           </div>
           <div className="space-y-2">
@@ -82,8 +82,8 @@ export function UnliquidatedCashAdvances() {
               const totalFloat = subs.reduce((s, c) => s + (c.amount - c.spent), 0);
               return (
                 <div key={leader} className="flex items-center justify-between">
-                  <span className="text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-700">{leader}</span>
-                  <span className="text-[11px] font-['Lexend:SemiBold',_sans-serif] text-red-600">₱{(totalFloat / 1000).toFixed(1)}K</span>
+                  <span className="text-[11px] font-medium text-neutral-700">{leader}</span>
+                  <span className="text-[11px] font-semibold text-red-600">₱{(totalFloat / 1000).toFixed(1)}K</span>
                 </div>
               );
             })}
@@ -95,8 +95,8 @@ export function UnliquidatedCashAdvances() {
           <div className="flex items-center gap-2 mb-3">
             <div className="w-8 h-8 rounded-lg bg-red-50 flex items-center justify-center"><Carbon.Warning size={16} className="text-red-600" /></div>
             <div>
-              <h4 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">Stalled Funds Alert</h4>
-              <p className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500">BPA enforcement</p>
+              <h4 className="text-[13px] font-semibold text-neutral-900">Stalled Funds Alert</h4>
+              <p className="text-[10px] font-normal text-neutral-500">BPA enforcement</p>
             </div>
           </div>
           <Charts.ResponsiveContainer width="100%" height={80}>
@@ -113,13 +113,13 @@ export function UnliquidatedCashAdvances() {
               <Charts.Tooltip key="t" />
             </Charts.PieChart>
           </Charts.ResponsiveContainer>
-          <p className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500 text-center mt-1">78% resolve at Viber warning stage</p>
+          <p className="text-[10px] font-normal text-neutral-500 text-center mt-1">78% resolve at Viber warning stage</p>
         </div>
       </div>
 
       {/* Aging distribution chart */}
       <div className="bg-white rounded-xl border border-neutral-200 p-5">
-        <h3 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mb-3">Aging Distribution — All Open Advances</h3>
+        <h3 className="text-[13px] font-semibold text-neutral-900 mb-3">Aging Distribution — All Open Advances</h3>
         <Charts.ResponsiveContainer width="100%" height={200}>
           <Charts.ComposedChart data={cashAdvances.sort((a, b) => b.aging - a.aging).map(c => ({
             payee: c.payee.split(" ")[1],
@@ -169,7 +169,7 @@ export function OutstandingFunds() {
           <div className="flex bg-neutral-100 rounded-lg p-0.5">
             {(["table", "aging"] as const).map((v) => (
               <button key={v} onClick={() => setViewMode(v)}
-                className={`px-3 py-1.5 rounded-md text-[11px] font-['Lexend:Medium',_sans-serif] cursor-pointer transition-all ${viewMode === v ? "bg-white text-neutral-900 shadow-sm" : "text-neutral-500 hover:text-neutral-700"}`}
+                className={`px-3 py-1.5 rounded-md text-[11px] font-medium cursor-pointer transition-all ${viewMode === v ? "bg-white text-neutral-900 shadow-sm" : "text-neutral-500 hover:text-neutral-700"}`}
               >{v === "table" ? "Tracking Table" : "Aging Report"}</button>
             ))}
           </div>
@@ -192,12 +192,12 @@ export function OutstandingFunds() {
             <div key={groupName} className={`bg-white rounded-xl border overflow-hidden ${isCritical ? "border-red-200" : "border-neutral-200"}`}>
               <div className="flex items-center gap-3 px-5 py-3 bg-neutral-50/50 border-b border-neutral-100">
                 <div className="w-3 h-3 rounded-sm" style={{ backgroundColor: groupColors[groupName] }} />
-                <span className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">{groupName}</span>
-                <span className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500">{items.length} advances</span>
+                <span className="text-[13px] font-semibold text-neutral-900">{groupName}</span>
+                <span className="text-[11px] font-normal text-neutral-500">{items.length} advances</span>
               </div>
               <div className="grid grid-cols-[40px_1fr_110px_100px_100px_100px_120px] gap-0 px-5 py-2 border-b border-neutral-100 bg-neutral-50/30">
                 {["", "Payee", "Amount", "Spent", "Return", "Aging", "Status"].map(h => (
-                  <span key={h} className="text-[10px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase tracking-wide">{h}</span>
+                  <span key={h} className="text-[10px] font-medium text-neutral-500 uppercase tracking-wide">{h}</span>
                 ))}
               </div>
               {items.map((c) => (
@@ -207,21 +207,21 @@ export function OutstandingFunds() {
                     isCritical ? "border-b-red-50 hover:bg-red-50/30" : "border-b-neutral-50 hover:bg-neutral-50/50"
                   } ${isCritical ? "ring-1 ring-inset ring-red-100" : ""}`}
                 >
-                  <div className={`w-7 h-7 rounded-full flex items-center justify-center text-[9px] font-['Lexend:SemiBold',_sans-serif] text-white`} style={{ backgroundColor: groupColors[groupName] }}>
+                  <div className={`w-7 h-7 rounded-full flex items-center justify-center text-[9px] font-semibold text-white`} style={{ backgroundColor: groupColors[groupName] }}>
                     {c.initials}
                   </div>
                   <div>
-                    <span className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900">{c.payee}</span>
-                    <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-400 ml-2">{c.dept}</span>
+                    <span className="text-[12px] font-medium text-neutral-900">{c.payee}</span>
+                    <span className="text-[10px] font-normal text-neutral-400 ml-2">{c.dept}</span>
                   </div>
-                  <span className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900">₱{c.amount.toLocaleString()}</span>
-                  <span className="text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-600">₱{c.spent.toLocaleString()}</span>
-                  <span className={`text-[12px] font-['Lexend:SemiBold',_sans-serif] ${(c.amount - c.spent) > 5000 ? "text-red-600" : "text-neutral-900"}`}>
+                  <span className="text-[12px] font-medium text-neutral-900">₱{c.amount.toLocaleString()}</span>
+                  <span className="text-[12px] font-normal text-neutral-600">₱{c.spent.toLocaleString()}</span>
+                  <span className={`text-[12px] font-semibold ${(c.amount - c.spent) > 5000 ? "text-red-600" : "text-neutral-900"}`}>
                     ₱{(c.amount - c.spent).toLocaleString()}
                   </span>
                   <div className="flex items-center gap-1">
                     {isCritical && <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />}
-                    <span className={`text-[12px] font-['Lexend:SemiBold',_sans-serif] ${isCritical ? "text-red-600" : c.aging > 15 ? "text-amber-600" : "text-neutral-700"}`}>{c.aging}d</span>
+                    <span className={`text-[12px] font-semibold ${isCritical ? "text-red-600" : c.aging > 15 ? "text-amber-600" : "text-neutral-700"}`}>{c.aging}d</span>
                   </div>
                   <UI.Pill status={c.status} />
                 </div>

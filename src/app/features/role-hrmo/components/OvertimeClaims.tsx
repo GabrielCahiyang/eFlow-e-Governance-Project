@@ -90,7 +90,7 @@ export function OvertimeClaims() {
       <div className="grid grid-cols-[300px_1fr] gap-4">
         {/* Claim queue */}
         <div className="bg-white border border-neutral-200 rounded-xl overflow-hidden">
-          <div className="px-4 py-3 border-b border-neutral-200 text-[11px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400">
+          <div className="px-4 py-3 border-b border-neutral-200 text-[11px] font-medium uppercase tracking-wider text-neutral-400">
             Validation Queue
           </div>
           {OT_CLAIMS.map((c) => {
@@ -102,11 +102,11 @@ export function OvertimeClaims() {
                 onClick={() => setSelected(c)}
                 className={`w-full text-left px-4 py-3 border-b border-neutral-100 last:border-0 cursor-pointer transition-colors ${active ? "bg-neutral-900 text-white" : "hover:bg-neutral-50"}`}
               >
-                <div className={`text-[12px] font-['Lexend:Medium',_sans-serif] ${active ? "text-white" : "text-neutral-900"}`}>{c.employee}</div>
-                <div className={`text-[10px] font-['Lexend:Regular',_sans-serif] ${active ? "text-neutral-300" : "text-neutral-500"} mt-0.5`}>
+                <div className={`text-[12px] font-medium ${active ? "text-white" : "text-neutral-900"}`}>{c.employee}</div>
+                <div className={`text-[10px] font-normal ${active ? "text-neutral-300" : "text-neutral-500"} mt-0.5`}>
                   {c.date} · {c.hoursClaimed}h claimed
                 </div>
-                <span className={`inline-flex items-center gap-1 mt-1.5 px-1.5 py-0.5 rounded-full text-[9px] font-['Lexend:Medium',_sans-serif] ${v.chip}`}>
+                <span className={`inline-flex items-center gap-1 mt-1.5 px-1.5 py-0.5 rounded-full text-[9px] font-medium ${v.chip}`}>
                   {v.icon} {c.verdict}
                 </span>
               </button>
@@ -118,14 +118,14 @@ export function OvertimeClaims() {
         <div className={`rounded-xl border-2 ${verdictStyle[selected.verdict].ring} overflow-hidden`}>
           <div className="bg-white px-5 py-4 border-b border-neutral-200 flex items-center justify-between">
             <div>
-              <div className="text-[11px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400">
+              <div className="text-[11px] font-medium uppercase tracking-wider text-neutral-400">
                 Claim #{selected.id.toString().padStart(5, "0")}
               </div>
-              <div className="text-[16px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mt-0.5">
+              <div className="text-[16px] font-semibold text-neutral-900 mt-0.5">
                 {selected.employee} · {selected.dept}
               </div>
             </div>
-            <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-['Lexend:Medium',_sans-serif] ${verdictStyle[selected.verdict].chip}`}>
+            <span className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-[11px] font-medium ${verdictStyle[selected.verdict].chip}`}>
               {verdictStyle[selected.verdict].icon} {verdictStyle[selected.verdict].label}
             </span>
           </div>
@@ -135,16 +135,16 @@ export function OvertimeClaims() {
             <div className="bg-white p-5 border-r border-neutral-200">
               <div className="flex items-center gap-2 mb-3">
                 <User size={14} className="text-neutral-500" />
-                <span className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-700">Employee Claim</span>
+                <span className="text-[12px] font-medium text-neutral-700">Employee Claim</span>
               </div>
-              <div className="space-y-3 text-[12px] font-['Lexend:Regular',_sans-serif]">
+              <div className="space-y-3 text-[12px] font-normal">
                 <div>
                   <div className="text-[10px] uppercase tracking-wider text-neutral-400">Date</div>
                   <div className="text-neutral-900">{selected.date}</div>
                 </div>
                 <div>
                   <div className="text-[10px] uppercase tracking-wider text-neutral-400">Hours claimed</div>
-                  <div className="text-[24px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">{selected.hoursClaimed}h</div>
+                  <div className="text-[24px] font-semibold text-neutral-900">{selected.hoursClaimed}h</div>
                 </div>
                 <div>
                   <div className="text-[10px] uppercase tracking-wider text-neutral-400">Reason</div>
@@ -161,7 +161,7 @@ export function OvertimeClaims() {
             <div className="bg-neutral-900 text-white p-5">
               <div className="flex items-center gap-2 mb-3">
                 <Shield size={14} className="text-emerald-400" />
-                <span className="text-[12px] font-['Lexend:Medium',_sans-serif]">System Proof</span>
+                <span className="text-[12px] font-medium">System Proof</span>
               </div>
               <div className="mb-4">
                 <div className="text-[10px] uppercase tracking-wider text-neutral-400 mb-2 flex items-center gap-1">

@@ -82,10 +82,10 @@ export function WellnessInterventions() {
             >
               <div className="flex items-center justify-between mb-3 px-1">
                 <div className="flex items-center gap-2">
-                  <span className={`px-2 py-0.5 rounded-full text-[10px] font-['Lexend:Medium',_sans-serif] ${col.chip}`}>
+                  <span className={`px-2 py-0.5 rounded-full text-[10px] font-medium ${col.chip}`}>
                     {items.length}
                   </span>
-                  <span className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-700">{col.label}</span>
+                  <span className="text-[12px] font-medium text-neutral-700">{col.label}</span>
                 </div>
               </div>
               <div className="flex flex-col gap-2">
@@ -99,13 +99,13 @@ export function WellnessInterventions() {
                       draggedId === c.id ? "opacity-40" : ""
                     }`}
                   >
-                    <div className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900">{c.name}</div>
-                    <div className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mt-0.5">
+                    <div className="text-[12px] font-medium text-neutral-900">{c.name}</div>
+                    <div className="text-[10px] font-normal text-neutral-500 mt-0.5">
                       {c.role} · {c.dept}
                     </div>
                     <div className="mt-2 pt-2 border-t border-neutral-100 flex items-center justify-between">
-                      <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-600">{c.reason}</span>
-                      <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-400">{c.daysIn}d</span>
+                      <span className="text-[10px] font-normal text-neutral-600">{c.reason}</span>
+                      <span className="text-[10px] font-normal text-neutral-400">{c.daysIn}d</span>
                     </div>
                   </div>
                 ))}
@@ -120,10 +120,10 @@ export function WellnessInterventions() {
           <div className="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center gap-2 mb-2">
               <Heart size={16} className="text-red-600" />
-              <h3 className="text-[16px] font-['Lexend:SemiBold',_sans-serif]">Activate Intervention</h3>
+              <h3 className="text-[16px] font-semibold">Activate Intervention</h3>
             </div>
-            <p className="text-[13px] font-['Lexend:Regular',_sans-serif] text-neutral-600 mb-4">
-              Select a response for <span className="font-['Lexend:Medium',_sans-serif] text-neutral-900">{modal.card.name}</span>. The BPA engine will dispatch automatically.
+            <p className="text-[13px] font-normal text-neutral-600 mb-4">
+              Select a response for <span className="font-medium text-neutral-900">{modal.card.name}</span>. The BPA engine will dispatch automatically.
             </p>
             <div className="space-y-2">
               <button
@@ -132,9 +132,9 @@ export function WellnessInterventions() {
               >
                 <div className="flex items-center gap-2 mb-1">
                   <Pause size={13} className="text-neutral-700" />
-                  <span className="text-[13px] font-['Lexend:Medium',_sans-serif]">Auto-Reassign 30% Workload</span>
+                  <span className="text-[13px] font-medium">Auto-Reassign 30% Workload</span>
                 </div>
-                <div className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500">
+                <div className="text-[11px] font-normal text-neutral-500">
                   Signals the GA Load Balancer · redistributes complex tasks to matched peers.
                 </div>
               </button>
@@ -144,9 +144,9 @@ export function WellnessInterventions() {
               >
                 <div className="flex items-center gap-2 mb-1">
                   <Calendar size={13} className="text-neutral-700" />
-                  <span className="text-[13px] font-['Lexend:Medium',_sans-serif]">Mandate 2-Day Paid Wellness Leave</span>
+                  <span className="text-[13px] font-medium">Mandate 2-Day Paid Wellness Leave</span>
                 </div>
-                <div className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500">
+                <div className="text-[11px] font-normal text-neutral-500">
                   Overrides schedule · pauses all pending deadlines · notifies team lead.
                 </div>
               </button>
@@ -156,9 +156,9 @@ export function WellnessInterventions() {
               >
                 <div className="flex items-center gap-2 mb-1">
                   <Brain size={13} className="text-neutral-700" />
-                  <span className="text-[13px] font-['Lexend:Medium',_sans-serif]">Schedule 1:1 Counselor Debriefing</span>
+                  <span className="text-[13px] font-medium">Schedule 1:1 Counselor Debriefing</span>
                 </div>
-                <div className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500">
+                <div className="text-[11px] font-normal text-neutral-500">
                   Books next available slot with LGU-accredited psychologist.
                 </div>
               </button>

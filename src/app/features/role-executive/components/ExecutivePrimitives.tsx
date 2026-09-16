@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Button, Heading, Label, Text } from "@vibe/core";
 
 const pillStyles: Record<string, string> = {
   Healthy: "bg-emerald-100 text-emerald-700",
@@ -23,50 +24,39 @@ const pillStyles: Record<string, string> = {
 };
 
 export function Pill({ status }: { status: string }) {
-  return (
-    <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-['Lexend:Medium',_sans-serif] ${pillStyles[status] || "bg-neutral-100 text-neutral-600"}`}>
-      {status}
-    </span>
-  );
+  const style = pillStyles[status] || "";
+  const color = style.includes("red") ? "negative" : style.includes("amber") ? "working_orange" : style.includes("emerald") ? "positive" : style.includes("blue") ? "bright-blue" : "dark";
+  return <span aria-label={`Status: ${status}`} role="status"><Label color={color} text={status} /></span>;
 }
 
 export function PageHeader({ title, actions }: { title: string; actions: React.ReactNode }) {
   return (
-    <div className="flex items-center justify-between mb-6">
+    <header className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
       <div>
-        <h1 className="text-[22px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">{title}</h1>
-        <p className="text-[13px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mt-0.5">Executive Portfolio · Ormoc City LGU</p>
+        <Heading className="text-neutral-900" type="h1" weight="medium">{title}</Heading>
+        <Text className="mt-1 text-neutral-500" type="text2">Executive Portfolio · Ormoc City LGU</Text>
       </div>
       <div className="flex items-center gap-2">{actions}</div>
-    </div>
+    </header>
   );
 }
 
 export function ActionButton({ icon, label, variant = "secondary" }: { icon: React.ReactNode; label: string; variant?: "primary" | "secondary" | "danger" }) {
-  const styles = {
-    primary: "bg-blue-600 text-white hover:bg-blue-700",
-    secondary: "bg-white text-neutral-700 border border-neutral-200 hover:bg-neutral-50",
-    danger: "bg-red-50 text-red-600 border border-red-200 hover:bg-red-100",
-  };
-  return (
-    <button className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-[12px] font-['Lexend:Medium',_sans-serif] cursor-pointer transition-colors ${styles[variant]}`}>
-      {icon}
-      {label}
-    </button>
-  );
+  const styles = { primary: { kind: "primary", color: "primary" }, secondary: { kind: "secondary", color: "primary" }, danger: { kind: "secondary", color: "negative" } } as const;
+  return <Button color={styles[variant].color} kind={styles[variant].kind} size="small"><span aria-hidden="true" className="inline-flex">{icon}</span>{label}</Button>;
 }
 
 export function StatCard({ label, value, sub, trend }: { label: string; value: string; sub?: string; trend?: "up" | "down" | "flat" }) {
   return (
-    <div className="bg-white rounded-xl border border-neutral-200 p-4 flex-1 min-w-[160px]">
-      <p className="text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase tracking-wide">{label}</p>
-      <p className="text-[24px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mt-1">{value}</p>
+    <section aria-label={label} className="min-w-[160px] flex-1 rounded-xl border border-neutral-200 bg-white p-4">
+      <Text className="uppercase tracking-[0.08em] text-neutral-500" type="text3" weight="medium">{label}</Text>
+      <p className="eflow-tabular mt-1 text-[24px] font-semibold text-neutral-900">{value}</p>
       {sub && (
-        <p className={`text-[11px] font-['Lexend:Regular',_sans-serif] mt-0.5 ${trend === "up" ? "text-emerald-600" : trend === "down" ? "text-red-600" : "text-neutral-500"}`}>
+        <p className={`mt-1 text-[11px] ${trend === "up" ? "text-emerald-600" : trend === "down" ? "text-red-600" : "text-neutral-500"}`}>
           {trend === "up" ? "↑ " : trend === "down" ? "↓ " : ""}{sub}
         </p>
       )}
-    </div>
+    </section>
   );
 }
 
@@ -79,8 +69,8 @@ export function BatteryWidget({ project, completion, workforce, phases, status }
     <div className="bg-white rounded-xl border border-neutral-200 p-5">
       <div className="flex items-center justify-between mb-3">
         <div>
-          <h3 className="text-[14px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">{project}</h3>
-          <p className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mt-0.5">Overall: {completion}% Complete · Active Workforce: {workforce} Staff</p>
+          <h3 className="text-[14px] font-semibold text-neutral-900">{project}</h3>
+          <p className="text-[11px] font-normal text-neutral-500 mt-0.5">Overall: {completion}% Complete · Active Workforce: {workforce} Staff</p>
         </div>
         <Pill status={status} />
       </div>
@@ -88,7 +78,7 @@ export function BatteryWidget({ project, completion, workforce, phases, status }
       <div className="flex rounded-full overflow-hidden h-6 bg-neutral-100">
         {phases.map((p, i) => (
           <div key={i} className="relative flex items-center justify-center" style={{ width: `${p.pct}%`, backgroundColor: p.color }}>
-            {p.pct > 10 && <span className="text-[9px] font-['Lexend:Medium',_sans-serif] text-white drop-shadow-sm">{p.name}</span>}
+            {p.pct > 10 && <span className="text-[9px] font-medium text-white drop-shadow-sm">{p.name}</span>}
           </div>
         ))}
       </div>
@@ -96,7 +86,7 @@ export function BatteryWidget({ project, completion, workforce, phases, status }
         {phases.map((p, i) => (
           <div key={i} className="flex items-center gap-1.5">
             <div className="w-2 h-2 rounded-full" style={{ backgroundColor: p.color }} />
-            <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500">{p.name} ({p.pct}%)</span>
+            <span className="text-[10px] font-normal text-neutral-500">{p.name} ({p.pct}%)</span>
           </div>
         ))}
       </div>

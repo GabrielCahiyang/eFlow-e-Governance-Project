@@ -13,8 +13,7 @@ import {
   TableHeaderCell,
   TableRow,
 } from "@vibe/core";
-import { MoreActions, Open } from "@vibe/icons";
-import { Copy, FileText, FolderKanban } from "lucide-react";
+import { Description, Folder, MoreActions, Open, TextCopy } from "@vibe/icons";
 import type { Organization, UserProfile } from "../../../types";
 import type { Task } from "../../tasks";
 import type { Project } from "../services/types";
@@ -245,7 +244,7 @@ export function ProjectsPortfolioTable({
                             }}
                             className="flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-xs font-medium text-neutral-700 hover:bg-neutral-100 hover:text-neutral-900 transition"
                           >
-                            <FolderKanban size={14} className="text-neutral-500" />
+                            <Folder size={14} className="text-neutral-500" />
                             Open project workspace
                           </button>
 
@@ -259,7 +258,7 @@ export function ProjectsPortfolioTable({
                               }}
                               className="flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-xs font-medium text-neutral-700 hover:bg-neutral-100 hover:text-neutral-900 transition"
                             >
-                              <FileText size={14} className="text-blue-600" />
+                              <Description size={14} className="text-blue-600" />
                               View proposal context
                             </button>
                           )}
@@ -274,7 +273,7 @@ export function ProjectsPortfolioTable({
                             }}
                             className="flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left text-xs font-medium text-neutral-700 hover:bg-neutral-100 hover:text-neutral-900 transition"
                           >
-                            <Copy size={14} className="text-neutral-400" />
+                            <TextCopy size={14} className="text-neutral-400" />
                             Copy project title
                           </button>
                         </div>

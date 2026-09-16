@@ -44,21 +44,21 @@ export function CryptographicLedger() {
           <div className="flex items-center gap-2 mb-3">
             <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center"><Carbon.DocumentExport size={16} className="text-blue-600" /></div>
             <div>
-              <h4 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">Financial Disbursements</h4>
-              <p className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500">{disbursements.length} sealed records</p>
+              <h4 className="text-[13px] font-semibold text-neutral-900">Financial Disbursements</h4>
+              <p className="text-[10px] font-normal text-neutral-500">{disbursements.length} sealed records</p>
             </div>
           </div>
           <div className="text-center py-2">
-            <span className="text-[28px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">₱{(totalDisbursed / 1e6).toFixed(1)}M</span>
-            <p className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mt-1">All funds leaving treasury</p>
+            <span className="text-[28px] font-semibold text-neutral-900">₱{(totalDisbursed / 1e6).toFixed(1)}M</span>
+            <p className="text-[10px] font-normal text-neutral-500 mt-1">All funds leaving treasury</p>
           </div>
           <div className="flex rounded-full overflow-hidden h-2.5 bg-neutral-100 mt-2">
             <div className="bg-emerald-400" style={{ width: `${(totalVerified / disbursements.length) * 100}%` }} />
             <div className="bg-red-400" style={{ width: `${(totalFlagged / disbursements.length) * 100}%` }} />
           </div>
           <div className="flex justify-between mt-1.5">
-            <span className="text-[9px] font-['Lexend:Regular',_sans-serif] text-emerald-600">{totalVerified} verified</span>
-            <span className="text-[9px] font-['Lexend:Regular',_sans-serif] text-red-600">{totalFlagged} flagged</span>
+            <span className="text-[9px] font-normal text-emerald-600">{totalVerified} verified</span>
+            <span className="text-[9px] font-normal text-red-600">{totalFlagged} flagged</span>
           </div>
         </div>
 
@@ -67,13 +67,13 @@ export function CryptographicLedger() {
           <div className="flex items-center gap-2 mb-3">
             <div className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center"><Carbon.CheckmarkOutline size={16} className="text-emerald-600" /></div>
             <div>
-              <h4 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">Project Liquidations</h4>
-              <p className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500">{liquidations.length} evidence records</p>
+              <h4 className="text-[13px] font-semibold text-neutral-900">Project Liquidations</h4>
+              <p className="text-[10px] font-normal text-neutral-500">{liquidations.length} evidence records</p>
             </div>
           </div>
           <div className="text-center py-2">
-            <span className="text-[28px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">{liquidations.filter(l => l.status === "Verified").length}/{liquidations.length}</span>
-            <p className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mt-1">Receipts with valid file hash</p>
+            <span className="text-[28px] font-semibold text-neutral-900">{liquidations.filter(l => l.status === "Verified").length}/{liquidations.length}</span>
+            <p className="text-[10px] font-normal text-neutral-500 mt-1">Receipts with valid file hash</p>
           </div>
           <Charts.ResponsiveContainer width="100%" height={50}>
             <Charts.BarChart data={liquidations.map(l => ({ name: l.payee.split(" ")[1], amt: l.liquidated / 1000 }))}>
@@ -88,18 +88,18 @@ export function CryptographicLedger() {
           <div className="flex items-center gap-2 mb-3">
             <div className="w-8 h-8 rounded-lg bg-violet-50 flex items-center justify-center"><Carbon.Renew size={16} className="text-violet-600" /></div>
             <div>
-              <h4 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">Returned Funds</h4>
-              <p className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500">{returnedFunds.length} closed loops</p>
+              <h4 className="text-[13px] font-semibold text-neutral-900">Returned Funds</h4>
+              <p className="text-[10px] font-normal text-neutral-500">{returnedFunds.length} closed loops</p>
             </div>
           </div>
           <div className="text-center py-2">
-            <span className="text-[28px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">{returnedFunds.filter(r => r.cycleStatus === "Cycle Sealed").length}/{returnedFunds.length}</span>
-            <p className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mt-1">Perfectly balanced cycles</p>
+            <span className="text-[28px] font-semibold text-neutral-900">{returnedFunds.filter(r => r.cycleStatus === "Cycle Sealed").length}/{returnedFunds.length}</span>
+            <p className="text-[10px] font-normal text-neutral-500 mt-1">Perfectly balanced cycles</p>
           </div>
           {returnedFunds.filter(r => r.cycleStatus === "Audit Mismatch").length > 0 && (
             <div className="bg-red-50 rounded-lg p-2 mt-2 flex items-center gap-1.5">
               <Carbon.Warning size={12} className="text-red-600" />
-              <span className="text-[10px] font-['Lexend:Medium',_sans-serif] text-red-700">{returnedFunds.filter(r => r.cycleStatus === "Audit Mismatch").length} mismatch detected</span>
+              <span className="text-[10px] font-medium text-red-700">{returnedFunds.filter(r => r.cycleStatus === "Audit Mismatch").length} mismatch detected</span>
             </div>
           )}
         </div>
@@ -107,7 +107,7 @@ export function CryptographicLedger() {
 
       {/* Daily transaction volume */}
       <div className="bg-white rounded-xl border border-neutral-200 p-5">
-        <h3 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mb-3">Daily Ledger Volume — Last 8 Days</h3>
+        <h3 className="text-[13px] font-semibold text-neutral-900 mb-3">Daily Ledger Volume — Last 8 Days</h3>
         <Charts.ResponsiveContainer width="100%" height={200}>
           <Charts.AreaChart data={dailyVolume}>
             <Charts.CartesianGrid key="g" strokeDasharray="3 3" stroke="#f0f0f0" />

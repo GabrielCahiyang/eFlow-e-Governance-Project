@@ -1,9 +1,11 @@
+import { Avatar } from '@vibe/core';
 import { Clock, Crown } from 'lucide-react';
 import type { Employee } from '../../../../services/employeeService';
 import type { Task } from '../../../../services/taskService';
 import { RejectionNotice, ReopenNotice, SubmissionDetails } from './TaskFeedback';
-import { SubtaskProgressChip, canDragTask, getDeadlineInfo, getHierarchyDisplay, getInitials, getTaskMemberNames, priorityMeta, statusMeta, type MondayBoardProps } from './model';
+import { SubtaskProgressChip, canDragTask, getDeadlineInfo, getHierarchyDisplay, getTaskMemberNames, priorityMeta, type MondayBoardProps } from './model';
 import { TaskManagementMenu } from './TaskManagementMenu';
+import { TaskStatusLabel } from '../../presentation/TaskStatusLabel';
 
 interface ListTaskRowProps {
   task: Task;
@@ -26,7 +28,6 @@ export function ListTaskRow({ task, role, employeeById, currentUserId, onEditTea
                   const pm =
                     priorityMeta[task.priority || "medium"] ||
                     priorityMeta.medium;
-                  const sm = statusMeta[task.status];
                   const hierarchy = getHierarchyDisplay(task);
                   const memberNames = getTaskMemberNames(task, employeeById);
                   const leadName = task.assigneeName || memberNames[0] || "";
@@ -52,7 +53,7 @@ export function ListTaskRow({ task, role, employeeById, currentUserId, onEditTea
                       onDragEnd={(e) => {
                         (e.currentTarget as HTMLElement).style.opacity = "1";
                       }}
-                      className={`grid grid-cols-[20px_1fr_180px_90px_150px_120px] gap-0 px-4 py-3 border-b border-neutral-100 last:border-0 items-center hover:bg-neutral-50/70 transition group ${isDraggable ? "cursor-grab active:cursor-grabbing" : "cursor-default"}`}
+                      className={`eflow-task-row grid grid-cols-[20px_1fr_180px_90px_150px_120px] gap-0 px-4 py-3 border-b border-neutral-100 last:border-0 items-center hover:bg-neutral-50/70 transition group ${isDraggable ? "cursor-grab active:cursor-grabbing" : "cursor-default"}`}
                     >
                       {/* Priority bar */}
                       <div
@@ -68,12 +69,12 @@ export function ListTaskRow({ task, role, employeeById, currentUserId, onEditTea
                               e.stopPropagation();
                               onOpenTaskEditor(task);
                             }}
-                            className="text-left text-[13px] font-['Lexend:Medium',_sans-serif] text-neutral-900 leading-snug truncate hover:text-violet-700 transition"
+                            className="text-left text-[13px] font-medium text-neutral-900 leading-snug truncate hover:text-violet-700 transition"
                           >
                             {task.title}
                           </button>
                         ) : (
-                          <div className="text-[13px] font-['Lexend:Medium',_sans-serif] text-neutral-900 leading-snug truncate">
+                          <div className="text-[13px] font-medium text-neutral-900 leading-snug truncate">
                             {task.title}
                           </div>
                         )}
@@ -119,17 +120,15 @@ export function ListTaskRow({ task, role, employeeById, currentUserId, onEditTea
                       </div>
 
                       {/* Team */}
-                      <div className="pr-4 min-w-0">
+                      <div className="eflow-task-row__team pr-4 min-w-0">
                         {leadName || task.teamName ? (
                           <div>
                             <div className="flex items-center gap-1.5">
-                              <div className="w-5 h-5 rounded-full bg-neutral-800 text-[9px] text-white flex items-center justify-center font-['Lexend:SemiBold',_sans-serif] shrink-0">
-                                {getInitials(leadName || task.teamName || "")}
-                              </div>
+                              <Avatar text={leadName || task.teamName || "Unassigned"} size="small" />
                               {leadName && (
                                 <Crown size={10} className="text-amber-500" />
                               )}
-                              <span className="text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-800 truncate">
+                              <span className="text-[11px] font-medium text-neutral-800 truncate">
                                 {leadName || "Unassigned"}
                               </span>
                             </div>
@@ -160,17 +159,17 @@ export function ListTaskRow({ task, role, employeeById, currentUserId, onEditTea
                       </div>
 
                       {/* Priority */}
-                      <div className="flex justify-center">
+                      <div className="eflow-task-row__priority flex justify-center">
                         <span
-                          className={`text-[10px] font-['Lexend:Medium',_sans-serif] px-2 py-0.5 rounded-full ${pm.badge}`}
+                          className={`text-[10px] font-medium px-2 py-0.5 rounded-full ${pm.badge}`}
                         >
                           {pm.label}
                         </span>
                       </div>
 
                       {/* Due date */}
-                      <div>
-                        <div className="text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-700">
+                      <div className="eflow-task-row__due">
+                        <div className="text-[12px] font-normal text-neutral-700">
                           {task.deadline || task.dueDate || "—"}
                         </div>
                         {dlInfo && task.status !== "completed" && (
@@ -184,15 +183,8 @@ export function ListTaskRow({ task, role, employeeById, currentUserId, onEditTea
                       </div>
 
                       {/* Status + actions */}
-                      <div className="flex flex-col items-center gap-1.5">
-                        <span
-                          className={`inline-flex items-center gap-1 text-[10px] font-['Lexend:Medium',_sans-serif] px-2 py-0.5 rounded-full border ${sm.color}`}
-                        >
-                          <div
-                            className={`w-1.5 h-1.5 rounded-full ${sm.dot}`}
-                          />
-                          {sm.label}
-                        </span>
+                      <div className="eflow-task-row__status flex flex-col items-center gap-1.5">
+                        <TaskStatusLabel status={task.status} />
 
                         {role === "depthead" &&
                           task.status === "for_review" && (

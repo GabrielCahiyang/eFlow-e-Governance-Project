@@ -38,7 +38,7 @@ export function ManualPlanBuilder({ onClose, inDialog = false, embedded = false 
   } = useManualPlanController(onClose);
 
   return (
-    <div className={`${embedded ? "p-0" : "p-6"} font-['Montserrat',sans-serif] ${inDialog ? "eflow-creation-builder" : ""}`} data-testid="manual-plan-builder">
+    <div className={`${embedded ? "p-0" : "p-6"} font-sans ${inDialog ? "eflow-creation-builder" : ""}`} data-testid="manual-plan-builder">
       <div className="mx-auto max-w-4xl space-y-6">
         {!embedded && (
           <header className="flex items-start justify-between gap-5 border-b border-neutral-100 pb-4">

@@ -47,7 +47,7 @@ export function TaskBudgetEditor({
       <DecisionCard active={value.decision === "funded"} disabled={readOnly} title="Budget assigned" note="Add categories and particulars" onClick={() => selectDecision("funded")} />
       <DecisionCard active={value.decision === "no_cost"} disabled={readOnly} title="No cost required" note="Work uses no proposal money" onClick={() => selectDecision("no_cost")} />
       <div className={`rounded-xl border p-3 ${value.decision === "missing" ? "border-amber-300 bg-amber-50" : "border-neutral-200 bg-neutral-50"}`}>
-        <div className="text-[10px] font-['Lexend:Medium',_sans-serif] text-neutral-800">Task funding status</div>
+        <div className="text-[10px] font-medium text-neutral-800">Task funding status</div>
         <div className="mt-1 text-[10px] text-neutral-500">{value.decision === "missing" ? "Decision still required" : value.decision === "funded" ? peso.format(total) : "Explicitly no cost"}</div>
       </div>
     </div>
@@ -56,8 +56,8 @@ export function TaskBudgetEditor({
 
     {value.decision === "funded" && <>
       <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3">
-        <div className="flex items-center gap-2"><CircleDollarSign size={15} className="text-emerald-700" /><div><div className="text-[10px] font-['Lexend:Medium',_sans-serif] text-emerald-900">{fundingSource}</div><div className="text-[9px] text-emerald-700">Fund source is fixed by the proposal owner.</div></div></div>
-        <div className="text-right"><div className="text-[9px] uppercase tracking-wide text-emerald-700">Task total</div><div className="text-[16px] font-['Lexend:SemiBold',_sans-serif] text-emerald-950">{peso.format(total)}</div></div>
+        <div className="flex items-center gap-2"><CircleDollarSign size={15} className="text-emerald-700" /><div><div className="text-[10px] font-medium text-emerald-900">{fundingSource}</div><div className="text-[9px] text-emerald-700">Fund source is fixed by the proposal owner.</div></div></div>
+        <div className="text-right"><div className="text-[9px] uppercase tracking-wide text-emerald-700">Task total</div><div className="text-[16px] font-semibold text-emerald-950">{peso.format(total)}</div></div>
       </div>
 
       <div className="space-y-3">
@@ -67,7 +67,7 @@ export function TaskBudgetEditor({
             <header className="grid gap-2 border-b border-neutral-100 bg-neutral-50 p-3 sm:grid-cols-[.8fr_1fr_auto]">
               <select disabled={readOnly} value={expense.expenseClass} onChange={(event) => patchIds(ids, { expenseClass: event.target.value })} className="h-9 rounded-lg border border-neutral-200 bg-white px-2.5 text-[10px] disabled:bg-neutral-50">{PROPOSAL_EXPENSE_CLASSES.map((item) => <option key={item}>{item}</option>)}</select>
               <input disabled={readOnly} value={category.category} onChange={(event) => patchIds(ids, { category: event.target.value })} placeholder="Category, e.g. Workshop and Consultation" className="h-9 rounded-lg border border-neutral-200 bg-white px-2.5 text-[10px] disabled:bg-neutral-50" />
-              <div className="flex items-center justify-end gap-2"><span className="text-[10px] font-['Lexend:SemiBold',_sans-serif] tabular-nums">{peso.format(category.amount)}</span>{!readOnly && <button type="button" onClick={() => removeIds(ids)} className="rounded-lg p-2 text-neutral-400 hover:bg-rose-50 hover:text-rose-600" aria-label={`Remove ${category.category}`}><Trash2 size={12} /></button>}</div>
+              <div className="flex items-center justify-end gap-2"><span className="text-[10px] font-semibold tabular-nums">{peso.format(category.amount)}</span>{!readOnly && <button type="button" onClick={() => removeIds(ids)} className="rounded-lg p-2 text-neutral-400 hover:bg-rose-50 hover:text-rose-600" aria-label={`Remove ${category.category}`}><Trash2 size={12} /></button>}</div>
             </header>
             <div className="divide-y divide-neutral-100">
               {category.particulars.map((line) => <ParticularRow key={line.id} line={line} readOnly={readOnly} onPatch={(patch) => patchIds(new Set([line.id]), patch)} onRemove={() => removeIds(new Set([line.id]))} />)}
@@ -82,7 +82,7 @@ export function TaskBudgetEditor({
 }
 
 function DecisionCard({ active, disabled, title, note, onClick }: { active: boolean; disabled: boolean; title: string; note: string; onClick: () => void }) {
-  return <button type="button" disabled={disabled} onClick={onClick} className={`rounded-xl border p-3 text-left transition ${active ? "border-neutral-900 bg-neutral-950 text-white" : "border-neutral-200 bg-white text-neutral-900 hover:border-neutral-400"}`}><div className="flex items-center gap-2"><Banknote size={13} /><span className="text-[10px] font-['Lexend:Medium',_sans-serif]">{title}</span></div><div className={`mt-1 text-[9px] ${active ? "text-neutral-300" : "text-neutral-500"}`}>{note}</div></button>;
+  return <button type="button" disabled={disabled} onClick={onClick} className={`rounded-xl border p-3 text-left transition ${active ? "border-neutral-900 bg-neutral-950 text-white" : "border-neutral-200 bg-white text-neutral-900 hover:border-neutral-400"}`}><div className="flex items-center gap-2"><Banknote size={13} /><span className="text-[10px] font-medium">{title}</span></div><div className={`mt-1 text-[9px] ${active ? "text-neutral-300" : "text-neutral-500"}`}>{note}</div></button>;
 }
 
 function ParticularRow({ line, readOnly, onPatch, onRemove }: { line: BudgetLineInput; readOnly: boolean; onPatch: (patch: Partial<BudgetLineInput>) => void; onRemove: () => void }) {
@@ -92,7 +92,7 @@ function ParticularRow({ line, readOnly, onPatch, onRemove }: { line: BudgetLine
     <Field label="Quantity"><input disabled={readOnly} type="number" min={0} step="0.01" value={line.quantity ?? 1} onChange={(event) => onPatch({ quantity: Number(event.target.value), amount: Number(event.target.value) * Number(line.unitCost || 0) })} className={inputClass} /></Field>
     <Field label="Unit"><input disabled={readOnly} value={line.unit || "item"} onChange={(event) => onPatch({ unit: event.target.value })} className={inputClass} /></Field>
     <Field label="Unit cost"><input disabled={readOnly} type="number" min={0} step="0.01" value={line.unitCost || ""} onChange={(event) => onPatch({ unitCost: Number(event.target.value), amount: Number(line.quantity || 0) * Number(event.target.value) })} className={`${inputClass} text-right`} /></Field>
-    <Field label="Amount"><div className="flex h-9 items-center justify-end rounded-lg border border-neutral-200 bg-neutral-50 px-2.5 text-[10px] font-['Lexend:Medium',_sans-serif] tabular-nums">{peso.format(amount)}</div></Field>
+    <Field label="Amount"><div className="flex h-9 items-center justify-end rounded-lg border border-neutral-200 bg-neutral-50 px-2.5 text-[10px] font-medium tabular-nums">{peso.format(amount)}</div></Field>
     {!readOnly && <button type="button" onClick={onRemove} className="mb-0.5 rounded-lg p-2 text-neutral-400 hover:bg-rose-50 hover:text-rose-600" aria-label="Remove particular"><Trash2 size={12} /></button>}
   </div>;
 }

@@ -248,7 +248,7 @@ function OrgTreeBuilderInner() {
       <div className="flex-1 flex items-center justify-center bg-neutral-50">
         <div className="flex flex-col items-center gap-3">
           <div className="w-8 h-8 border-2 border-neutral-300 border-t-neutral-900 rounded-full animate-spin" />
-          <span className="text-[13px] font-['Lexend:Regular',_sans-serif] text-neutral-500">
+          <span className="text-[13px] font-normal text-neutral-500">
             Loading org structure...
           </span>
         </div>
@@ -266,32 +266,32 @@ function OrgTreeBuilderInner() {
         <div className="flex items-center gap-2 px-4 py-2 border-b border-neutral-200 bg-white shrink-0">
           <button
             onClick={() => { setAddingParentId(undefined); setEditingOrg(undefined); setShowOrgModal(true); }}
-            className="px-3 py-1.5 rounded-lg bg-neutral-900 text-white text-[11px] font-['Lexend:Medium',_sans-serif] font-medium hover:bg-neutral-800 cursor-pointer transition-colors"
+            className="px-3 py-1.5 rounded-lg bg-neutral-900 text-white text-[11px] font-medium hover:bg-neutral-800 cursor-pointer transition-colors"
           >
             + Add Root Dept
           </button>
           <button
             onClick={runLayout}
-            className="px-3 py-1.5 rounded-lg border border-neutral-200 bg-white text-[11px] font-['Lexend:Medium',_sans-serif] font-medium text-neutral-700 hover:bg-neutral-50 cursor-pointer transition-colors"
+            className="px-3 py-1.5 rounded-lg border border-neutral-200 bg-white text-[11px] font-medium text-neutral-700 hover:bg-neutral-50 cursor-pointer transition-colors"
           >
             Auto Layout
           </button>
           <div className="w-px h-5 bg-neutral-200 mx-1" />
           <button
             onClick={() => reactFlowInstance.zoomIn()}
-            className="px-3 py-1.5 rounded-lg border border-neutral-200 bg-white text-[11px] font-['Lexend:Medium',_sans-serif] font-medium text-neutral-700 hover:bg-neutral-50 cursor-pointer transition-colors"
+            className="px-3 py-1.5 rounded-lg border border-neutral-200 bg-white text-[11px] font-medium text-neutral-700 hover:bg-neutral-50 cursor-pointer transition-colors"
           >
             Zoom In
           </button>
           <button
             onClick={() => reactFlowInstance.zoomOut()}
-            className="px-3 py-1.5 rounded-lg border border-neutral-200 bg-white text-[11px] font-['Lexend:Medium',_sans-serif] font-medium text-neutral-700 hover:bg-neutral-50 cursor-pointer transition-colors"
+            className="px-3 py-1.5 rounded-lg border border-neutral-200 bg-white text-[11px] font-medium text-neutral-700 hover:bg-neutral-50 cursor-pointer transition-colors"
           >
             Zoom Out
           </button>
           <button
             onClick={() => reactFlowInstance.fitView({ padding: 0.2 })}
-            className="px-3 py-1.5 rounded-lg border border-neutral-200 bg-white text-[11px] font-['Lexend:Medium',_sans-serif] font-medium text-neutral-700 hover:bg-neutral-50 cursor-pointer transition-colors"
+            className="px-3 py-1.5 rounded-lg border border-neutral-200 bg-white text-[11px] font-medium text-neutral-700 hover:bg-neutral-50 cursor-pointer transition-colors"
           >
             Fit View
           </button>

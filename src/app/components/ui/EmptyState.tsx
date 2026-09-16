@@ -1,5 +1,6 @@
 // ─── Empty State Component ───────────────────────────────────────
 import React from "react";
+import { EmptyState as VibeEmptyState } from "@vibe/core";
 
 interface EmptyStateProps {
   icon?: React.ReactNode;
@@ -10,17 +11,13 @@ interface EmptyStateProps {
 
 export function EmptyState({ icon, title, description, action }: EmptyStateProps) {
   return (
-    <div className="flex flex-col items-center justify-center py-16 px-4">
-      {icon && <div className="text-neutral-300 mb-4">{icon}</div>}
-      <h3 className="text-[15px] font-['Lexend:SemiBold',_sans-serif] font-semibold text-neutral-700 mb-1">
-        {title}
-      </h3>
-      {description && (
-        <p className="text-[13px] font-['Lexend:Regular',_sans-serif] text-neutral-400 text-center max-w-sm mb-4">
-          {description}
-        </p>
-      )}
-      {action}
+    <div className="flex flex-col items-center gap-4 px-4 py-16">
+      <VibeEmptyState
+        title={title}
+        description={description || "There is nothing to display here yet."}
+        visual={icon}
+      />
+      {action && <div className="flex justify-center">{action}</div>}
     </div>
   );
 }

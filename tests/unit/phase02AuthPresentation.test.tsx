@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 
-import { cleanup, fireEvent, render, screen, waitFor, within } from "@testing-library/react";
+import { cleanup, fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { EflowVibeThemeProvider } from "../../src/app/shared/vibe";
 
@@ -75,7 +75,7 @@ describe("Phase 02 auth presentation", () => {
     const superAdmin = await screen.findByRole("menuitem", { name: "Super Admin — admin@gmail.com" });
     expect(superAdmin).toBeTruthy();
     auth.login.mockClear();
-    fireEvent.click(within(superAdmin).getByRole("button"));
+    fireEvent.click(superAdmin);
     await waitFor(() => expect(auth.login).toHaveBeenCalledWith("admin@gmail.com", "admin123"));
   });
 });

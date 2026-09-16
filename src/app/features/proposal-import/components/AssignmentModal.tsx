@@ -90,10 +90,10 @@ export function AssignmentModal({
         {/* Header */}
         <div className="px-5 py-4 border-b border-neutral-100 flex items-center justify-between shrink-0">
           <div>
-            <div className="text-[10px] uppercase tracking-[0.22em] text-neutral-400 font-['Lexend:Medium',_sans-serif]">
+            <div className="text-[10px] uppercase tracking-[0.22em] text-neutral-400 font-medium">
               Team Assignment
             </div>
-            <div className="text-[16px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mt-0.5">
+            <div className="text-[16px] font-semibold text-neutral-900 mt-0.5">
               Select Team &amp; Leader
             </div>
             <div className="mt-1 text-[11px] text-neutral-400">
@@ -117,7 +117,7 @@ export function AssignmentModal({
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by name, role, or department…"
-              className="flex-1 bg-transparent px-2 text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-800 placeholder:text-neutral-400 focus:outline-none"
+              className="flex-1 bg-transparent px-2 text-[12px] font-normal text-neutral-800 placeholder:text-neutral-400 focus:outline-none"
             />
             {search && (
               <button
@@ -138,7 +138,7 @@ export function AssignmentModal({
                 return (
                   <span
                     key={id}
-                    className="inline-flex items-center gap-1 bg-violet-50 border border-violet-200 text-violet-700 text-[11px] font-['Lexend:Medium',_sans-serif] px-2 py-1 rounded-full"
+                    className="inline-flex items-center gap-1 bg-violet-50 border border-violet-200 text-violet-700 text-[11px] font-medium px-2 py-1 rounded-full"
                   >
                     {draftLead === id && (
                       <Crown size={10} className="text-amber-500" />
@@ -182,7 +182,7 @@ export function AssignmentModal({
                   <Fragment key={emp.id}>
                   {departmentLabel !== previousDepartment && (
                     <div className="sticky top-0 z-10 mt-2 flex items-center justify-between border-b border-neutral-100 bg-white/95 px-2 py-2 backdrop-blur">
-                      <span className="text-[9px] font-['Lexend:Medium',_sans-serif] uppercase tracking-[0.16em] text-neutral-500">{departmentLabel}</span>
+                      <span className="text-[9px] font-medium uppercase tracking-[0.16em] text-neutral-500">{departmentLabel}</span>
                       <span className="text-[8px] uppercase text-violet-500">Participating organization</span>
                     </div>
                   )}
@@ -198,7 +198,7 @@ export function AssignmentModal({
                   >
                     {/* Avatar */}
                     <div
-                      className={`w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-['Lexend:SemiBold',_sans-serif] text-white shrink-0 ${
+                      className={`w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-semibold text-white shrink-0 ${
                         load >= 80
                           ? "bg-red-500"
                           : load >= 60
@@ -211,7 +211,7 @@ export function AssignmentModal({
 
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-1.5">
-                        <span className="text-[13px] font-['Lexend:Medium',_sans-serif] text-neutral-900 truncate">
+                        <span className="text-[13px] font-medium text-neutral-900 truncate">
                           {emp.name}
                         </span>
                         {selected && (
@@ -252,7 +252,7 @@ export function AssignmentModal({
 
                     {/* Right column: workload */}
                     <div className="text-right shrink-0">
-                      <div className="text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-800">
+                      <div className="text-[11px] font-medium text-neutral-800">
                         {load}% Load
                       </div>
                       <div className="text-[9px] text-neutral-400 mt-0.5">
@@ -272,7 +272,7 @@ export function AssignmentModal({
           <div className="min-w-0 text-[11px] text-neutral-500">
             <div>{draft.length} member{draft.length !== 1 ? "s" : ""} selected</div>
             {selectedLeader && (
-              <div className="mt-0.5 flex items-center gap-1 truncate font-['Lexend:Medium',_sans-serif] text-amber-700">
+              <div className="mt-0.5 flex items-center gap-1 truncate font-medium text-amber-700">
                 <Crown size={10} className="shrink-0" />
                 Leader: {selectedLeader.name}
               </div>
@@ -281,14 +281,14 @@ export function AssignmentModal({
           <div className="flex items-center gap-2">
             <button
               onClick={onClose}
-              className="px-4 py-2 text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-500 hover:text-neutral-700 transition"
+              className="px-4 py-2 text-[12px] font-medium text-neutral-500 hover:text-neutral-700 transition"
             >
               Cancel
             </button>
             <button
               data-testid="team-assignment-confirm"
               onClick={confirmAssignment}
-              className="px-4 py-2 bg-neutral-900 text-white text-[12px] font-['Lexend:SemiBold',_sans-serif] rounded-xl hover:bg-neutral-800 transition"
+              className="px-4 py-2 bg-neutral-900 text-white text-[12px] font-semibold rounded-xl hover:bg-neutral-800 transition"
             >
               Confirm
             </button>

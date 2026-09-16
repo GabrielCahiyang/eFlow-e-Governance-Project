@@ -1,0 +1,31 @@
+import { readdirSync, readFileSync } from "node:fs";
+import { extname, join } from "node:path";
+import { describe, expect, it } from "vitest";
+
+const sourceRoot = join(process.cwd(), "src");
+const presentationExtensions = new Set([".ts", ".tsx", ".css"]);
+
+function collectPresentationFiles(directory: string): string[] {
+  return readdirSync(directory, { withFileTypes: true }).flatMap((entry) => {
+    const absolutePath = join(directory, entry.name);
+    if (entry.isDirectory()) return collectPresentationFiles(absolutePath);
+    return presentationExtensions.has(extname(entry.name)) ? [absolutePath] : [];
+  });
+}
+
+describe("redesign foundation", () => {
+  it("does not reintroduce the retired Lexend or Montserrat presentation fonts", () => {
+    const violations = collectPresentationFiles(sourceRoot).filter((file) =>
+      /Lexend|Montserrat/.test(readFileSync(file, "utf8")),
+    );
+
+    expect(violations).toEqual([]);
+  });
+
+  it("keeps the application motion policy user-aware", () => {
+    const provider = readFileSync(join(sourceRoot, "app", "shared", "motion", "EflowMotionProvider.tsx"), "utf8");
+    expect(provider).toContain('reducedMotion = "user"');
+    expect(provider).toContain("<MotionConfig reducedMotion={reducedMotion}>");
+    expect(provider).toContain("LazyMotion");
+  });
+});

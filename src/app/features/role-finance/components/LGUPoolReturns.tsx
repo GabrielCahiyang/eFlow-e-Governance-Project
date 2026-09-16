@@ -8,7 +8,7 @@ export function BundleChip({ icon, label, value }: { icon: React.ReactNode; labe
       <div className="flex items-center gap-1.5 text-[10px] text-neutral-400 uppercase tracking-wider mb-1">
         {icon} {label}
       </div>
-      <div className="text-[12px] font-['Lexend:Medium',_sans-serif] text-white">{value}</div>
+      <div className="text-[12px] font-medium text-white">{value}</div>
     </div>
   );
 }
@@ -93,7 +93,7 @@ export function LGUPoolReturns() {
         <div className="bg-gradient-to-r from-emerald-50 to-white border border-emerald-200 rounded-lg p-3 mb-4 flex items-center gap-3">
           <CheckCircle2 size={16} className="text-emerald-600 flex-shrink-0" />
           <div className="flex-1">
-            <div className="text-[12px] font-['Lexend:Medium',_sans-serif] text-emerald-800">
+            <div className="text-[12px] font-medium text-emerald-800">
               Swept {peso(swept.amount)} into General Fund · re-available to SP for appropriation
             </div>
             <div className="font-mono text-[10px] text-emerald-700 mt-0.5">{swept.hash}</div>
@@ -107,10 +107,10 @@ export function LGUPoolReturns() {
         <div className="bg-white border border-neutral-200 rounded-xl overflow-hidden">
           <div className="px-5 py-3 border-b border-neutral-200 flex items-center gap-2">
             <Landmark size={13} className="text-neutral-700" />
-            <span className="text-[13px] font-['Lexend:SemiBold',_sans-serif]">Pool Return Ledger</span>
-            <span className="ml-auto text-[11px] text-neutral-400 font-['Lexend:Regular',_sans-serif]">Tick to include in sweep</span>
+            <span className="text-[13px] font-semibold">Pool Return Ledger</span>
+            <span className="ml-auto text-[11px] text-neutral-400 font-normal">Tick to include in sweep</span>
           </div>
-          <div className="grid grid-cols-12 px-5 py-2 bg-neutral-50 border-b border-neutral-200 text-[10px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400">
+          <div className="grid grid-cols-12 px-5 py-2 bg-neutral-50 border-b border-neutral-200 text-[10px] font-medium uppercase tracking-wider text-neutral-400">
             <div className="col-span-1"></div>
             <div className="col-span-4">Employee</div>
             <div className="col-span-3">Department</div>
@@ -122,7 +122,7 @@ export function LGUPoolReturns() {
             return (
               <label
                 key={r.id}
-                className={`grid grid-cols-12 px-5 py-3 border-b border-neutral-100 last:border-0 items-center hover:bg-neutral-50 cursor-pointer text-[12px] font-['Lexend:Regular',_sans-serif] ${
+                className={`grid grid-cols-12 px-5 py-3 border-b border-neutral-100 last:border-0 items-center hover:bg-neutral-50 cursor-pointer text-[12px] font-normal ${
                   r.swept ? "opacity-40" : ""
                 }`}
               >
@@ -135,13 +135,13 @@ export function LGUPoolReturns() {
                     className="w-4 h-4 accent-neutral-900 cursor-pointer"
                   />
                 </div>
-                <div className="col-span-4 font-['Lexend:Medium',_sans-serif] text-neutral-900">
+                <div className="col-span-4 font-medium text-neutral-900">
                   {r.employee}
-                  {r.swept && <span className="ml-2 text-[9px] text-emerald-600 font-['Lexend:Medium',_sans-serif] uppercase">· swept</span>}
+                  {r.swept && <span className="ml-2 text-[9px] text-emerald-600 font-medium uppercase">· swept</span>}
                 </div>
                 <div className="col-span-3 text-neutral-600">{r.dept}</div>
                 <div className="col-span-2 text-neutral-500">{r.returnedOn}</div>
-                <div className="col-span-2 text-right font-['Lexend:SemiBold',_sans-serif] text-neutral-900 tabular-nums">{peso(r.amount)}</div>
+                <div className="col-span-2 text-right font-semibold text-neutral-900 tabular-nums">{peso(r.amount)}</div>
               </label>
             );
           })}
@@ -151,11 +151,11 @@ export function LGUPoolReturns() {
         <div className="bg-gradient-to-br from-neutral-900 to-neutral-800 text-white rounded-xl overflow-hidden h-fit">
           <div className="px-5 py-4 border-b border-neutral-800 flex items-center gap-2">
             <ArrowLeftRight size={14} className="text-emerald-400" />
-            <span className="text-[13px] font-['Lexend:SemiBold',_sans-serif]">Sweep Summary</span>
+            <span className="text-[13px] font-semibold">Sweep Summary</span>
           </div>
           <div className="p-5">
             <div className="text-[10px] uppercase tracking-wider text-neutral-400">Selected for sweep</div>
-            <div className="text-[32px] font-['Lexend:SemiBold',_sans-serif] text-emerald-400 tabular-nums">{peso(totalSelected)}</div>
+            <div className="text-[32px] font-semibold text-emerald-400 tabular-nums">{peso(totalSelected)}</div>
             <div className="text-[11px] text-neutral-400 mt-1">from {selectedRows.length} employees</div>
 
             <div className="mt-5 pt-5 border-t border-neutral-800 space-y-2">
@@ -167,7 +167,7 @@ export function LGUPoolReturns() {
               <div className="flex items-center gap-2 text-[11px]">
                 <Equal size={11} className="text-neutral-500" />
                 <span className="text-neutral-400">Target bucket</span>
-                <span className="ml-auto text-white font-['Lexend:Medium',_sans-serif]">General Fund (GF-001)</span>
+                <span className="ml-auto text-white font-medium">General Fund (GF-001)</span>
               </div>
               <div className="flex items-center gap-2 text-[11px]">
                 <Info size={11} className="text-neutral-500" />
@@ -177,7 +177,7 @@ export function LGUPoolReturns() {
               <div className="flex items-center gap-2 text-[11px]">
                 <TrendingUp size={11} className="text-emerald-400" />
                 <span className="text-emerald-400">GF balance (post-sweep)</span>
-                <span className="ml-auto text-emerald-400 tabular-nums font-['Lexend:Medium',_sans-serif]">
+                <span className="ml-auto text-emerald-400 tabular-nums font-medium">
                   ₱{(42_800_000 + totalSelected).toLocaleString("en-PH")}
                 </span>
               </div>
@@ -186,7 +186,7 @@ export function LGUPoolReturns() {
             <button
               onClick={doSweep}
               disabled={totalSelected === 0 || sweeping}
-              className="w-full mt-5 py-2.5 bg-emerald-500 text-white rounded-lg text-[12px] font-['Lexend:Medium',_sans-serif] hover:bg-emerald-400 cursor-pointer disabled:opacity-50 flex items-center justify-center gap-1.5"
+              className="w-full mt-5 py-2.5 bg-emerald-500 text-white rounded-lg text-[12px] font-medium hover:bg-emerald-400 cursor-pointer disabled:opacity-50 flex items-center justify-center gap-1.5"
             >
               {sweeping ? <RefreshCw size={13} className="animate-spin" /> : <ArrowLeftRight size={13} />}
               {sweeping ? "Sweeping..." : "Execute Sweep to General Fund"}

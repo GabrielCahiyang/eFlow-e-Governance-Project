@@ -18,11 +18,11 @@ if (!channelId) {
     <div className="pt-3 border-t border-neutral-100">
       <div className="flex items-center gap-1.5 mb-2.5">
         <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
-        <label className="text-[10px] uppercase tracking-[0.12em] font-['Lexend:SemiBold',_sans-serif] text-neutral-500">
+        <label className="text-[10px] uppercase tracking-[0.12em] font-semibold text-neutral-500">
           Task Chat
         </label>
       </div>
-      <div className="max-h-[220px] min-h-[120px] overflow-y-auto space-y-3 mb-3 bg-[#f0f2f5] rounded-xl p-3 font-['Lexend:Regular',_sans-serif]">
+      <div className="max-h-[220px] min-h-[120px] overflow-y-auto space-y-3 mb-3 bg-[#f0f2f5] rounded-xl p-3 font-normal">
         {messages.map((m, idx) => {
           const mine = m.senderId === currentUserId;
           const parsed = parseMessage(m.content);
@@ -86,7 +86,7 @@ if (!channelId) {
                       <button
                         key={opt}
                         onClick={() => { alert(`${opt}!`); setActiveMoreMenuFor(null); }}
-                        className="w-full text-left px-3 py-1.5 text-[11px] text-neutral-700 hover:bg-neutral-50 font-['Lexend:Regular',_sans-serif]"
+                        className="w-full text-left px-3 py-1.5 text-[11px] text-neutral-700 hover:bg-neutral-50 font-normal"
                       >
                         {opt}
                       </button>
@@ -175,7 +175,7 @@ if (!channelId) {
       </div>
 
       {replyingTo && (
-        <div className="px-3.5 py-1.5 bg-neutral-100 border rounded-lg mb-2 flex items-center justify-between text-[10px] text-neutral-500 font-['Lexend:Regular',_sans-serif]">
+        <div className="px-3.5 py-1.5 bg-neutral-100 border rounded-lg mb-2 flex items-center justify-between text-[10px] text-neutral-500 font-normal">
           <span className="truncate">
             Replying to <span className="font-semibold">{replyingTo.senderName}</span>: "
             {parseMessage(replyingTo.content).text.slice(0, 40)}"
@@ -206,7 +206,7 @@ if (!channelId) {
       {/* Detailed Reactions Modal */}
       {reactionsModalContent && (
         <div className="fixed inset-0 bg-black/60 backdrop-blur-xs flex items-center justify-center z-[100000] p-4 animate-fade-in">
-          <div className="bg-[#242526] text-white rounded-2xl w-full max-w-sm shadow-2xl flex flex-col max-h-[400px] border border-neutral-800 overflow-hidden font-['Lexend:Regular',_sans-serif]">
+          <div className="bg-[#242526] text-white rounded-2xl w-full max-w-sm shadow-2xl flex flex-col max-h-[400px] border border-neutral-800 overflow-hidden font-normal">
             {/* Header */}
             <div className="flex items-center justify-between px-4 py-3 border-b border-neutral-800 bg-[#242526]">
               <span className="text-[14px] font-bold">Message reactions</span>

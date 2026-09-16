@@ -24,7 +24,7 @@ export function ActiveMeasuresPipeline() {
       {/* BPA Enforcement notice */}
       <div className="bg-violet-50 border border-violet-200 rounded-xl px-4 py-2.5 mb-5 flex items-center gap-3">
         <Locked size={14} className="text-violet-600" />
-        <p className="text-[11px] font-['Lexend:Regular',_sans-serif] text-violet-700">
+        <p className="text-[11px] font-normal text-violet-700">
           <strong>BPA Sequence Enforcement Active:</strong> The Flowable engine mathematically prevents any measure from bypassing a reading stage. The Three Readings rule (R.A. 7160) is automatically enforced.
         </p>
       </div>
@@ -43,8 +43,8 @@ export function ActiveMeasuresPipeline() {
           return (
             <div key={stage} className="bg-white rounded-xl border border-neutral-200 overflow-hidden">
               <div className="px-3 py-2.5 border-b border-neutral-100 flex items-center justify-between" style={{ borderTop: `3px solid ${stageColors[stage]}` }}>
-                <span className="text-[11px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">{stage}</span>
-                <span className="text-[10px] font-['Lexend:Medium',_sans-serif] bg-neutral-100 text-neutral-600 rounded-full px-2 py-0.5">{items.length}</span>
+                <span className="text-[11px] font-semibold text-neutral-900">{stage}</span>
+                <span className="text-[10px] font-medium bg-neutral-100 text-neutral-600 rounded-full px-2 py-0.5">{items.length}</span>
               </div>
               <div className="p-2 space-y-2 max-h-[220px] overflow-y-auto">
                 {items.map(m => (
@@ -53,10 +53,10 @@ export function ActiveMeasuresPipeline() {
                       <span className="text-[9px] font-['JetBrains_Mono',_'Fira_Code',_monospace] text-neutral-400">{m.trackingNo}</span>
                       <Pill status={m.type} />
                     </div>
-                    <p className="text-[10px] font-['Lexend:Medium',_sans-serif] text-neutral-800 leading-tight line-clamp-2">{m.title.length > 60 ? m.title.slice(0, 60) + "…" : m.title}</p>
+                    <p className="text-[10px] font-medium text-neutral-800 leading-tight line-clamp-2">{m.title.length > 60 ? m.title.slice(0, 60) + "…" : m.title}</p>
                     <div className="flex items-center gap-1 mt-1.5">
-                      <div className="w-4 h-4 rounded-full bg-slate-700 flex items-center justify-center text-[7px] font-['Lexend:SemiBold',_sans-serif] text-white">{m.authorInitials}</div>
-                      <span className="text-[9px] font-['Lexend:Regular',_sans-serif] text-neutral-500">{m.author}</span>
+                      <div className="w-4 h-4 rounded-full bg-slate-700 flex items-center justify-center text-[7px] font-semibold text-white">{m.authorInitials}</div>
+                      <span className="text-[9px] font-normal text-neutral-500">{m.author}</span>
                     </div>
                   </div>
                 ))}
@@ -68,7 +68,7 @@ export function ActiveMeasuresPipeline() {
 
       {/* Pipeline volume chart */}
       <div className="bg-white rounded-xl border border-neutral-200 p-5">
-        <h3 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mb-3">Pipeline Distribution</h3>
+        <h3 className="text-[13px] font-semibold text-neutral-900 mb-3">Pipeline Distribution</h3>
         <ResponsiveContainer width="100%" height={200}>
           <BarChart data={stageData} layout="vertical">
             <CartesianGrid key="g" strokeDasharray="3 3" stroke="#f0f0f0" />

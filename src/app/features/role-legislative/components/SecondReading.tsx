@@ -58,7 +58,7 @@ export function SecondReading() {
         actions={<>
           <button
             onClick={() => setTrackChanges(!trackChanges)}
-            className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-[12px] font-['Lexend:Medium',_sans-serif] cursor-pointer transition-colors ${
+            className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-[12px] font-medium cursor-pointer transition-colors ${
               trackChanges ? "bg-emerald-100 text-emerald-700 border border-emerald-200" : "bg-white text-neutral-700 border border-neutral-200"
             }`}
           >
@@ -78,11 +78,11 @@ export function SecondReading() {
       {/* Measure selector */}
       <div className="bg-white rounded-xl border border-neutral-200 p-4 mb-5">
         <div className="flex items-center gap-3">
-          <span className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">Currently Debating:</span>
+          <span className="text-[12px] font-semibold text-neutral-900">Currently Debating:</span>
           {items.map(m => (
             <div key={m.trackingNo} className="flex items-center gap-2 px-3 py-1.5 rounded-lg bg-amber-50 border border-amber-200">
               <span className="font-['JetBrains_Mono',_'Fira_Code',_monospace] text-[10px] text-amber-700">{m.trackingNo}</span>
-              <span className="text-[10px] font-['Lexend:Medium',_sans-serif] text-amber-800">{m.title.slice(0, 45)}…</span>
+              <span className="text-[10px] font-medium text-amber-800">{m.title.slice(0, 45)}…</span>
             </div>
           ))}
         </div>
@@ -94,8 +94,8 @@ export function SecondReading() {
         <div className="border-r border-neutral-200">
           <div className="px-4 py-2.5 bg-neutral-50 border-b border-neutral-100 flex items-center gap-2">
             <Report size={14} className="text-neutral-500" />
-            <span className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">Original Committee Draft</span>
-            <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-400 ml-auto">v1.0 — Committee on Appropriations</span>
+            <span className="text-[12px] font-semibold text-neutral-900">Original Committee Draft</span>
+            <span className="text-[10px] font-normal text-neutral-400 ml-auto">v1.0 — Committee on Appropriations</span>
           </div>
           <div className="p-4 font-['JetBrains_Mono',_'Fira_Code',_monospace] text-[11px] leading-[22px]">
             {originalDraft.map(line => (
@@ -116,8 +116,8 @@ export function SecondReading() {
         <div>
           <div className="px-4 py-2.5 bg-neutral-50 border-b border-neutral-100 flex items-center gap-2">
             <DocumentExport size={14} className="text-blue-500" />
-            <span className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">Live Amended Draft</span>
-            <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-400 ml-auto">v2.3 — Floor amendments applied</span>
+            <span className="text-[12px] font-semibold text-neutral-900">Live Amended Draft</span>
+            <span className="text-[10px] font-normal text-neutral-400 ml-auto">v2.3 — Floor amendments applied</span>
           </div>
           <div className="p-4 font-['JetBrains_Mono',_'Fira_Code',_monospace] text-[11px] leading-[22px]">
             {amendedDraft.map(line => (
@@ -140,7 +140,7 @@ export function SecondReading() {
 
       {/* Amendment summary */}
       <div className="bg-white rounded-xl border border-neutral-200 p-5 mt-5">
-        <h3 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mb-3">Amendment Summary</h3>
+        <h3 className="text-[13px] font-semibold text-neutral-900 mb-3">Amendment Summary</h3>
         <div className="space-y-2">
           {[
             { section: "Section 2", change: "Expanded coverage to include coastal areas and Ormoc Bay", author: "Hon. M. Delgado", type: "Expansion" },
@@ -149,9 +149,9 @@ export function SecondReading() {
           ].map(a => (
             <div key={a.section} className="flex items-center gap-4 p-3 rounded-lg bg-neutral-50 border border-neutral-100">
               <span className="font-['JetBrains_Mono',_'Fira_Code',_monospace] text-[11px] text-amber-600 w-20 shrink-0">{a.section}</span>
-              <span className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-700 flex-1">{a.change}</span>
-              <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500">{a.author}</span>
-              <span className="text-[9px] font-['Lexend:Medium',_sans-serif] bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full">{a.type}</span>
+              <span className="text-[11px] font-normal text-neutral-700 flex-1">{a.change}</span>
+              <span className="text-[10px] font-normal text-neutral-500">{a.author}</span>
+              <span className="text-[9px] font-medium bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full">{a.type}</span>
             </div>
           ))}
         </div>

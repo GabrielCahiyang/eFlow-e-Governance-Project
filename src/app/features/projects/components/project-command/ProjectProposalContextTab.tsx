@@ -231,7 +231,7 @@ export function ProjectProposalContextTab({
   }
 
   return (
-    <div className="space-y-6 font-['Montserrat',sans-serif]">
+    <div className="space-y-6 font-sans">
       {/* Proposal Summary Card */}
       <div className="bg-white border border-neutral-200/80 rounded-2xl p-6 shadow-xs space-y-4">
         <div className="flex flex-col md:flex-row md:items-start justify-between gap-4">

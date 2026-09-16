@@ -23,13 +23,13 @@ function AggregatedHealthLayout() {
     >
       <div className="flex items-start justify-between mb-4">
         <div>
-          <div className="flex items-center gap-2 text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-400 uppercase tracking-wider mb-1">
+          <div className="flex items-center gap-2 text-[11px] font-medium text-neutral-400 uppercase tracking-wider mb-1">
             <Icons.Briefcase size={12} /> Dept. Head · Portfolio Overview
           </div>
-          <h1 className="text-[22px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">
+          <h1 className="text-[22px] font-semibold text-neutral-900">
             Departmental Project Health — Q3 2026
           </h1>
-          <p className="text-[13px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mt-0.5">
+          <p className="text-[13px] font-normal text-neutral-500 mt-0.5">
             Manage by exception · AI bubbles failing projects to the top
           </p>
         </div>
@@ -70,7 +70,7 @@ function AggregatedHealthLayout() {
               <button
                 key={v.id}
                 onClick={() => setView(v.id)}
-                className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded text-[11.5px] font-['Lexend:Medium',_sans-serif] ${view === v.id ? "bg-neutral-900 text-white" : "text-neutral-600 hover:bg-neutral-50"}`}
+                className={`flex items-center gap-1.5 px-2.5 py-1.5 rounded text-[11.5px] font-medium ${view === v.id ? "bg-neutral-900 text-white" : "text-neutral-600 hover:bg-neutral-50"}`}
               >
                 {v.icon}
                 {v.label}
@@ -79,7 +79,7 @@ function AggregatedHealthLayout() {
           <div className="w-px h-5 bg-neutral-200 mx-1" />
           <button
             onClick={() => setAddViewOpen(!addViewOpen)}
-            className="flex items-center gap-1 px-2 py-1.5 rounded text-[11.5px] font-['Lexend:Medium',_sans-serif] text-neutral-500 hover:text-neutral-800 hover:bg-neutral-50"
+            className="flex items-center gap-1 px-2 py-1.5 rounded text-[11.5px] font-medium text-neutral-500 hover:text-neutral-800 hover:bg-neutral-50"
           >
             <Icons.Plus size={12} /> Add View
           </button>
@@ -90,7 +90,7 @@ function AggregatedHealthLayout() {
                 onClick={() => setAddViewOpen(false)}
               />
               <div className="absolute right-0 top-[calc(100%+4px)] z-40 w-[300px] bg-white border border-neutral-200 rounded-xl shadow-2xl p-2">
-                <div className="px-2 py-1.5 text-[10px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400">
+                <div className="px-2 py-1.5 text-[10px] font-medium uppercase tracking-wider text-neutral-400">
                   Add a View
                 </div>
                 {[
@@ -127,10 +127,10 @@ function AggregatedHealthLayout() {
                       {o.icon}
                     </div>
                     <div className="min-w-0">
-                      <div className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900">
+                      <div className="text-[12px] font-medium text-neutral-900">
                         {o.title}
                       </div>
-                      <div className="text-[10.5px] font-['Lexend:Regular',_sans-serif] text-neutral-500 leading-snug">
+                      <div className="text-[10.5px] font-normal text-neutral-500 leading-snug">
                         {o.desc}
                       </div>
                     </div>
@@ -149,7 +149,7 @@ function AggregatedHealthLayout() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder='Search "Eco-Park" or "PRJ-2026-014"…'
-            className="flex-1 bg-transparent px-2 text-[11.5px] font-['Lexend:Regular',_sans-serif] text-neutral-800 placeholder:text-neutral-400 focus:outline-none"
+            className="flex-1 bg-transparent px-2 text-[11.5px] font-normal text-neutral-800 placeholder:text-neutral-400 focus:outline-none"
           />
           {query && (
             <button
@@ -163,7 +163,7 @@ function AggregatedHealthLayout() {
 
         <button
           onClick={() => setOnlyCritical(!onlyCritical)}
-          className={`flex items-center gap-1.5 px-3 h-[32px] rounded-lg text-[11.5px] font-['Lexend:Medium',_sans-serif] border ${onlyCritical ? "bg-red-600 text-white border-red-600" : "bg-white text-neutral-700 border-neutral-200 hover:bg-neutral-50"}`}
+          className={`flex items-center gap-1.5 px-3 h-[32px] rounded-lg text-[11.5px] font-medium border ${onlyCritical ? "bg-red-600 text-white border-red-600" : "bg-white text-neutral-700 border-neutral-200 hover:bg-neutral-50"}`}
         >
           <Icons.Flame size={12} /> Show Only Critical
         </button>
@@ -171,11 +171,11 @@ function AggregatedHealthLayout() {
         <div className="relative">
           <button
             onClick={() => setFilterOpen(!filterOpen)}
-            className={`flex items-center gap-1.5 px-3 h-[32px] rounded-lg text-[11.5px] font-['Lexend:Medium',_sans-serif] border ${activeFilterCount > 0 ? "bg-indigo-50 text-indigo-700 border-indigo-200" : "bg-white text-neutral-700 border-neutral-200 hover:bg-neutral-50"}`}
+            className={`flex items-center gap-1.5 px-3 h-[32px] rounded-lg text-[11.5px] font-medium border ${activeFilterCount > 0 ? "bg-indigo-50 text-indigo-700 border-indigo-200" : "bg-white text-neutral-700 border-neutral-200 hover:bg-neutral-50"}`}
           >
             <Icons.Filter size={12} /> Filter{" "}
             {activeFilterCount > 0 && (
-              <span className="ml-0.5 bg-indigo-600 text-white rounded-full text-[9px] px-1.5 font-['Lexend:SemiBold',_sans-serif] tabular-nums">
+              <span className="ml-0.5 bg-indigo-600 text-white rounded-full text-[9px] px-1.5 font-semibold tabular-nums">
                 {activeFilterCount}
               </span>
             )}
@@ -188,7 +188,7 @@ function AggregatedHealthLayout() {
               />
               <div className="absolute left-0 top-[calc(100%+4px)] z-40 w-[280px] bg-white border border-neutral-200 rounded-xl shadow-2xl p-3">
                 <div className="flex items-center justify-between mb-2">
-                  <div className="text-[11px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400">
+                  <div className="text-[11px] font-medium uppercase tracking-wider text-neutral-400">
                     Advanced Filters
                   </div>
                   {activeFilterCount > 0 && (
@@ -204,13 +204,13 @@ function AggregatedHealthLayout() {
                   )}
                 </div>
                 <label className="block mb-3">
-                  <div className="text-[10.5px] font-['Lexend:Medium',_sans-serif] text-neutral-600 mb-1">
+                  <div className="text-[10.5px] font-medium text-neutral-600 mb-1">
                     Project Manager
                   </div>
                   <select
                     value={pmFilter}
                     onChange={(e) => setPmFilter(e.target.value)}
-                    className="w-full h-[30px] px-2 border border-neutral-200 rounded-md text-[11.5px] font-['Lexend:Regular',_sans-serif] text-neutral-800 bg-white"
+                    className="w-full h-[30px] px-2 border border-neutral-200 rounded-md text-[11.5px] font-normal text-neutral-800 bg-white"
                   >
                     <option value="">All PMs</option>
                     {allPMs.map((pm) => (
@@ -221,13 +221,13 @@ function AggregatedHealthLayout() {
                   </select>
                 </label>
                 <label className="block">
-                  <div className="text-[10.5px] font-['Lexend:Medium',_sans-serif] text-neutral-600 mb-1">
+                  <div className="text-[10.5px] font-medium text-neutral-600 mb-1">
                     Location (Barangay)
                   </div>
                   <select
                     value={brgyFilter}
                     onChange={(e) => setBrgyFilter(e.target.value)}
-                    className="w-full h-[30px] px-2 border border-neutral-200 rounded-md text-[11.5px] font-['Lexend:Regular',_sans-serif] text-neutral-800 bg-white"
+                    className="w-full h-[30px] px-2 border border-neutral-200 rounded-md text-[11.5px] font-normal text-neutral-800 bg-white"
                   >
                     <option value="">All Barangays</option>
                     {allBrgy.map((b) => (
@@ -253,7 +253,7 @@ function AggregatedHealthLayout() {
             <button
               key={s.id}
               onClick={() => setSortBy(s.id)}
-              className={`px-2.5 h-[26px] rounded text-[11px] font-['Lexend:Medium',_sans-serif] ${sortBy === s.id ? "bg-neutral-900 text-white" : "text-neutral-600 hover:bg-neutral-50"}`}
+              className={`px-2.5 h-[26px] rounded text-[11px] font-medium ${sortBy === s.id ? "bg-neutral-900 text-white" : "text-neutral-600 hover:bg-neutral-50"}`}
             >
               {s.label}
             </button>
@@ -261,7 +261,7 @@ function AggregatedHealthLayout() {
         </div>
 
         <div className="ml-auto flex items-center gap-3">
-          <div className="flex items-center gap-3 text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500 pr-2 border-r border-neutral-200">
+          <div className="flex items-center gap-3 text-[11px] font-normal text-neutral-500 pr-2 border-r border-neutral-200">
             <span className="flex items-center gap-1.5">
               <span className="w-2 h-2 rounded-full bg-emerald-500" /> Optimal ·{" "}
               {PROJECTS.filter((p) => p.health === "green").length}
@@ -278,14 +278,14 @@ function AggregatedHealthLayout() {
           <div className="flex items-center bg-white border border-neutral-200 rounded-lg overflow-hidden h-[32px]">
             <button
               onClick={() => doExport("PDF")}
-              className="flex items-center gap-1.5 px-3 text-[11.5px] font-['Lexend:Medium',_sans-serif] text-neutral-700 hover:bg-neutral-50 h-full"
+              className="flex items-center gap-1.5 px-3 text-[11.5px] font-medium text-neutral-700 hover:bg-neutral-50 h-full"
             >
               <Icons.FileDown size={12} /> PDF
             </button>
             <div className="w-px h-4 bg-neutral-200" />
             <button
               onClick={() => doExport("CSV")}
-              className="flex items-center gap-1.5 px-3 text-[11.5px] font-['Lexend:Medium',_sans-serif] text-neutral-700 hover:bg-neutral-50 h-full"
+              className="flex items-center gap-1.5 px-3 text-[11.5px] font-medium text-neutral-700 hover:bg-neutral-50 h-full"
             >
               <Icons.Download size={12} /> CSV
             </button>
@@ -294,7 +294,7 @@ function AggregatedHealthLayout() {
       </div>
 
       {toast && (
-        <div className="mb-3 bg-neutral-900 text-white rounded-lg px-3 py-2 text-[11.5px] font-['Lexend:Medium',_sans-serif] flex items-center gap-2 w-fit">
+        <div className="mb-3 bg-neutral-900 text-white rounded-lg px-3 py-2 text-[11.5px] font-medium flex items-center gap-2 w-fit">
           <Icons.FileDown size={12} /> {toast}
         </div>
       )}

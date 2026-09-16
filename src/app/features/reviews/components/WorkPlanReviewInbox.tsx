@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react";
+import { Dropdown, Search as VibeSearch } from "@vibe/core";
 import {
   Building2,
   CheckCircle2,
@@ -11,7 +12,12 @@ import { useAuth } from "../../../contexts/AuthContext";
 import { useOrgs } from "../../../hooks/useSupabaseData";
 import { useCollaborationDrafts, isActiveCollaborationDraft } from "../../interdepartment-collaboration";
 import { queueNotificationNavigationIntent } from "../../notifications";
-import { SearchInput, WSelect, SectionEmpty, LoadingState } from "../../../components/workflow/primitives";
+import { SectionEmpty, LoadingState } from "../../../components/workflow/primitives";
+
+const workPlanSortOptions = [
+  { value: "newest", label: "Newest updated" },
+  { value: "oldest", label: "Oldest pending" },
+];
 
 function timeAgo(ts?: number): string {
   if (!ts) return "recently";
@@ -93,23 +99,28 @@ export function WorkPlanReviewInbox({ onNavigate }: { onNavigate?: (section: str
   }
 
   return (
-    <div className="space-y-4 font-['Montserrat',sans-serif]">
+    <div className="eflow-operational-workspace space-y-4">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white border border-neutral-200/80 rounded-2xl p-4 shadow-xs">
-        <SearchInput
+        <VibeSearch
           value={query}
           onChange={setQuery}
+          onClear={() => setQuery("")}
           placeholder="Search work plans, proposals, requesting offices…"
+          inputAriaLabel="Search work plan reviews"
+          showClearIcon
+          size="small"
           className="flex-1 max-w-md"
         />
         <div className="flex items-center gap-2">
           <span className="text-xs font-semibold text-neutral-500">Sort:</span>
-          <WSelect
-            value={sort}
-            onChange={setSort}
-            options={[
-              { value: "newest", label: "Newest updated" },
-              { value: "oldest", label: "Oldest pending" },
-            ]}
+          <Dropdown
+            aria-label="Sort work plan reviews"
+            className="w-[170px]"
+            clearable={false}
+            value={workPlanSortOptions.find((option) => option.value === sort)}
+            onChange={(option) => setSort(String(option.value))}
+            options={workPlanSortOptions}
+            size="small"
           />
         </div>
       </div>

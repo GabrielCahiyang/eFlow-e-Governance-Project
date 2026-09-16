@@ -93,7 +93,7 @@ export function RoleContent({ role, activeSection, activePage, hasLeadingWork = 
         <div className="bg-neutral-50 h-full min-h-0 flex-1 overflow-y-auto p-6 rounded-r-2xl flex items-center justify-center">
           <div className="text-center text-neutral-400">
             <Settings size={40} className="mx-auto mb-3 opacity-30" />
-            <p className="text-[14px] font-['Lexend:Regular',_sans-serif]">Content coming soon</p>
+            <p className="text-[14px] font-normal">Content coming soon</p>
             <p className="text-[12px] mt-1">Role: {role}</p>
           </div>
         </div>

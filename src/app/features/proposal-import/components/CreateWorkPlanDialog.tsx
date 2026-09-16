@@ -35,7 +35,7 @@ export function CreateWorkPlanDialog({
             {isManual ? <Icons.FileEdit size={20} /> : <Icons.FileUp size={20} />}
           </div>
           <div>
-            <span className="text-[10.5px] font-bold uppercase tracking-wider text-indigo-600 font-['Montserrat',sans-serif]">
+            <span className="text-[10.5px] font-bold uppercase tracking-wider text-indigo-600 font-sans">
               Planning Workspace
             </span>
             <h2 className="text-lg font-bold text-neutral-900 tracking-tight">
@@ -106,7 +106,7 @@ export function CreateWorkPlanDialog({
         <div className="hidden lg:flex flex-col justify-between p-6 border-l border-neutral-200/70 bg-gradient-to-br from-indigo-50/70 via-purple-50/40 to-blue-50/70 overflow-y-auto max-h-[calc(92vh-80px)]">
           <div className="space-y-6">
             <div className="flex items-center justify-between">
-              <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-600 font-['Montserrat',sans-serif]">
+              <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-600 font-sans">
                 {isManual ? "Build with structure" : "AI-Assisted Proposal"}
               </span>
               <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/80 border border-indigo-100 text-[10.5px] font-semibold text-indigo-700 shadow-xs">

@@ -49,7 +49,7 @@ export function TaskStatusBadge({
   const pad = size === "sm" ? "px-1.5 py-0.5 text-[10px]" : "px-2 py-0.5 text-[11px]";
   return (
     <span
-      className={`inline-flex items-center gap-1.5 rounded-full border ${pad} font-['Lexend:Medium',_sans-serif] ${tone.bg} ${tone.text} ${tone.border}`}
+      className={`inline-flex items-center gap-1.5 rounded-full border ${pad} font-medium ${tone.bg} ${tone.text} ${tone.border}`}
     >
       <span className={`w-1.5 h-1.5 rounded-full ${tone.dot}`} />
       {tone.label}
@@ -71,7 +71,7 @@ export function ProjectStatusBadge({ status, size = "md" }: { status: string; si
   const pad = size === "sm" ? "px-1.5 py-0.5 text-[10px]" : "px-2 py-0.5 text-[11px]";
   return (
     <span
-      className={`inline-flex items-center gap-1.5 rounded-full border ${pad} font-['Lexend:Medium',_sans-serif] ${tone.bg} ${tone.text} ${tone.border}`}
+      className={`inline-flex items-center gap-1.5 rounded-full border ${pad} font-medium ${tone.bg} ${tone.text} ${tone.border}`}
     >
       <span className={`w-1.5 h-1.5 rounded-full ${tone.dot}`} />
       {tone.label}
@@ -88,7 +88,7 @@ export function PriorityPill({ priority }: { priority?: string }) {
   };
   const p = priority || "medium";
   return (
-    <span className={`inline-flex items-center rounded-md border px-1.5 py-0.5 text-[10px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wide ${map[p] || map.medium}`}>
+    <span className={`inline-flex items-center rounded-md border px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide ${map[p] || map.medium}`}>
       {p}
     </span>
   );
@@ -108,7 +108,7 @@ export const HEALTH_META: Record<Health, { label: string; color: string; text: s
 export function HealthDot({ health }: { health: Health }) {
   const m = HEALTH_META[health];
   return (
-    <span className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[11px] font-['Lexend:Medium',_sans-serif] ${m.bg} ${m.text}`}>
+    <span className={`inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-[11px] font-medium ${m.bg} ${m.text}`}>
       <span className="w-1.5 h-1.5 rounded-full" style={{ background: m.color }} />
       {m.label}
     </span>
@@ -126,7 +126,7 @@ export function InitialsAvatar({ name, size = 28 }: { name?: string; size?: numb
     .toUpperCase();
   return (
     <div
-      className="rounded-full bg-gradient-to-br from-neutral-200 to-neutral-300 flex items-center justify-center text-neutral-700 font-['Lexend:SemiBold',_sans-serif] shrink-0"
+      className="rounded-full bg-gradient-to-br from-neutral-200 to-neutral-300 flex items-center justify-center text-neutral-700 font-semibold shrink-0"
       style={{ width: size, height: size, fontSize: size * 0.36 }}
     >
       {initials}

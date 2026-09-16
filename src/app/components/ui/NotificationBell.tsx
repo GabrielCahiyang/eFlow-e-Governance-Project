@@ -255,7 +255,7 @@ export function NotificationBell({
           {/* Header */}
           <div className="flex items-center justify-between border-b border-neutral-100 px-3 py-2.5 shrink-0">
             <div>
-              <div className="text-[11px] font-['Lexend:SemiBold',_sans-serif] uppercase tracking-[0.12em] text-neutral-400">
+              <div className="text-[11px] font-semibold uppercase tracking-[0.12em] text-neutral-400">
                 Notifications
               </div>
               <div className="text-[11px] text-neutral-500">
@@ -323,7 +323,7 @@ export function NotificationBell({
                         }`}
                       />
                       <span className="min-w-0 flex-1">
-                        <span className="block text-[12px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">
+                        <span className="block text-[12px] font-semibold text-neutral-900">
                           {notification.title || "Notification"}
                         </span>
                         <span className="mt-0.5 block text-[11px] leading-relaxed text-neutral-600">
@@ -331,7 +331,7 @@ export function NotificationBell({
                         </span>
                         {detail && (
                           <span className={`mt-1 block rounded-lg border px-2 py-1 text-[10px] ${DETAIL_TONE[detail.tone]}`}>
-                            <strong className="font-['Lexend:SemiBold',_sans-serif]">{detail.label}:</strong>{" "}
+                            <strong className="font-semibold">{detail.label}:</strong>{" "}
                             {detail.text}
                           </span>
                         )}
@@ -339,7 +339,7 @@ export function NotificationBell({
                           <span className="mt-1 flex items-center justify-between gap-2 text-[10px] text-neutral-400">
                             <span>{time}</span>
                             {destination && onNavigate && (
-                              <span className="inline-flex items-center gap-1 font-['Lexend:Medium',_sans-serif] text-blue-600">
+                              <span className="inline-flex items-center gap-1 font-medium text-blue-600">
                                 {destination.label} <ArrowUpRight size={10} />
                               </span>
                             )}

@@ -1,25 +1,24 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Button, Tab, TabList, TabsContext } from "@vibe/core";
-import { Add } from "@vibe/icons";
 import {
   Activity,
-  BarChart3,
+  Add,
+  Board,
   Calendar,
-  ChevronDown,
-  CheckCircle2,
-  Coins,
-  FileCheck2,
-  FileSpreadsheet,
-  FileText,
-  FolderGit2,
-  History,
-  Kanban,
-  LayoutDashboard,
-  ShieldCheck,
-  Timer,
-  Users,
-  X,
-} from "lucide-react";
+  Chart,
+  CheckList,
+  CloseSmall,
+  CreditCard,
+  Dashboard,
+  Description,
+  DropdownChevronDown,
+  Folder,
+  Security,
+  Table,
+  Team,
+  Timeline,
+  Versioning,
+} from "@vibe/icons";
 import type {
   OptionalProjectView,
   PermanentProjectView,
@@ -105,20 +104,20 @@ export const OPTIONAL_VIEWS_CATALOG: ProjectViewMeta[] = [
 ];
 
 const VIEW_ICONS: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
-  overview: LayoutDashboard,
-  tasks: Kanban,
-  timeline: Timer,
+  overview: Dashboard,
+  tasks: Board,
+  timeline: Timeline,
   calendar: Calendar,
-  reports: FileSpreadsheet,
-  proposal_context: FileText,
+  reports: Table,
+  proposal_context: Description,
   activity: Activity,
-  reviews: FileCheck2,
-  dashboard: BarChart3,
-  workload: Users,
-  budget: Coins,
-  signoff: ShieldCheck,
-  evidence: CheckCircle2,
-  decisions: History,
+  reviews: CheckList,
+  dashboard: Chart,
+  workload: Team,
+  budget: CreditCard,
+  signoff: Security,
+  evidence: CheckList,
+  decisions: Versioning,
 };
 
 export interface ProjectViewTabBarProps {
@@ -274,7 +273,7 @@ export function ProjectViewTabBar({
                 title={`Close ${meta.label}`}
                 className="inline-flex items-center justify-center p-0.5 rounded hover:bg-black/10 text-neutral-400 hover:text-neutral-700 transition-colors ml-0.5"
               >
-                <X size={12} />
+                <CloseSmall size={12} />
               </span>
             </span>
           </Tab>
@@ -318,18 +317,18 @@ export function ProjectViewTabBar({
               }`}
             >
               <span>More ({overflowOptionalViews.length})</span>
-              <ChevronDown size={13} className="text-neutral-400" />
+              <DropdownChevronDown size={13} className="text-neutral-400" />
             </button>
 
             {moreOpen && (
-              <div className="absolute left-0 top-full mt-1.5 w-56 rounded-xl border border-neutral-200 bg-white p-1.5 shadow-xl z-[100] animate-in fade-in zoom-in-95 duration-100 font-['Montserrat',sans-serif]">
+              <div className="absolute left-0 top-full mt-1.5 w-56 rounded-xl border border-neutral-200 bg-white p-1.5 shadow-xl z-[100] animate-in fade-in zoom-in-95 duration-100 font-sans">
                 <div className="text-[10.5px] font-bold uppercase tracking-wider text-neutral-400 px-2 py-1">
                   Open Project Views
                 </div>
                 {overflowOptionalViews.map((viewId) => {
                   const meta = OPTIONAL_VIEWS_CATALOG.find((v) => v.id === viewId);
                   if (!meta) return null;
-                  const Icon = VIEW_ICONS[viewId] || FolderGit2;
+                  const Icon = VIEW_ICONS[viewId] || Folder;
                   const isActive = activeTab === viewId;
 
                   return (
@@ -354,7 +353,7 @@ export function ProjectViewTabBar({
                         onClick={(e) => handleCloseView(e, viewId)}
                         className="p-0.5 rounded text-neutral-400 hover:text-neutral-700 hover:bg-neutral-200/60"
                       >
-                        <X size={12} />
+                        <CloseSmall size={12} />
                       </button>
                     </div>
                   );
@@ -377,7 +376,7 @@ export function ProjectViewTabBar({
         </Button>
 
         {addViewOpen && (
-          <div className="absolute right-0 top-full mt-1.5 w-80 rounded-2xl border border-neutral-200 bg-white p-2 shadow-2xl z-[100] animate-in fade-in zoom-in-95 duration-100 font-['Montserrat',sans-serif]">
+          <div className="absolute right-0 top-full mt-1.5 w-80 rounded-2xl border border-neutral-200 bg-white p-2 shadow-2xl z-[100] animate-in fade-in zoom-in-95 duration-100 font-sans">
             <div className="p-2 border-b border-neutral-100 mb-1">
               <h4 className="text-xs font-bold text-neutral-900 uppercase tracking-wider">
                 Workspace Views
@@ -396,7 +395,7 @@ export function ProjectViewTabBar({
                       {category}
                     </div>
                     {items.map((meta) => {
-                      const Icon = VIEW_ICONS[meta.id] || FolderGit2;
+                      const Icon = VIEW_ICONS[meta.id] || Folder;
                       const isOpen = openViews.includes(meta.id);
                       return (
                         <button

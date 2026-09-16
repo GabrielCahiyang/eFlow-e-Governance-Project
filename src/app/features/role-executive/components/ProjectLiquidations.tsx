@@ -19,7 +19,7 @@ export function ProjectLiquidations() {
           <div className="flex bg-neutral-100 rounded-lg p-0.5">
             {(["all", "flagged"] as const).map(v => (
               <button key={v} onClick={() => setFilterMode(v)}
-                className={`px-3 py-1.5 rounded-md text-[11px] font-['Lexend:Medium',_sans-serif] cursor-pointer transition-all ${filterMode === v ? "bg-white text-neutral-900 shadow-sm" : "text-neutral-500 hover:text-neutral-700"}`}
+                className={`px-3 py-1.5 rounded-md text-[11px] font-medium cursor-pointer transition-all ${filterMode === v ? "bg-white text-neutral-900 shadow-sm" : "text-neutral-500 hover:text-neutral-700"}`}
               >{v === "all" ? "All Records" : "Flagged / Anomalous"}</button>
             ))}
           </div>
@@ -40,8 +40,8 @@ export function ProjectLiquidations() {
         {/* Left Pane — The Ledger */}
         <div className="border-r border-neutral-200">
           <div className="px-5 py-3 bg-neutral-50/50 border-b border-neutral-100 flex items-center gap-2">
-            <span className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">Liquidation Ledger</span>
-            <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500">{filtered.length} records</span>
+            <span className="text-[12px] font-semibold text-neutral-900">Liquidation Ledger</span>
+            <span className="text-[10px] font-normal text-neutral-500">{filtered.length} records</span>
           </div>
           <div className="overflow-y-auto" style={{ maxHeight: 480 }}>
             {filtered.map((l) => {
@@ -62,11 +62,11 @@ export function ProjectLiquidations() {
                       <span className="font-['JetBrains_Mono',_'Fira_Code',_monospace] text-[10px] text-neutral-500">{l.id}</span>
                       <UI.Pill status={l.status} />
                     </div>
-                    <span className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">₱{l.liquidated.toLocaleString()}</span>
+                    <span className="text-[12px] font-semibold text-neutral-900">₱{l.liquidated.toLocaleString()}</span>
                   </div>
                   <div className="flex items-center justify-between">
-                    <span className="text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-700">{l.payee}</span>
-                    <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-400">{l.dept}</span>
+                    <span className="text-[11px] font-medium text-neutral-700">{l.payee}</span>
+                    <span className="text-[10px] font-normal text-neutral-400">{l.dept}</span>
                   </div>
                   <div className="mt-1.5">
                     <UI.HashDisplay hash={l.hash} />
@@ -81,7 +81,7 @@ export function ProjectLiquidations() {
         <div className="bg-slate-50/30">
           <div className="px-5 py-3 bg-neutral-50/50 border-b border-neutral-100 flex items-center gap-2">
             <Carbon.View size={14} className="text-neutral-500" />
-            <span className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">Evidence Inspector</span>
+            <span className="text-[12px] font-semibold text-neutral-900">Evidence Inspector</span>
           </div>
           {selected ? (
             <div className="p-5 space-y-4">
@@ -94,10 +94,10 @@ export function ProjectLiquidations() {
                     <Carbon.Warning size={20} className="text-red-600" />
                   )}
                   <div>
-                    <span className={`text-[13px] font-['Lexend:SemiBold',_sans-serif] ${selected.imageValid ? "text-emerald-700" : "text-red-700"}`}>
+                    <span className={`text-[13px] font-semibold ${selected.imageValid ? "text-emerald-700" : "text-red-700"}`}>
                       File Integrity: {selected.imageValid ? "Valid" : "COMPROMISED"}
                     </span>
-                    <p className={`text-[10px] font-['Lexend:Regular',_sans-serif] ${selected.imageValid ? "text-emerald-600" : "text-red-600"}`}>
+                    <p className={`text-[10px] font-normal ${selected.imageValid ? "text-emerald-600" : "text-red-600"}`}>
                       {selected.imageValid
                         ? `This image has not been altered since it was uploaded by the field worker at ${selected.uploadedAt.split(" ")[1]}.`
                         : "File hash does not match blockchain record. This evidence may have been tampered with."
@@ -110,11 +110,11 @@ export function ProjectLiquidations() {
                   <div className="w-full h-32 bg-neutral-100 rounded-lg flex items-center justify-center mb-3">
                     <div className="text-center">
                       <Carbon.DocumentExport size={28} className="text-neutral-300 mx-auto mb-1" />
-                      <span className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-400">{selected.fileType}</span>
+                      <span className="text-[11px] font-normal text-neutral-400">{selected.fileType}</span>
                     </div>
                   </div>
                   <div className="flex items-center justify-center gap-2">
-                    <span className="text-[10px] font-['Lexend:Medium',_sans-serif] text-neutral-500">SHA-256:</span>
+                    <span className="text-[10px] font-medium text-neutral-500">SHA-256:</span>
                     <span className="font-['JetBrains_Mono',_'Fira_Code',_monospace] text-[10px] text-neutral-600 bg-neutral-50 px-2 py-0.5 rounded">{selected.fileHash}</span>
                   </div>
                 </div>
@@ -122,7 +122,7 @@ export function ProjectLiquidations() {
 
               {/* Evidence metadata */}
               <div className="bg-white rounded-xl border border-neutral-200 p-4">
-                <h4 className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mb-3">Evidence Metadata</h4>
+                <h4 className="text-[12px] font-semibold text-neutral-900 mb-3">Evidence Metadata</h4>
                 <div className="space-y-2.5">
                   {[
                     ["Liquidation ID", selected.id],
@@ -137,12 +137,12 @@ export function ProjectLiquidations() {
                     ["Geo-Tag", selected.geoTag],
                   ].map(([label, val]) => (
                     <div key={label} className="flex items-start gap-3">
-                      <span className="text-[10px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase w-32 shrink-0">{label}</span>
-                      <span className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-800">{val}</span>
+                      <span className="text-[10px] font-medium text-neutral-500 uppercase w-32 shrink-0">{label}</span>
+                      <span className="text-[11px] font-normal text-neutral-800">{val}</span>
                     </div>
                   ))}
                   <div className="flex items-start gap-3">
-                    <span className="text-[10px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase w-32 shrink-0">Blockchain Hash</span>
+                    <span className="text-[10px] font-medium text-neutral-500 uppercase w-32 shrink-0">Blockchain Hash</span>
                     <UI.HashDisplay hash={selected.hash} full />
                   </div>
                 </div>
@@ -154,12 +154,12 @@ export function ProjectLiquidations() {
                   {selected.imageValid ? (
                     <>
                       <Carbon.Locked size={14} className="text-emerald-600" />
-                      <span className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-emerald-700">IMMUTABLE SEAL: INTACT</span>
+                      <span className="text-[12px] font-semibold text-emerald-700">IMMUTABLE SEAL: INTACT</span>
                     </>
                   ) : (
                     <>
                       <Carbon.Warning size={14} className="text-red-600" />
-                      <span className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-red-700">IMMUTABLE SEAL: BROKEN — TAMPER ALERT DISPATCHED</span>
+                      <span className="text-[12px] font-semibold text-red-700">IMMUTABLE SEAL: BROKEN — TAMPER ALERT DISPATCHED</span>
                     </>
                   )}
                 </div>
@@ -167,7 +167,7 @@ export function ProjectLiquidations() {
             </div>
           ) : (
             <div className="flex items-center justify-center h-full text-neutral-400">
-              <p className="text-[13px] font-['Lexend:Regular',_sans-serif]">Select a record from the ledger</p>
+              <p className="text-[13px] font-normal">Select a record from the ledger</p>
             </div>
           )}
         </div>

@@ -1,5 +1,6 @@
 // ─── Reusable DataTable Component ────────────────────────────────
 import React, { useState, useMemo } from "react";
+import { EmptyState, Search, Skeleton, Text } from "@vibe/core";
 
 export interface Column<T> {
   key: string;
@@ -71,21 +72,20 @@ export function DataTable<T>({
   };
 
   return (
-    <div className="bg-white rounded-xl border border-neutral-200 overflow-hidden">
+    <section className="overflow-hidden rounded-xl border border-neutral-200 bg-white" aria-label="Data table">
       {/* Search */}
       {searchFilter && (
         <div className="px-4 py-3 border-b border-neutral-100">
           <div className="flex flex-wrap items-center gap-2">
-            <div className="relative min-w-[260px] flex-1">
-              <svg viewBox="0 0 16 16" className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-neutral-400" fill="currentColor">
-                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85zm-5.242.156a5 5 0 1 1 0-10 5 5 0 0 1 0 10z" />
-              </svg>
-              <input
-                type="text"
+            <div className="min-w-[260px] flex-1">
+              <Search
                 value={search}
-                onChange={(e) => setSearch(e.target.value)}
+                onChange={setSearch}
+                onClear={() => setSearch("")}
                 placeholder={searchPlaceholder}
-                className="w-full pl-9 pr-3 py-2 rounded-lg border border-neutral-200 text-[12px] font-['Lexend:Regular',_sans-serif] outline-none focus:border-neutral-400 focus:ring-1 focus:ring-neutral-200 bg-neutral-50"
+                inputAriaLabel={searchPlaceholder}
+                showClearIcon
+                size="small"
               />
             </div>
             {toolbar}
@@ -101,20 +101,26 @@ export function DataTable<T>({
               {columns.map((col) => (
                 <th
                   key={col.key}
-                  className={`px-4 py-2.5 text-left text-[10px] font-['Lexend:Medium',_sans-serif] font-medium text-neutral-400 uppercase tracking-wider ${
-                    col.sortable ? "cursor-pointer select-none hover:text-neutral-600" : ""
+                  aria-sort={
+                    col.sortable && sortKey === col.key
+                      ? sortDir === "asc" ? "ascending" : "descending"
+                      : col.sortable ? "none" : undefined
+                  }
+                  className={`px-4 py-2.5 text-left text-[10px] font-medium text-neutral-400 uppercase tracking-wider ${
+                    col.sortable ? "select-none" : ""
                   }`}
                   style={col.width ? { width: col.width } : undefined}
-                  onClick={col.sortable ? () => handleSort(col.key) : undefined}
                 >
-                  <span className="flex items-center gap-1">
-                    {col.header}
-                    {col.sortable && sortKey === col.key && (
-                      <svg viewBox="0 0 8 8" className="w-2 h-2" fill="currentColor">
-                        {sortDir === "asc" ? <path d="M4 1L7 6H1z" /> : <path d="M4 7L1 2h6z" />}
-                      </svg>
-                    )}
-                  </span>
+                  {col.sortable ? (
+                    <button
+                      type="button"
+                      className="flex items-center gap-1 rounded-sm text-left hover:text-neutral-600 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600"
+                      onClick={() => handleSort(col.key)}
+                    >
+                      {col.header}
+                      {sortKey === col.key && <span aria-hidden="true">{sortDir === "asc" ? "▲" : "▼"}</span>}
+                    </button>
+                  ) : col.header}
                 </th>
               ))}
             </tr>
@@ -123,9 +129,11 @@ export function DataTable<T>({
             {loading ? (
               Array.from({ length: 5 }).map((_, i) => (
                 <tr key={`skel-${i}`} className="border-b border-neutral-50">
-                  {columns.map((col) => (
+                  {columns.map((col, columnIndex) => (
                     <td key={col.key} className="px-4 py-3">
-                      <div className="h-4 bg-neutral-100 rounded animate-pulse" style={{ width: `${60 + Math.random() * 30}%` }} />
+                      <div style={{ width: `${60 + ((i + columnIndex) % 4) * 10}%` }}>
+                        <Skeleton type="rectangle" size="custom" height={16} fullWidth />
+                      </div>
                     </td>
                   ))}
                 </tr>
@@ -133,8 +141,12 @@ export function DataTable<T>({
             ) : filtered.length === 0 ? (
               <tr>
                 <td colSpan={columns.length} className="px-4 py-12 text-center">
-                  {emptyIcon && <div className="flex justify-center mb-3 text-neutral-300">{emptyIcon}</div>}
-                  <p className="text-[13px] font-['Lexend:Regular',_sans-serif] text-neutral-400">{emptyMessage}</p>
+                  <EmptyState
+                    layout="compact"
+                    title="Nothing to show"
+                    description={emptyMessage}
+                    visual={emptyIcon}
+                  />
                 </td>
               </tr>
             ) : (
@@ -142,8 +154,16 @@ export function DataTable<T>({
                 <tr
                   key={keyExtractor(item)}
                   onClick={onRowClick ? () => onRowClick(item) : undefined}
+                  onKeyDown={onRowClick ? (event) => {
+                    if (event.key === "Enter" || event.key === " ") {
+                      event.preventDefault();
+                      onRowClick(item);
+                    }
+                  } : undefined}
+                  tabIndex={onRowClick ? 0 : undefined}
+                  aria-label={onRowClick ? "Open record" : undefined}
                   className={`border-b border-neutral-50 transition-colors ${
-                    onRowClick ? "cursor-pointer hover:bg-neutral-50/70" : ""
+                    onRowClick ? "cursor-pointer hover:bg-neutral-50/70 focus-visible:bg-blue-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-inset focus-visible:outline-blue-600" : ""
                   }`}
                 >
                   {columns.map((col) => (
@@ -160,10 +180,12 @@ export function DataTable<T>({
 
       {/* Row count */}
       {!loading && (
-        <div className="px-4 py-2 border-t border-neutral-100 text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-400">
-          {filtered.length} of {totalRecords ?? data.length} records
+        <div className="border-t border-neutral-100 px-4 py-2">
+          <Text type="text3" color="secondary">
+            <span className="tabular-nums">{filtered.length} of {totalRecords ?? data.length}</span> records
+          </Text>
         </div>
       )}
-    </div>
+    </section>
   );
 }

@@ -1,16 +1,17 @@
 import type { ReactNode } from "react";
-import { Dna } from "lucide-react";
+import { Button, Heading, Text } from "@vibe/core";
+import { Team } from "@vibe/icons";
 
 export function PageHeader({ title, subtitle, actions }: { title: string; subtitle?: string; actions?: ReactNode }) {
-  return <div className="mb-6 flex items-start justify-between"><div><div className="mb-1 flex items-center gap-2 text-[11px] uppercase tracking-wider text-neutral-400"><Dna size={12} /> HRMO · Command Center</div><h1 className="text-[22px] font-semibold text-neutral-900">{title}</h1><p className="mt-0.5 text-[13px] text-neutral-500">{subtitle || "Human Resource Management Office · Ormoc City"}</p></div><div className="flex items-center gap-2">{actions}</div></div>;
+  return <header className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between"><div><Text className="mb-1 flex items-center gap-2 uppercase tracking-[0.08em] text-neutral-500" type="text3" weight="medium"><Team aria-hidden="true" size={14} /> HRMO · Command Center</Text><Heading className="text-neutral-900" type="h1" weight="medium">{title}</Heading><Text className="mt-1 text-neutral-500" type="text2">{subtitle || "Human Resource Management Office · Ormoc City"}</Text></div><div className="flex items-center gap-2">{actions}</div></header>;
 }
 
 export function Btn({ icon, label, variant = "secondary", onClick }: { icon?: ReactNode; label: string; variant?: "primary" | "secondary" | "danger" | "success"; onClick?: () => void }) {
-  const styles = { primary: "bg-neutral-900 text-white hover:bg-neutral-800", secondary: "border border-neutral-200 bg-white text-neutral-700 hover:bg-neutral-50", danger: "border border-red-200 bg-red-50 text-red-600 hover:bg-red-100", success: "border border-emerald-200 bg-emerald-50 text-emerald-700 hover:bg-emerald-100" };
-  return <button onClick={onClick} className={`flex cursor-pointer items-center gap-1.5 rounded-lg px-3 py-2 text-[12px] font-medium transition-colors ${styles[variant]}`}>{icon}{label}</button>;
+  const styles = { primary: { kind: "primary", color: "primary" }, secondary: { kind: "secondary", color: "primary" }, danger: { kind: "secondary", color: "negative" }, success: { kind: "primary", color: "positive" } } as const;
+  return <Button color={styles[variant].color} kind={styles[variant].kind} onClick={() => onClick?.()} size="small">{icon && <span aria-hidden="true" className="inline-flex">{icon}</span>}{label}</Button>;
 }
 
 export function Stat({ label, value, trend, tone = "neutral" }: { label: string; value: string; trend?: string; tone?: "neutral" | "good" | "warn" | "bad" }) {
   const tones = { neutral: "text-neutral-900", good: "text-emerald-600", warn: "text-amber-600", bad: "text-red-600" };
-  return <div className="rounded-xl border border-neutral-200 bg-white p-4"><div className="text-[11px] font-medium uppercase tracking-wider text-neutral-400">{label}</div><div className={`mt-1 text-[24px] font-semibold ${tones[tone]}`}>{value}</div>{trend && <div className="mt-0.5 text-[11px] text-neutral-500">{trend}</div>}</div>;
+  return <section aria-label={label} className="rounded-xl border border-neutral-200 bg-white p-4"><Text className="uppercase tracking-[0.08em] text-neutral-500" type="text3" weight="medium">{label}</Text><div className={`eflow-tabular mt-1 text-[24px] font-semibold ${tones[tone]}`}>{value}</div>{trend && <Text className="mt-1 text-neutral-500" type="text3">{trend}</Text>}</section>;
 }

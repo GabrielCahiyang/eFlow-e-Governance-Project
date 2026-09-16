@@ -94,11 +94,11 @@ function BurnGauge({ project }: { project: BurnProject }) {
   return (
     <div className="bg-white border border-neutral-200 rounded-xl p-4">
       <div className="flex items-start justify-between mb-3">
-        <div className="text-[12.5px] font-['Lexend:Medium',_sans-serif] text-neutral-900 truncate pr-2">
+        <div className="text-[12.5px] font-medium text-neutral-900 truncate pr-2">
           {project.name}
         </div>
         <span
-          className={`text-[9.5px] font-['Lexend:Medium',_sans-serif] uppercase border rounded px-1.5 py-0.5 shrink-0 ${tone.chip}`}
+          className={`text-[9.5px] font-medium uppercase border rounded px-1.5 py-0.5 shrink-0 ${tone.chip}`}
         >
           {tone.label}
         </span>
@@ -138,15 +138,15 @@ function BurnGauge({ project }: { project: BurnProject }) {
             />
           </svg>
           <div className="absolute inset-0 flex flex-col items-center justify-center">
-            <div className="text-[17px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 tabular-nums leading-none">
+            <div className="text-[17px] font-semibold text-neutral-900 tabular-nums leading-none">
               {spentPct.toFixed(0)}%
             </div>
-            <div className="text-[9px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mt-0.5">
+            <div className="text-[9px] font-normal text-neutral-500 mt-0.5">
               burned
             </div>
           </div>
         </div>
-        <div className="flex-1 space-y-1.5 text-[10.5px] font-['Lexend:Regular',_sans-serif]">
+        <div className="flex-1 space-y-1.5 text-[10.5px] font-normal">
           <div className="flex items-center justify-between">
             <span className="text-neutral-500">Allocated</span>
             <span className="text-neutral-900 tabular-nums">
@@ -168,7 +168,7 @@ function BurnGauge({ project }: { project: BurnProject }) {
           <div className="flex items-center justify-between pt-1 border-t border-neutral-100">
             <span className="text-neutral-500">Δ vs. pace</span>
             <span
-              className={`tabular-nums font-['Lexend:Medium',_sans-serif] ${over ? "text-red-700" : under ? "text-amber-700" : "text-emerald-700"}`}
+              className={`tabular-nums font-medium ${over ? "text-red-700" : under ? "text-amber-700" : "text-emerald-700"}`}
             >
               {delta > 0 ? "+" : ""}
               {delta.toFixed(1)}pp
@@ -237,21 +237,21 @@ export function BudgetStatus() {
 
       <div className="mt-5 bg-neutral-50 border border-neutral-200 rounded-xl p-4 flex items-start gap-3">
         <Info size={14} className="text-neutral-600 mt-0.5 shrink-0" />
-        <div className="text-[11.5px] font-['Lexend:Regular',_sans-serif] text-neutral-600 leading-relaxed">
-          <span className="font-['Lexend:Medium',_sans-serif] text-neutral-900">
+        <div className="text-[11.5px] font-normal text-neutral-600 leading-relaxed">
+          <span className="font-medium text-neutral-900">
             Reading the gauge:
           </span>{" "}
           the faint gray arc is the expected pace for today (month 4 of 12 =
           33%). The colored arc is actual spend.{" "}
-          <span className="text-emerald-700 font-['Lexend:Medium',_sans-serif]">
+          <span className="text-emerald-700 font-medium">
             Paced
           </span>{" "}
           means spend ≈ time.{" "}
-          <span className="text-red-700 font-['Lexend:Medium',_sans-serif]">
+          <span className="text-red-700 font-medium">
             Over-burning
           </span>{" "}
           risks running dry by Q3.{" "}
-          <span className="text-amber-700 font-['Lexend:Medium',_sans-serif]">
+          <span className="text-amber-700 font-medium">
             Under-utilized
           </span>{" "}
           risks the December scramble that forces unspent allotments back to the

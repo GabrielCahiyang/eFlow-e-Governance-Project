@@ -23,8 +23,8 @@ export function BudgetBurnDown() {
       <div className="grid grid-cols-2 gap-5 mb-5">
         {/* Advance vs Return dual line */}
         <div className="bg-white rounded-xl border border-neutral-200 p-5">
-          <h3 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mb-1">Advance vs. Return Scale</h3>
-          <p className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mb-3">Cumulative fund flow (₱ Millions)</p>
+          <h3 className="text-[13px] font-semibold text-neutral-900 mb-1">Advance vs. Return Scale</h3>
+          <p className="text-[11px] font-normal text-neutral-500 mb-3">Cumulative fund flow (₱ Millions)</p>
           <Charts.ResponsiveContainer width="100%" height={260}>
             <Charts.ComposedChart data={burnDownData}>
               <Charts.CartesianGrid key="grid" strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -40,8 +40,8 @@ export function BudgetBurnDown() {
 
         {/* ROI/NPV Summary */}
         <div className="bg-white rounded-xl border border-neutral-200 p-5">
-          <h3 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mb-1">ROI / NPV Tracker</h3>
-          <p className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mb-3">AI-calculated Net Present Value by project pillar</p>
+          <h3 className="text-[13px] font-semibold text-neutral-900 mb-1">ROI / NPV Tracker</h3>
+          <p className="text-[11px] font-normal text-neutral-500 mb-3">AI-calculated Net Present Value by project pillar</p>
           <Charts.ResponsiveContainer width="100%" height={260}>
             <Charts.BarChart data={[
               { pillar: "Infra", npv: 520, roi: 18 },
@@ -65,24 +65,24 @@ export function BudgetBurnDown() {
 
       {/* Departmental Efficiency Grid */}
       <div className="bg-white rounded-xl border border-neutral-200 p-5">
-        <h3 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mb-3">Departmental Liquidation Efficiency</h3>
+        <h3 className="text-[13px] font-semibold text-neutral-900 mb-3">Departmental Liquidation Efficiency</h3>
         <div className="overflow-x-auto">
           <table className="w-full text-left">
             <thead>
               <tr className="border-b border-neutral-100">
-                <th className="py-2.5 px-3 text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase tracking-wide">Rank</th>
-                <th className="py-2.5 px-3 text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase tracking-wide">Department</th>
-                <th className="py-2.5 px-3 text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase tracking-wide">Velocity Score</th>
-                <th className="py-2.5 px-3 text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase tracking-wide">Pending</th>
-                <th className="py-2.5 px-3 text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase tracking-wide">Avg. Days</th>
-                <th className="py-2.5 px-3 text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase tracking-wide">Status</th>
+                <th className="py-2.5 px-3 text-[11px] font-medium text-neutral-500 uppercase tracking-wide">Rank</th>
+                <th className="py-2.5 px-3 text-[11px] font-medium text-neutral-500 uppercase tracking-wide">Department</th>
+                <th className="py-2.5 px-3 text-[11px] font-medium text-neutral-500 uppercase tracking-wide">Velocity Score</th>
+                <th className="py-2.5 px-3 text-[11px] font-medium text-neutral-500 uppercase tracking-wide">Pending</th>
+                <th className="py-2.5 px-3 text-[11px] font-medium text-neutral-500 uppercase tracking-wide">Avg. Days</th>
+                <th className="py-2.5 px-3 text-[11px] font-medium text-neutral-500 uppercase tracking-wide">Status</th>
               </tr>
             </thead>
             <tbody>
               {deptEfficiency.map((d, i) => (
                 <tr key={d.dept} className="border-b border-neutral-50 hover:bg-neutral-50/50 transition-colors">
-                  <td className="py-3 px-3 text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-600">#{i + 1}</td>
-                  <td className="py-3 px-3 text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900 flex items-center gap-2">
+                  <td className="py-3 px-3 text-[12px] font-medium text-neutral-600">#{i + 1}</td>
+                  <td className="py-3 px-3 text-[12px] font-medium text-neutral-900 flex items-center gap-2">
                     {d.dept}
                     {d.status === "Slow" && <span className="inline-block w-2 h-2 rounded-full bg-red-500 animate-pulse" title="Lagging" />}
                   </td>
@@ -91,11 +91,11 @@ export function BudgetBurnDown() {
                       <div className="w-20 h-1.5 bg-neutral-100 rounded-full overflow-hidden">
                         <div className="h-full rounded-full" style={{ width: `${d.velocity}%`, backgroundColor: d.velocity > 80 ? "#10B981" : d.velocity > 65 ? "#F59E0B" : "#EF4444" }} />
                       </div>
-                      <span className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-600">{d.velocity}%</span>
+                      <span className="text-[11px] font-normal text-neutral-600">{d.velocity}%</span>
                     </div>
                   </td>
-                  <td className="py-3 px-3 text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-600">{d.pending}</td>
-                  <td className="py-3 px-3 text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-600">{d.daysAvg}d</td>
+                  <td className="py-3 px-3 text-[12px] font-normal text-neutral-600">{d.pending}</td>
+                  <td className="py-3 px-3 text-[12px] font-normal text-neutral-600">{d.daysAvg}d</td>
                   <td className="py-3 px-3"><UI.Pill status={d.status} /></td>
                 </tr>
               ))}

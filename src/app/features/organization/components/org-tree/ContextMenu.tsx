@@ -55,19 +55,19 @@ export function ContextMenu({
         <>
           <button
             onClick={() => { onAddChild(); onClose(); }}
-            className="w-full text-left px-3 py-2 text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-700 hover:bg-neutral-50 cursor-pointer flex items-center gap-2"
+            className="w-full text-left px-3 py-2 text-[12px] font-medium text-neutral-700 hover:bg-neutral-50 cursor-pointer flex items-center gap-2"
           >
             <span className="text-[14px]">+</span> Add child dept
           </button>
           <button
             onClick={() => { onEdit(); onClose(); }}
-            className="w-full text-left px-3 py-2 text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-700 hover:bg-neutral-50 cursor-pointer flex items-center gap-2"
+            className="w-full text-left px-3 py-2 text-[12px] font-medium text-neutral-700 hover:bg-neutral-50 cursor-pointer flex items-center gap-2"
           >
             <span className="text-[14px]">✏️</span> Edit
           </button>
           <button
             onClick={() => { onAssignHead(); onClose(); }}
-            className="w-full text-left px-3 py-2 text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-700 hover:bg-neutral-50 cursor-pointer flex items-center gap-2"
+            className="w-full text-left px-3 py-2 text-[12px] font-medium text-neutral-700 hover:bg-neutral-50 cursor-pointer flex items-center gap-2"
           >
             <span className="text-[14px]">👤</span> Assign leadership
           </button>
@@ -75,7 +75,7 @@ export function ContextMenu({
           <button
             onClick={() => { onDelete(); onClose(); }}
             disabled={!canDelete}
-            className={`w-full text-left px-3 py-2 text-[12px] font-['Lexend:Medium',_sans-serif] cursor-pointer flex items-center gap-2
+            className={`w-full text-left px-3 py-2 text-[12px] font-medium cursor-pointer flex items-center gap-2
               ${canDelete ? 'text-red-600 hover:bg-red-50' : 'text-neutral-300 cursor-not-allowed'}`}
           >
             <span className="text-[14px]">🗑</span> Delete
@@ -85,7 +85,7 @@ export function ContextMenu({
       {!menu.orgId && (
         <button
           onClick={() => { onAddChild(); onClose(); }}
-          className="w-full text-left px-3 py-2 text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-700 hover:bg-neutral-50 cursor-pointer flex items-center gap-2"
+          className="w-full text-left px-3 py-2 text-[12px] font-medium text-neutral-700 hover:bg-neutral-50 cursor-pointer flex items-center gap-2"
         >
           <span className="text-[14px]">+</span> Add department
         </button>

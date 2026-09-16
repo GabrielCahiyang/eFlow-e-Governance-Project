@@ -16,7 +16,7 @@ export function ChatChannelList() {
               </div>
               {/* Header */}
               <div className="flex items-center justify-between px-3 py-2 border-b border-neutral-100 bg-white shrink-0">
-                <span className="text-[11px] font-['Lexend:SemiBold',_sans-serif] text-neutral-700">Chats</span>
+                <span className="text-[11px] font-semibold text-neutral-700">Chats</span>
                 <button
                   onMouseDown={(e) => e.stopPropagation()}
                   onClick={() => setIsFullscreen((v) => !v)}
@@ -41,7 +41,7 @@ export function ChatChannelList() {
                       className="w-full text-left px-3 py-2.5 hover:bg-neutral-50 border-b border-neutral-50 flex items-center justify-between"
                     >
                       <div className="min-w-0">
-                        <div className="text-[12px] text-neutral-800 truncate font-['Lexend:Medium',_sans-serif]">
+                        <div className="text-[12px] text-neutral-800 truncate font-medium">
                           {c.name}
                         </div>
                         <div className="text-[10px] text-neutral-400 truncate">
@@ -70,7 +70,7 @@ export function ChatChannelList() {
                       className="w-full text-left px-3 py-2.5 hover:bg-amber-50/50 border-b border-amber-100/50 flex items-center justify-between bg-amber-50/30"
                     >
                       <div className="min-w-0 flex-1">
-                        <div className="text-[12px] text-neutral-800 truncate font-['Lexend:Medium',_sans-serif] flex items-center gap-1.5">
+                        <div className="text-[12px] text-neutral-800 truncate font-medium flex items-center gap-1.5">
                           <Icons.Star
                             size={10}
                             className="fill-amber-400 text-amber-400 shrink-0"
@@ -102,7 +102,7 @@ export function ChatChannelList() {
                       className="w-full text-left px-3 py-2.5 hover:bg-neutral-50 border-b border-neutral-50 flex items-center justify-between"
                     >
                       <div className="min-w-0">
-                        <div className="text-[12px] text-neutral-800 truncate font-['Lexend:Medium',_sans-serif]">
+                        <div className="text-[12px] text-neutral-800 truncate font-medium">
                           {c.name}
                         </div>
                         <div className="text-[10px] text-neutral-400 truncate">
@@ -130,7 +130,7 @@ export function ChatChannelList() {
                       className="w-full text-left px-3 py-2.5 hover:bg-neutral-50 border-b border-neutral-50 flex items-center justify-between"
                     >
                       <div className="min-w-0">
-                        <div className="text-[12px] text-neutral-800 truncate font-['Lexend:Medium',_sans-serif]">
+                        <div className="text-[12px] text-neutral-800 truncate font-medium">
                           {c.name}
                         </div>
                         <div className="text-[10px] text-neutral-400 truncate">

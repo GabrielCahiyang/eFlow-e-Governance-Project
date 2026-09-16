@@ -1,10 +1,10 @@
-import { useEffect, useRef } from "react";
 import { IconButton } from "@vibe/core";
 import { Close } from "@vibe/icons";
 import { ProjectActivityTab } from "./ProjectActivityTab";
 import { ProjectReportsTab } from "./ProjectReportsTab";
 import { ProjectReviewsTab } from "./ProjectReviewsTab";
 import type { ProjectCommandData } from "./types";
+import { InspectorPanel } from "../../../../shared/motion";
 
 export type ProjectTool = "reviews" | "activity" | "reports";
 
@@ -29,35 +29,16 @@ export function ProjectToolsInspector({
   onClose: () => void;
   onToolChange: (tool: ProjectTool) => void;
 }) {
-  const panelRef = useRef<HTMLElement>(null);
-  useEffect(() => {
-    if (!tool) return;
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") onClose();
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    panelRef.current?.focus({ preventScroll: true });
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [onClose, tool]);
-
   if (!tool) return null;
 
   return (
-    <>
-      <button
-        type="button"
-        aria-label="Close project tools"
-        className="eflow-project-tools-inspector__backdrop"
-        onClick={onClose}
-      />
-      <aside
-        className="eflow-project-tools-inspector"
-        ref={panelRef}
-        tabIndex={-1}
-        aria-label="Project tools inspector"
-        role="dialog"
-        aria-modal="true"
-      >
+    <InspectorPanel
+      open={Boolean(tool)}
+      onClose={onClose}
+      ariaLabel="Project tools inspector"
+      className="eflow-project-tools-inspector"
+      layer={60}
+    >
         <header className="eflow-project-tools-inspector__header">
           <div>
             <span className="eflow-project-tools-inspector__eyebrow">Project tools</span>
@@ -98,7 +79,6 @@ export function ProjectToolsInspector({
           {tool === "activity" && <ProjectActivityTab data={data} />}
           {tool === "reports" && <ProjectReportsTab data={data} canExport={canExport} />}
         </div>
-      </aside>
-    </>
+    </InspectorPanel>
   );
 }

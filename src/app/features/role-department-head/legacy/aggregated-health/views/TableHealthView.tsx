@@ -10,25 +10,25 @@ export function TableHealthView() {
         <div className="bg-white border border-neutral-200 rounded-xl overflow-hidden">
           <div className="grid grid-cols-[3px_minmax(220px,1.5fr)_minmax(150px,1fr)_110px_minmax(200px,1.4fr)_minmax(160px,1.2fr)_minmax(200px,1.4fr)_100px] gap-0 bg-neutral-50 border-b border-neutral-200">
             <div />
-            <div className="px-3 py-2.5 text-[10px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-500">
+            <div className="px-3 py-2.5 text-[10px] font-medium uppercase tracking-wider text-neutral-500">
               Project
             </div>
-            <div className="px-3 py-2.5 text-[10px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-500">
+            <div className="px-3 py-2.5 text-[10px] font-medium uppercase tracking-wider text-neutral-500">
               Project Manager
             </div>
-            <div className="px-3 py-2.5 text-[10px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-500">
+            <div className="px-3 py-2.5 text-[10px] font-medium uppercase tracking-wider text-neutral-500">
               AI Health
             </div>
-            <div className="px-3 py-2.5 text-[10px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-500">
+            <div className="px-3 py-2.5 text-[10px] font-medium uppercase tracking-wider text-neutral-500">
               Timeline Health
             </div>
-            <div className="px-3 py-2.5 text-[10px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-500">
+            <div className="px-3 py-2.5 text-[10px] font-medium uppercase tracking-wider text-neutral-500">
               Budget Burn
             </div>
-            <div className="px-3 py-2.5 text-[10px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-500">
+            <div className="px-3 py-2.5 text-[10px] font-medium uppercase tracking-wider text-neutral-500">
               Current Bottleneck
             </div>
-            <div className="px-3 py-2.5 text-[10px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-500 text-right">
+            <div className="px-3 py-2.5 text-[10px] font-medium uppercase tracking-wider text-neutral-500 text-right">
               Deadline
             </div>
           </div>
@@ -52,7 +52,7 @@ export function TableHealthView() {
                   className={p.health === "red" ? "animate-pulse" : ""}
                 />
                 <div className="px-3 py-3">
-                  <div className="text-[12.5px] font-['Lexend:Medium',_sans-serif] text-neutral-900">
+                  <div className="text-[12.5px] font-medium text-neutral-900">
                     {p.name}
                   </div>
                   <div className="flex items-center gap-2 mt-0.5">
@@ -60,17 +60,17 @@ export function TableHealthView() {
                       {p.code}
                     </span>
                     <span
-                      className={`text-[9.5px] font-['Lexend:Medium',_sans-serif] border rounded px-1.5 py-0.5 ${statusTone[p.status]}`}
+                      className={`text-[9.5px] font-medium border rounded px-1.5 py-0.5 ${statusTone[p.status]}`}
                     >
                       {p.status}
                     </span>
                   </div>
                 </div>
                 <div className="px-3 py-3 flex items-center gap-2">
-                  <div className="w-6 h-6 rounded-full bg-gradient-to-br from-neutral-200 to-neutral-300 flex items-center justify-center text-[9px] font-['Lexend:SemiBold',_sans-serif] text-neutral-700 shrink-0">
+                  <div className="w-6 h-6 rounded-full bg-gradient-to-br from-neutral-200 to-neutral-300 flex items-center justify-center text-[9px] font-semibold text-neutral-700 shrink-0">
                     {p.lead.split(" ").slice(-1)[0].slice(0, 2)}
                   </div>
-                  <div className="text-[11.5px] font-['Lexend:Regular',_sans-serif] text-neutral-700 truncate">
+                  <div className="text-[11.5px] font-normal text-neutral-700 truncate">
                     {p.lead}
                   </div>
                 </div>
@@ -79,15 +79,15 @@ export function TableHealthView() {
                 </div>
                 <div className="px-3 py-3">
                   <div className="flex items-center gap-1.5 mb-1">
-                    <span className="text-[10px] font-['Lexend:Medium',_sans-serif] text-neutral-500 tabular-nums">
+                    <span className="text-[10px] font-medium text-neutral-500 tabular-nums">
                       T {p.timePct}%
                     </span>
                     <span className="text-[10px] text-neutral-300">·</span>
-                    <span className="text-[10px] font-['Lexend:Medium',_sans-serif] text-neutral-700 tabular-nums">
+                    <span className="text-[10px] font-medium text-neutral-700 tabular-nums">
                       W {p.tasksPct}%
                     </span>
                     {deltaPp > 15 && (
-                      <span className="ml-auto text-[9.5px] font-['Lexend:Medium',_sans-serif] text-red-700 bg-red-50 border border-red-200 rounded px-1 tabular-nums">
+                      <span className="ml-auto text-[9.5px] font-medium text-red-700 bg-red-50 border border-red-200 rounded px-1 tabular-nums">
                         −{deltaPp}pp
                       </span>
                     )}
@@ -109,15 +109,15 @@ export function TableHealthView() {
                     color={healthColor[p.health]}
                   />
                   <div>
-                    <div className="text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-900 tabular-nums">
+                    <div className="text-[11px] font-medium text-neutral-900 tabular-nums">
                       {p.budgetPct}%
                     </div>
-                    <div className="text-[9.5px] font-['Lexend:Regular',_sans-serif] text-neutral-500 tabular-nums">
+                    <div className="text-[9.5px] font-normal text-neutral-500 tabular-nums">
                       of {LegacyUI.pesoShort(p.totalBudget)}
                     </div>
                   </div>
                 </div>
-                <div className="px-3 py-3 text-[11.5px] font-['Lexend:Regular',_sans-serif] text-neutral-700">
+                <div className="px-3 py-3 text-[11.5px] font-normal text-neutral-700">
                   {p.bottleneck ? (
                     <div className="flex items-start gap-1.5">
                       <Icons.AlertTriangle
@@ -140,17 +140,17 @@ export function TableHealthView() {
                   )}
                 </div>
                 <div className="px-3 py-3 text-right">
-                  <div className="text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-900 tabular-nums">
+                  <div className="text-[11px] font-medium text-neutral-900 tabular-nums">
                     {p.deadline.split(",")[0]}
                   </div>
-                  <div className="text-[9.5px] font-['Lexend:Regular',_sans-serif] text-neutral-500">
+                  <div className="text-[9.5px] font-normal text-neutral-500">
                     {p.deadline.split(",")[1]}
                   </div>
                 </div>
               </button>
             );
           })}
-          <div className="px-4 py-2.5 text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500 bg-neutral-50">
+          <div className="px-4 py-2.5 text-[11px] font-normal text-neutral-500 bg-neutral-50">
             {sorted.length} of {PROJECTS.length} projects · Portfolio budget{" "}
             {LegacyUI.pesoShort(PROJECTS.reduce((s, p) => s + p.totalBudget, 0))}
           </div>

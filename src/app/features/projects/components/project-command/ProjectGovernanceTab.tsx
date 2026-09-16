@@ -45,7 +45,7 @@ export function ProjectGovernanceTab({
   }, [data.facts.submissions]);
 
   return (
-    <div className="space-y-6 font-['Montserrat',sans-serif]">
+    <div className="space-y-6 font-sans">
       {/* Sub-navigation pills */}
       <div className="flex items-center justify-between border-b border-neutral-200 bg-white px-5 py-3 rounded-2xl shadow-xs">
         <div className="flex items-center gap-2">

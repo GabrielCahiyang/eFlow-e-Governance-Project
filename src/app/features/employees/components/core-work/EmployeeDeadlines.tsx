@@ -3,8 +3,8 @@ import { AlertTriangle, CalendarClock, Clock, Inbox } from 'lucide-react';
 import type { Task } from '../../../../services/taskService';
 import { isActive } from '../../../../services/taskSelectors';
 import { Card, LoadingState, PageHeader, StatCard, relativeDays } from '../../../../components/workflow/primitives';
-import { TaskStatusBadge } from '../../../../components/workflow/StatusBadges';
 import { TaskDetailDrawer } from '../../../../components/workflow/TaskDetailDrawer';
+import { TaskStatusLabel } from '../../../tasks';
 import { useMyTasks } from './useMyTasks';
 
 export function EmployeeDeadlines() {
@@ -46,9 +46,9 @@ export function EmployeeDeadlines() {
             return (
               <button key={t.id} onClick={() => setOpen(t)} className="w-full text-left flex items-center gap-3 px-4 py-2.5 hover:bg-neutral-50">
                 <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${tone === "bad" ? "bg-red-500" : tone === "warn" ? "bg-amber-500" : tone === "info" ? "bg-blue-500" : "bg-neutral-400"}`} />
-                <span className="text-[12.5px] font-['Lexend:Regular',_sans-serif] text-neutral-800 truncate flex-1">{t.title}</span>
-                <span className={`text-[10.5px] font-['Lexend:Medium',_sans-serif] ${rel.overdue ? "text-red-600" : "text-neutral-400"}`}>{t.status === "for_review" ? "Awaiting review" : rel.label}</span>
-                <TaskStatusBadge status={t.status} size="sm" />
+                <span className="text-[12.5px] font-normal text-neutral-800 truncate flex-1">{t.title}</span>
+                <span className={`text-[10.5px] font-medium ${rel.overdue ? "text-red-600" : "text-neutral-400"}`}>{t.status === "for_review" ? "Awaiting review" : rel.label}</span>
+                <TaskStatusLabel status={t.status} />
               </button>
             );
           })}
@@ -58,7 +58,7 @@ export function EmployeeDeadlines() {
   );
 
   return (
-    <div className="p-6 sm:p-8 min-h-full">
+    <div className="eflow-operational-workspace min-h-full p-4 sm:p-8">
       <PageHeader eyebrow="My Workspace · Deadlines" title="Deadlines" subtitle="Stay ahead of what's due and what's waiting on review." />
 
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-4">

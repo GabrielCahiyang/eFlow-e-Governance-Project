@@ -26,7 +26,7 @@ function Metric({ label, value, icon }: { label: string; value: number; icon: Re
   return (
     <div className="rounded-lg border border-neutral-200 bg-neutral-50 px-3 py-2.5">
       <div className="flex items-center gap-1.5 text-[9.5px] uppercase tracking-wider text-neutral-400">{icon}{label}</div>
-      <div className="mt-0.5 text-[17px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 tabular-nums">{value}</div>
+      <div className="mt-0.5 text-[17px] font-semibold text-neutral-900 tabular-nums">{value}</div>
     </div>
   );
 }
@@ -65,7 +65,7 @@ export function TaskSubtaskEvidenceSection({
           <ListChecks size={16} />
         </span>
         <div>
-          <h3 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">Subtask execution record</h3>
+          <h3 className="text-[13px] font-semibold text-neutral-900">Subtask execution record</h3>
           <p className="mt-0.5 text-[11px] text-neutral-500">Every contributor update, blocker, next step, attachment, evidence attempt, and Team Leader decision is shown below.</p>
         </div>
       </div>
@@ -98,14 +98,14 @@ export function TaskSubtaskEvidenceSection({
                   <div className="flex flex-wrap items-start justify-between gap-3">
                     <div className="min-w-0">
                       <div className="text-[9.5px] uppercase tracking-wider text-neutral-400">Step {subtask.position + 1} · {index + 1} of {evidence.length}</div>
-                      <h4 className="mt-0.5 text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">{subtask.title}</h4>
+                      <h4 className="mt-0.5 text-[13px] font-semibold text-neutral-900">{subtask.title}</h4>
                       <div className="mt-1 flex items-center gap-1.5 text-[10.5px] text-neutral-500">
                         <UsersRound size={12} /> {names.join(", ") || "Assigned team member"}
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className={`rounded-full px-2 py-1 text-[9.5px] font-['Lexend:Medium',_sans-serif] ${status.tone}`}>{status.label}</span>
-                      <span className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-neutral-800 tabular-nums">{subtask.percentComplete}%</span>
+                      <span className={`rounded-full px-2 py-1 text-[9.5px] font-medium ${status.tone}`}>{status.label}</span>
+                      <span className="text-[12px] font-semibold text-neutral-800 tabular-nums">{subtask.percentComplete}%</span>
                     </div>
                   </div>
                   <div className="mt-2"><ProgressBar value={subtask.percentComplete} tone={subtask.status === "completed" ? "good" : "neutral"} /></div>
@@ -117,7 +117,7 @@ export function TaskSubtaskEvidenceSection({
                     <SubtaskSubmissionHistory submissions={submissions} />
                   ) : (
                     <div className="rounded-xl border border-dashed border-neutral-200 bg-neutral-50 p-3">
-                      <div className="flex items-center gap-1.5 text-[10.5px] font-['Lexend:SemiBold',_sans-serif] uppercase tracking-wider text-neutral-500"><Clock3 size={12} /> Submission history</div>
+                      <div className="flex items-center gap-1.5 text-[10.5px] font-semibold uppercase tracking-wider text-neutral-500"><Clock3 size={12} /> Submission history</div>
                       <div className="mt-3 text-[11.5px] text-neutral-400">No evidence submission was recorded for this subtask.</div>
                     </div>
                   )}

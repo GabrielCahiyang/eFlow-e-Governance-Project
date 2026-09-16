@@ -1,4 +1,7 @@
 import { useMemo, useState } from "react";
+import { Dropdown, Tab, TabList, TabsContext } from "@vibe/core";
+import { AnimatePresence } from "motion/react";
+import * as m from "motion/react-m";
 import { Archive, BarChart2, Columns, Layers, List } from "lucide-react";
 import { uniqueValues, type BoardView, type MondayBoardProps } from "./model";
 import { AssignmentModal } from "./AssignmentModal";
@@ -10,6 +13,19 @@ import { ListBoardView } from "./ListBoardView";
 import { TimelineView } from "./TimelineView";
 import { useMondayBoardController } from "./useMondayBoardController";
 import { useNotificationNavigationIntent } from "../../../notifications";
+import { motionTransition } from "../../../../shared/motion";
+
+const recordScopeOptions = [
+  { value: "active", label: "Active work" },
+  { value: "archived", label: "Archived work" },
+];
+
+const boardViewOptions: { id: BoardView; label: string; icon: React.ReactNode }[] = [
+  { id: "list", icon: <List size={13} />, label: "List" },
+  { id: "kanban", icon: <Columns size={13} />, label: "Kanban" },
+  { id: "timeline", icon: <BarChart2 size={13} />, label: "Timeline" },
+  { id: "hierarchy", icon: <Layers size={13} />, label: "Hierarchy" },
+];
 
 export function MondayBoard({
   tasks,
@@ -66,62 +82,56 @@ export function MondayBoard({
   );
 
   return (
-    <div className="w-full flex flex-col gap-5 font-['Lexend:Regular',_sans-serif]">
+    <div className="eflow-operational-workspace flex w-full flex-col gap-5">
 
       {/* ─── Task Board ──────────────────────────────────────────── */}
       <div>
         {/* View switcher header */}
-        <div className="flex items-center justify-between mb-4">
+        <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
           <div className="flex items-center gap-2 text-[11.5px] text-neutral-500">
             <Archive size={13} />
-            <select value={recordScope} onChange={(event) => setRecordScope(event.target.value as typeof recordScope)} className="h-8 rounded-lg border border-neutral-200 bg-white px-2.5 text-[11px] text-neutral-700 outline-none">
-              <option value="active">Active work</option>
-              <option value="archived">Archived work</option>
-            </select>
+            <Dropdown
+              aria-label="Task record scope"
+              className="w-[170px]"
+              clearable={false}
+              options={recordScopeOptions}
+              size="small"
+              value={recordScopeOptions.find((option) => option.value === recordScope)}
+              onChange={(option) => setRecordScope(String(option.value) as typeof recordScope)}
+            />
           </div>
-          <div className="flex items-center gap-2">
-          <div className="flex items-center gap-0.5 bg-neutral-100 rounded-xl p-0.5">
-            {(
-              [
-                {
-                  id: "list" as BoardView,
-                  icon: <List size={13} />,
-                  label: "List",
-                },
-                {
-                  id: "kanban" as BoardView,
-                  icon: <Columns size={13} />,
-                  label: "Kanban",
-                },
-                {
-                  id: "timeline" as BoardView,
-                  icon: <BarChart2 size={13} />,
-                  label: "Timeline",
-                },
-                {
-                  id: "hierarchy" as BoardView,
-                  icon: <Layers size={13} />,
-                  label: "Hierarchy",
-                },
-              ] as const
-            ).map((v) => (
-              <button
-                key={v.id}
-                onClick={() => setBoardView(v.id)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-['Lexend:Medium',_sans-serif] transition ${
-                  boardView === v.id
-                    ? "bg-white text-neutral-900 shadow-sm"
-                    : "text-neutral-500 hover:text-neutral-700"
-                }`}
-              >
-                {v.icon}
-                {v.label}
-              </button>
-            ))}
-          </div>
+          <div className="max-w-full overflow-x-auto">
+            <TabsContext
+              id="task-board-view-tabs"
+              activeTabId={boardViewOptions.findIndex((view) => view.id === boardView)}
+            >
+              <TabList id="task-board-view-list">
+                {boardViewOptions.map((view) => (
+                  <Tab
+                    key={view.id}
+                    id={`task-board-${view.id}`}
+                    active={boardView === view.id}
+                    onClick={() => setBoardView(view.id)}
+                  >
+                    <span className="inline-flex items-center gap-1.5">
+                      {view.icon}
+                      {view.label}
+                    </span>
+                  </Tab>
+                ))}
+              </TabList>
+            </TabsContext>
           </div>
         </div>
 
+        <AnimatePresence mode="wait" initial={false}>
+          <m.div
+            key={boardView}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={motionTransition.productive}
+          >
         {boardView === "list" && (
           <ListBoardView
             tasks={deptTasks}
@@ -189,6 +199,8 @@ export function MondayBoard({
             onUndoRequest={role === "depthead" ? openUndoModal : undefined}
           />
         )}
+          </m.div>
+        </AnimatePresence>
       </div>
 
       {/* ─── Assignment Modal — PDF draft tasks ──────────────────── */}

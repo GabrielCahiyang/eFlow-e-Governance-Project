@@ -25,7 +25,7 @@ export function AssignmentExceptionNote({
           <ShieldAlert size={14} />
         </span>
         <div>
-          <div className="text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-900">
+          <div className="text-[11px] font-medium text-neutral-900">
             Capacity-aware assignment
           </div>
           <div className="text-[9.5px] text-neutral-500">

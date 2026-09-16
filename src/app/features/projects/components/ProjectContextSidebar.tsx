@@ -1,6 +1,8 @@
 import * as React from "react";
 import { Button, Dialog, DialogContentContainer, IconButton, Menu, MenuItem } from "@vibe/core";
 import { Add, Archive, Check, Delete, MoreActions } from "@vibe/icons";
+import * as m from "motion/react-m";
+import { motionTransition } from "../../../shared/motion";
 import { tasksForProject } from "../../tasks";
 import type { Project, ProjectMember } from "../services/types";
 
@@ -71,10 +73,20 @@ export function ProjectContextSidebar({
   const members = profiles.filter((profile) => contributorIds.has(profile.id));
 
   const renderProjects = (items: Project[]) => items.map((project, index) => (
-            <div
+            <m.div
+              layout="position"
+              transition={motionTransition.navigation}
               className={`eflow-project-context__project ${activeProjectId === project.id ? "eflow-project-context__project--active" : ""}`}
               key={project.id}
             >
+              {activeProjectId === project.id && (
+                <m.span
+                  aria-hidden="true"
+                  className="eflow-project-context__active-surface"
+                  layoutId="eflow-project-context-active-project"
+                  transition={motionTransition.navigation}
+                />
+              )}
               <button
                 aria-current={activeProjectId === project.id ? "page" : undefined}
                 className="eflow-project-context__project-select"
@@ -151,7 +163,7 @@ export function ProjectContextSidebar({
                   </span>
                 </Dialog>
               )}
-            </div>
+            </m.div>
           ));
 
   return (
@@ -188,12 +200,38 @@ export function ProjectContextSidebar({
 
       <div className="eflow-project-context__planning">
         <h2>Planning</h2>
-        <button className={planningView === "drafts" ? "eflow-project-context__planning-item--active" : ""} type="button" onClick={() => onOpenPlanning("drafts")}>
+        <m.button
+          className={planningView === "drafts" ? "eflow-project-context__planning-item--active" : ""}
+          type="button"
+          onClick={() => onOpenPlanning("drafts")}
+          whileTap={{ scale: 0.98 }}
+        >
+          {planningView === "drafts" && (
+            <m.span
+              aria-hidden="true"
+              className="eflow-project-context__planning-active-surface"
+              layoutId="eflow-project-context-active-planning"
+              transition={motionTransition.navigation}
+            />
+          )}
           <span>Work plans</span><strong>{planningCounts.workplans}</strong>
-        </button>
-        <button className={planningView === "signoff" ? "eflow-project-context__planning-item--active" : ""} type="button" onClick={() => onOpenPlanning("signoff")}>
+        </m.button>
+        <m.button
+          className={planningView === "signoff" ? "eflow-project-context__planning-item--active" : ""}
+          type="button"
+          onClick={() => onOpenPlanning("signoff")}
+          whileTap={{ scale: 0.98 }}
+        >
+          {planningView === "signoff" && (
+            <m.span
+              aria-hidden="true"
+              className="eflow-project-context__planning-active-surface"
+              layoutId="eflow-project-context-active-planning"
+              transition={motionTransition.navigation}
+            />
+          )}
           <span>Waiting for sign-off</span><strong>{planningCounts.signoff}</strong>
-        </button>
+        </m.button>
       </div>
 
       <div className="eflow-project-context__members">

@@ -154,23 +154,23 @@ export function RedundancyFiltering() {
                   </div>
                   <div>
                     <div className="flex items-center gap-2">
-                      <div className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">
+                      <div className="text-[13px] font-semibold text-neutral-900">
                         Possible Duplication of Effort · {a.location}
                       </div>
-                      <span className="text-[9.5px] font-['Lexend:Medium',_sans-serif] uppercase bg-amber-100 text-amber-700 rounded px-1.5 py-0.5 tabular-nums">
+                      <span className="text-[9.5px] font-medium uppercase bg-amber-100 text-amber-700 rounded px-1.5 py-0.5 tabular-nums">
                         {a.similarity}% match
                       </span>
                     </div>
-                    <div className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mt-0.5">
+                    <div className="text-[11px] font-normal text-neutral-500 mt-0.5">
                       NLP entity overlap + GPS proximity + time window
                     </div>
                   </div>
                 </div>
                 <div className="text-right shrink-0">
-                  <div className="text-[9.5px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400">
+                  <div className="text-[9.5px] font-medium uppercase tracking-wider text-neutral-400">
                     Est. Savings
                   </div>
-                  <div className="text-[14px] font-['Lexend:SemiBold',_sans-serif] text-emerald-700 tabular-nums">
+                  <div className="text-[14px] font-semibold text-emerald-700 tabular-nums">
                     {peso(a.estSavings)}
                   </div>
                 </div>
@@ -183,7 +183,7 @@ export function RedundancyFiltering() {
                       <div className="flex items-center justify-center">
                         <div className="flex flex-col items-center gap-1 text-amber-600">
                           <MapPin size={14} />
-                          <div className="text-[8.5px] font-['Lexend:Medium',_sans-serif] uppercase">
+                          <div className="text-[8.5px] font-medium uppercase">
                             same area
                           </div>
                         </div>
@@ -192,14 +192,14 @@ export function RedundancyFiltering() {
                     <div className="bg-white border border-neutral-200 rounded-lg p-3">
                       <div className="flex items-center gap-2 mb-1.5">
                         <Users size={11} className="text-neutral-600" />
-                        <div className="text-[11.5px] font-['Lexend:Medium',_sans-serif] text-neutral-900">
+                        <div className="text-[11.5px] font-medium text-neutral-900">
                           {t.name}
                         </div>
                       </div>
-                      <div className="text-[10.5px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mb-1.5">
+                      <div className="text-[10.5px] font-normal text-neutral-500 mb-1.5">
                         {t.lead} · {t.timestamp}
                       </div>
-                      <div className="text-[11.5px] font-['Lexend:Regular',_sans-serif] text-neutral-800 italic bg-neutral-50 border border-neutral-100 rounded p-2 leading-relaxed">
+                      <div className="text-[11.5px] font-normal text-neutral-800 italic bg-neutral-50 border border-neutral-100 rounded p-2 leading-relaxed">
                         "{t.activity}"
                       </div>
                     </div>
@@ -211,7 +211,7 @@ export function RedundancyFiltering() {
                 <div className="flex items-center gap-2 pt-3 border-t border-neutral-100">
                   <button
                     onClick={() => act(a.id, "merged")}
-                    className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-[12px] font-['Lexend:Medium',_sans-serif] bg-emerald-600 text-white hover:bg-emerald-700"
+                    className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-[12px] font-medium bg-emerald-600 text-white hover:bg-emerald-700"
                   >
                     <Merge size={13} /> Merge Tasks (1-click)
                   </button>
@@ -221,13 +221,13 @@ export function RedundancyFiltering() {
                   />
                   <button
                     onClick={() => act(a.id, "dismissed")}
-                    className="ml-auto text-[11.5px] font-['Lexend:Medium',_sans-serif] text-neutral-500 hover:text-neutral-700"
+                    className="ml-auto text-[11.5px] font-medium text-neutral-500 hover:text-neutral-700"
                   >
                     Dismiss · not duplicate
                   </button>
                 </div>
               ) : (
-                <div className="flex items-center gap-2 pt-3 border-t border-emerald-100 text-[11.5px] font-['Lexend:Medium',_sans-serif]">
+                <div className="flex items-center gap-2 pt-3 border-t border-emerald-100 text-[11.5px] font-medium">
                   {a.status === "merged" ? (
                     <>
                       <CheckCircle2 size={13} className="text-emerald-700" />

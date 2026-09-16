@@ -53,10 +53,10 @@ export function SubmitForReviewModal({
 
         <div className="px-5 py-4 border-b border-neutral-100 flex items-center justify-between">
           <div>
-            <div className="text-[10px] uppercase tracking-[0.22em] text-neutral-400 font-['Lexend:Medium',_sans-serif]">
+            <div className="text-[10px] uppercase tracking-[0.22em] text-neutral-400 font-medium">
               Submit for Review
             </div>
-            <div className="text-[15px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mt-0.5">
+            <div className="text-[15px] font-semibold text-neutral-900 mt-0.5">
               {task.title}
             </div>
           </div>
@@ -76,7 +76,7 @@ export function SubmitForReviewModal({
                 : "border-amber-200 bg-amber-50 text-amber-800"
             }`}
           >
-            <div className="flex items-center gap-2 text-[11.5px] font-['Lexend:Medium',_sans-serif]">
+            <div className="flex items-center gap-2 text-[11.5px] font-medium">
               <CheckCircle2 size={14} />
               {subtaskCount === 0
                 ? "No subtasks require approval"
@@ -134,7 +134,7 @@ export function SubmitForReviewModal({
               </div>
               <button
                 onClick={() => fileRef.current?.click()}
-                className="inline-flex items-center gap-1 h-8 px-3 rounded-full border border-neutral-200 bg-white text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-700 hover:bg-neutral-100 transition"
+                className="inline-flex items-center gap-1 h-8 px-3 rounded-full border border-neutral-200 bg-white text-[11px] font-medium text-neutral-700 hover:bg-neutral-100 transition"
               >
                 <Upload size={11} />
                 Add files
@@ -179,14 +179,14 @@ export function SubmitForReviewModal({
         <div className="px-5 py-4 border-t border-neutral-100 flex items-center justify-end gap-2">
           <button
             onClick={onClose}
-            className="px-4 py-2 text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-600 border border-neutral-200 rounded-xl hover:bg-neutral-50 transition"
+            className="px-4 py-2 text-[12px] font-medium text-neutral-600 border border-neutral-200 rounded-xl hover:bg-neutral-50 transition"
           >
             Cancel
           </button>
           <button
             onClick={onSubmit}
             disabled={submitting || !subtasksReady}
-            className="px-4 py-2 text-[12px] font-['Lexend:SemiBold',_sans-serif] text-white bg-violet-600 rounded-xl hover:bg-violet-700 disabled:opacity-50 transition"
+            className="px-4 py-2 text-[12px] font-semibold text-white bg-violet-600 rounded-xl hover:bg-violet-700 disabled:opacity-50 transition"
           >
             {submitting ? "Submitting..." : "Submit for Review"}
           </button>
@@ -229,10 +229,10 @@ export function UndoCompletedModal({
       >
         <div className="flex items-center justify-between border-b border-neutral-100 px-5 py-4">
           <div>
-            <div className="text-[10px] uppercase tracking-[0.22em] text-amber-600 font-['Lexend:Medium',_sans-serif]">
+            <div className="text-[10px] uppercase tracking-[0.22em] text-amber-600 font-medium">
               Reopen Completed Task
             </div>
-            <div className="mt-0.5 text-[15px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">
+            <div className="mt-0.5 text-[15px] font-semibold text-neutral-900">
               {task.title}
             </div>
           </div>
@@ -271,14 +271,14 @@ export function UndoCompletedModal({
         <div className="flex items-center justify-end gap-2 border-t border-neutral-100 px-5 py-4">
           <button
             onClick={onClose}
-            className="rounded-xl border border-neutral-200 px-4 py-2 text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-600 transition hover:bg-neutral-50"
+            className="rounded-xl border border-neutral-200 px-4 py-2 text-[12px] font-medium text-neutral-600 transition hover:bg-neutral-50"
           >
             Cancel
           </button>
           <button
             onClick={onSubmit}
             disabled={saving}
-            className="inline-flex items-center gap-1.5 rounded-xl bg-amber-600 px-4 py-2 text-[12px] font-['Lexend:SemiBold',_sans-serif] text-white transition hover:bg-amber-700 disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 rounded-xl bg-amber-600 px-4 py-2 text-[12px] font-semibold text-white transition hover:bg-amber-700 disabled:opacity-50"
           >
             <RotateCcw size={13} />
             {saving ? "Reopening..." : "Undo Completion"}

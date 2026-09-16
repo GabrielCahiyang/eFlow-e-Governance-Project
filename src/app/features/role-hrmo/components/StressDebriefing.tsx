@@ -37,7 +37,7 @@ export function StressDebriefing() {
       </div>
 
       <div className="bg-white border border-neutral-200 rounded-xl overflow-hidden">
-        <div className="grid grid-cols-12 px-5 py-3 border-b border-neutral-200 text-[10px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400">
+        <div className="grid grid-cols-12 px-5 py-3 border-b border-neutral-200 text-[10px] font-medium uppercase tracking-wider text-neutral-400">
           <div className="col-span-4">Critical Event</div>
           <div className="col-span-2">Date · Dept</div>
           <div className="col-span-3">Debriefing Coverage</div>
@@ -50,12 +50,12 @@ export function StressDebriefing() {
           return (
             <div key={d.id} className="grid grid-cols-12 px-5 py-4 border-b border-neutral-100 last:border-0 items-center hover:bg-neutral-50 transition-colors">
               <div className="col-span-4">
-                <div className="text-[13px] font-['Lexend:Medium',_sans-serif] text-neutral-900">{d.event}</div>
-                <span className={`inline-block mt-1 px-2 py-0.5 rounded-full text-[10px] font-['Lexend:Medium',_sans-serif] ${statusStyle}`}>
+                <div className="text-[13px] font-medium text-neutral-900">{d.event}</div>
+                <span className={`inline-block mt-1 px-2 py-0.5 rounded-full text-[10px] font-medium ${statusStyle}`}>
                   {d.status}
                 </span>
               </div>
-              <div className="col-span-2 text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-600">
+              <div className="col-span-2 text-[12px] font-normal text-neutral-600">
                 {d.date}
                 <div className="text-[10px] text-neutral-400">{d.dept}</div>
               </div>
@@ -64,14 +64,14 @@ export function StressDebriefing() {
                   <div className="flex-1 h-1.5 bg-neutral-100 rounded-full overflow-hidden">
                     <div className={`h-full ${pct === 100 ? "bg-emerald-500" : pct >= 50 ? "bg-amber-400" : "bg-red-500"}`} style={{ width: `${pct}%` }} />
                   </div>
-                  <span className="text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-700 w-20 text-right">
+                  <span className="text-[11px] font-medium text-neutral-700 w-20 text-right">
                     {d.debriefed}/{d.frontline}
                   </span>
                 </div>
               </div>
-              <div className="col-span-2 text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-600">{d.deadline}</div>
+              <div className="col-span-2 text-[12px] font-normal text-neutral-600">{d.deadline}</div>
               <div className="col-span-1 text-right">
-                <button className="text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-900 hover:underline cursor-pointer">Schedule</button>
+                <button className="text-[11px] font-medium text-neutral-900 hover:underline cursor-pointer">Schedule</button>
               </div>
             </div>
           );

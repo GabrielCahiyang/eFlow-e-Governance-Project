@@ -91,7 +91,7 @@ export function OptimalDistributionMatrix() {
             <button
               onClick={generate}
               disabled={generating}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-[12px] font-['Lexend:Medium',_sans-serif] bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:opacity-90 disabled:opacity-60"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-[12px] font-medium bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:opacity-90 disabled:opacity-60"
             >
               {generating ? (
                 <Dna size={13} className="animate-spin" />
@@ -142,7 +142,7 @@ export function OptimalDistributionMatrix() {
         <div className="bg-white border border-neutral-200 rounded-xl p-4">
           <div className="flex items-center gap-2 mb-3">
             <ClipboardList size={14} className="text-neutral-900" />
-            <div className="text-[12.5px] font-['Lexend:Medium',_sans-serif] text-neutral-900">
+            <div className="text-[12.5px] font-medium text-neutral-900">
               Tasks Queue
             </div>
           </div>
@@ -161,16 +161,16 @@ export function OptimalDistributionMatrix() {
                   className={`border rounded-lg p-2.5 ${a ? "bg-emerald-50/40 border-emerald-200" : "bg-white border-neutral-200"}`}
                 >
                   <div className="flex items-start justify-between mb-1">
-                    <div className="text-[11.5px] font-['Lexend:Medium',_sans-serif] text-neutral-900 truncate pr-1">
+                    <div className="text-[11.5px] font-medium text-neutral-900 truncate pr-1">
                       {t.name}
                     </div>
                     <span
-                      className={`text-[9px] font-['Lexend:Medium',_sans-serif] border rounded px-1 py-0.5 shrink-0 ${tone}`}
+                      className={`text-[9px] font-medium border rounded px-1 py-0.5 shrink-0 ${tone}`}
                     >
                       {t.priority}
                     </span>
                   </div>
-                  <div className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500 flex items-center gap-1">
+                  <div className="text-[10px] font-normal text-neutral-500 flex items-center gap-1">
                     <MapPin size={9} />
                     {t.site} · needs {t.required}
                   </div>
@@ -180,14 +180,14 @@ export function OptimalDistributionMatrix() {
                       className={`mt-2 text-left w-full bg-white border rounded p-1.5 ${inspect?.workerId === a.workerId ? "border-emerald-500" : "border-emerald-200"} hover:border-emerald-400`}
                     >
                       <div className="flex items-center gap-1.5">
-                        <div className="w-5 h-5 rounded-full bg-emerald-200 flex items-center justify-center text-[8px] font-['Lexend:SemiBold',_sans-serif] text-emerald-900">
+                        <div className="w-5 h-5 rounded-full bg-emerald-200 flex items-center justify-center text-[8px] font-semibold text-emerald-900">
                           {getWorker(a.workerId)
                             .name.split(" ")
                             .slice(-2)
                             .map((n) => n[0])
                             .join("")}
                         </div>
-                        <div className="text-[10.5px] font-['Lexend:Medium',_sans-serif] text-emerald-900 truncate">
+                        <div className="text-[10.5px] font-medium text-emerald-900 truncate">
                           {getWorker(a.workerId).name}
                         </div>
                       </div>
@@ -203,10 +203,10 @@ export function OptimalDistributionMatrix() {
         <div className="bg-white border border-neutral-200 rounded-xl p-4 relative overflow-hidden">
           <div className="flex items-center gap-2 mb-3">
             <Users size={14} className="text-neutral-900" />
-            <div className="text-[12.5px] font-['Lexend:Medium',_sans-serif] text-neutral-900">
+            <div className="text-[12.5px] font-medium text-neutral-900">
               Field Workers Skill Grid
             </div>
-            <div className="ml-auto text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500">
+            <div className="ml-auto text-[10px] font-normal text-neutral-500">
               {FIELD.length} visible · {assignments.length} assigned
             </div>
           </div>
@@ -219,7 +219,7 @@ export function OptimalDistributionMatrix() {
                   transition: "top 180ms linear",
                 }}
               />
-              <div className="absolute top-2 right-2 text-[10px] font-['Lexend:Medium',_sans-serif] uppercase text-indigo-600 bg-white/90 rounded px-1.5 py-0.5 border border-indigo-200">
+              <div className="absolute top-2 right-2 text-[10px] font-medium uppercase text-indigo-600 bg-white/90 rounded px-1.5 py-0.5 border border-indigo-200">
                 Generation {gen}/8 · mutation ↻
               </div>
             </div>
@@ -239,7 +239,7 @@ export function OptimalDistributionMatrix() {
                 >
                   <div className="flex items-center gap-1.5 mb-0.5">
                     <div
-                      className={`w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-['Lexend:SemiBold',_sans-serif] shrink-0 ${assigned ? "bg-emerald-500 text-white" : "bg-neutral-200 text-neutral-700"}`}
+                      className={`w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-semibold shrink-0 ${assigned ? "bg-emerald-500 text-white" : "bg-neutral-200 text-neutral-700"}`}
                     >
                       {w.name
                         .split(" ")
@@ -248,15 +248,15 @@ export function OptimalDistributionMatrix() {
                         .join("")}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <div className="text-[10.5px] font-['Lexend:Medium',_sans-serif] text-neutral-900 truncate">
+                      <div className="text-[10.5px] font-medium text-neutral-900 truncate">
                         {w.name.replace(/^(Engr\.|Mr\.|Ms\.) /, "")}
                       </div>
-                      <div className="text-[9px] font-['Lexend:Regular',_sans-serif] text-neutral-500 truncate">
+                      <div className="text-[9px] font-normal text-neutral-500 truncate">
                         {w.role}
                       </div>
                     </div>
                   </div>
-                  <div className="flex items-center gap-1 mt-0.5 text-[8.5px] font-['Lexend:Regular',_sans-serif] text-neutral-500">
+                  <div className="flex items-center gap-1 mt-0.5 text-[8.5px] font-normal text-neutral-500">
                     {fatigueIcon(w.fatigue)}
                     <span className="tabular-nums">{w.distanceKm}km</span>
                     {w.license && (
@@ -271,21 +271,21 @@ export function OptimalDistributionMatrix() {
 
         {/* Match reason */}
         <div className="bg-neutral-950 rounded-xl p-4 text-neutral-100 h-fit sticky top-4">
-          <div className="flex items-center gap-2 text-[11px] font-['Lexend:Medium',_sans-serif] text-indigo-400 uppercase tracking-wider mb-3">
+          <div className="flex items-center gap-2 text-[11px] font-medium text-indigo-400 uppercase tracking-wider mb-3">
             <Dna size={12} /> Match Rationale
           </div>
           {inspect ? (
             <>
-              <div className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-white mb-1">
+              <div className="text-[13px] font-semibold text-white mb-1">
                 {getWorker(inspect.workerId).name}
               </div>
-              <div className="text-[10.5px] font-['Lexend:Regular',_sans-serif] text-neutral-400 mb-3">
+              <div className="text-[10.5px] font-normal text-neutral-400 mb-3">
                 → {getTask(inspect.taskId).name}
               </div>
-              <div className="bg-indigo-950/40 border border-indigo-900 rounded-lg p-3 text-[11px] font-['Lexend:Regular',_sans-serif] text-indigo-100 leading-relaxed">
+              <div className="bg-indigo-950/40 border border-indigo-900 rounded-lg p-3 text-[11px] font-normal text-indigo-100 leading-relaxed">
                 {inspect.reason}
               </div>
-              <div className="mt-3 space-y-1.5 text-[10.5px] font-['Lexend:Regular',_sans-serif]">
+              <div className="mt-3 space-y-1.5 text-[10.5px] font-normal">
                 <div className="flex items-center justify-between">
                   <span className="text-neutral-500">Required skill</span>
                   <span className="text-neutral-100">

@@ -115,7 +115,7 @@ export function EmployeeContent({
         <div className="flex h-full items-center justify-center text-center text-neutral-400">
           <div>
             <Settings size={40} className="mx-auto mb-3 opacity-30" />
-            <p className="text-[14px] font-['Lexend:Regular',_sans-serif]">
+            <p className="text-[14px] font-normal">
               Page unavailable
             </p>
             <p className="mt-1 text-[12px]">{page || "Employee workspace"}</p>

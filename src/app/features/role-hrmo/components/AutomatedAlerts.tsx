@@ -72,21 +72,21 @@ export function AutomatedAlerts() {
                   <div className={`w-1 ${s.bar}`} />
                   <div className="flex-1 px-5 py-4">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-['Lexend:Medium',_sans-serif] ${s.chip}`}>
+                      <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium ${s.chip}`}>
                         {a.priority === "high" && <Flame size={9} />}
                         {s.text}
                       </span>
-                      <span className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-400">{a.signal}</span>
+                      <span className="text-[11px] font-normal text-neutral-400">{a.signal}</span>
                       {!a.read && <span className="w-1.5 h-1.5 rounded-full bg-blue-500" />}
-                      <span className="ml-auto text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-400">
+                      <span className="ml-auto text-[11px] font-normal text-neutral-400">
                         {a.ageMin < 60 ? `${a.ageMin}m ago` : `${Math.floor(a.ageMin / 60)}h ago`}
                       </span>
                     </div>
-                    <div className="text-[13px] font-['Lexend:Medium',_sans-serif] text-neutral-900">
+                    <div className="text-[13px] font-medium text-neutral-900">
                       <span className={s.icon}>[{s.text}]</span> {a.employee}
-                      <span className="text-neutral-400 font-['Lexend:Regular',_sans-serif]"> · {a.role} · {a.dept}</span>
+                      <span className="text-neutral-400 font-normal"> · {a.role} · {a.dept}</span>
                     </div>
-                    <div className="text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-600 mt-0.5">{a.detail}</div>
+                    <div className="text-[12px] font-normal text-neutral-600 mt-0.5">{a.detail}</div>
                   </div>
                   <div className="flex items-center px-4 text-neutral-300">
                     <ChevronRight size={14} className={`transition-transform ${isOpen ? "rotate-90" : ""}`} />

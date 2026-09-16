@@ -30,7 +30,7 @@ export function SubtaskProgressForm({
   if (prerequisite && !["for_review", "completed"].includes(subtask.status)) {
     return (
       <div className="rounded-xl border border-neutral-200 bg-neutral-100 p-3">
-        <div className="flex items-center gap-2 text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-800">
+        <div className="flex items-center gap-2 text-[12px] font-medium text-neutral-800">
           <LockKeyhole size={14} /> This subtask is locked
         </div>
         <p className="mt-1 text-[11px] leading-relaxed text-neutral-600">
@@ -43,7 +43,7 @@ export function SubtaskProgressForm({
   if (subtask.status === "for_review") {
     return (
       <div className="rounded-xl border border-amber-200 bg-amber-50 p-3">
-        <div className="text-[12px] font-['Lexend:Medium',_sans-serif] text-amber-900">Waiting for the assigned reviewer</div>
+        <div className="text-[12px] font-medium text-amber-900">Waiting for the assigned reviewer</div>
         <p className="mt-0.5 text-[11px] text-amber-700">Your note and evidence are locked while the reviewer decides this submission.</p>
       </div>
     );
@@ -92,7 +92,7 @@ export function SubtaskProgressForm({
         </div>
       )}
 
-      <div className="flex items-center justify-between text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-600">
+      <div className="flex items-center justify-between text-[11px] font-medium text-neutral-600">
         <span>Percent complete</span><span className="text-blue-700">{percent}%</span>
       </div>
       <input
@@ -161,7 +161,7 @@ export function SubtaskProgressForm({
           type="button"
           onClick={handleSave}
           disabled={saving || (isSubmission && (!note.trim() || files.length === 0))}
-          className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-lg bg-neutral-900 px-3 text-[11.5px] font-['Lexend:Medium',_sans-serif] text-white hover:bg-neutral-800 disabled:opacity-40"
+          className="inline-flex h-9 shrink-0 items-center gap-1.5 rounded-lg bg-neutral-900 px-3 text-[11.5px] font-medium text-white hover:bg-neutral-800 disabled:opacity-40"
         >
           <Send size={13} /> {saving ? "Saving…" : isSubmission ? "Submit for review" : "Save update"}
         </button>

@@ -26,7 +26,7 @@ export function TeamCompositionNote({
         </span>
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-900">
+            <span className="text-[11px] font-medium text-neutral-900">
               {solo ? "Solo assignment" : `${composition.selectedCount}-person delivery team`}
             </span>
             <span className="rounded-full bg-white/90 px-2 py-0.5 text-[9px] text-neutral-500">

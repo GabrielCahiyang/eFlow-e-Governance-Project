@@ -19,7 +19,7 @@ export function CalendarHealthView() {
               <div className="flex items-center justify-between px-4 py-2.5 border-b border-neutral-200 bg-neutral-50">
                 <div className="flex items-center gap-2">
                   <Icons.CalendarDays size={13} className="text-neutral-700" />
-                  <span className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900">
+                  <span className="text-[12px] font-medium text-neutral-900">
                     Master Deadline Calendar · Sample Month
                   </span>
                 </div>
@@ -28,7 +28,7 @@ export function CalendarHealthView() {
                   Friday.
                 </span>
               </div>
-              <div className="grid grid-cols-7 text-[10px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400 border-b border-neutral-200">
+              <div className="grid grid-cols-7 text-[10px] font-medium uppercase tracking-wider text-neutral-400 border-b border-neutral-200">
                 {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((d) => (
                   <div key={d} className="px-2 py-1.5">
                     {d}
@@ -46,7 +46,7 @@ export function CalendarHealthView() {
                       className={`min-h-[92px] border-b border-r border-neutral-100 p-1.5 ${valid ? "" : "bg-neutral-50/60"} ${isFri && items.length >= 2 ? "bg-red-50/40" : ""}`}
                     >
                       <div
-                        className={`text-[10.5px] font-['Lexend:Medium',_sans-serif] tabular-nums ${valid ? "text-neutral-700" : "text-neutral-300"}`}
+                        className={`text-[10.5px] font-medium tabular-nums ${valid ? "text-neutral-700" : "text-neutral-300"}`}
                       >
                         {valid ? d : ""}
                       </div>
@@ -60,7 +60,7 @@ export function CalendarHealthView() {
                             <span
                               className={`w-1.5 h-1.5 rounded-full shrink-0 ${p.health === "red" ? "bg-red-500" : p.health === "yellow" ? "bg-amber-500" : "bg-emerald-500"}`}
                             />
-                            <span className="text-[9.5px] font-['Lexend:Regular',_sans-serif] text-neutral-700 truncate">
+                            <span className="text-[9.5px] font-normal text-neutral-700 truncate">
                               {p.name}
                             </span>
                           </button>

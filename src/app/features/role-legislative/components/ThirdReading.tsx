@@ -51,54 +51,54 @@ export function ThirdReading() {
             <span className="font-['JetBrains_Mono',_'Fira_Code',_monospace] text-[11px] text-orange-600">{currentMeasure.trackingNo}</span>
             <Pill status="Third Reading" />
           </div>
-          <p className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">{currentMeasure.title}</p>
-          <p className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mt-0.5">Author: {currentMeasure.author} · No further debate permitted. Final vote only.</p>
+          <p className="text-[13px] font-semibold text-neutral-900">{currentMeasure.title}</p>
+          <p className="text-[10px] font-normal text-neutral-500 mt-0.5">Author: {currentMeasure.author} · No further debate permitted. Final vote only.</p>
         </div>
       )}
 
       {/* Live Tally Widget */}
       <div className="bg-white rounded-xl border border-neutral-200 p-6 mb-5">
-        <h3 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mb-5 text-center">Live Vote Tally</h3>
+        <h3 className="text-[13px] font-semibold text-neutral-900 mb-5 text-center">Live Vote Tally</h3>
         <div className="flex items-end justify-center gap-8">
           {/* YES */}
           <div className="text-center">
             <div className="w-32 bg-neutral-100 rounded-xl overflow-hidden flex flex-col justify-end" style={{ height: 180 }}>
               <div className="bg-emerald-400 rounded-t-lg transition-all duration-500 flex items-center justify-center" style={{ height: `${(yesCount / councilors.length) * 100}%` }}>
-                <span className="text-[28px] font-['Lexend:SemiBold',_sans-serif] text-white">{yesCount}</span>
+                <span className="text-[28px] font-semibold text-white">{yesCount}</span>
               </div>
             </div>
-            <span className="text-[14px] font-['Lexend:SemiBold',_sans-serif] text-emerald-700 mt-2 block">YES</span>
+            <span className="text-[14px] font-semibold text-emerald-700 mt-2 block">YES</span>
           </div>
           {/* NO */}
           <div className="text-center">
             <div className="w-32 bg-neutral-100 rounded-xl overflow-hidden flex flex-col justify-end" style={{ height: 180 }}>
               <div className="bg-red-400 rounded-t-lg transition-all duration-500 flex items-center justify-center" style={{ height: `${(noCount / councilors.length) * 100}%` }}>
-                <span className="text-[28px] font-['Lexend:SemiBold',_sans-serif] text-white">{noCount}</span>
+                <span className="text-[28px] font-semibold text-white">{noCount}</span>
               </div>
             </div>
-            <span className="text-[14px] font-['Lexend:SemiBold',_sans-serif] text-red-700 mt-2 block">NO</span>
+            <span className="text-[14px] font-semibold text-red-700 mt-2 block">NO</span>
           </div>
           {/* ABSTAIN */}
           <div className="text-center">
             <div className="w-32 bg-neutral-100 rounded-xl overflow-hidden flex flex-col justify-end" style={{ height: 180 }}>
               <div className="bg-neutral-400 rounded-t-lg transition-all duration-500 flex items-center justify-center" style={{ height: `${(abstainCount / councilors.length) * 100}%` }}>
-                <span className="text-[28px] font-['Lexend:SemiBold',_sans-serif] text-white">{abstainCount}</span>
+                <span className="text-[28px] font-semibold text-white">{abstainCount}</span>
               </div>
             </div>
-            <span className="text-[14px] font-['Lexend:SemiBold',_sans-serif] text-neutral-600 mt-2 block">ABSTAIN</span>
+            <span className="text-[14px] font-semibold text-neutral-600 mt-2 block">ABSTAIN</span>
           </div>
         </div>
         {/* Majority line */}
         <div className="flex items-center justify-center gap-2 mt-4">
           <div className="h-px bg-emerald-300 flex-1 max-w-[200px]" />
-          <span className="text-[11px] font-['Lexend:SemiBold',_sans-serif] text-emerald-600">Majority threshold: {majority} votes</span>
+          <span className="text-[11px] font-semibold text-emerald-600">Majority threshold: {majority} votes</span>
           <div className="h-px bg-emerald-300 flex-1 max-w-[200px]" />
         </div>
         {/* Passed banner */}
         {passed && (
           <div className="mt-5 bg-emerald-50 border-2 border-emerald-300 rounded-xl p-4 text-center relative overflow-hidden">
-            <div className="text-[20px] font-['Lexend:SemiBold',_sans-serif] text-emerald-700">🎉 MEASURE PASSED 🎉</div>
-            <p className="text-[11px] font-['Lexend:Regular',_sans-serif] text-emerald-600 mt-1">
+            <div className="text-[20px] font-semibold text-emerald-700">🎉 MEASURE PASSED 🎉</div>
+            <p className="text-[11px] font-normal text-emerald-600 mt-1">
               {yesCount}-{noCount}-{abstainCount} (Yes-No-Abstain) · Document locked · Auto-forwarded to Mayoral Approval
             </p>
           </div>
@@ -107,7 +107,7 @@ export function ThirdReading() {
 
       {/* Individual councilor votes */}
       <div className="bg-white rounded-xl border border-neutral-200 p-5">
-        <h3 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mb-3">Quorum Roll — Individual Votes</h3>
+        <h3 className="text-[13px] font-semibold text-neutral-900 mb-3">Quorum Roll — Individual Votes</h3>
         <div className="grid grid-cols-4 gap-3">
           {councilors.map(c => {
             const voteColors: Record<string, string> = {
@@ -122,13 +122,13 @@ export function ThirdReading() {
             };
             return (
               <div key={c.name} className={`flex items-center gap-3 p-3 rounded-lg border ${voteColors[c.vote]}`}>
-                <div className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-[9px] font-['Lexend:SemiBold',_sans-serif] text-white">{c.initials}</div>
+                <div className="w-8 h-8 rounded-full bg-slate-700 flex items-center justify-center text-[9px] font-semibold text-white">{c.initials}</div>
                 <div className="flex-1">
-                  <span className="text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-900 block">{c.name}</span>
+                  <span className="text-[11px] font-medium text-neutral-900 block">{c.name}</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <div className={`w-2.5 h-2.5 rounded-full ${dotColors[c.vote]}`} />
-                  <span className={`text-[11px] font-['Lexend:SemiBold',_sans-serif] ${c.vote === "YES" ? "text-emerald-700" : c.vote === "NO" ? "text-red-700" : "text-neutral-600"}`}>{c.vote}</span>
+                  <span className={`text-[11px] font-semibold ${c.vote === "YES" ? "text-emerald-700" : c.vote === "NO" ? "text-red-700" : "text-neutral-600"}`}>{c.vote}</span>
                 </div>
               </div>
             );

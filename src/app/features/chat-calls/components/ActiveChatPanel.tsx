@@ -25,7 +25,7 @@ export function ActiveChatPanel() {
               </div>
               <div className="px-3.5 py-3 border-b border-neutral-100 bg-white flex items-center justify-between shadow-sm shrink-0">
                 <div className="flex items-center gap-2.5 min-w-0">
-                  <div className="w-7 h-7 rounded-full bg-blue-50 text-blue-600 text-[10px] font-['Lexend:SemiBold',_sans-serif] flex items-center justify-center shrink-0 border border-blue-100">
+                  <div className="w-7 h-7 rounded-full bg-blue-50 text-blue-600 text-[10px] font-semibold flex items-center justify-center shrink-0 border border-blue-100">
                     {(
                       channels.find((c) => c.channelId === activeChannelId)
                         ?.name || "?"
@@ -37,13 +37,13 @@ export function ActiveChatPanel() {
                       .toUpperCase()}
                   </div>
                   <div className="min-w-0">
-                    <div className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-neutral-800 truncate">
+                    <div className="text-[12px] font-semibold text-neutral-800 truncate">
                       {
                         channels.find((c) => c.channelId === activeChannelId)
                           ?.name
                       }
                     </div>
-                    <div className="text-[9px] text-neutral-400 font-['Lexend:Regular',_sans-serif] flex items-center gap-1">
+                    <div className="text-[9px] text-neutral-400 font-normal flex items-center gap-1">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                       <span>Active now</span>
                     </div>
@@ -359,7 +359,7 @@ export function ActiveChatPanel() {
               </div>
 
               {replyingTo && (
-                <div className="px-3.5 py-1.5 bg-neutral-100 border-t border-neutral-200 flex items-center justify-between text-[10px] text-neutral-500 shrink-0 font-['Lexend:Regular',_sans-serif]">
+                <div className="px-3.5 py-1.5 bg-neutral-100 border-t border-neutral-200 flex items-center justify-between text-[10px] text-neutral-500 shrink-0 font-normal">
                   <span className="truncate">
                     Replying to{" "}
                     <span className="font-semibold">

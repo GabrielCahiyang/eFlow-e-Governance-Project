@@ -60,24 +60,24 @@ export function ActionableIntelligence() {
                 <Carbon.DocumentExport size={18} className="text-blue-600" />
               </div>
               <div>
-                <h3 className="text-[14px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">Morning Briefing — {digest.date}</h3>
-                <p className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500">{digest.voiceNotes} voice notes · {digest.departments} departments · Mood: <span className={digest.sentiment > 68 ? "text-emerald-600" : "text-amber-600"}>{digest.mood}</span></p>
+                <h3 className="text-[14px] font-semibold text-neutral-900">Morning Briefing — {digest.date}</h3>
+                <p className="text-[11px] font-normal text-neutral-500">{digest.voiceNotes} voice notes · {digest.departments} departments · Mood: <span className={digest.sentiment > 68 ? "text-emerald-600" : "text-amber-600"}>{digest.mood}</span></p>
               </div>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-20 h-1.5 bg-neutral-100 rounded-full overflow-hidden">
                 <div className="h-full rounded-full bg-blue-500" style={{ width: `${digest.sentiment}%` }} />
               </div>
-              <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500">{digest.sentiment}%</span>
+              <span className="text-[10px] font-normal text-neutral-500">{digest.sentiment}%</span>
             </div>
           </div>
           <div className="space-y-3">
             {digest.bullets.map((bullet, i) => (
               <div key={i} className="flex gap-3">
                 <div className="mt-1 w-5 h-5 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
-                  <span className="text-[10px] font-['Lexend:SemiBold',_sans-serif] text-blue-600">{i + 1}</span>
+                  <span className="text-[10px] font-semibold text-blue-600">{i + 1}</span>
                 </div>
-                <p className="text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-700 leading-relaxed">{bullet}</p>
+                <p className="text-[12px] font-normal text-neutral-700 leading-relaxed">{bullet}</p>
               </div>
             ))}
           </div>
@@ -86,7 +86,7 @@ export function ActionableIntelligence() {
 
       {/* Sentiment Trend */}
       <div className="bg-white rounded-xl border border-neutral-200 p-5">
-        <h3 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mb-3">Weekly Sentiment Trend</h3>
+        <h3 className="text-[13px] font-semibold text-neutral-900 mb-3">Weekly Sentiment Trend</h3>
         <Charts.ResponsiveContainer width="100%" height={200}>
           <Charts.AreaChart data={[
             { day: "Mon", sentiment: 68, notes: 120 },
@@ -126,42 +126,42 @@ export function StrategicAIInsights() {
       </div>
 
       {/* Top insight cards */}
-      <h3 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mb-3">Priority AI Alerts</h3>
+      <h3 className="text-[13px] font-semibold text-neutral-900 mb-3">Priority AI Alerts</h3>
       <div className="grid grid-cols-2 gap-4 mb-5">
         {insightCards.filter(c => c.severity === "High").map((card, i) => (
           <div key={i} className={`bg-white rounded-xl border border-neutral-200 p-5 border-l-4 ${card.color}`}>
             <div className="flex items-center gap-2 mb-2">
               {card.icon}
-              <span className="text-[10px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase tracking-wide">{card.type}</span>
+              <span className="text-[10px] font-medium text-neutral-500 uppercase tracking-wide">{card.type}</span>
               <div className="flex-1" />
               <UI.Pill status={card.severity} />
             </div>
-            <h4 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mb-1">{card.title}</h4>
-            <p className="text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-600 leading-relaxed">{card.body}</p>
+            <h4 className="text-[13px] font-semibold text-neutral-900 mb-1">{card.title}</h4>
+            <p className="text-[12px] font-normal text-neutral-600 leading-relaxed">{card.body}</p>
           </div>
         ))}
       </div>
 
       {/* Procurement Heatmap mini */}
       <div className="bg-white rounded-xl border border-neutral-200 p-5 mb-5">
-        <h3 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mb-3">Procurement Heatmap (Anomalies)</h3>
+        <h3 className="text-[13px] font-semibold text-neutral-900 mb-3">Procurement Heatmap (Anomalies)</h3>
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
               <tr>
-                <th className="text-left py-2 px-3 text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-500">Project</th>
+                <th className="text-left py-2 px-3 text-[11px] font-medium text-neutral-500">Project</th>
                 {heatmapStages.map((s) => (
-                  <th key={s} className="py-2 px-3 text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-500 text-center">{s}</th>
+                  <th key={s} className="py-2 px-3 text-[11px] font-medium text-neutral-500 text-center">{s}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {heatmapData.slice(0, 3).map((row) => (
                 <tr key={row.project}>
-                  <td className="py-2 px-3 text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-900">{row.project}</td>
+                  <td className="py-2 px-3 text-[11px] font-medium text-neutral-900">{row.project}</td>
                   {row.values.map((v, i) => (
                     <td key={i} className="py-2 px-2 text-center">
-                      <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-['Lexend:Medium',_sans-serif] ${getHeatColor(v)}`}>{v.toFixed(1)}x</span>
+                      <span className={`inline-block px-2 py-0.5 rounded text-[10px] font-medium ${getHeatColor(v)}`}>{v.toFixed(1)}x</span>
                     </td>
                   ))}
                 </tr>
@@ -173,14 +173,14 @@ export function StrategicAIInsights() {
 
       {/* NLP Digest Preview */}
       <div className="bg-white rounded-xl border border-neutral-200 p-5">
-        <h3 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mb-3">Today's NLP Digest Preview</h3>
+        <h3 className="text-[13px] font-semibold text-neutral-900 mb-3">Today's NLP Digest Preview</h3>
         <div className="space-y-2.5">
           {dailyDigests[0].bullets.map((b, i) => (
             <div key={i} className="flex gap-2.5">
               <div className="w-4 h-4 rounded-full bg-blue-100 flex items-center justify-center mt-0.5 shrink-0">
-                <span className="text-[9px] font-['Lexend:SemiBold',_sans-serif] text-blue-600">{i + 1}</span>
+                <span className="text-[9px] font-semibold text-blue-600">{i + 1}</span>
               </div>
-              <p className="text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-600 leading-relaxed">{b}</p>
+              <p className="text-[12px] font-normal text-neutral-600 leading-relaxed">{b}</p>
             </div>
           ))}
         </div>

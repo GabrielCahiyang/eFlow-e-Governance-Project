@@ -156,7 +156,7 @@ export function TeamAssignments() {
       onClick={() => onClick(emp)}
     >
       <div className="flex items-center gap-2.5">
-        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-neutral-200 to-neutral-300 flex items-center justify-center text-[10px] font-['Lexend:SemiBold',_sans-serif] text-neutral-700 shrink-0">
+        <div className="w-8 h-8 rounded-full bg-gradient-to-br from-neutral-200 to-neutral-300 flex items-center justify-center text-[10px] font-semibold text-neutral-700 shrink-0">
           {emp.name
             .split(" ")
             .slice(-2)
@@ -164,14 +164,14 @@ export function TeamAssignments() {
             .join("")}
         </div>
         <div className="flex-1 min-w-0">
-          <div className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900 truncate">
+          <div className="text-[12px] font-medium text-neutral-900 truncate">
             {emp.name}
           </div>
-          <div className="text-[10.5px] font-['Lexend:Regular',_sans-serif] text-neutral-500 truncate">
+          <div className="text-[10.5px] font-normal text-neutral-500 truncate">
             {emp.role}
           </div>
         </div>
-        <div className="flex items-center gap-0.5 text-[10px] font-['Lexend:Medium',_sans-serif] text-amber-600 shrink-0">
+        <div className="flex items-center gap-0.5 text-[10px] font-medium text-amber-600 shrink-0">
           <Star size={10} className="fill-amber-500 stroke-amber-500" />{" "}
           {emp.rating}
         </div>
@@ -180,13 +180,13 @@ export function TeamAssignments() {
         {emp.skills.map((s) => (
           <span
             key={s}
-            className="text-[9px] font-['Lexend:Medium',_sans-serif] uppercase bg-neutral-100 text-neutral-600 rounded px-1.5 py-0.5"
+            className="text-[9px] font-medium uppercase bg-neutral-100 text-neutral-600 rounded px-1.5 py-0.5"
           >
             {s}
           </span>
         ))}
         <span
-          className={`ml-auto text-[9.5px] font-['Lexend:Medium',_sans-serif] rounded px-1.5 py-0.5 tabular-nums ${workloadTone(emp.workloadPct)}`}
+          className={`ml-auto text-[9.5px] font-medium rounded px-1.5 py-0.5 tabular-nums ${workloadTone(emp.workloadPct)}`}
         >
           {emp.workloadPct}% load
         </span>
@@ -205,7 +205,7 @@ export function TeamAssignments() {
             <button
               onClick={autoFill}
               disabled={autoFilling}
-              className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-[12px] font-['Lexend:Medium',_sans-serif] bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:opacity-90"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-lg text-[12px] font-medium bg-gradient-to-r from-indigo-600 to-purple-600 text-white hover:opacity-90"
             >
               {autoFilling ? (
                 <Zap size={13} className="animate-pulse" />
@@ -261,10 +261,10 @@ export function TeamAssignments() {
         >
           <div className="flex items-center gap-2 mb-3">
             <Users size={14} className="text-neutral-900" />
-            <div className="text-[13px] font-['Lexend:Medium',_sans-serif] text-neutral-900">
+            <div className="text-[13px] font-medium text-neutral-900">
               Department Roster
             </div>
-            <div className="ml-auto text-[10.5px] font-['Lexend:Regular',_sans-serif] text-neutral-500">
+            <div className="ml-auto text-[10.5px] font-normal text-neutral-500">
               {roster.length} available
             </div>
           </div>
@@ -291,10 +291,10 @@ export function TeamAssignments() {
         >
           <div className="flex items-center gap-2 mb-3">
             <HardHat size={14} className="text-emerald-700" />
-            <div className="text-[13px] font-['Lexend:Medium',_sans-serif] text-neutral-900">
+            <div className="text-[13px] font-medium text-neutral-900">
               Eco-Park Task Force
             </div>
-            <div className="ml-auto text-[10.5px] font-['Lexend:Regular',_sans-serif] text-emerald-700">
+            <div className="ml-auto text-[10.5px] font-normal text-emerald-700">
               {team.length} deployed
             </div>
           </div>
@@ -314,8 +314,8 @@ export function TeamAssignments() {
 
       <div className="mt-4 bg-indigo-50 border border-indigo-200 rounded-xl p-4 flex items-start gap-3">
         <Sparkles size={14} className="text-indigo-600 mt-0.5 shrink-0" />
-        <div className="text-[11.5px] font-['Lexend:Regular',_sans-serif] text-indigo-900 leading-relaxed">
-          <span className="font-['Lexend:Medium',_sans-serif]">
+        <div className="text-[11.5px] font-normal text-indigo-900 leading-relaxed">
+          <span className="font-medium">
             GA safeguard.
           </span>{" "}
           Auto-Fill optimizes for lowest current workload × matching skills ×

@@ -93,11 +93,11 @@ export function DepartmentRiskFlags() {
       <div className="bg-white border border-neutral-200 rounded-xl p-4 mb-5">
         <div className="flex items-center gap-2 mb-3">
           <Brain size={14} className="text-neutral-700" />
-          <span className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-700">AI Fatigue Synthesis</span>
-          <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-400 ml-auto">model v4.2 · confidence 0.91</span>
+          <span className="text-[12px] font-medium text-neutral-700">AI Fatigue Synthesis</span>
+          <span className="text-[10px] font-normal text-neutral-400 ml-auto">model v4.2 · confidence 0.91</span>
         </div>
-        <p className="text-[13px] font-['Lexend:Regular',_sans-serif] text-neutral-600 leading-relaxed">
-          Three offices are crossing critical fatigue thresholds. <span className="text-red-600 font-['Lexend:Medium',_sans-serif]">Engineering</span> shows the steepest decline — cursor-latency data indicates 85% of staff are operating at 4.3× their baseline response time. Without intervention within <span className="font-['Lexend:Medium',_sans-serif]">72 hours</span>, the model predicts a 38% probability of cascading sick-leave filings.
+        <p className="text-[13px] font-normal text-neutral-600 leading-relaxed">
+          Three offices are crossing critical fatigue thresholds. <span className="text-red-600 font-medium">Engineering</span> shows the steepest decline — cursor-latency data indicates 85% of staff are operating at 4.3× their baseline response time. Without intervention within <span className="font-medium">72 hours</span>, the model predicts a 38% probability of cascading sick-leave filings.
         </p>
       </div>
 
@@ -114,14 +114,14 @@ export function DepartmentRiskFlags() {
               }`}
             >
               <div className="flex items-center justify-between mb-3">
-                <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-['Lexend:Medium',_sans-serif] ${s.chip}`}>
+                <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-medium ${s.chip}`}>
                   <span className={`w-1.5 h-1.5 rounded-full ${s.dot}`} />
                   {s.label}
                 </span>
                 {d.risk === "critical" && <Flame size={14} className="text-red-600" />}
               </div>
-              <div className="text-[14px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">{d.name}</div>
-              <div className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mt-0.5">
+              <div className="text-[14px] font-semibold text-neutral-900">{d.name}</div>
+              <div className="text-[11px] font-normal text-neutral-500 mt-0.5">
                 {d.staff} staff · {d.fatiguePct}% fatigued
               </div>
               <div className="mt-3 h-1.5 rounded-full bg-neutral-100 overflow-hidden">
@@ -139,12 +139,12 @@ export function DepartmentRiskFlags() {
       <div className="mt-6 bg-white border border-neutral-200 rounded-xl overflow-hidden">
         <div className="border-b border-neutral-200 px-5 py-4 flex items-center justify-between">
           <div>
-            <div className="text-[11px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400">
+            <div className="text-[11px] font-medium uppercase tracking-wider text-neutral-400">
               Drill-down · {riskStyles[selected.risk].label}
             </div>
-            <div className="text-[16px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mt-0.5">{selected.name}</div>
+            <div className="text-[16px] font-semibold text-neutral-900 mt-0.5">{selected.name}</div>
           </div>
-          <div className="flex items-center gap-2 text-[11px] text-neutral-500 font-['Lexend:Regular',_sans-serif]">
+          <div className="flex items-center gap-2 text-[11px] text-neutral-500 font-normal">
             The Proof <ChevronRight size={12} />
           </div>
         </div>
@@ -153,18 +153,18 @@ export function DepartmentRiskFlags() {
           {/* Response Latency Timeline */}
           <div className="p-5 border-r border-neutral-200">
             <div className="flex items-center justify-between mb-3">
-              <div className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-700 flex items-center gap-1.5">
+              <div className="text-[12px] font-medium text-neutral-700 flex items-center gap-1.5">
                 <Clock size={12} /> Response Latency (site permits)
               </div>
-              <span className="text-[11px] text-neutral-400 font-['Lexend:Regular',_sans-serif]">14-day window</span>
+              <span className="text-[11px] text-neutral-400 font-normal">14-day window</span>
             </div>
             <LatencyChart baseline={selected.baselineLatencyHrs} current={selected.avgLatencyHrs} />
             <div className="mt-3 p-3 bg-neutral-50 border border-neutral-200 rounded-lg">
-              <div className="flex items-center gap-1.5 text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-700 mb-1">
+              <div className="flex items-center gap-1.5 text-[11px] font-medium text-neutral-700 mb-1">
                 <Sparkles size={11} /> AI Insight
               </div>
-              <p className="text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-600 leading-relaxed">
-                <span className="font-['Lexend:Medium',_sans-serif] text-neutral-900">{selected.topStrainName}</span> usually approves tickets in <span className="font-['Lexend:Medium',_sans-serif]">{selected.baselineLatencyHrs}h</span>. Over 14 days, average has dropped to <span className="text-red-600 font-['Lexend:Medium',_sans-serif]">{selected.avgLatencyHrs}h</span> — cognitive fatigue marker.
+              <p className="text-[12px] font-normal text-neutral-600 leading-relaxed">
+                <span className="font-medium text-neutral-900">{selected.topStrainName}</span> usually approves tickets in <span className="font-medium">{selected.baselineLatencyHrs}h</span>. Over 14 days, average has dropped to <span className="text-red-600 font-medium">{selected.avgLatencyHrs}h</span> — cognitive fatigue marker.
               </p>
             </div>
           </div>
@@ -172,22 +172,22 @@ export function DepartmentRiskFlags() {
           {/* Burn rate */}
           <div className="p-5">
             <div className="flex items-center justify-between mb-3">
-              <div className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-700 flex items-center gap-1.5">
+              <div className="text-[12px] font-medium text-neutral-700 flex items-center gap-1.5">
                 <Flame size={12} /> Cumulative Sprint Load
               </div>
-              <span className="text-[11px] text-neutral-400 font-['Lexend:Regular',_sans-serif]">26-week continuous</span>
+              <span className="text-[11px] text-neutral-400 font-normal">26-week continuous</span>
             </div>
             <BurnRateChart load={selected.sprintLoad} weeksSinceLowLoad={selected.weeksSinceLowLoad} />
             <div className="mt-3 grid grid-cols-2 gap-2">
               <div className="p-3 bg-neutral-50 border border-neutral-200 rounded-lg">
-                <div className="text-[10px] font-['Lexend:Medium',_sans-serif] uppercase text-neutral-400 tracking-wider">Weeks since low-load</div>
-                <div className={`text-[18px] font-['Lexend:SemiBold',_sans-serif] mt-0.5 ${selected.weeksSinceLowLoad > 24 ? "text-red-600" : selected.weeksSinceLowLoad > 12 ? "text-amber-600" : "text-emerald-600"}`}>
+                <div className="text-[10px] font-medium uppercase text-neutral-400 tracking-wider">Weeks since low-load</div>
+                <div className={`text-[18px] font-semibold mt-0.5 ${selected.weeksSinceLowLoad > 24 ? "text-red-600" : selected.weeksSinceLowLoad > 12 ? "text-amber-600" : "text-emerald-600"}`}>
                   {selected.weeksSinceLowLoad}w
                 </div>
               </div>
               <div className="p-3 bg-neutral-50 border border-neutral-200 rounded-lg">
-                <div className="text-[10px] font-['Lexend:Medium',_sans-serif] uppercase text-neutral-400 tracking-wider">Sprint load index</div>
-                <div className={`text-[18px] font-['Lexend:SemiBold',_sans-serif] mt-0.5 ${selected.sprintLoad > 80 ? "text-red-600" : selected.sprintLoad > 60 ? "text-amber-600" : "text-emerald-600"}`}>
+                <div className="text-[10px] font-medium uppercase text-neutral-400 tracking-wider">Sprint load index</div>
+                <div className={`text-[18px] font-semibold mt-0.5 ${selected.sprintLoad > 80 ? "text-red-600" : selected.sprintLoad > 60 ? "text-amber-600" : "text-emerald-600"}`}>
                   {selected.sprintLoad}
                 </div>
               </div>
@@ -201,16 +201,16 @@ export function DepartmentRiskFlags() {
           <div className="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl" onClick={(e) => e.stopPropagation()}>
             <div className="flex items-center gap-2 mb-2">
               <Heart size={16} className="text-red-600" />
-              <h3 className="text-[16px] font-['Lexend:SemiBold',_sans-serif]">Initiate Wellness Intervention</h3>
+              <h3 className="text-[16px] font-semibold">Initiate Wellness Intervention</h3>
             </div>
-            <p className="text-[13px] font-['Lexend:Regular',_sans-serif] text-neutral-600 mb-4">
-              Trigger a non-punitive outreach sequence for <span className="font-['Lexend:Medium',_sans-serif]">{selected.name}</span>. Counselor assignment, load-cap mandate, and a private 1:1 will be scheduled automatically.
+            <p className="text-[13px] font-normal text-neutral-600 mb-4">
+              Trigger a non-punitive outreach sequence for <span className="font-medium">{selected.name}</span>. Counselor assignment, load-cap mandate, and a private 1:1 will be scheduled automatically.
             </p>
             <div className="flex gap-2">
-              <button className="flex-1 py-2.5 bg-neutral-100 rounded-lg text-[13px] font-['Lexend:Medium',_sans-serif] hover:bg-neutral-200 cursor-pointer" onClick={() => setShowIntervention(false)}>
+              <button className="flex-1 py-2.5 bg-neutral-100 rounded-lg text-[13px] font-medium hover:bg-neutral-200 cursor-pointer" onClick={() => setShowIntervention(false)}>
                 Cancel
               </button>
-              <button className="flex-1 py-2.5 bg-neutral-900 text-white rounded-lg text-[13px] font-['Lexend:Medium',_sans-serif] hover:bg-neutral-800 cursor-pointer" onClick={() => setShowIntervention(false)}>
+              <button className="flex-1 py-2.5 bg-neutral-900 text-white rounded-lg text-[13px] font-medium hover:bg-neutral-800 cursor-pointer" onClick={() => setShowIntervention(false)}>
                 Dispatch Intervention
               </button>
             </div>
@@ -250,7 +250,7 @@ function LatencyChart({ baseline, current }: { baseline: number; current: number
       </defs>
       {/* baseline */}
       <line x1="0" y1={baselineY} x2={W} y2={baselineY} stroke="#10b981" strokeDasharray="3 3" strokeWidth="1" />
-      <text x={W - 4} y={baselineY - 4} textAnchor="end" fontSize="9" fill="#10b981" fontFamily="Lexend">
+      <text x={W - 4} y={baselineY - 4} textAnchor="end" fontSize="9" fill="#10b981" fontFamily="Figtree">
         baseline {baseline}h
       </text>
       {/* area */}
@@ -260,10 +260,10 @@ function LatencyChart({ baseline, current }: { baseline: number; current: number
       {points.map((p, i) => (
         <circle key={i} cx={i * dx} cy={H - (p / max) * H} r="2" fill="#ef4444" />
       ))}
-      <text x="0" y={H + 12} fontSize="9" fill="#a3a3a3" fontFamily="Lexend">
+      <text x="0" y={H + 12} fontSize="9" fill="#a3a3a3" fontFamily="Figtree">
         Day 1
       </text>
-      <text x={W} y={H + 12} textAnchor="end" fontSize="9" fill="#a3a3a3" fontFamily="Lexend">
+      <text x={W} y={H + 12} textAnchor="end" fontSize="9" fill="#a3a3a3" fontFamily="Figtree">
         Today
       </text>
     </svg>
@@ -289,7 +289,7 @@ function BurnRateChart({ load, weeksSinceLowLoad }: { load: number; weeksSinceLo
   return (
     <svg viewBox={`0 0 ${W} ${H + 16}`} className="w-full" preserveAspectRatio="none">
       <line x1="0" y1={H - (40 / 100) * H} x2={W} y2={H - (40 / 100) * H} stroke="#d4d4d4" strokeDasharray="2 2" strokeWidth="1" />
-      <text x="2" y={H - (40 / 100) * H - 3} fontSize="9" fill="#a3a3a3" fontFamily="Lexend">
+      <text x="2" y={H - (40 / 100) * H - 3} fontSize="9" fill="#a3a3a3" fontFamily="Figtree">
         low-load zone
       </text>
       {values.map((v, i) => {
@@ -303,7 +303,7 @@ function BurnRateChart({ load, weeksSinceLowLoad }: { load: number; weeksSinceLo
             {isLastLow && (
               <>
                 <line x1={i * (bw + 2) + bw / 2} y1={0} x2={i * (bw + 2) + bw / 2} y2={H} stroke="#525252" strokeDasharray="2 2" />
-                <text x={i * (bw + 2) + bw / 2 + 4} y={10} fontSize="8" fill="#525252" fontFamily="Lexend">
+                <text x={i * (bw + 2) + bw / 2 + 4} y={10} fontSize="8" fill="#525252" fontFamily="Figtree">
                   last low-load
                 </text>
               </>
@@ -311,10 +311,10 @@ function BurnRateChart({ load, weeksSinceLowLoad }: { load: number; weeksSinceLo
           </g>
         );
       })}
-      <text x="0" y={H + 12} fontSize="9" fill="#a3a3a3" fontFamily="Lexend">
+      <text x="0" y={H + 12} fontSize="9" fill="#a3a3a3" fontFamily="Figtree">
         26 weeks ago
       </text>
-      <text x={W} y={H + 12} textAnchor="end" fontSize="9" fill="#a3a3a3" fontFamily="Lexend">
+      <text x={W} y={H + 12} textAnchor="end" fontSize="9" fill="#a3a3a3" fontFamily="Figtree">
         This week
       </text>
     </svg>

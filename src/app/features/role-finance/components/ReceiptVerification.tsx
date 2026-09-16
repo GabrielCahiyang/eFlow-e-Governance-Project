@@ -149,7 +149,7 @@ export function ReceiptVerification() {
       <div className="grid grid-cols-[300px_1fr_1fr] gap-4">
         {/* Queue */}
         <div className="bg-white border border-neutral-200 rounded-xl overflow-hidden h-fit">
-          <div className="px-4 py-3 border-b border-neutral-200 text-[11px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400">
+          <div className="px-4 py-3 border-b border-neutral-200 text-[11px] font-medium uppercase tracking-wider text-neutral-400">
             Receipt Queue
           </div>
           {RECEIPTS.map((r) => {
@@ -168,10 +168,10 @@ export function ReceiptVerification() {
                   {done && <CheckCircle2 size={10} className="text-emerald-600 ml-auto" />}
                   {r.confidence < 0.8 && !done && <AlertTriangle size={10} className="text-amber-500 ml-auto" />}
                 </div>
-                <div className={`text-[12px] font-['Lexend:Medium',_sans-serif] ${active ? "text-white" : "text-neutral-900"} truncate`}>
+                <div className={`text-[12px] font-medium ${active ? "text-white" : "text-neutral-900"} truncate`}>
                   {r.employee}
                 </div>
-                <div className={`text-[10px] font-['Lexend:Regular',_sans-serif] mt-0.5 ${active ? "text-neutral-300" : "text-neutral-500"}`}>
+                <div className={`text-[10px] font-normal mt-0.5 ${active ? "text-neutral-300" : "text-neutral-500"}`}>
                   {r.dept} · {peso(r.extracted.total)}
                 </div>
                 <div className="mt-1.5 h-1 bg-neutral-200 rounded-full overflow-hidden">
@@ -180,7 +180,7 @@ export function ReceiptVerification() {
                     style={{ width: `${r.confidence * 100}%` }}
                   />
                 </div>
-                <div className={`text-[9px] mt-0.5 ${active ? "text-neutral-400" : "text-neutral-500"} font-['Lexend:Regular',_sans-serif]`}>
+                <div className={`text-[9px] mt-0.5 ${active ? "text-neutral-400" : "text-neutral-500"} font-normal`}>
                   OCR confidence {Math.round(r.confidence * 100)}%
                 </div>
               </button>
@@ -192,7 +192,7 @@ export function ReceiptVerification() {
         <div className="bg-white border border-neutral-200 rounded-xl overflow-hidden">
           <div className="px-4 py-3 border-b border-neutral-200 flex items-center gap-2">
             <Receipt size={13} className="text-neutral-700" />
-            <span className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-700">Official Receipt · Photo</span>
+            <span className="text-[12px] font-medium text-neutral-700">Official Receipt · Photo</span>
             <span className="ml-auto text-[10px] text-neutral-400 font-mono">{selected.id}</span>
           </div>
           <div className="p-5 bg-neutral-100">
@@ -203,7 +203,7 @@ export function ReceiptVerification() {
               {/* Mock OR layout */}
               <div className="absolute inset-0 p-4 text-neutral-800">
                 <div className="text-center pb-2 border-b-2 border-dashed border-neutral-400/60">
-                  <div className="text-[14px] font-['Lexend:SemiBold',_sans-serif] uppercase tracking-wider">{selected.extracted.vendor}</div>
+                  <div className="text-[14px] font-semibold uppercase tracking-wider">{selected.extracted.vendor}</div>
                   <div className="text-[8px] mt-0.5 font-mono">TIN {selected.extracted.tin}</div>
                   <div className="text-[8px] font-mono mt-0.5">OFFICIAL RECEIPT</div>
                 </div>
@@ -221,7 +221,7 @@ export function ReceiptVerification() {
                     </div>
                   ))}
                 </div>
-                <div className="mt-3 pt-2 border-t-2 border-dashed border-neutral-400/60 flex justify-between text-[11px] font-['Lexend:SemiBold',_sans-serif]">
+                <div className="mt-3 pt-2 border-t-2 border-dashed border-neutral-400/60 flex justify-between text-[11px] font-semibold">
                   <span>TOTAL</span>
                   <span className="tabular-nums">₱{selected.extracted.total.toLocaleString()}.00</span>
                 </div>
@@ -236,7 +236,7 @@ export function ReceiptVerification() {
                 </div>
               )}
             </div>
-            <div className="mt-3 text-center text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500">
+            <div className="mt-3 text-center text-[10px] font-normal text-neutral-500">
               Submitted via Level 5 mobile · {selected.submitted}
             </div>
           </div>
@@ -246,8 +246,8 @@ export function ReceiptVerification() {
         <div className="bg-gradient-to-br from-neutral-900 to-neutral-800 text-white rounded-xl overflow-hidden h-fit">
           <div className="px-4 py-3 border-b border-neutral-800 flex items-center gap-2">
             <Sparkles size={13} className="text-emerald-400" />
-            <span className="text-[12px] font-['Lexend:Medium',_sans-serif]">AI-Extracted Data</span>
-            <span className="ml-auto text-[10px] text-emerald-400 font-['Lexend:Medium',_sans-serif]">
+            <span className="text-[12px] font-medium">AI-Extracted Data</span>
+            <span className="ml-auto text-[10px] text-emerald-400 font-medium">
               {Math.round(selected.confidence * 100)}% conf.
             </span>
           </div>
@@ -261,7 +261,7 @@ export function ReceiptVerification() {
               <div className="text-[10px] text-neutral-400 uppercase tracking-wider mb-1">Line items</div>
               <div className="space-y-1.5">
                 {selected.extracted.lines.map((l, i) => (
-                  <div key={i} className="flex items-center justify-between text-[11px] font-['Lexend:Regular',_sans-serif]">
+                  <div key={i} className="flex items-center justify-between text-[11px] font-normal">
                     <span className="text-neutral-300 truncate pr-2">{l.qty}× {l.desc}</span>
                     <span className="tabular-nums font-mono text-emerald-400 whitespace-nowrap">₱{l.total.toLocaleString()}</span>
                   </div>
@@ -270,17 +270,17 @@ export function ReceiptVerification() {
             </div>
             <div className="border-t border-neutral-800 pt-3 flex items-center justify-between">
               <span className="text-[11px] text-neutral-400">Extracted total</span>
-              <span className="text-[20px] font-['Lexend:SemiBold',_sans-serif] text-emerald-400 tabular-nums">{peso(selected.extracted.total)}</span>
+              <span className="text-[20px] font-semibold text-emerald-400 tabular-nums">{peso(selected.extracted.total)}</span>
             </div>
           </div>
           <div className="px-4 py-3 border-t border-neutral-800 flex gap-2">
-            <button className="flex-1 py-2 rounded-md bg-neutral-800 text-neutral-300 text-[11px] font-['Lexend:Medium',_sans-serif] hover:bg-neutral-700 cursor-pointer">
+            <button className="flex-1 py-2 rounded-md bg-neutral-800 text-neutral-300 text-[11px] font-medium hover:bg-neutral-700 cursor-pointer">
               Re-scan
             </button>
             <button
               onClick={() => setVerified((v) => new Set([...v, selected.id]))}
               disabled={verified.has(selected.id)}
-              className="flex-1 py-2 rounded-md bg-emerald-500 text-white text-[11px] font-['Lexend:Medium',_sans-serif] hover:bg-emerald-400 cursor-pointer disabled:opacity-50 flex items-center justify-center gap-1"
+              className="flex-1 py-2 rounded-md bg-emerald-500 text-white text-[11px] font-medium hover:bg-emerald-400 cursor-pointer disabled:opacity-50 flex items-center justify-center gap-1"
             >
               <CheckCircle2 size={12} /> {verified.has(selected.id) ? "Verified" : "Match & Verify"}
             </button>
@@ -302,7 +302,7 @@ function ExtractRow({ label, value, mono }: { label: string; value: string; mono
   return (
     <div>
       <div className="text-[9px] text-neutral-400 uppercase tracking-wider">{label}</div>
-      <div className={`text-[12px] text-white ${mono ? "font-mono" : "font-['Lexend:Medium',_sans-serif]"}`}>{value}</div>
+      <div className={`text-[12px] text-white ${mono ? "font-mono" : "font-medium"}`}>{value}</div>
     </div>
   );
 }

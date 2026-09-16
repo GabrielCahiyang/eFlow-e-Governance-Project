@@ -20,18 +20,18 @@ export function UndoNotifications({ items, onUndo, onDismiss }: UndoNotification
           {items.map((item) => (
             <div
               key={item.id}
-              className="pointer-events-auto relative overflow-hidden bg-neutral-950/95 backdrop-blur-md border border-neutral-800 text-white rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.5)] px-4 py-3 flex items-center justify-between gap-3 animate-[undo-slide-in_0.3s_ease-out] font-['Lexend:Regular',_sans-serif]"
+              className="pointer-events-auto relative overflow-hidden bg-neutral-950/95 backdrop-blur-md border border-neutral-800 text-white rounded-xl shadow-[0_8px_30px_rgba(0,0,0,0.5)] px-4 py-3 flex items-center justify-between gap-3 animate-[undo-slide-in_0.3s_ease-out] font-normal"
             >
               <div className="flex flex-col gap-0.5 min-w-0 flex-1">
-                <span className="text-[9px] font-['Lexend:Bold',_sans-serif] font-bold text-neutral-400 uppercase tracking-wider">Deleted</span>
-                <span className="text-[13px] font-['Lexend:Medium',_sans-serif] font-medium text-neutral-100 truncate block">
+                <span className="text-[9px] font-bold text-neutral-400 uppercase tracking-wider">Deleted</span>
+                <span className="text-[13px] font-medium text-neutral-100 truncate block">
                   {item.org.name}
                 </span>
               </div>
               <div className="flex items-center gap-1.5 shrink-0">
                 <button
                   onClick={() => onUndo(item)}
-                  className="px-2.5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 active:scale-95 text-white text-[11px] font-['Lexend:SemiBold',_sans-serif] font-semibold cursor-pointer transition-all shadow-md shadow-blue-900/30"
+                  className="px-2.5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-500 active:scale-95 text-white text-[11px] font-semibold cursor-pointer transition-all shadow-md shadow-blue-900/30"
                 >
                   Undo
                 </button>

@@ -194,7 +194,7 @@ export function BackupExportWorkspace() {
           <div className="flex items-start gap-3">
             <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-amber-100 text-amber-700"><ServerCog size={17} /></div>
             <div>
-              <h3 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-amber-950">One-time server setup required</h3>
+              <h3 className="text-[13px] font-semibold text-amber-950">One-time server setup required</h3>
               <p className="mt-1 text-[11px] leading-5 text-amber-800">
                 Complete the server-only items marked below. Copy the Supabase direct or session-pooler connection string into <code className="rounded bg-amber-100 px-1">EFLOW_DATABASE_URL</code> in the private eFlow <code className="rounded bg-amber-100 px-1">.env</code>, then restart the gateway. PostgreSQL tools installed in their standard Windows location are detected automatically.
               </p>
@@ -213,7 +213,7 @@ export function BackupExportWorkspace() {
           <Card title="Create database export" subtitle="Nothing is modified in Supabase; this operation only reads and packages data.">
             <div className="space-y-4">
               <div>
-                <label className="mb-1 block text-[10.5px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wide text-neutral-500">Export mode</label>
+                <label className="mb-1 block text-[10.5px] font-medium uppercase tracking-wide text-neutral-500">Export mode</label>
                 <WSelect
                   value={mode}
                   onChange={(value) => { setMode(value as BackupMode); setConfirmation(""); }}
@@ -229,7 +229,7 @@ export function BackupExportWorkspace() {
                 <div className="flex items-start gap-2.5">
                   {mode === "operational" ? <ShieldCheck size={16} className="mt-0.5 text-blue-600" /> : <LockKeyhole size={16} className="mt-0.5 text-violet-600" />}
                   <div>
-                    <div className="text-[11.5px] font-['Lexend:Medium',_sans-serif] text-neutral-900">
+                    <div className="text-[11.5px] font-medium text-neutral-900">
                       {mode === "operational" ? "Redacted operational backup" : "AES-256 disaster-recovery backup"}
                     </div>
                     <p className="mt-0.5 text-[10.5px] leading-4 text-neutral-600">
@@ -263,14 +263,14 @@ export function BackupExportWorkspace() {
               </label>
 
               <label>
-                <span className="mb-1 block text-[10.5px] font-['Lexend:Medium',_sans-serif] text-neutral-500">
+                <span className="mb-1 block text-[10.5px] font-medium text-neutral-500">
                   Type <strong className="text-neutral-900">{expectedConfirmation}</strong> to confirm
                 </span>
                 <input value={confirmation} onChange={(event) => setConfirmation(event.target.value)} placeholder={expectedConfirmation} className="h-10 w-full rounded-xl border border-neutral-200 px-3 font-mono text-[12px] uppercase tracking-wide outline-none focus:border-neutral-500" />
               </label>
 
               <label>
-                <span className="mb-1 block text-[10.5px] font-['Lexend:Medium',_sans-serif] text-neutral-500">Confirm your current eFlow password</span>
+                <span className="mb-1 block text-[10.5px] font-medium text-neutral-500">Confirm your current eFlow password</span>
                 <input type="password" value={reauthPassword} onChange={(event) => setReauthPassword(event.target.value)} autoComplete="current-password" placeholder="Required immediately before export" className="h-10 w-full rounded-xl border border-neutral-200 px-3 text-[12px] outline-none focus:border-neutral-500" />
                 <span className="mt-1 block text-[9px] text-neutral-400">Your password goes directly to Supabase authentication and is never sent to or stored by the eFlow gateway.</span>
               </label>
@@ -323,7 +323,7 @@ export function BackupExportWorkspace() {
       <div className="mt-5">
         <div className="mb-3 flex items-center justify-between">
           <div>
-            <h2 className="text-[15px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">Backup jobs</h2>
+            <h2 className="text-[15px] font-semibold text-neutral-900">Backup jobs</h2>
             <p className="text-[10.5px] text-neutral-500">Temporary gateway archives for your signed-in Super Admin account.</p>
           </div>
           {refreshing && <span className="inline-flex items-center gap-1 text-[10px] text-neutral-400"><LoaderCircle size={11} className="animate-spin" /> Updating</span>}

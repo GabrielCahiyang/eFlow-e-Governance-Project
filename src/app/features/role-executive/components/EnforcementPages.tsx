@@ -30,7 +30,7 @@ export function LeaderTracking() {
           <div className="flex bg-neutral-100 rounded-lg p-0.5">
             {([{ v: "liability", l: "Highest Liability" }, { v: "rate", l: "Lowest Liquidation Rate" }] as const).map((h) => (
               <button key={h.v} onClick={() => setSortBy(h.v as any)}
-                className={`px-3 py-1.5 rounded-md text-[11px] font-['Lexend:Medium',_sans-serif] cursor-pointer transition-all ${sortBy === h.v ? "bg-white text-neutral-900 shadow-sm" : "text-neutral-500 hover:text-neutral-700"}`}
+                className={`px-3 py-1.5 rounded-md text-[11px] font-medium cursor-pointer transition-all ${sortBy === h.v ? "bg-white text-neutral-900 shadow-sm" : "text-neutral-500 hover:text-neutral-700"}`}
               >{h.l}</button>
             ))}
           </div>
@@ -40,7 +40,7 @@ export function LeaderTracking() {
 
       {/* The Debt Dashboard */}
       <div className="bg-white rounded-xl border border-neutral-200 p-5 mb-5">
-        <h3 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mb-4">Leader Liability Ranking</h3>
+        <h3 className="text-[13px] font-semibold text-neutral-900 mb-4">Leader Liability Ranking</h3>
         <div className="space-y-4">
           {sorted.map((l, i) => {
             const isTop = i < 2 && l.totalFloat > 5000;
@@ -48,7 +48,7 @@ export function LeaderTracking() {
               <div key={l.leader} className={`rounded-xl border p-4 ${isTop ? "border-red-200 bg-red-50/30" : "border-neutral-200"}`}>
                 <div className="flex items-center gap-4">
                   {/* Rank badge */}
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center text-[14px] font-['Lexend:SemiBold',_sans-serif] ${
+                  <div className={`w-10 h-10 rounded-full flex items-center justify-center text-[14px] font-semibold ${
                     isTop ? "bg-red-100 text-red-700" : "bg-neutral-100 text-neutral-600"
                   }`}>
                     #{i + 1}
@@ -56,29 +56,29 @@ export function LeaderTracking() {
                   {/* Leader info */}
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-0.5">
-                      <span className="text-[14px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">{l.leader}</span>
-                      {isTop && <span className="text-[9px] bg-red-100 text-red-600 px-1.5 py-0.5 rounded font-['Lexend:Medium',_sans-serif]">HIGH LIABILITY</span>}
+                      <span className="text-[14px] font-semibold text-neutral-900">{l.leader}</span>
+                      {isTop && <span className="text-[9px] bg-red-100 text-red-600 px-1.5 py-0.5 rounded font-medium">HIGH LIABILITY</span>}
                     </div>
-                    <span className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500">{l.dept} · {l.staffCount} subordinates with open CA</span>
+                    <span className="text-[11px] font-normal text-neutral-500">{l.dept} · {l.staffCount} subordinates with open CA</span>
                   </div>
                   {/* Metrics */}
                   <div className="flex items-center gap-6">
                     <div className="text-center">
-                      <p className="text-[10px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase">Floating Cash</p>
-                      <p className={`text-[18px] font-['Lexend:SemiBold',_sans-serif] ${l.totalFloat > 10000 ? "text-red-600" : "text-neutral-900"}`}>₱{(l.totalFloat / 1000).toFixed(1)}K</p>
+                      <p className="text-[10px] font-medium text-neutral-500 uppercase">Floating Cash</p>
+                      <p className={`text-[18px] font-semibold ${l.totalFloat > 10000 ? "text-red-600" : "text-neutral-900"}`}>₱{(l.totalFloat / 1000).toFixed(1)}K</p>
                     </div>
                     <div className="text-center">
-                      <p className="text-[10px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase">On-Time Rate</p>
+                      <p className="text-[10px] font-medium text-neutral-500 uppercase">On-Time Rate</p>
                       <div className="flex items-center gap-1.5">
                         <div className="w-16 h-2.5 bg-neutral-100 rounded-full overflow-hidden">
                           <div className="h-full rounded-full transition-all" style={{ width: `${l.onTimeRate}%`, backgroundColor: l.onTimeRate > 60 ? "#10B981" : l.onTimeRate > 30 ? "#F59E0B" : "#EF4444" }} />
                         </div>
-                        <span className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-neutral-700">{l.onTimeRate}%</span>
+                        <span className="text-[12px] font-semibold text-neutral-700">{l.onTimeRate}%</span>
                       </div>
                     </div>
                     <div className="text-center">
-                      <p className="text-[10px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase">Sealed</p>
-                      <p className="text-[18px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">{l.sealed}/{l.staffCount}</p>
+                      <p className="text-[10px] font-medium text-neutral-500 uppercase">Sealed</p>
+                      <p className="text-[18px] font-semibold text-neutral-900">{l.sealed}/{l.staffCount}</p>
                     </div>
                   </div>
                 </div>
@@ -90,7 +90,7 @@ export function LeaderTracking() {
 
       {/* Comparison chart */}
       <div className="bg-white rounded-xl border border-neutral-200 p-5">
-        <h3 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mb-3">Floating Cash vs On-Time Liquidation Rate by Leader</h3>
+        <h3 className="text-[13px] font-semibold text-neutral-900 mb-3">Floating Cash vs On-Time Liquidation Rate by Leader</h3>
         <Charts.ResponsiveContainer width="100%" height={220}>
           <Charts.ComposedChart data={sorted.map(l => ({
             leader: l.leader.split(". ")[1] || l.leader.split(" ").pop(),
@@ -145,7 +145,7 @@ export function StalledFundsAlert() {
         subtitle="Unliquidated Cash Advances · BPA Enforcement"
         actions={<>
           <div className="flex items-center gap-2 bg-white border border-neutral-200 rounded-lg px-3 py-2">
-            <span className="text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-600">Auto-Demand Letters</span>
+            <span className="text-[11px] font-medium text-neutral-600">Auto-Demand Letters</span>
             <button
               onClick={() => setAutoLetters(!autoLetters)}
               className={`w-9 h-5 rounded-full transition-colors cursor-pointer ${autoLetters ? "bg-emerald-500" : "bg-neutral-300"}`}
@@ -167,8 +167,8 @@ export function StalledFundsAlert() {
       <div className="grid grid-cols-3 gap-5 mb-5">
         {/* Resolution Rate Pie */}
         <div className="bg-white rounded-xl border border-neutral-200 p-5">
-          <h3 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mb-1">Resolution Effectiveness</h3>
-          <p className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mb-3">% of staff that liquidate at each stage</p>
+          <h3 className="text-[13px] font-semibold text-neutral-900 mb-1">Resolution Effectiveness</h3>
+          <p className="text-[10px] font-normal text-neutral-500 mb-3">% of staff that liquidate at each stage</p>
           <Charts.ResponsiveContainer width="100%" height={160}>
             <Charts.PieChart>
               <Charts.Pie key="pie" data={resolutionData} cx="50%" cy="50%" innerRadius={35} outerRadius={60} dataKey="value" label={({ value }) => `${value}%`}>
@@ -184,7 +184,7 @@ export function StalledFundsAlert() {
 
         {/* BPA Tiered Actions Summary */}
         <div className="bg-white rounded-xl border border-neutral-200 p-5 col-span-2">
-          <h3 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mb-3">BPA Tiered Automated Actions</h3>
+          <h3 className="text-[13px] font-semibold text-neutral-900 mb-3">BPA Tiered Automated Actions</h3>
           <div className="grid grid-cols-3 gap-3">
             {[
               { day: "Day 15", action: "Viber Warning", desc: "Automated reminder via Viber to staff with open CA approaching 15 days.", color: "border-l-blue-400 bg-blue-50/30", icon: <Carbon.Send size={14} className="text-blue-600" />, rate: "78% resolve" },
@@ -195,11 +195,11 @@ export function StalledFundsAlert() {
                 <div className="flex items-center gap-2 mb-2">
                   {t.icon}
                   <div>
-                    <p className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">{t.day}: {t.action}</p>
-                    <p className="text-[10px] font-['Lexend:Medium',_sans-serif] text-emerald-600">{t.rate}</p>
+                    <p className="text-[12px] font-semibold text-neutral-900">{t.day}: {t.action}</p>
+                    <p className="text-[10px] font-medium text-emerald-600">{t.rate}</p>
                   </div>
                 </div>
-                <p className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-600 leading-relaxed">{t.desc}</p>
+                <p className="text-[10px] font-normal text-neutral-600 leading-relaxed">{t.desc}</p>
               </div>
             ))}
           </div>
@@ -208,7 +208,7 @@ export function StalledFundsAlert() {
 
       {/* Enforcement Feed */}
       <div className="bg-white rounded-xl border border-neutral-200 p-5">
-        <h3 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mb-3">Enforcement Activity Log</h3>
+        <h3 className="text-[13px] font-semibold text-neutral-900 mb-3">Enforcement Activity Log</h3>
         <div className="space-y-2">
           {enforcementLog.map((e) => {
             const isDemand = e.action.includes("Demand");
@@ -221,12 +221,12 @@ export function StalledFundsAlert() {
                 </div>
                 <div className="flex-1">
                   <div className="flex items-center gap-2">
-                    <span className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">{e.payee}</span>
-                    <span className="text-[10px] font-['Lexend:Medium',_sans-serif] text-neutral-400">Day {e.day}</span>
+                    <span className="text-[12px] font-semibold text-neutral-900">{e.payee}</span>
+                    <span className="text-[10px] font-medium text-neutral-400">Day {e.day}</span>
                   </div>
-                  <p className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-600">{e.action}</p>
+                  <p className="text-[11px] font-normal text-neutral-600">{e.action}</p>
                 </div>
-                <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-400">{e.date}</span>
+                <span className="text-[10px] font-normal text-neutral-400">{e.date}</span>
                 <UI.Pill status={e.resolved ? "Resolved" : e.status} />
               </div>
             );

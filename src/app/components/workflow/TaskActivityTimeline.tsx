@@ -132,7 +132,7 @@ export function TaskActivityTimeline({ taskId }: { taskId: string }) {
 
   if (items.length === 0) {
     return (
-      <div className="text-center py-8 text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-400">
+      <div className="text-center py-8 text-[12px] font-normal text-neutral-400">
         No activity yet.
       </div>
     );
@@ -149,12 +149,12 @@ export function TaskActivityTimeline({ taskId }: { taskId: string }) {
                 {STATUS_ICON[item.data.toStatus] || <Circle size={13} />}
               </div>
               <div className="flex-1 min-w-0 pt-1">
-                <div className="text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-700">
-                  <span className="font-['Lexend:Medium',_sans-serif] text-neutral-900">{item.data.actorName}</span>{" "}
+                <div className="text-[12px] font-normal text-neutral-700">
+                  <span className="font-medium text-neutral-900">{item.data.actorName}</span>{" "}
                   {STATUS_LABEL[item.data.toStatus] || `moved to ${item.data.toStatus}`}
                 </div>
                 {item.data.note && (
-                  <div className="text-[11.5px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mt-0.5 bg-neutral-50 border border-neutral-100 rounded-md px-2 py-1">
+                  <div className="text-[11.5px] font-normal text-neutral-500 mt-0.5 bg-neutral-50 border border-neutral-100 rounded-md px-2 py-1">
                     “{item.data.note}”
                   </div>
                 )}
@@ -172,32 +172,32 @@ export function TaskActivityTimeline({ taskId }: { taskId: string }) {
                 <div className="bg-white border border-neutral-200 rounded-lg p-2.5">
                   <div className="flex items-center gap-2 mb-1">
                     <InitialsAvatar name={item.data.authorName} size={18} />
-                    <span className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900">
+                    <span className="text-[12px] font-medium text-neutral-900">
                       {item.data.authorName}
                     </span>
                     <span className="text-[10.5px] text-neutral-400">posted a progress update</span>
                     {item.data.percentComplete != null && (
-                      <span className="ml-auto text-[11px] font-['Lexend:SemiBold',_sans-serif] text-blue-700 tabular-nums">
+                      <span className="ml-auto text-[11px] font-semibold text-blue-700 tabular-nums">
                         {item.data.percentComplete}%
                       </span>
                     )}
                   </div>
                   {item.data.blocker && (
-                    <div className="flex items-start gap-1.5 text-[11.5px] font-['Lexend:Regular',_sans-serif] text-amber-800 bg-amber-50 border border-amber-200 rounded-md px-2 py-1 mb-1">
+                    <div className="flex items-start gap-1.5 text-[11.5px] font-normal text-amber-800 bg-amber-50 border border-amber-200 rounded-md px-2 py-1 mb-1">
                       <AlertTriangle size={12} className="mt-0.5 shrink-0" />
                       <span>
-                        <b className="font-['Lexend:Medium',_sans-serif]">{item.data.blockerCategory || "Blocker"}:</b>{" "}
+                        <b className="font-medium">{item.data.blockerCategory || "Blocker"}:</b>{" "}
                         {item.data.blocker}
                       </span>
                     </div>
                   )}
                   {item.data.nextStep && (
-                    <div className="text-[11.5px] font-['Lexend:Regular',_sans-serif] text-neutral-600">
-                      <b className="font-['Lexend:Medium',_sans-serif] text-neutral-700">Next:</b> {item.data.nextStep}
+                    <div className="text-[11.5px] font-normal text-neutral-600">
+                      <b className="font-medium text-neutral-700">Next:</b> {item.data.nextStep}
                     </div>
                   )}
                   {item.data.note && (
-                    <div className="text-[11.5px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mt-0.5">
+                    <div className="text-[11.5px] font-normal text-neutral-500 mt-0.5">
                       {item.data.note}
                     </div>
                   )}

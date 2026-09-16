@@ -90,14 +90,14 @@ export function DailySummary() {
             <Brain size={16} className="text-white" />
           </div>
           <div>
-            <div className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">
+            <div className="text-[13px] font-semibold text-neutral-900">
               eFlow Briefing AI
             </div>
-            <div className="text-[10.5px] font-['Lexend:Regular',_sans-serif] text-neutral-500">
+            <div className="text-[10.5px] font-normal text-neutral-500">
               Synthesized from field reports · Ormoc Engineering Department
             </div>
           </div>
-          <div className="ml-auto text-[10.5px] font-['Lexend:Medium',_sans-serif] text-indigo-700 bg-white border border-indigo-200 rounded px-2 py-1">
+          <div className="ml-auto text-[10.5px] font-medium text-indigo-700 bg-white border border-indigo-200 rounded px-2 py-1">
             3 bullets
           </div>
         </div>
@@ -141,22 +141,22 @@ export function DailySummary() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="text-[10px] font-['Lexend:SemiBold',_sans-serif] text-neutral-400">
+                      <span className="text-[10px] font-semibold text-neutral-400">
                         #{i + 1}
                       </span>
                       <span
-                        className={`text-[9.5px] font-['Lexend:Medium',_sans-serif] uppercase border rounded px-1.5 py-0.5 ${tone.chip}`}
+                        className={`text-[9.5px] font-medium uppercase border rounded px-1.5 py-0.5 ${tone.chip}`}
                       >
                         {tone.label}
                       </span>
-                      <span className="ml-auto text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500">
+                      <span className="ml-auto text-[10px] font-normal text-neutral-500">
                         synthesized from {b.sourceCount} sources
                       </span>
                     </div>
-                    <div className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 leading-snug">
+                    <div className="text-[13px] font-semibold text-neutral-900 leading-snug">
                       {b.headline}
                     </div>
-                    <div className="text-[11.5px] font-['Lexend:Regular',_sans-serif] text-neutral-600 mt-1 leading-relaxed">
+                    <div className="text-[11.5px] font-normal text-neutral-600 mt-1 leading-relaxed">
                       {b.detail}
                     </div>
                   </div>
@@ -166,11 +166,11 @@ export function DailySummary() {
           })}
         </div>
 
-        <div className="mt-4 pt-4 border-t border-indigo-100 flex items-center gap-2 text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-600">
+        <div className="mt-4 pt-4 border-t border-indigo-100 flex items-center gap-2 text-[11px] font-normal text-neutral-600">
           <Info size={12} />
           Stand-up meeting replaced. 15 foremen continue field deployment.
           Approximate city savings:{" "}
-          <span className="font-['Lexend:Medium',_sans-serif] text-neutral-900">
+          <span className="font-medium text-neutral-900">
             36 man-hours/day
           </span>
           .

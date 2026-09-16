@@ -1,5 +1,6 @@
 // ─── Dashboard Metric Card ───────────────────────────────────────
 import React from "react";
+import { Skeleton, Text } from "@vibe/core";
 
 interface MetricCardProps {
   label: string;
@@ -13,20 +14,20 @@ interface MetricCardProps {
 export function MetricCard({ label, value, icon, trend, color = "#0085FF", loading }: MetricCardProps) {
   if (loading) {
     return (
-      <div className="bg-white rounded-xl border border-neutral-200 p-4 animate-pulse">
-        <div className="h-3 w-20 bg-neutral-100 rounded mb-3" />
-        <div className="h-8 w-16 bg-neutral-100 rounded mb-2" />
-        <div className="h-2 w-24 bg-neutral-100 rounded" />
-      </div>
+      <section className="rounded-xl border border-neutral-200 bg-white p-4" aria-label={`${label} is loading`}>
+        <Skeleton type="text" size="small" width={80} />
+        <div className="my-3"><Skeleton type="rectangle" size="custom" width={64} height={32} /></div>
+        <Skeleton type="text" size="small" width={96} />
+      </section>
     );
   }
 
   return (
-    <div className="bg-white rounded-xl border border-neutral-200 p-4 hover:shadow-sm transition-shadow">
+    <section className="rounded-xl border border-neutral-200 bg-white p-4 transition-shadow hover:shadow-sm" aria-label={label}>
       <div className="flex items-center justify-between mb-2">
-        <span className="text-[11px] font-['Lexend:Medium',_sans-serif] font-medium text-neutral-400 uppercase tracking-wider">
+        <Text className="uppercase tracking-wider" type="text3" color="secondary" weight="medium">
           {label}
-        </span>
+        </Text>
         {icon && (
           <div
             className="w-8 h-8 rounded-lg flex items-center justify-center"
@@ -36,7 +37,7 @@ export function MetricCard({ label, value, icon, trend, color = "#0085FF", loadi
           </div>
         )}
       </div>
-      <div className="text-[28px] font-['Lexend:SemiBold',_sans-serif] font-semibold text-neutral-900 tabular-nums">
+      <div className="text-[28px] font-semibold tabular-nums text-neutral-900">
         {value}
       </div>
       {trend && (
@@ -46,17 +47,19 @@ export function MetricCard({ label, value, icon, trend, color = "#0085FF", loadi
               trend.value >= 0 ? "bg-emerald-500" : "bg-red-500"
             }`}
           />
-          <span
-            className={`text-[10px] font-['Lexend:Medium',_sans-serif] ${
+          <Text
+            type="text3"
+            weight="medium"
+            className={`${
               trend.value >= 0 ? "text-emerald-600" : "text-red-600"
             }`}
           >
             {trend.value >= 0 ? "+" : ""}
             {trend.value}% {trend.label}
-          </span>
+          </Text>
         </div>
       )}
-    </div>
+    </section>
   );
 }
 
@@ -76,19 +79,19 @@ export function MetricCardWide({
 }) {
   if (loading) {
     return (
-      <div className="bg-white rounded-xl border border-neutral-200 p-4 flex items-center justify-center animate-pulse">
-        <div className="h-10 w-20 bg-neutral-100 rounded" />
-      </div>
+      <section className="flex items-center justify-center rounded-xl border border-neutral-200 bg-white p-4" aria-label={`${label} is loading`}>
+        <Skeleton type="rectangle" size="custom" width={80} height={40} />
+      </section>
     );
   }
 
   return (
-    <div className="bg-white rounded-xl border border-neutral-200 p-4 flex flex-col items-center justify-center">
-      <div className="text-[28px] font-['Lexend:SemiBold',_sans-serif] font-semibold tabular-nums" style={{ color }}>
+    <section className="flex flex-col items-center justify-center rounded-xl border border-neutral-200 bg-white p-4" aria-label={label}>
+      <div className="text-[28px] font-semibold tabular-nums" style={{ color }}>
         {value}
         {suffix && <span className="text-[14px] text-neutral-400 ml-1">{suffix}</span>}
       </div>
-      <div className="text-[11px] font-['Lexend:Medium',_sans-serif] font-medium text-neutral-500 mt-1">{label}</div>
-    </div>
+      <Text className="mt-1 text-neutral-500" type="text3" weight="medium">{label}</Text>
+    </section>
   );
 }

@@ -30,7 +30,7 @@ export function IncomingCallListener({ userId }: { userId?: string }) {
           <div className="text-[12px] text-neutral-400 mb-1">
             Incoming {incoming.callType} call
           </div>
-          <div className="text-[14px] font-['Lexend:SemiBold',_sans-serif] text-neutral-800 mb-3">
+          <div className="text-[14px] font-semibold text-neutral-800 mb-3">
             {incoming.callerName}
           </div>
           <div className="flex items-center gap-2">

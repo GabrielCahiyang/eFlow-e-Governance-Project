@@ -31,10 +31,6 @@ export function EflowAppShell({ role }: EflowAppShellProps) {
   const { can, user, userProfile } = useAuth();
   const { tasks } = useTasksData();
   const userId = user?.id;
-  // Desktop navigation begins as the compact, Figma-matched global icon rail.
-  // It can still expand on demand, so every existing role destination remains
-  // available without adding a second navigation model.
-  const [isCollapsed, setIsCollapsed] = useState(true);
   const [isMobileNavigationOpen, setMobileNavigationOpen] = useState(false);
   const getInitialPage = useCallback(
     (section: string) => {
@@ -114,6 +110,7 @@ export function EflowAppShell({ role }: EflowAppShellProps) {
       userId={user?.id || ""}
     >
       <div className="eflow-app-shell" data-tour-id="application-shell">
+        <a className="eflow-skip-link" href="#eflow-active-workspace">Skip to workspace</a>
         <EflowTopBar
           activePage={activePage}
           activeSection={activeSection}
@@ -126,13 +123,11 @@ export function EflowAppShell({ role }: EflowAppShellProps) {
             <ProductivitySidebar
               activePage={activePage}
               activeSection={activeSection}
-              collapsed={isCollapsed}
               navigationItems={navigationItems}
-              onCollapsedChange={setIsCollapsed}
               onPageSelect={handlePageSelect}
             />
           </div>
-          <main className="eflow-app-shell__workspace" aria-label="Active workspace">
+          <main className="eflow-app-shell__workspace" aria-label="Active workspace" id="eflow-active-workspace" tabIndex={-1}>
             <RoleContent
               activePage={activePage}
               activeSection={activeSection}
@@ -154,10 +149,8 @@ export function EflowAppShell({ role }: EflowAppShellProps) {
           <ProductivitySidebar
             activePage={activePage}
             activeSection={activeSection}
-            collapsed={false}
             mobile
             navigationItems={navigationItems}
-            onCollapsedChange={() => undefined}
             onPageSelect={handlePageSelect}
           />
         </div>

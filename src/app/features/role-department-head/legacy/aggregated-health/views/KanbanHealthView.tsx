@@ -21,10 +21,10 @@ export function KanbanHealthView() {
                   className={`bg-neutral-50 border-t-[3px] ${colTone[col]} border border-neutral-200 rounded-lg p-2 min-h-[400px]`}
                 >
                   <div className="flex items-center justify-between px-1 mb-2">
-                    <div className="text-[11px] font-['Lexend:SemiBold',_sans-serif] text-neutral-800 uppercase tracking-wider">
+                    <div className="text-[11px] font-semibold text-neutral-800 uppercase tracking-wider">
                       {col}
                     </div>
-                    <div className="text-[10px] font-['Lexend:Medium',_sans-serif] text-neutral-500 bg-white border border-neutral-200 rounded-full px-1.5 tabular-nums">
+                    <div className="text-[10px] font-medium text-neutral-500 bg-white border border-neutral-200 rounded-full px-1.5 tabular-nums">
                       {items.length}
                     </div>
                   </div>
@@ -41,11 +41,11 @@ export function KanbanHealthView() {
                           </span>
                           <Model.HealthChip health={p.health} />
                         </div>
-                        <div className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900 leading-snug">
+                        <div className="text-[12px] font-medium text-neutral-900 leading-snug">
                           {p.name}
                         </div>
                         <div className="mt-1.5 flex items-center gap-1.5">
-                          <div className="w-4 h-4 rounded-full bg-neutral-200 flex items-center justify-center text-[8px] font-['Lexend:SemiBold',_sans-serif] text-neutral-700">
+                          <div className="w-4 h-4 rounded-full bg-neutral-200 flex items-center justify-center text-[8px] font-semibold text-neutral-700">
                             {p.lead.split(" ").slice(-1)[0].slice(0, 2)}
                           </div>
                           <span className="text-[10px] text-neutral-500 truncate">

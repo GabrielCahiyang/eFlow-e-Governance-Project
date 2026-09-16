@@ -16,7 +16,7 @@ export function SubmissionHistory({
 
   return (
     <details className="mt-4 border-t border-neutral-100 pt-3">
-      <summary className="cursor-pointer text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-600">
+      <summary className="cursor-pointer text-[11px] font-medium text-neutral-600">
         Review history ({submissions.length} attempts)
       </summary>
       <div className="mt-2 space-y-2">

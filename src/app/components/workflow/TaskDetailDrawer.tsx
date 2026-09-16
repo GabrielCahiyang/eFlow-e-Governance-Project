@@ -27,6 +27,7 @@ import { TaskTeamMemberList } from "../../features/tasks/components/team/TaskTea
 import { getTaskTeamMemberIds } from "../../features/tasks/selectors/teamMembership";
 import { useTaskSubtasks } from "../../features/subtasks/hooks/useTaskSubtasks";
 import { WorkBudgetCard } from "../../features/budget";
+import { InspectorPanel } from "../../shared/motion";
 
 type Tab = "overview" | "activity" | "discussion" | "review";
 
@@ -130,11 +131,16 @@ export function TaskDetailDrawer({
     { id: "discussion", label: "Discussion", icon: <MessageSquare size={13} />, show: true },
     { id: "review", label: "Review", icon: <ClipboardCheck size={13} />, show: effectiveCanReview && task.status === "for_review" },
   ];
+  const visibleTabs = tabs.filter((item) => item.show);
 
   return (
     <>
-      <div className="fixed inset-0 bg-neutral-900/20 z-40 animate-[fade_0.2s_ease-out]" onClick={onClose} aria-hidden="true" />
-      <div role="dialog" aria-modal="true" aria-label={`Task details: ${task.title}`} className="fixed right-0 top-0 bottom-0 w-full sm:w-[520px] bg-white border-l border-neutral-200 shadow-2xl z-50 flex flex-col animate-[slidein_0.25s_cubic-bezier(0.25,1.1,0.4,1)] font-sans">
+      <InspectorPanel
+        open={Boolean(task)}
+        onClose={onClose}
+        ariaLabel={`Task details: ${task.title}`}
+        className="w-full font-sans sm:w-[520px]"
+      >
         {/* Header */}
         <div className="p-4 border-b border-neutral-100">
           <div className="flex items-start justify-between gap-2">
@@ -143,7 +149,7 @@ export function TaskDetailDrawer({
                 <TaskStatusBadge status={task.status} rejected={rejected} />
                 <PriorityPill priority={task.priority} />
               </div>
-              <h2 className="text-[16px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 leading-snug">
+              <h2 className="text-[16px] font-semibold text-neutral-900 leading-snug">
                 {task.title}
               </h2>
             </div>
@@ -151,8 +157,11 @@ export function TaskDetailDrawer({
           </div>
 
           {/* Tabs */}
-          <TabsContext id={`task-detail-tabs-${task.id}`}><TabList id={`task-detail-tab-list-${task.id}`}>
-            {tabs.filter((t) => t.show).map((t) => (
+          <TabsContext
+            id={`task-detail-tabs-${task.id}`}
+            activeTabId={Math.max(0, visibleTabs.findIndex((item) => item.id === tab))}
+          ><TabList id={`task-detail-tab-list-${task.id}`}>
+            {visibleTabs.map((t) => (
               <Tab
                 key={t.id}
                 id={`task-${task.id}-${t.id}`}
@@ -173,20 +182,20 @@ export function TaskDetailDrawer({
                 <div className="flex items-start gap-2.5 rounded-xl border border-blue-100 bg-blue-50/70 p-3">
                   <Info size={15} className="mt-0.5 shrink-0 text-blue-600" />
                   <div>
-                    <div className="text-[11.5px] font-['Lexend:Medium',_sans-serif] text-blue-900">Read-only oversight record</div>
+                    <div className="text-[11.5px] font-medium text-blue-900">Read-only oversight record</div>
                     <p className="mt-0.5 text-[10.5px] leading-relaxed text-blue-700">Inspect delivery, evidence, discussion, and history here. Operational changes remain with the responsible organization.</p>
                   </div>
                 </div>
               )}
               {task.description && (
-                <div className="text-[13px] font-['Lexend:Regular',_sans-serif] text-neutral-700 leading-relaxed whitespace-pre-wrap">
+                <div className="text-[13px] font-normal text-neutral-700 leading-relaxed whitespace-pre-wrap">
                   {task.description}
                 </div>
               )}
 
               {task.status === "cancelled" && (
                 <div className="rounded-xl border border-neutral-200 bg-neutral-50 p-3">
-                  <div className="text-[11px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wide text-neutral-500">Cancelled</div>
+                  <div className="text-[11px] font-medium uppercase tracking-wide text-neutral-500">Cancelled</div>
                   <div className="mt-0.5 text-[12.5px] text-neutral-700">
                     {task.cancellationReason || "No cancellation reason recorded."}
                   </div>
@@ -195,7 +204,7 @@ export function TaskDetailDrawer({
 
               {(Boolean(task.acceptanceCriteria?.length) || task.definitionOfDone) && (
                 <div className="rounded-xl border border-neutral-200 bg-neutral-50 p-3">
-                  <div className="text-[11px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wide text-neutral-500">Completion standard</div>
+                  <div className="text-[11px] font-medium uppercase tracking-wide text-neutral-500">Completion standard</div>
                   {task.acceptanceCriteria?.length ? (
                     <ul className="mt-1.5 list-disc space-y-1 pl-4 text-[12px] text-neutral-700">
                       {task.acceptanceCriteria.map((criterion) => <li key={criterion}>{criterion}</li>)}
@@ -209,7 +218,7 @@ export function TaskDetailDrawer({
 
               {dependencies.length > 0 && (
                 <div className={`rounded-xl border p-3 ${unresolvedDependencies.length ? "border-amber-200 bg-amber-50" : "border-emerald-200 bg-emerald-50"}`}>
-                  <div className="text-[11px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wide text-neutral-600">
+                  <div className="text-[11px] font-medium uppercase tracking-wide text-neutral-600">
                     Dependencies · {dependencies.length - unresolvedDependencies.length}/{dependencies.length} complete
                   </div>
                   <div className="mt-1.5 space-y-1 text-[11.5px] text-neutral-700">
@@ -222,8 +231,8 @@ export function TaskDetailDrawer({
 
               <div>
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-[11px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400">Progress</span>
-                  <span className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 tabular-nums">{percent}%</span>
+                  <span className="text-[11px] font-medium uppercase tracking-wider text-neutral-400">Progress</span>
+                  <span className="text-[12px] font-semibold text-neutral-900 tabular-nums">{percent}%</span>
                 </div>
                 <ProgressBar value={percent} tone={percent === 100 ? "good" : rel.overdue ? "bad" : "neutral"} />
               </div>
@@ -232,7 +241,7 @@ export function TaskDetailDrawer({
 
               {canStart && (
                 <div className="rounded-xl border border-blue-200 bg-blue-50 p-3">
-                  <div className="text-[12px] font-['Lexend:Medium',_sans-serif] text-blue-900">
+                  <div className="text-[12px] font-medium text-blue-900">
                     This task is ready to begin.
                   </div>
                   <p className="mt-0.5 text-[11px] text-blue-700">
@@ -265,8 +274,8 @@ export function TaskDetailDrawer({
 
               <section className="rounded-xl border border-neutral-200 bg-neutral-50/70 p-3">
                 <div className="flex items-center justify-between gap-2">
-                  <div className="inline-flex items-center gap-1.5 text-[10px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wide text-neutral-500"><UsersRound size={12} /> Task members · {getTaskTeamMemberIds(task).length}</div>
-                  {canManageTaskTeam && <button type="button" onClick={() => setTeamEditorOpen(true)} className="inline-flex items-center gap-1 rounded-lg border border-neutral-200 bg-white px-2.5 py-1.5 text-[9.5px] font-['Lexend:Medium',_sans-serif] text-neutral-600 hover:text-neutral-900"><Pencil size={10} /> Manage</button>}
+                  <div className="inline-flex items-center gap-1.5 text-[10px] font-medium uppercase tracking-wide text-neutral-500"><UsersRound size={12} /> Task members · {getTaskTeamMemberIds(task).length}</div>
+                  {canManageTaskTeam && <button type="button" onClick={() => setTeamEditorOpen(true)} className="inline-flex items-center gap-1 rounded-lg border border-neutral-200 bg-white px-2.5 py-1.5 text-[9.5px] font-medium text-neutral-600 hover:text-neutral-900"><Pencil size={10} /> Manage</button>}
                 </div>
                 <div className="mt-2 flex flex-wrap gap-1.5"><TaskTeamMemberList task={task} profiles={profiles} /></div>
               </section>
@@ -289,11 +298,11 @@ export function TaskDetailDrawer({
 
               {rejected && (
                 <div className="bg-rose-50 border border-rose-200 rounded-lg p-3">
-                  <div className="text-[11px] font-['Lexend:Medium',_sans-serif] text-rose-700 uppercase tracking-wide mb-0.5">
+                  <div className="text-[11px] font-medium text-rose-700 uppercase tracking-wide mb-0.5">
                     Changes requested
                   </div>
                   {task.rejectionNote && (
-                    <div className="text-[12.5px] font-['Lexend:Regular',_sans-serif] text-rose-900">{task.rejectionNote}</div>
+                    <div className="text-[12.5px] font-normal text-rose-900">{task.rejectionNote}</div>
                   )}
                   {canResume && (
                     <Button
@@ -312,12 +321,12 @@ export function TaskDetailDrawer({
                 <div className="bg-neutral-50 border border-neutral-200 rounded-lg p-3">
                   <div className="flex items-center gap-2 mb-1">
                     <InitialsAvatar name={task.latestSubmission.submitterName} size={20} />
-                    <span className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900">
+                    <span className="text-[12px] font-medium text-neutral-900">
                       {task.latestSubmission.submitterName}
                     </span>
                     <span className="text-[10.5px] text-neutral-400">submitted {formatDate(task.latestSubmission.submittedAt)}</span>
                   </div>
-                  <div className="text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-600 whitespace-pre-wrap">
+                  <div className="text-[12px] font-normal text-neutral-600 whitespace-pre-wrap">
                     {task.latestSubmission.note}
                   </div>
                 </div>
@@ -346,7 +355,7 @@ export function TaskDetailDrawer({
             <TaskReviewPanel task={task} canReview={effectiveCanReview} onDone={() => { onChanged?.(); onClose(); }} />
           )}
         </div>
-      </div>
+      </InspectorPanel>
       <TaskTeamEditorDialog
         task={teamEditorOpen ? task : null}
         profiles={profiles}
@@ -354,10 +363,6 @@ export function TaskDetailDrawer({
         responsibleOrgId={task.orgId || operationalProject?.orgId}
         onClose={() => setTeamEditorOpen(false)}
       />
-      <style>{`
-        @keyframes slidein { from { transform: translateX(100%); } to { transform: translateX(0); } }
-        @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
-      `}</style>
     </>
   );
 }
@@ -377,12 +382,12 @@ function Field({
 }) {
   return (
     <div>
-      <div className="flex items-center gap-1 text-[10.5px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400 mb-0.5">
+      <div className="flex items-center gap-1 text-[10.5px] font-medium uppercase tracking-wider text-neutral-400 mb-0.5">
         {icon} {label}
       </div>
-      <div className="text-[12.5px] font-['Lexend:Medium',_sans-serif] text-neutral-900 truncate">{value}</div>
+      <div className="text-[12.5px] font-medium text-neutral-900 truncate">{value}</div>
       {hint && (
-        <div className={`text-[10.5px] font-['Lexend:Regular',_sans-serif] ${hintTone === "bad" ? "text-red-600" : "text-neutral-400"}`}>
+        <div className={`text-[10.5px] font-normal ${hintTone === "bad" ? "text-red-600" : "text-neutral-400"}`}>
           {hint}
         </div>
       )}

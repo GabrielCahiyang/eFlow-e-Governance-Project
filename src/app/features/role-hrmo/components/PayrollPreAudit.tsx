@@ -48,7 +48,7 @@ export function PayrollPreAudit() {
         <div className="bg-white border border-neutral-200 rounded-xl overflow-hidden">
           <div className="px-5 py-4 border-b border-neutral-200 flex items-center gap-2">
             <FileCheck size={14} className="text-neutral-700" />
-            <span className="text-[13px] font-['Lexend:SemiBold',_sans-serif]">Reconciliation Checklist</span>
+            <span className="text-[13px] font-semibold">Reconciliation Checklist</span>
           </div>
           {AUDIT_CHECKS.map((c, i) => {
             const icon =
@@ -59,10 +59,10 @@ export function PayrollPreAudit() {
               <div key={i} className="px-5 py-3 border-b border-neutral-100 last:border-0 flex items-start gap-3 hover:bg-neutral-50 transition-colors">
                 <div className="mt-0.5">{icon}</div>
                 <div className="flex-1">
-                  <div className="text-[13px] font-['Lexend:Medium',_sans-serif] text-neutral-900">{c.label}</div>
-                  <div className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mt-0.5">{c.detail}</div>
+                  <div className="text-[13px] font-medium text-neutral-900">{c.label}</div>
+                  <div className="text-[11px] font-normal text-neutral-500 mt-0.5">{c.detail}</div>
                 </div>
-                <span className={`text-[10px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider ${
+                <span className={`text-[10px] font-medium uppercase tracking-wider ${
                   c.status === "pass" ? "text-emerald-600" : c.status === "fail" ? "text-red-600" : "text-amber-600"
                 }`}>
                   {c.status}
@@ -76,15 +76,15 @@ export function PayrollPreAudit() {
         <div className="bg-gradient-to-br from-neutral-900 via-neutral-900 to-neutral-800 text-white rounded-xl overflow-hidden">
           <div className="px-5 py-4 border-b border-neutral-800 flex items-center gap-2">
             <Fingerprint size={14} className="text-emerald-400" />
-            <span className="text-[13px] font-['Lexend:SemiBold',_sans-serif]">Cryptographic Seal</span>
-            {canCommit && <span className="ml-auto text-[10px] text-emerald-400 font-['Lexend:Medium',_sans-serif]">READY</span>}
+            <span className="text-[13px] font-semibold">Cryptographic Seal</span>
+            {canCommit && <span className="ml-auto text-[10px] text-emerald-400 font-medium">READY</span>}
           </div>
           <div className="p-5">
             <div className="text-[10px] text-neutral-400 uppercase tracking-wider mb-1">SHA-256</div>
             <div className="font-mono text-[10px] text-emerald-400 break-all leading-relaxed bg-neutral-950 border border-neutral-800 rounded-lg p-3 mb-4">
               {canCommit ? "8f4a9c2e7b1d3e5f0a6c8d1e4b7a9f2c3d5e8b1a4c7d9e2f5a8b1c4d7e0f3a6b" : "— pending reconciliation —"}
             </div>
-            <div className="space-y-2 text-[11px] font-['Lexend:Regular',_sans-serif]">
+            <div className="space-y-2 text-[11px] font-normal">
               <div className="flex justify-between"><span className="text-neutral-400">Cycle</span><span>2026-04-C2</span></div>
               <div className="flex justify-between"><span className="text-neutral-400">Employees</span><span className="tabular-nums">2,068</span></div>
               <div className="flex justify-between"><span className="text-neutral-400">Gross</span><span className="tabular-nums">₱142,840,218.00</span></div>
@@ -93,7 +93,7 @@ export function PayrollPreAudit() {
             </div>
             <button
               disabled={!canCommit}
-              className={`w-full mt-4 py-2.5 rounded-lg text-[12px] font-['Lexend:Medium',_sans-serif] transition-colors ${
+              className={`w-full mt-4 py-2.5 rounded-lg text-[12px] font-medium transition-colors ${
                 canCommit ? "bg-emerald-500 text-white hover:bg-emerald-400 cursor-pointer" : "bg-neutral-800 text-neutral-500 cursor-not-allowed"
               }`}
             >

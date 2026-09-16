@@ -12,7 +12,7 @@ export function SubmissionDetails({
 
   return (
     <div className="mt-1.5 rounded-lg border border-violet-100 bg-violet-50/60 px-2 py-1.5">
-      <div className="text-[10px] uppercase tracking-wider text-violet-600 font-['Lexend:Medium',_sans-serif]">
+      <div className="text-[10px] uppercase tracking-wider text-violet-600 font-medium">
         Submission
       </div>
       {submission.note && (
@@ -65,7 +65,7 @@ export function RejectionNotice({
 
   return (
     <div className="mt-1.5 rounded-lg border border-red-100 bg-red-50 px-2 py-1.5">
-      <div className="text-[10px] uppercase tracking-wider text-red-600 font-['Lexend:Medium',_sans-serif]">
+      <div className="text-[10px] uppercase tracking-wider text-red-600 font-medium">
         Rejection
       </div>
       <div className="text-[11px] text-red-700 mt-0.5">Note: {note}</div>
@@ -92,7 +92,7 @@ export function ReopenNotice({
 
   return (
     <div className="mt-1.5 rounded-lg border border-amber-100 bg-amber-50 px-2 py-1.5">
-      <div className="text-[10px] uppercase tracking-wider text-amber-700 font-['Lexend:Medium',_sans-serif]">
+      <div className="text-[10px] uppercase tracking-wider text-amber-700 font-medium">
         Reopened
       </div>
       <div className="text-[11px] text-amber-800 mt-0.5">

@@ -26,10 +26,10 @@ function CSSGauge({ value, label, color }: { value: number; label: string; color
           }}
         />
       </div>
-      <div className="text-[24px] font-['Lexend:SemiBold',_sans-serif] font-semibold text-neutral-900 -mt-4 tabular-nums">
+      <div className="text-[24px] font-semibold text-neutral-900 -mt-4 tabular-nums">
         {clamp}%
       </div>
-      <div className="text-[11px] font-['Lexend:Medium',_sans-serif] font-medium text-neutral-500 mt-0.5">{label}</div>
+      <div className="text-[11px] font-medium text-neutral-500 mt-0.5">{label}</div>
     </div>
   );
 }
@@ -41,7 +41,7 @@ function HorizontalBarChart({ data, color }: { data: { label: string; value: num
     <div className="flex flex-col gap-2.5">
       {data.map((d) => (
         <div key={d.label} className="flex items-center gap-3">
-          <span className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-600 w-28 truncate shrink-0">
+          <span className="text-[11px] font-normal text-neutral-600 w-28 truncate shrink-0">
             {d.label}
           </span>
           <div className="flex-1 h-5 bg-neutral-100 rounded-full overflow-hidden">
@@ -70,10 +70,10 @@ function RecentList({
   return (
     <div className="bg-white rounded-xl border border-neutral-200 overflow-hidden">
       <div className="px-4 py-3 border-b border-neutral-100">
-        <span className="text-[12px] font-['Lexend:SemiBold',_sans-serif] font-semibold text-neutral-700">{title}</span>
+        <span className="text-[12px] font-semibold text-neutral-700">{title}</span>
       </div>
       {items.length === 0 ? (
-        <div className="px-4 py-8 text-center text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-400">
+        <div className="px-4 py-8 text-center text-[12px] font-normal text-neutral-400">
           {emptyText}
         </div>
       ) : (
@@ -81,12 +81,12 @@ function RecentList({
           {items.map((item) => (
             <div key={item.id} className="px-4 py-3 flex items-center justify-between hover:bg-neutral-50/50 transition-colors">
               <div>
-                <div className="text-[12px] font-['Lexend:Medium',_sans-serif] font-medium text-neutral-900">{item.primary}</div>
-                <div className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500">{item.secondary}</div>
+                <div className="text-[12px] font-medium text-neutral-900">{item.primary}</div>
+                <div className="text-[11px] font-normal text-neutral-500">{item.secondary}</div>
               </div>
               {item.badge && (
                 <span
-                  className="px-2 py-0.5 rounded-full text-[10px] font-['Lexend:Medium',_sans-serif] font-medium"
+                  className="px-2 py-0.5 rounded-full text-[10px] font-medium"
                   style={{
                     backgroundColor: `${item.badgeColor || "#6366f1"}15`,
                     color: item.badgeColor || "#6366f1",
@@ -108,7 +108,7 @@ function WorkloadHeatmap({ users }: { users: UserProfile[] }) {
   const activeUsers = users.filter((u) => u.is_active).slice(0, 20);
   return (
     <div className="bg-white rounded-xl border border-neutral-200 p-4">
-      <div className="text-[12px] font-['Lexend:SemiBold',_sans-serif] font-semibold text-neutral-700 mb-3">
+      <div className="text-[12px] font-semibold text-neutral-700 mb-3">
         Employee Workload Heatmap
       </div>
       {activeUsers.length === 0 ? (
@@ -136,7 +136,7 @@ function WorkloadHeatmap({ users }: { users: UserProfile[] }) {
                 className={`${color} rounded-lg p-2 flex flex-col items-center justify-center text-white aspect-square`}
                 title={`${u.full_name}: ${u.workload}%`}
               >
-                <span className="text-[11px] font-['Lexend:SemiBold',_sans-serif] font-semibold">{initials}</span>
+                <span className="text-[11px] font-semibold">{initials}</span>
                 <span className="text-[9px] opacity-80">{u.workload}%</span>
               </div>
             );
@@ -206,13 +206,13 @@ export function DashboardOverview() {
   return (
     <div>
       {/* Breadcrumb */}
-      <div className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-400 mb-3">
+      <div className="text-[11px] font-normal text-neutral-400 mb-3">
         Super Admin <span className="mx-1.5">/</span>{" "}
         <span className="text-neutral-700">Dashboard Overview</span>
       </div>
 
       <div className="flex items-center justify-between mb-6">
-        <h2 className="font-['Lexend:SemiBold',_sans-serif] font-semibold text-[20px] text-neutral-900">
+        <h2 className="font-semibold text-[20px] text-neutral-900">
           Dashboard Overview
         </h2>
       </div>
@@ -261,7 +261,7 @@ export function DashboardOverview() {
       {/* Charts Row */}
       <div className="grid grid-cols-2 gap-4 mb-4">
         <div className="bg-white rounded-xl border border-neutral-200 p-4">
-          <div className="text-[12px] font-['Lexend:SemiBold',_sans-serif] font-semibold text-neutral-700 mb-3">
+          <div className="text-[12px] font-semibold text-neutral-700 mb-3">
             Users per Org Unit
           </div>
           {deptDistribution.length > 0 ? (
@@ -271,7 +271,7 @@ export function DashboardOverview() {
           )}
         </div>
         <div className="bg-white rounded-xl border border-neutral-200 p-4">
-          <div className="text-[12px] font-['Lexend:SemiBold',_sans-serif] font-semibold text-neutral-700 mb-3">
+          <div className="text-[12px] font-semibold text-neutral-700 mb-3">
             Average Workload Gauge
           </div>
           <div className="flex justify-center">

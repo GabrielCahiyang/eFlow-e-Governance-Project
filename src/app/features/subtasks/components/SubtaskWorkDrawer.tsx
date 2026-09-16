@@ -16,6 +16,7 @@ import { SubtaskDeadlineEditor } from "./SubtaskDeadlineEditor";
 import { SubtaskReviewerBadge } from "./SubtaskReviewerBadge";
 import { useSubtaskReviewerDirectory } from "../hooks/useSubtaskReviewerDirectory";
 import { WorkBudgetCard } from "../../budget";
+import { InspectorPanel } from "../../../shared/motion";
 
 const statusMeta = {
   todo: { label: "To do", tone: "bg-neutral-100 text-neutral-700" },
@@ -70,17 +71,21 @@ export function SubtaskWorkDrawer({
     .filter((name): name is string => Boolean(name));
 
   return (
-    <>
-      <div className="fixed inset-0 z-[60] bg-neutral-900/25" onClick={onClose} />
-      <aside className="fixed bottom-0 right-0 top-0 z-[61] flex w-full flex-col border-l border-neutral-200 bg-white shadow-2xl sm:w-[460px]">
+    <InspectorPanel
+      open={Boolean(current)}
+      onClose={onClose}
+      ariaLabel={`Subtask details: ${current.title}`}
+      className="w-full sm:w-[460px]"
+      layer={60}
+    >
         <header className="border-b border-neutral-100 p-4">
           <div className="flex items-start justify-between gap-3">
             <div className="min-w-0">
-              <span className={`inline-flex rounded-full px-2 py-0.5 text-[10px] font-['Lexend:Medium',_sans-serif] ${status.tone}`}>{status.label}</span>
-              <span className={`ml-1.5 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-['Lexend:Medium',_sans-serif] ${current.isStandalone ? "bg-violet-50 text-violet-700" : "bg-neutral-100 text-neutral-600"}`}>
+              <span className={`inline-flex rounded-full px-2 py-0.5 text-[10px] font-medium ${status.tone}`}>{status.label}</span>
+              <span className={`ml-1.5 inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-medium ${current.isStandalone ? "bg-violet-50 text-violet-700" : "bg-neutral-100 text-neutral-600"}`}>
                 {current.isStandalone ? <><Unlink2 size={10} /> Standalone</> : <>Ordered step</>}
               </span>
-              <h2 className="mt-2 text-[16px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">{current.title}</h2>
+              <h2 className="mt-2 text-[16px] font-semibold text-neutral-900">{current.title}</h2>
               <p className="mt-0.5 truncate text-[11px] text-neutral-500">Subtask of {parentTask?.title || "parent task"}</p>
             </div>
             <button onClick={onClose} className="p-1 text-neutral-400 hover:text-neutral-800"><X size={18} /></button>
@@ -90,7 +95,7 @@ export function SubtaskWorkDrawer({
             <div className="flex gap-2 rounded-xl border border-amber-200 bg-amber-50 p-3 text-[11.5px] text-amber-900">
               <LockKeyhole size={15} className="mt-0.5 shrink-0" />
               <div>
-                <strong className="font-['Lexend:SemiBold',_sans-serif]">Waiting for an earlier step.</strong>
+                <strong className="font-semibold">Waiting for an earlier step.</strong>
                 <p className="mt-0.5 text-amber-700">“{prerequisite.title}” must be approved by the Team Lead before this subtask can start.</p>
               </div>
             </div>
@@ -101,7 +106,7 @@ export function SubtaskWorkDrawer({
           <div className="rounded-xl border border-neutral-200 bg-neutral-50 p-3">
             <div className="flex items-center justify-between text-[11px] text-neutral-500">
               <span className="flex items-center gap-1.5"><ListChecks size={13} /> Subtask progress</span>
-              <span className="font-['Lexend:SemiBold',_sans-serif] text-neutral-900">{current.percentComplete}%</span>
+              <span className="font-semibold text-neutral-900">{current.percentComplete}%</span>
             </div>
             <div className="mt-2"><ProgressBar value={current.percentComplete} tone={current.status === "completed" ? "good" : "neutral"} /></div>
             <div className="mt-3 grid grid-cols-2 gap-3 text-[11px]">
@@ -149,7 +154,7 @@ export function SubtaskWorkDrawer({
           {readOnly ? (
             <div className="flex gap-2 rounded-xl border border-blue-200 bg-blue-50 p-3 text-[11.5px] text-blue-800">
               <Eye size={14} className="mt-0.5 shrink-0" />
-              <span><strong className="font-['Lexend:SemiBold',_sans-serif]">Team Leader view.</strong> Progress is read-only here; the assigned employee owns these updates.</span>
+              <span><strong className="font-semibold">Team Leader view.</strong> Progress is read-only here; the assigned employee owns these updates.</span>
             </div>
           ) : (
             <SubtaskProgressForm subtask={current} prerequisite={prerequisite} onSaved={reload} />
@@ -157,7 +162,6 @@ export function SubtaskWorkDrawer({
           <SubtaskProgressHistory updates={progressUpdates} />
           <SubtaskSubmissionHistory submissions={submissions} />
         </div>
-      </aside>
-    </>
+    </InspectorPanel>
   );
 }

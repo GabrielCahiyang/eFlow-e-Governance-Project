@@ -28,7 +28,7 @@ export function ProjectBudgetTab({ data }: { data: ProjectCommandData }) {
 
   if (!summary || (summary.approvedAmount === 0 && lines.length === 0)) {
     return (
-      <div className="bg-white border border-neutral-200/80 rounded-2xl p-12 text-center shadow-xs font-['Montserrat',sans-serif]">
+      <div className="bg-white border border-neutral-200/80 rounded-2xl p-12 text-center shadow-xs font-sans">
         <SectionEmpty
           icon={<Coins size={36} className="text-neutral-400" />}
           title="No Financial Allocation"
@@ -39,7 +39,7 @@ export function ProjectBudgetTab({ data }: { data: ProjectCommandData }) {
   }
 
   return (
-    <div className="space-y-6 font-['Montserrat',sans-serif]">
+    <div className="space-y-6 font-sans">
       {/* Top Financial KPI Strip */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="bg-white border border-neutral-200/80 rounded-2xl p-5 shadow-xs">

@@ -56,18 +56,18 @@ export function EnvironmentalProtection() {
       {/* Compliance Battery */}
       <div className="bg-white rounded-xl border border-neutral-200 p-5 mb-5">
         <div className="flex items-center justify-between mb-3">
-          <h3 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">Compliance Battery</h3>
-          <span className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-emerald-600">{compliancePct}% Legal Hurdles Cleared</span>
+          <h3 className="text-[13px] font-semibold text-neutral-900">Compliance Battery</h3>
+          <span className="text-[12px] font-semibold text-emerald-600">{compliancePct}% Legal Hurdles Cleared</span>
         </div>
         <div className="flex rounded-full overflow-hidden h-7 bg-neutral-100">
           <div className="bg-emerald-500 flex items-center justify-center transition-all" style={{ width: `${compliancePct}%` }}>
-            <span className="text-[10px] font-['Lexend:Medium',_sans-serif] text-white">{complianceCleared} Cleared</span>
+            <span className="text-[10px] font-medium text-white">{complianceCleared} Cleared</span>
           </div>
           <div className="bg-amber-300 flex items-center justify-center" style={{ width: `${Math.round((3 / complianceTotal) * 100)}%` }}>
-            <span className="text-[10px] font-['Lexend:Medium',_sans-serif] text-amber-900">3 In Progress</span>
+            <span className="text-[10px] font-medium text-amber-900">3 In Progress</span>
           </div>
           <div className="bg-neutral-200 flex items-center justify-center" style={{ width: `${Math.round((1 / complianceTotal) * 100)}%` }}>
-            <span className="text-[10px] font-['Lexend:Medium',_sans-serif] text-neutral-600">1</span>
+            <span className="text-[10px] font-medium text-neutral-600">1</span>
           </div>
         </div>
       </div>
@@ -76,9 +76,9 @@ export function EnvironmentalProtection() {
       <div className="bg-red-50 border border-red-200 rounded-xl p-4 mb-5">
         <div className="flex items-center gap-2 mb-1">
           <Carbon.Warning size={14} className="text-red-600" />
-          <span className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-red-800">BPA Auto-Escalation Triggered</span>
+          <span className="text-[12px] font-semibold text-red-800">BPA Auto-Escalation Triggered</span>
         </div>
-        <p className="text-[11px] font-['Lexend:Regular',_sans-serif] text-red-700 ml-5">
+        <p className="text-[11px] font-normal text-red-700 ml-5">
           DENR ECC has exceeded the 15-day SLA (now at 18 days). The BPA engine has automatically escalated this to the Mayor's Office for intervention.
         </p>
       </div>
@@ -88,27 +88,27 @@ export function EnvironmentalProtection() {
         {Object.entries(permitData).map(([stage, cards]) => (
           <div key={stage} className="bg-neutral-50 rounded-xl border border-neutral-200 p-3">
             <div className="flex items-center justify-between mb-3">
-              <h4 className="text-[11px] font-['Lexend:SemiBold',_sans-serif] text-neutral-700">{stage}</h4>
-              <span className="text-[10px] font-['Lexend:Medium',_sans-serif] bg-neutral-200 text-neutral-600 rounded-full px-2 py-0.5">{cards.length}</span>
+              <h4 className="text-[11px] font-semibold text-neutral-700">{stage}</h4>
+              <span className="text-[10px] font-medium bg-neutral-200 text-neutral-600 rounded-full px-2 py-0.5">{cards.length}</span>
             </div>
             <div className="space-y-2.5">
               {cards.map((card) => (
                 <div key={card.id} className={`bg-white rounded-lg border p-3.5 shadow-sm ${card.escalated ? "border-red-300 ring-1 ring-red-100" : "border-neutral-200"}`}>
-                  <h5 className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mb-1">{card.permit}</h5>
-                  <p className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mb-2">{card.agency}</p>
+                  <h5 className="text-[12px] font-semibold text-neutral-900 mb-1">{card.permit}</h5>
+                  <p className="text-[10px] font-normal text-neutral-500 mb-2">{card.agency}</p>
                   {card.daysInStage > 0 && (
                     <div className="flex items-center gap-2 mb-2">
                       <Carbon.Time size={10} className={card.daysInStage > card.sla ? "text-red-500" : "text-neutral-400"} />
-                      <span className={`text-[10px] font-['Lexend:Medium',_sans-serif] ${card.daysInStage > card.sla ? "text-red-600" : "text-neutral-600"}`}>
+                      <span className={`text-[10px] font-medium ${card.daysInStage > card.sla ? "text-red-600" : "text-neutral-600"}`}>
                         {card.daysInStage}d / {card.sla}d SLA
                       </span>
-                      {card.daysInStage > card.sla && <span className="text-[9px] bg-red-100 text-red-600 px-1.5 py-0.5 rounded font-['Lexend:Medium',_sans-serif]">BREACH</span>}
+                      {card.daysInStage > card.sla && <span className="text-[9px] bg-red-100 text-red-600 px-1.5 py-0.5 rounded font-medium">BREACH</span>}
                     </div>
                   )}
                   {card.escalated && (
                     <div className="flex items-center gap-1.5 bg-red-50 rounded px-2 py-1 mt-1">
                       <Carbon.Warning size={10} className="text-red-500" />
-                      <span className="text-[9px] font-['Lexend:Medium',_sans-serif] text-red-700">Escalated to Mayor's Office</span>
+                      <span className="text-[9px] font-medium text-red-700">Escalated to Mayor's Office</span>
                     </div>
                   )}
                   {card.status === "Approved / Cleared" && (
@@ -174,8 +174,8 @@ export function RevenueProjections() {
       <div className="grid grid-cols-3 gap-5 mb-5">
         {/* NPV Health Gauge */}
         <div className="bg-white rounded-xl border border-neutral-200 p-5">
-          <h3 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mb-1">NPV Health Gauge</h3>
-          <p className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mb-4">Net Present Value vs. threshold</p>
+          <h3 className="text-[13px] font-semibold text-neutral-900 mb-1">NPV Health Gauge</h3>
+          <p className="text-[11px] font-normal text-neutral-500 mb-4">Net Present Value vs. threshold</p>
           <div className="flex flex-col items-center">
             {/* Semi-circle gauge */}
             <div className="relative w-48 h-24 overflow-hidden mb-3">
@@ -191,10 +191,10 @@ export function RevenueProjections() {
                 }}
               />
               <div className="absolute bottom-0 left-1/2 -translate-x-1/2 text-center">
-                <span className="text-[28px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">₱{currentNPV}M</span>
+                <span className="text-[28px] font-semibold text-neutral-900">₱{currentNPV}M</span>
               </div>
             </div>
-            <div className="flex items-center gap-4 text-[10px] font-['Lexend:Regular',_sans-serif]">
+            <div className="flex items-center gap-4 text-[10px] font-normal">
               <span className="text-red-500">← Danger &lt;₱{targetNPV}M</span>
               <span className="text-emerald-500">Safe Zone →</span>
             </div>
@@ -203,8 +203,8 @@ export function RevenueProjections() {
 
         {/* NPV Trend */}
         <div className="bg-white rounded-xl border border-neutral-200 p-5 col-span-2">
-          <h3 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mb-1">NPV vs. Cumulative Spend Trend</h3>
-          <p className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mb-3">As budget is consumed, NPV adjusts in real-time</p>
+          <h3 className="text-[13px] font-semibold text-neutral-900 mb-1">NPV vs. Cumulative Spend Trend</h3>
+          <p className="text-[11px] font-normal text-neutral-500 mb-3">As budget is consumed, NPV adjusts in real-time</p>
           <Charts.ResponsiveContainer width="100%" height={220}>
             <Charts.ComposedChart data={npvHistory}>
               <Charts.CartesianGrid key="g" strokeDasharray="3 3" stroke="#f0f0f0" />
@@ -222,23 +222,23 @@ export function RevenueProjections() {
 
       {/* Revenue Table */}
       <div className="bg-white rounded-xl border border-neutral-200 p-5">
-        <h3 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mb-3">Monthly Revenue Streams (₱ Thousands)</h3>
+        <h3 className="text-[13px] font-semibold text-neutral-900 mb-3">Monthly Revenue Streams (₱ Thousands)</h3>
         <table className="w-full text-left">
           <thead>
             <tr className="border-b border-neutral-100">
               {["Revenue Stream", "Projected Monthly", "Actual Monthly", "Variance", "Status"].map((h) => (
-                <th key={h} className="py-2.5 px-3 text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase tracking-wide">{h}</th>
+                <th key={h} className="py-2.5 px-3 text-[11px] font-medium text-neutral-500 uppercase tracking-wide">{h}</th>
               ))}
             </tr>
           </thead>
           <tbody>
             {revenueStreams.map((r) => (
               <tr key={r.stream} className="border-b border-neutral-50 hover:bg-neutral-50/50 transition-colors">
-                <td className="py-3 px-3 text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900">{r.stream}</td>
-                <td className="py-3 px-3 text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-600">₱{r.projected.toLocaleString()}K</td>
-                <td className="py-3 px-3 text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900">₱{r.actual.toLocaleString()}K</td>
+                <td className="py-3 px-3 text-[12px] font-medium text-neutral-900">{r.stream}</td>
+                <td className="py-3 px-3 text-[12px] font-normal text-neutral-600">₱{r.projected.toLocaleString()}K</td>
+                <td className="py-3 px-3 text-[12px] font-medium text-neutral-900">₱{r.actual.toLocaleString()}K</td>
                 <td className="py-3 px-3">
-                  <span className={`text-[12px] font-['Lexend:Medium',_sans-serif] ${r.variance >= 0 ? "text-emerald-600" : "text-red-600"}`}>
+                  <span className={`text-[12px] font-medium ${r.variance >= 0 ? "text-emerald-600" : "text-red-600"}`}>
                     {r.variance >= 0 ? "+" : ""}{r.variance}%
                   </span>
                 </td>

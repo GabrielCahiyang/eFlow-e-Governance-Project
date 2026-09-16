@@ -76,7 +76,7 @@ export function DelayNodeAlerts() {
 
       <div className="grid grid-cols-[0.9fr_1.4fr] gap-4">
         <div className="space-y-2">
-          <div className="text-[11px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400 px-1 mb-1">
+          <div className="text-[11px] font-medium uppercase tracking-wider text-neutral-400 px-1 mb-1">
             Flagged Nodes
           </div>
           {DELAY_NODES.map((n) => {
@@ -107,22 +107,22 @@ export function DelayNodeAlerts() {
                 className={`w-full text-left border rounded-xl p-3 transition ${isActive ? "border-neutral-900 shadow-sm" : tone.border} ${tone.bg}`}
               >
                 <div className="flex items-center justify-between mb-1">
-                  <div className="text-[12.5px] font-['Lexend:Medium',_sans-serif] text-neutral-900">
+                  <div className="text-[12.5px] font-medium text-neutral-900">
                     {n.name}
                   </div>
                   <span
-                    className={`text-[9px] font-['Lexend:Medium',_sans-serif] uppercase rounded px-1.5 py-0.5 ${tone.chip}`}
+                    className={`text-[9px] font-medium uppercase rounded px-1.5 py-0.5 ${tone.chip}`}
                   >
                     {severity.toFixed(1)}× SLA
                   </span>
                 </div>
-                <div className="text-[10.5px] font-['Lexend:Regular',_sans-serif] text-neutral-500">
+                <div className="text-[10.5px] font-normal text-neutral-500">
                   {n.officer}
                 </div>
-                <div className="flex items-center gap-2 mt-1.5 text-[10.5px] font-['Lexend:Regular',_sans-serif] text-neutral-600">
+                <div className="flex items-center gap-2 mt-1.5 text-[10.5px] font-normal text-neutral-600">
                   <span>
                     backlog:{" "}
-                    <span className="font-['Lexend:Medium',_sans-serif] text-neutral-900 tabular-nums">
+                    <span className="font-medium text-neutral-900 tabular-nums">
                       {n.backlog}
                     </span>
                   </span>
@@ -139,21 +139,21 @@ export function DelayNodeAlerts() {
         <div className="bg-white border border-neutral-200 rounded-xl p-5">
           <div className="flex items-start justify-between mb-4">
             <div>
-              <div className="text-[11px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400">
+              <div className="text-[11px] font-medium uppercase tracking-wider text-neutral-400">
                 Diagnostic Panel
               </div>
-              <div className="text-[17px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mt-0.5">
+              <div className="text-[17px] font-semibold text-neutral-900 mt-0.5">
                 {selected.name}
               </div>
-              <div className="text-[11.5px] font-['Lexend:Regular',_sans-serif] text-neutral-500">
+              <div className="text-[11.5px] font-normal text-neutral-500">
                 Assigned officer · {selected.officer}
               </div>
             </div>
             <div className="bg-red-600 text-white rounded-lg px-3 py-2 text-center">
-              <div className="text-[10px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider opacity-80">
+              <div className="text-[10px] font-medium uppercase tracking-wider opacity-80">
                 SLA Violation
               </div>
-              <div className="text-[18px] font-['Lexend:SemiBold',_sans-serif] tabular-nums">
+              <div className="text-[18px] font-semibold tabular-nums">
                 +{overPct}%
               </div>
             </div>
@@ -162,27 +162,27 @@ export function DelayNodeAlerts() {
           <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-4">
             <div className="flex items-start gap-2">
               <Brain size={14} className="text-red-700 mt-0.5 shrink-0" />
-              <div className="text-[11.5px] font-['Lexend:Regular',_sans-serif] text-red-900 leading-relaxed">
-                <span className="font-['Lexend:Medium',_sans-serif]">
+              <div className="text-[11.5px] font-normal text-red-900 leading-relaxed">
+                <span className="font-medium">
                   AI Insight.
                 </span>{" "}
                 This node is violating its {selected.slaHours}-hour Service
                 Level Agreement. The backlog is currently{" "}
-                <span className="font-['Lexend:Medium',_sans-serif]">
+                <span className="font-medium">
                   {selected.backlog} documents
                 </span>
                 . The assigned officer{" "}
                 {selected.burnoutFlag && (
                   <>
                     has been flagged by the{" "}
-                    <span className="font-['Lexend:Medium',_sans-serif]">
+                    <span className="font-medium">
                       HR Burnout Radar
                     </span>{" "}
                     (78% sustained load over 14 days)
                   </>
                 )}
                 . Extrapolated clearance without intervention:{" "}
-                <span className="font-['Lexend:Medium',_sans-serif]">
+                <span className="font-medium">
                   21+ business days
                 </span>
                 .
@@ -192,36 +192,36 @@ export function DelayNodeAlerts() {
 
           <div className="grid grid-cols-3 gap-3 mb-4">
             <div className="bg-neutral-50 border border-neutral-200 rounded-lg p-3">
-              <div className="text-[9.5px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400">
+              <div className="text-[9.5px] font-medium uppercase tracking-wider text-neutral-400">
                 SLA Target
               </div>
-              <div className="text-[16px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 tabular-nums mt-0.5">
+              <div className="text-[16px] font-semibold text-neutral-900 tabular-nums mt-0.5">
                 {selected.slaHours}h
               </div>
             </div>
             <div className="bg-red-50 border border-red-200 rounded-lg p-3">
-              <div className="text-[9.5px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-red-600">
+              <div className="text-[9.5px] font-medium uppercase tracking-wider text-red-600">
                 Actual Avg.
               </div>
-              <div className="text-[16px] font-['Lexend:SemiBold',_sans-serif] text-red-700 tabular-nums mt-0.5">
+              <div className="text-[16px] font-semibold text-red-700 tabular-nums mt-0.5">
                 {selected.actualHours}h
               </div>
             </div>
             <div className="bg-amber-50 border border-amber-200 rounded-lg p-3">
-              <div className="text-[9.5px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-amber-700">
+              <div className="text-[9.5px] font-medium uppercase tracking-wider text-amber-700">
                 Backlog
               </div>
-              <div className="text-[16px] font-['Lexend:SemiBold',_sans-serif] text-amber-800 tabular-nums mt-0.5">
+              <div className="text-[16px] font-semibold text-amber-800 tabular-nums mt-0.5">
                 {selected.backlog} docs
               </div>
             </div>
           </div>
 
           <div className="border border-neutral-200 rounded-lg p-3">
-            <div className="text-[10px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400 mb-2">
+            <div className="text-[10px] font-medium uppercase tracking-wider text-neutral-400 mb-2">
               Cross-Signal Correlation
             </div>
-            <div className="space-y-1.5 text-[11.5px] font-['Lexend:Regular',_sans-serif] text-neutral-700">
+            <div className="space-y-1.5 text-[11.5px] font-normal text-neutral-700">
               {selected.burnoutFlag && (
                 <div className="flex items-center gap-2">
                   <span className="w-1.5 h-1.5 rounded-full bg-red-500" /> HRMO

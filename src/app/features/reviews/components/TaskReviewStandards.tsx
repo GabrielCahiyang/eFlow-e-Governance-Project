@@ -22,7 +22,7 @@ export function TaskReviewStandards({
           <FileCheck2 size={16} />
         </span>
         <div>
-          <h3 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">Completion standards</h3>
+          <h3 className="text-[13px] font-semibold text-neutral-900">Completion standards</h3>
           <p className="mt-0.5 text-[11px] text-neutral-500">Compare the final submission and subtask evidence against the original definition of success.</p>
         </div>
       </div>
@@ -35,7 +35,7 @@ export function TaskReviewStandards({
         <div className="mt-3 grid gap-3 xl:grid-cols-2">
           {Boolean(task.acceptanceCriteria?.length) && (
             <div className="rounded-lg border border-neutral-200 bg-neutral-50 p-3">
-              <div className="text-[10px] font-['Lexend:SemiBold',_sans-serif] uppercase tracking-wider text-neutral-500">Acceptance criteria</div>
+              <div className="text-[10px] font-semibold uppercase tracking-wider text-neutral-500">Acceptance criteria</div>
               <div className="mt-2 space-y-2">
                 {task.acceptanceCriteria?.map((criterion) => (
                   <div key={criterion} className="flex items-start gap-2 text-[11.5px] text-neutral-700">
@@ -49,7 +49,7 @@ export function TaskReviewStandards({
 
           {task.definitionOfDone && (
             <div className="rounded-lg border border-emerald-200 bg-emerald-50 p-3">
-              <div className="flex items-center gap-1.5 text-[10px] font-['Lexend:SemiBold',_sans-serif] uppercase tracking-wider text-emerald-700">
+              <div className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-emerald-700">
                 <CheckCircle2 size={12} /> Definition of done
               </div>
               <p className="mt-2 whitespace-pre-wrap text-[11.5px] text-emerald-900">{task.definitionOfDone}</p>
@@ -58,7 +58,7 @@ export function TaskReviewStandards({
 
           {dependencies.length > 0 && (
             <div className="rounded-lg border border-neutral-200 bg-neutral-50 p-3 xl:col-span-2">
-              <div className="flex items-center gap-1.5 text-[10px] font-['Lexend:SemiBold',_sans-serif] uppercase tracking-wider text-neutral-500">
+              <div className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-wider text-neutral-500">
                 <Link2 size={12} /> Dependencies · {dependencies.filter((item) => item.status === "completed").length}/{dependencies.length} complete
               </div>
               <div className="mt-2 grid gap-1.5 sm:grid-cols-2">

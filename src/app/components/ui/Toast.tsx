@@ -75,7 +75,7 @@ function ToastNotification({ item, onDismiss }: { item: ToastItem; onDismiss: ()
       <svg viewBox="0 0 16 16" className={`w-4 h-4 shrink-0 mt-0.5 ${style.icon}`} fill="currentColor">
         <path d={typeIcons[item.type]} />
       </svg>
-      <span className="flex-1 text-[13px] font-['Lexend:Regular',_sans-serif] text-neutral-800">
+      <span className="flex-1 text-[13px] font-normal text-neutral-800">
         {item.message}
       </span>
       <button

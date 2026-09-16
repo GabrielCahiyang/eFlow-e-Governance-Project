@@ -4,6 +4,9 @@
 // limited to their subtree; Super Admin gets the cross-department filter.
 
 import { useMemo, useState } from "react";
+import { Tab, TabList, TabsContext } from "@vibe/core";
+import { AnimatePresence } from "motion/react";
+import * as m from "motion/react-m";
 import {
   BarChart3,
   Users,
@@ -40,6 +43,7 @@ import {
 } from "./primitives";
 import { TaskStatusBadge } from "./StatusBadges";
 import type { ProjectScope } from "./ProjectsWorkspace";
+import { motionDuration, motionEase } from "../../shared/motion";
 
 const STATUS_COLORS: Record<string, string> = {
   pending_assignment: "#a3a3a3",
@@ -141,6 +145,13 @@ export function ReportsWorkspace({ scope, eyebrow }: { scope: ProjectScope; eyeb
 
   const orgOptions = [{ value: "all", label: "All departments" }, ...orgs.map((o) => ({ value: o.id, label: o.name }))];
   const maxCompleted = Math.max(1, ...productivity.map((p) => p.completed + p.active));
+  const reportTabs = [
+    { id: "status", label: "Status & aging", icon: <BarChart3 size={13} /> },
+    { id: "productivity", label: "Productivity", icon: <Users size={13} /> },
+    { id: "workload", label: "Workload", icon: <TrendingUp size={13} /> },
+    { id: "overdue", label: "Overdue & risk", icon: <AlertTriangle size={13} /> },
+  ] as const;
+  const activeReportTab = reportTabs.findIndex((tab) => tab.id === view);
 
   return (
     <div className="p-6 sm:p-8 min-h-full">
@@ -187,25 +198,24 @@ export function ReportsWorkspace({ scope, eyebrow }: { scope: ProjectScope; eyeb
       </div>
 
       {/* View tabs */}
-      <div className="flex items-center gap-1 mb-4">
-        {([
-          { id: "status", label: "Status & aging", icon: <BarChart3 size={13} /> },
-          { id: "productivity", label: "Productivity", icon: <Users size={13} /> },
-          { id: "workload", label: "Workload", icon: <TrendingUp size={13} /> },
-          { id: "overdue", label: "Overdue & risk", icon: <AlertTriangle size={13} /> },
-        ] as const).map((t) => (
-          <button
-            key={t.id}
-            onClick={() => setView(t.id)}
-            className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[12px] font-['Lexend:Medium',_sans-serif] ${
-              view === t.id ? "bg-neutral-900 text-white" : "bg-white border border-neutral-200 text-neutral-600 hover:bg-neutral-50"
-            }`}
-          >
-            {t.icon} {t.label}
-          </button>
-        ))}
-      </div>
+      <TabsContext activeTabId={activeReportTab} className="mb-4" id="reports-workspace-tabs">
+        <TabList id="reports-workspace-tab-list">
+          {reportTabs.map((tab) => (
+            <Tab active={view === tab.id} id={tab.id} key={tab.id} onClick={() => setView(tab.id)}>
+              <span className="inline-flex items-center gap-1.5">{tab.icon}{tab.label}</span>
+            </Tab>
+          ))}
+        </TabList>
+      </TabsContext>
 
+      <AnimatePresence initial={false} mode="wait">
+        <m.div
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          initial={{ opacity: 0 }}
+          key={`${view}-${scoped.length === 0 ? "empty" : "content"}`}
+          transition={{ duration: motionDuration.productiveMedium, ease: motionEase.state }}
+        >
       {scoped.length === 0 ? (
         <div className="bg-white border border-neutral-200 rounded-xl">
           <SectionEmpty icon={<BarChart3 size={30} />} title="No data for these filters" description="Adjust the filters to see report data." />
@@ -243,7 +253,7 @@ export function ReportsWorkspace({ scope, eyebrow }: { scope: ProjectScope; eyeb
                 <div key={s.status} className="flex items-center gap-2 text-[11.5px]">
                   <span className="w-2.5 h-2.5 rounded-full" style={{ background: STATUS_COLORS[s.status] || "#94a3b8" }} />
                   <span className="text-neutral-600 capitalize flex-1">{s.label}</span>
-                  <span className="text-neutral-900 font-['Lexend:Medium',_sans-serif] tabular-nums">{s.count}</span>
+                  <span className="text-neutral-900 font-medium tabular-nums">{s.count}</span>
                 </div>
               ))}
             </div>
@@ -259,7 +269,7 @@ export function ReportsWorkspace({ scope, eyebrow }: { scope: ProjectScope; eyeb
                 <thead>
                   <tr className="bg-neutral-50 border-b border-neutral-200">
                     {["Task", "Assignee", "Status", "Deadline", "Days late"].map((h) => (
-                      <th key={h} className="px-4 py-2.5 text-left text-[10px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400">{h}</th>
+                      <th key={h} className="px-4 py-2.5 text-left text-[10px] font-medium uppercase tracking-wider text-neutral-400">{h}</th>
                     ))}
                   </tr>
                 </thead>
@@ -268,11 +278,11 @@ export function ReportsWorkspace({ scope, eyebrow }: { scope: ProjectScope; eyeb
                     const late = Math.floor((Date.now() - new Date(t.deadline || t.dueDate!).getTime()) / 86400000);
                     return (
                       <tr key={t.id} className="border-b border-neutral-50">
-                        <td className="px-4 py-2.5 text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900">{t.title}</td>
+                        <td className="px-4 py-2.5 text-[12px] font-medium text-neutral-900">{t.title}</td>
                         <td className="px-4 py-2.5 text-[12px] text-neutral-600">{t.assigneeName || "Unassigned"}</td>
                         <td className="px-4 py-2.5"><TaskStatusBadge status={t.status} size="sm" /></td>
                         <td className="px-4 py-2.5 text-[12px] text-neutral-600">{formatDate(t.deadline || t.dueDate)}</td>
-                        <td className="px-4 py-2.5"><span className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-red-600 tabular-nums">{late}d</span></td>
+                        <td className="px-4 py-2.5"><span className="text-[12px] font-semibold text-red-600 tabular-nums">{late}d</span></td>
                       </tr>
                     );
                   })}
@@ -292,15 +302,15 @@ export function ReportsWorkspace({ scope, eyebrow }: { scope: ProjectScope; eyeb
                 <thead>
                   <tr className="bg-neutral-50 border-b border-neutral-200">
                     {["Employee", "Completed", "Active", "In review", "Overdue", "Load"].map((h) => (
-                      <th key={h} className="px-4 py-2.5 text-left text-[10px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400">{h}</th>
+                      <th key={h} className="px-4 py-2.5 text-left text-[10px] font-medium uppercase tracking-wider text-neutral-400">{h}</th>
                     ))}
                   </tr>
                 </thead>
                 <tbody>
                   {productivity.map((p) => (
                     <tr key={p.id} className="border-b border-neutral-50">
-                      <td className="px-4 py-2.5 text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900">{p.name}</td>
-                      <td className="px-4 py-2.5 text-[12px] text-emerald-600 font-['Lexend:Medium',_sans-serif] tabular-nums">{p.completed}</td>
+                      <td className="px-4 py-2.5 text-[12px] font-medium text-neutral-900">{p.name}</td>
+                      <td className="px-4 py-2.5 text-[12px] text-emerald-600 font-medium tabular-nums">{p.completed}</td>
                       <td className="px-4 py-2.5 text-[12px] text-neutral-700 tabular-nums">{p.active}</td>
                       <td className="px-4 py-2.5 text-[12px] text-amber-600 tabular-nums">{p.review}</td>
                       <td className="px-4 py-2.5 text-[12px] text-red-600 tabular-nums">{p.overdue}</td>
@@ -317,6 +327,8 @@ export function ReportsWorkspace({ scope, eyebrow }: { scope: ProjectScope; eyeb
           )}
         </Card>
       )}
+        </m.div>
+      </AnimatePresence>
     </div>
   );
 }

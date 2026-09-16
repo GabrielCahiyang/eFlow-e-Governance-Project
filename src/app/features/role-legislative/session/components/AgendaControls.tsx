@@ -26,8 +26,8 @@ export function InterruptionWarningModal({
             <Warning size={20} className="text-white" />
           </div>
           <div>
-            <h3 className="text-[15px] font-['Lexend:SemiBold',_sans-serif] text-white">Active Item on Floor</h3>
-            <p className="text-[11px] font-['Lexend:Regular',_sans-serif] text-amber-100 mt-0.5">Broadcast interruption detected</p>
+            <h3 className="text-[15px] font-semibold text-white">Active Item on Floor</h3>
+            <p className="text-[11px] font-normal text-amber-100 mt-0.5">Broadcast interruption detected</p>
           </div>
         </div>
 
@@ -35,8 +35,8 @@ export function InterruptionWarningModal({
         <div className="px-6 py-5 space-y-4">
           {/* Current item */}
           <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-3">
-            <p className="text-[10px] font-['Lexend:SemiBold',_sans-serif] text-emerald-700 uppercase tracking-wide mb-1">Currently on Floor</p>
-            <p className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900">{currentItem.title}</p>
+            <p className="text-[10px] font-semibold text-emerald-700 uppercase tracking-wide mb-1">Currently on Floor</p>
+            <p className="text-[12px] font-medium text-neutral-900">{currentItem.title}</p>
             <div className="flex items-center gap-2 mt-1">
               {currentItem.ref && <span className="font-['JetBrains_Mono',_'Fira_Code',_monospace] text-[9px] text-emerald-600">{currentItem.ref}</span>}
               <span className="font-['JetBrains_Mono',_'Fira_Code',_monospace] text-[10px] text-emerald-600">⏱ {currentElapsed}</span>
@@ -45,19 +45,19 @@ export function InterruptionWarningModal({
 
           {/* Arrow */}
           <div className="flex items-center justify-center">
-            <div className="text-[11px] font-['Lexend:Medium',_sans-serif] text-amber-600 bg-amber-50 px-3 py-1 rounded-full border border-amber-200">
+            <div className="text-[11px] font-medium text-amber-600 bg-amber-50 px-3 py-1 rounded-full border border-amber-200">
               ↓ will be paused and replaced by ↓
             </div>
           </div>
 
           {/* Target item */}
           <div className="bg-blue-50 border border-blue-200 rounded-xl p-3">
-            <p className="text-[10px] font-['Lexend:SemiBold',_sans-serif] text-blue-700 uppercase tracking-wide mb-1">Switch Broadcast To</p>
-            <p className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900">{targetItem.title}</p>
+            <p className="text-[10px] font-semibold text-blue-700 uppercase tracking-wide mb-1">Switch Broadcast To</p>
+            <p className="text-[12px] font-medium text-neutral-900">{targetItem.title}</p>
             {targetItem.ref && <span className="font-['JetBrains_Mono',_'Fira_Code',_monospace] text-[9px] text-blue-600 mt-1 block">{targetItem.ref}</span>}
           </div>
 
-          <p className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-600">
+          <p className="text-[11px] font-normal text-neutral-600">
             The current item will be <strong className="text-yellow-700">paused</strong> (not concluded). Its timer will freeze and can be resumed later.
           </p>
         </div>
@@ -66,13 +66,13 @@ export function InterruptionWarningModal({
         <div className="px-6 py-4 border-t border-neutral-100 flex items-center gap-3 bg-neutral-50/50">
           <button
             onClick={onCancel}
-            className="flex-1 px-4 py-2.5 rounded-lg text-[12px] font-['Lexend:SemiBold',_sans-serif] text-neutral-600 bg-white border border-neutral-200 cursor-pointer hover:bg-neutral-50 transition-colors"
+            className="flex-1 px-4 py-2.5 rounded-lg text-[12px] font-semibold text-neutral-600 bg-white border border-neutral-200 cursor-pointer hover:bg-neutral-50 transition-colors"
           >
             Cancel — Keep Current
           </button>
           <button
             onClick={onConfirm}
-            className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-[12px] font-['Lexend:SemiBold',_sans-serif] bg-amber-500 text-white cursor-pointer hover:bg-amber-600 transition-colors shadow-md shadow-amber-200"
+            className="flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-[12px] font-semibold bg-amber-500 text-white cursor-pointer hover:bg-amber-600 transition-colors shadow-md shadow-amber-200"
           >
             <Play size={14} /> Switch Broadcast
           </button>
@@ -185,7 +185,7 @@ export function DraggableAgendaRow({
       )}
 
       {/* Item number */}
-      <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-[12px] font-['Lexend:SemiBold',_sans-serif] shrink-0 ${
+      <div className={`w-8 h-8 rounded-lg flex items-center justify-center text-[12px] font-semibold shrink-0 ${
         isDone ? "bg-emerald-100 text-emerald-700" :
         isBroadcasting ? "bg-emerald-500 text-white" :
         isPaused ? "bg-yellow-100 text-yellow-700" :
@@ -207,13 +207,13 @@ export function DraggableAgendaRow({
                 onChange={(e) => setEditTitle(e.target.value)}
                 onKeyDown={(e) => { if (e.key === "Enter") handleTitleSave(); if (e.key === "Escape") setIsEditingTitle(false); }}
                 onBlur={handleTitleSave}
-                className="flex-1 px-2 py-1 text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900 border border-blue-300 rounded-lg outline-none bg-blue-50/50"
+                className="flex-1 px-2 py-1 text-[12px] font-medium text-neutral-900 border border-blue-300 rounded-lg outline-none bg-blue-50/50"
               />
-              <span className="text-[9px] font-['Lexend:Regular',_sans-serif] text-neutral-400 whitespace-nowrap">Enter to save · Esc to cancel</span>
+              <span className="text-[9px] font-normal text-neutral-400 whitespace-nowrap">Enter to save · Esc to cancel</span>
             </div>
           ) : (
             <span
-              className={`text-[12px] font-['Lexend:Medium',_sans-serif] ${isDone ? "text-neutral-500 line-through" : "text-neutral-900"} ${sessionState === "pre" && !isDone ? "cursor-text hover:bg-blue-50/50 hover:px-1 hover:rounded transition-all" : ""}`}
+              className={`text-[12px] font-medium ${isDone ? "text-neutral-500 line-through" : "text-neutral-900"} ${sessionState === "pre" && !isDone ? "cursor-text hover:bg-blue-50/50 hover:px-1 hover:rounded transition-all" : ""}`}
               onDoubleClick={handleDoubleClick}
               title={sessionState === "pre" && !isDone ? "Double-click to edit" : undefined}
             >
@@ -221,20 +221,20 @@ export function DraggableAgendaRow({
             </span>
           )}
           {isBroadcasting && (
-            <span className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500 text-white text-[9px] font-['Lexend:SemiBold',_sans-serif]">
+            <span className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500 text-white text-[9px] font-semibold">
               <div className="w-1.5 h-1.5 rounded-full bg-white animate-pulse" /> ON FLOOR
             </span>
           )}
           {isPaused && (
-            <span className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-yellow-400 text-yellow-900 text-[9px] font-['Lexend:SemiBold',_sans-serif]">
+            <span className="flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-yellow-400 text-yellow-900 text-[9px] font-semibold">
               <Pause size={10} /> PAUSED
             </span>
           )}
         </div>
         <div className="flex items-center gap-2">
           {item.ref && <span className="font-['JetBrains_Mono',_'Fira_Code',_monospace] text-[9px] text-blue-500">{item.ref}</span>}
-          {item.author && <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-400">{item.author}</span>}
-          {item.duration && <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-400">~{item.duration}</span>}
+          {item.author && <span className="text-[10px] font-normal text-neutral-400">{item.author}</span>}
+          {item.duration && <span className="text-[10px] font-normal text-neutral-400">~{item.duration}</span>}
           {(isBroadcasting || isPaused) && (
             <span className={`font-['JetBrains_Mono',_'Fira_Code',_monospace] text-[10px] ml-2 tabular-nums ${isBroadcasting ? "text-emerald-600" : "text-yellow-600"}`}>
               ⏱ {itemElapsed}{isPaused ? " (paused)" : ""}
@@ -245,7 +245,7 @@ export function DraggableAgendaRow({
 
       {/* Status/Type */}
       <div className="flex items-center gap-2 shrink-0">
-        <span className="text-[10px] font-['Lexend:Medium',_sans-serif] bg-neutral-50 text-neutral-500 rounded-full px-2 py-0.5 border border-neutral-100">{item.type}</span>
+        <span className="text-[10px] font-medium bg-neutral-50 text-neutral-500 rounded-full px-2 py-0.5 border border-neutral-100">{item.type}</span>
       </div>
 
       {/* Action zone — View State decoupled from Completion State */}
@@ -254,7 +254,7 @@ export function DraggableAgendaRow({
         {isLive && !isDone && !isBroadcasting && !isPaused && !isDeferred && (
           <button
             onClick={onBroadcast}
-            className="flex items-center gap-1.5 px-3 py-2 bg-emerald-600 text-white rounded-lg text-[11px] font-['Lexend:SemiBold',_sans-serif] cursor-pointer hover:bg-emerald-700 transition-colors shadow-sm"
+            className="flex items-center gap-1.5 px-3 py-2 bg-emerald-600 text-white rounded-lg text-[11px] font-semibold cursor-pointer hover:bg-emerald-700 transition-colors shadow-sm"
           >
             <Play size={12} /> Broadcast to Floor
           </button>
@@ -265,13 +265,13 @@ export function DraggableAgendaRow({
           <div className="flex items-center gap-2">
             <button
               onClick={onBroadcast}
-              className="flex items-center gap-1.5 px-3 py-2 bg-yellow-500 text-white rounded-lg text-[11px] font-['Lexend:SemiBold',_sans-serif] cursor-pointer hover:bg-yellow-600 transition-colors shadow-sm"
+              className="flex items-center gap-1.5 px-3 py-2 bg-yellow-500 text-white rounded-lg text-[11px] font-semibold cursor-pointer hover:bg-yellow-600 transition-colors shadow-sm"
             >
               <Play size={12} /> Resume
             </button>
             <button
               onClick={onConclude}
-              className="flex items-center gap-1 px-2.5 py-2 bg-emerald-600 text-white rounded-lg text-[10px] font-['Lexend:SemiBold',_sans-serif] cursor-pointer hover:bg-emerald-700 transition-colors"
+              className="flex items-center gap-1 px-2.5 py-2 bg-emerald-600 text-white rounded-lg text-[10px] font-semibold cursor-pointer hover:bg-emerald-700 transition-colors"
             >
               <CheckmarkOutline size={12} /> Conclude Item
             </button>
@@ -286,12 +286,12 @@ export function DraggableAgendaRow({
               style={{ boxShadow: "0 0 12px rgba(16,185,129,0.25)" }}
             >
               <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
-              <span className="text-[11px] font-['Lexend:SemiBold',_sans-serif] text-emerald-700">LIVE</span>
+              <span className="text-[11px] font-semibold text-emerald-700">LIVE</span>
               <span className="font-['JetBrains_Mono',_'Fira_Code',_monospace] text-[11px] text-emerald-600 tabular-nums">{itemElapsed}</span>
             </div>
             <button
               onClick={onConclude}
-              className="flex items-center gap-1 px-2.5 py-2 bg-emerald-600 text-white rounded-lg text-[10px] font-['Lexend:SemiBold',_sans-serif] cursor-pointer hover:bg-emerald-700 transition-colors shadow-sm"
+              className="flex items-center gap-1 px-2.5 py-2 bg-emerald-600 text-white rounded-lg text-[10px] font-semibold cursor-pointer hover:bg-emerald-700 transition-colors shadow-sm"
             >
               <CheckmarkOutline size={12} /> Conclude Item
             </button>
@@ -300,21 +300,21 @@ export function DraggableAgendaRow({
 
         {/* Done items */}
         {isDone && (isLive || isSuspended) && (
-          <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-emerald-500">✓ Concluded · {itemElapsed}</span>
+          <span className="text-[10px] font-normal text-emerald-500">✓ Concluded · {itemElapsed}</span>
         )}
         {isDone && !isLive && !isSuspended && (
-          <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-emerald-500">✓ Done</span>
+          <span className="text-[10px] font-normal text-emerald-500">✓ Done</span>
         )}
         {isDeferred && (
           <Pill status="Unfinished Business" />
         )}
         {!isLive && isPaused && (
-          <span className="text-[10px] font-['Lexend:Medium',_sans-serif] text-yellow-600">
+          <span className="text-[10px] font-medium text-yellow-600">
             ⏸ Paused · {itemElapsed}
           </span>
         )}
         {!isLive && !isDone && !isDeferred && !isPaused && (
-          <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-300 italic">
+          <span className="text-[10px] font-normal text-neutral-300 italic">
             {sessionState === "suspended" ? "⏸ Recessed" : sessionState === "grace" || sessionState === "adjourned" ? "Adjourned" : "Pre-session"}
           </span>
         )}

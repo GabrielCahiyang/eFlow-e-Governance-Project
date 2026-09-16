@@ -34,7 +34,7 @@ export function FinancialDisbursements() {
               placeholder="Search voucher number…"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-700 bg-transparent outline-none w-44 placeholder:text-neutral-400"
+              className="text-[12px] font-normal text-neutral-700 bg-transparent outline-none w-44 placeholder:text-neutral-400"
             />
           </div>
           <UI.Btn icon={<Carbon.DocumentExport size={14} />} label="COA Audit Log" variant="primary" />
@@ -53,7 +53,7 @@ export function FinancialDisbursements() {
       <div className="bg-white rounded-xl border border-neutral-200 overflow-hidden">
         <div className="grid grid-cols-[90px_170px_1fr_120px_1fr_180px_70px] gap-0 px-5 py-3 bg-neutral-50/50 border-b border-neutral-100">
           {["Timestamp", "Payee / Target", "Amount", "BPA Origin Node", "Cryptographic Hash", "Status", ""].map(h => (
-            <span key={h} className="text-[10px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase tracking-wide">{h}</span>
+            <span key={h} className="text-[10px] font-medium text-neutral-500 uppercase tracking-wide">{h}</span>
           ))}
         </div>
 
@@ -71,13 +71,13 @@ export function FinancialDisbursements() {
               >
                 <span className="font-['JetBrains_Mono',_'Fira_Code',_monospace] text-[10px] text-neutral-500">{d.timestamp.slice(5, 19)}</span>
                 <div className="flex items-center gap-2">
-                  <div className="w-7 h-7 rounded-full bg-slate-700 flex items-center justify-center text-[9px] font-['Lexend:SemiBold',_sans-serif] text-white">
+                  <div className="w-7 h-7 rounded-full bg-slate-700 flex items-center justify-center text-[9px] font-semibold text-white">
                     {d.initials}
                   </div>
-                  <span className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900">{d.payee}</span>
+                  <span className="text-[12px] font-medium text-neutral-900">{d.payee}</span>
                 </div>
-                <span className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">₱{d.amount.toLocaleString()}</span>
-                <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-600 leading-tight">{d.bpaOrigin}</span>
+                <span className="text-[12px] font-semibold text-neutral-900">₱{d.amount.toLocaleString()}</span>
+                <span className="text-[10px] font-normal text-neutral-600 leading-tight">{d.bpaOrigin}</span>
                 <UI.HashDisplay hash={d.hash} />
                 <UI.Pill status={d.status} />
                 <div className="flex items-center justify-end">
@@ -91,7 +91,7 @@ export function FinancialDisbursements() {
                   <div className="grid grid-cols-2 gap-6">
                     {/* Left: details */}
                     <div>
-                      <h4 className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mb-3">Transaction Details</h4>
+                      <h4 className="text-[12px] font-semibold text-neutral-900 mb-3">Transaction Details</h4>
                       <div className="space-y-2">
                         {[
                           ["Voucher ID", d.id],
@@ -101,12 +101,12 @@ export function FinancialDisbursements() {
                           ["BPA Workflow", d.bpaOrigin],
                         ].map(([label, val]) => (
                           <div key={label} className="flex items-start gap-3">
-                            <span className="text-[10px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase w-28 shrink-0">{label}</span>
-                            <span className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-800">{val}</span>
+                            <span className="text-[10px] font-medium text-neutral-500 uppercase w-28 shrink-0">{label}</span>
+                            <span className="text-[11px] font-normal text-neutral-800">{val}</span>
                           </div>
                         ))}
                         <div className="flex items-start gap-3">
-                          <span className="text-[10px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase w-28 shrink-0">Blockchain Hash</span>
+                          <span className="text-[10px] font-medium text-neutral-500 uppercase w-28 shrink-0">Blockchain Hash</span>
                           <UI.HashDisplay hash={d.hash} full />
                         </div>
                       </div>
@@ -115,10 +115,10 @@ export function FinancialDisbursements() {
                     <div className="flex flex-col items-center justify-center">
                       {vState === "idle" && (
                         <div className="text-center">
-                          <p className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-600 mb-3">Click to re-calculate the hash of this database row and compare it to the blockchain record.</p>
+                          <p className="text-[11px] font-normal text-neutral-600 mb-3">Click to re-calculate the hash of this database row and compare it to the blockchain record.</p>
                           <button
                             onClick={(e) => { e.stopPropagation(); handleVerify(d.id, isTampered); }}
-                            className="px-5 py-2.5 bg-slate-800 text-white rounded-lg text-[12px] font-['Lexend:SemiBold',_sans-serif] cursor-pointer hover:bg-slate-700 transition-colors flex items-center gap-2 mx-auto"
+                            className="px-5 py-2.5 bg-slate-800 text-white rounded-lg text-[12px] font-semibold cursor-pointer hover:bg-slate-700 transition-colors flex items-center gap-2 mx-auto"
                           >
                             <Carbon.Security size={16} /> Verify Ledger Match
                           </button>

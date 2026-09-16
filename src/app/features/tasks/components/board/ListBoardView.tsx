@@ -1,4 +1,7 @@
-import { ChevronDown, ChevronRight, Search, X } from "lucide-react";
+import { Search as VibeSearch } from "@vibe/core";
+import { AnimatePresence } from "motion/react";
+import * as m from "motion/react-m";
+import { ChevronDown, ChevronRight } from "lucide-react";
 import type { Employee } from "../../../../services/employeeService";
 import type { EmployeeNotesMap } from "../../../../services/employeeNotesService";
 import type { Task, TaskStatus, UpdateTaskPayload } from "../../../../services/taskService";
@@ -7,6 +10,7 @@ import type { MondayBoardProps } from "./model";
 import { AssignmentModal } from "./AssignmentModal";
 import { useListBoardController } from "./useListBoardController";
 import { ListTaskRow } from "./ListTaskRow";
+import { motionTransition } from "../../../../shared/motion";
 
 export function ListBoardView({
   tasks,
@@ -54,25 +58,18 @@ export function ListBoardView({
   return (
     <div className="w-full flex flex-col">
       {/* Search bar */}
-      <div className="flex items-center gap-3 mb-4">
-        <div className="relative flex items-center bg-white border border-neutral-200 rounded-xl h-[36px] flex-1 max-w-[380px] focus-within:border-neutral-400 focus-within:ring-1 focus-within:ring-neutral-100 transition">
-          <Search size={14} className="text-neutral-400 ml-3 shrink-0" />
-          <input
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Search tasks, teams, tags…"
-            className="flex-1 bg-transparent px-2 text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-800 placeholder:text-neutral-400 focus:outline-none"
-          />
-          {searchQuery && (
-            <button
-              onClick={() => setSearchQuery("")}
-              className="pr-2.5 text-neutral-400"
-            >
-              <X size={12} />
-            </button>
-          )}
-        </div>
-        <div className="text-[12px] text-neutral-400 font-['Lexend:Regular',_sans-serif]">
+      <div className="mb-4 flex flex-wrap items-center gap-3">
+        <VibeSearch
+          value={searchQuery}
+          onChange={setSearchQuery}
+          onClear={() => setSearchQuery("")}
+          placeholder="Search tasks, teams, tags…"
+          inputAriaLabel="Search tasks"
+          showClearIcon
+          size="small"
+          className="w-full max-w-[380px]"
+        />
+        <div className="text-[12px] text-neutral-400 font-normal">
           {filteredTasks.length} task{filteredTasks.length !== 1 ? "s" : ""}
         </div>
       </div>
@@ -80,7 +77,7 @@ export function ListBoardView({
       {/* Table */}
       <div className="bg-white border border-neutral-200 rounded-2xl overflow-hidden shadow-sm">
         {/* Header row */}
-        <div className="grid grid-cols-[20px_1fr_180px_90px_150px_120px] gap-0 px-4 py-2.5 bg-neutral-50 border-b border-neutral-200 text-[10px] font-['Lexend:SemiBold',_sans-serif] uppercase tracking-[0.12em] text-neutral-400 sticky top-0 z-10">
+        <div className="eflow-task-table-header grid grid-cols-[20px_1fr_180px_90px_150px_120px] gap-0 px-4 py-2.5 bg-neutral-50 border-b border-neutral-200 text-[10px] font-semibold uppercase tracking-[0.12em] text-neutral-400 sticky top-0 z-10">
           <div />
           <div className="pl-3">Task</div>
           <div>Team / Lead</div>
@@ -105,6 +102,9 @@ export function ListBoardView({
             >
               {/* Group header */}
               <button
+                type="button"
+                aria-expanded={!collapsed}
+                aria-controls={`task-group-${status}`}
                 onClick={() =>
                   setCollapsedGroups((prev) => {
                     const next = new Set(prev);
@@ -120,7 +120,7 @@ export function ListBoardView({
                   <ChevronDown size={12} className="text-neutral-400" />
                 )}
                 <div className={`w-2 h-2 rounded-full ${meta.dot}`} />
-                <span className="text-[11px] font-['Lexend:SemiBold',_sans-serif] text-neutral-700">
+                <span className="text-[11px] font-semibold text-neutral-700">
                   {meta.label}
                 </span>
                 <span className="text-[11px] text-neutral-400">
@@ -133,8 +133,17 @@ export function ListBoardView({
                 )}
               </button>
 
-              {!collapsed &&
-                items.map((task) => (
+              <AnimatePresence initial={false}>
+              {!collapsed && (
+                <m.div
+                  id={`task-group-${status}`}
+                  key={`task-group-${status}`}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={motionTransition.productive}
+                >
+                {items.map((task) => (
                   <ListTaskRow
                     key={task.id}
                     task={task}
@@ -153,11 +162,14 @@ export function ListBoardView({
                   />
                 ))}
 
-              {!collapsed && items.length === 0 && (
+              {items.length === 0 && (
                 <div className="px-4 py-4 text-[12px] text-neutral-300 italic text-center">
                   Drop tasks here or no tasks in this status.
                 </div>
               )}
+                </m.div>
+              )}
+              </AnimatePresence>
             </div>
           );
         })}

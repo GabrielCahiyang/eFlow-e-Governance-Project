@@ -137,8 +137,8 @@ export function LeaderExpenseReports({}: {
 
       <div className="bg-red-50 border border-red-200 rounded-xl p-4 mb-4 flex items-start gap-3">
         <Shield size={14} className="text-red-700 mt-0.5 shrink-0" />
-        <div className="text-[11.5px] font-['Lexend:Regular',_sans-serif] text-red-900 leading-relaxed">
-          <span className="font-['Lexend:Medium',_sans-serif]">
+        <div className="text-[11.5px] font-normal text-red-900 leading-relaxed">
+          <span className="font-medium">
             COA shield active.
           </span>{" "}
           City Treasurer has flagged leaders on this list. Suspending their
@@ -150,7 +150,7 @@ export function LeaderExpenseReports({}: {
       </div>
 
       <div className="bg-white border border-neutral-200 rounded-xl overflow-hidden">
-        <div className="grid grid-cols-[1.3fr_1fr_1.5fr_1fr_1fr_0.9fr_auto] gap-3 px-5 py-3 bg-neutral-50 border-b border-neutral-200 text-[10px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-500">
+        <div className="grid grid-cols-[1.3fr_1fr_1.5fr_1fr_1fr_0.9fr_auto] gap-3 px-5 py-3 bg-neutral-50 border-b border-neutral-200 text-[10px] font-medium uppercase tracking-wider text-neutral-500">
           <div>Leader</div>
           <div>Role</div>
           <div>Purpose</div>
@@ -168,23 +168,23 @@ export function LeaderExpenseReports({}: {
               className={`grid grid-cols-[1.3fr_1fr_1.5fr_1fr_1fr_0.9fr_auto] gap-3 px-5 py-3.5 border-b border-neutral-100 items-center ${r.suspended ? "bg-red-50/60" : isOver ? "bg-amber-50/40" : ""}`}
             >
               <div>
-                <div className="text-[12.5px] font-['Lexend:Medium',_sans-serif] text-neutral-900">
+                <div className="text-[12.5px] font-medium text-neutral-900">
                   {r.name}
                 </div>
-                <div className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500">
+                <div className="text-[10px] font-normal text-neutral-500">
                   Linked: {r.linkedProject}
                 </div>
               </div>
-              <div className="text-[11.5px] font-['Lexend:Regular',_sans-serif] text-neutral-700">
+              <div className="text-[11.5px] font-normal text-neutral-700">
                 {r.role}
               </div>
-              <div className="text-[11.5px] font-['Lexend:Regular',_sans-serif] text-neutral-600 truncate">
+              <div className="text-[11.5px] font-normal text-neutral-600 truncate">
                 {r.purpose}
               </div>
-              <div className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900 tabular-nums">
+              <div className="text-[12px] font-medium text-neutral-900 tabular-nums">
                 {peso(r.advance)}
               </div>
-              <div className="text-[11.5px] font-['Lexend:Regular',_sans-serif] text-neutral-600 tabular-nums">
+              <div className="text-[11.5px] font-normal text-neutral-600 tabular-nums">
                 {r.issued}
               </div>
               <div>
@@ -200,7 +200,7 @@ export function LeaderExpenseReports({}: {
                     }
                   />
                   <span
-                    className={`text-[11px] font-['Lexend:Medium',_sans-serif] tabular-nums ${isOver ? "text-red-700" : isWarn ? "text-amber-700" : "text-neutral-700"}`}
+                    className={`text-[11px] font-medium tabular-nums ${isOver ? "text-red-700" : isWarn ? "text-amber-700" : "text-neutral-700"}`}
                   >
                     {r.daysOld}d old
                   </span>
@@ -216,20 +216,20 @@ export function LeaderExpenseReports({}: {
               </div>
               <div>
                 {r.suspended ? (
-                  <span className="text-[10px] font-['Lexend:Medium',_sans-serif] uppercase bg-red-600 text-white rounded px-2 py-1 flex items-center gap-1 whitespace-nowrap">
+                  <span className="text-[10px] font-medium uppercase bg-red-600 text-white rounded px-2 py-1 flex items-center gap-1 whitespace-nowrap">
                     <LockIcon size={10} /> Funds Suspended
                   </span>
                 ) : suspendConfirm === r.id ? (
                   <div className="flex items-center gap-1">
                     <button
                       onClick={() => suspend(r.id)}
-                      className="text-[10px] font-['Lexend:Medium',_sans-serif] bg-red-600 text-white rounded px-2 py-1 hover:bg-red-700"
+                      className="text-[10px] font-medium bg-red-600 text-white rounded px-2 py-1 hover:bg-red-700"
                     >
                       Confirm
                     </button>
                     <button
                       onClick={() => setSuspendConfirm(null)}
-                      className="text-[10px] font-['Lexend:Medium',_sans-serif] text-neutral-500 hover:text-neutral-800 px-1.5"
+                      className="text-[10px] font-medium text-neutral-500 hover:text-neutral-800 px-1.5"
                     >
                       Cancel
                     </button>
@@ -237,7 +237,7 @@ export function LeaderExpenseReports({}: {
                 ) : (
                   <button
                     onClick={() => setSuspendConfirm(r.id)}
-                    className={`text-[10px] font-['Lexend:Medium',_sans-serif] uppercase rounded px-2 py-1 border whitespace-nowrap ${isOver ? "bg-red-50 border-red-200 text-red-700 hover:bg-red-100" : "bg-white border-neutral-200 text-neutral-700 hover:bg-neutral-50"}`}
+                    className={`text-[10px] font-medium uppercase rounded px-2 py-1 border whitespace-nowrap ${isOver ? "bg-red-50 border-red-200 text-red-700 hover:bg-red-100" : "bg-white border-neutral-200 text-neutral-700 hover:bg-neutral-50"}`}
                   >
                     <span className="flex items-center gap-1">
                       <BanIcon size={10} /> Suspend Funds
@@ -252,8 +252,8 @@ export function LeaderExpenseReports({}: {
 
       <div className="mt-4 bg-neutral-50 border border-neutral-200 rounded-xl p-4 flex items-start gap-3">
         <Info size={14} className="text-neutral-600 mt-0.5 shrink-0" />
-        <div className="text-[11.5px] font-['Lexend:Regular',_sans-serif] text-neutral-700 leading-relaxed">
-          <span className="font-['Lexend:Medium',_sans-serif] text-neutral-900">
+        <div className="text-[11.5px] font-normal text-neutral-700 leading-relaxed">
+          <span className="font-medium text-neutral-900">
             BPA enforcement.
           </span>{" "}
           Suspend Funds routes through the Business Process Automation engine:

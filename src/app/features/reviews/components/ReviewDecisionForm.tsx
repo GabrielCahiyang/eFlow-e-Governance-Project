@@ -92,13 +92,13 @@ function TaskReviewDecisionForm({
           <button
             onClick={() => setMode("approve")}
             disabled={approvalDisabled}
-            className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg bg-emerald-600 py-2 text-[12.5px] font-['Lexend:Medium',_sans-serif] text-white hover:bg-emerald-700 disabled:opacity-40"
+            className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg bg-emerald-600 py-2 text-[12.5px] font-medium text-white hover:bg-emerald-700 disabled:opacity-40"
           >
             <CheckCircle2 size={14} /> Approve
           </button>
           <button
             onClick={() => setMode("reject")}
-            className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg border border-rose-200 bg-white py-2 text-[12.5px] font-['Lexend:Medium',_sans-serif] text-rose-700 hover:bg-rose-50"
+            className="flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg border border-rose-200 bg-white py-2 text-[12.5px] font-medium text-rose-700 hover:bg-rose-50"
           >
             <XCircle size={14} /> Request changes
           </button>
@@ -118,7 +118,7 @@ function TaskReviewDecisionForm({
             <button
               onClick={decide}
               disabled={mode === "approve" ? approvalDisabled : busy}
-              className={`flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg py-2 text-[12.5px] font-['Lexend:Medium',_sans-serif] text-white disabled:opacity-40 ${
+              className={`flex-1 inline-flex items-center justify-center gap-1.5 rounded-lg py-2 text-[12.5px] font-medium text-white disabled:opacity-40 ${
                 mode === "approve" ? "bg-emerald-600 hover:bg-emerald-700" : "bg-rose-600 hover:bg-rose-700"
               }`}
             >
@@ -128,7 +128,7 @@ function TaskReviewDecisionForm({
             <button
               disabled={busy}
               onClick={() => { setMode("idle"); setFeedback(""); }}
-              className="rounded-lg px-3 py-2 text-[12.5px] font-['Lexend:Medium',_sans-serif] text-neutral-600 hover:bg-neutral-100"
+              className="rounded-lg px-3 py-2 text-[12.5px] font-medium text-neutral-600 hover:bg-neutral-100"
             >
               Cancel
             </button>

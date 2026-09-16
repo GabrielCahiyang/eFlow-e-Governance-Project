@@ -189,7 +189,7 @@ function OrgNodeComp({ data }: NodeProps) {
         <span className="text-lg">{icon}</span>
         <div className="flex-1 min-w-0">
           <div
-            className={`text-[13px] truncate font-['Lexend:SemiBold',_sans-serif] font-semibold
+            className={`text-[13px] truncate font-semibold
               ${isRoot ? 'text-white' : 'text-neutral-900'}`}
           >
             {org.name}
@@ -198,12 +198,12 @@ function OrgNodeComp({ data }: NodeProps) {
       </div>
       <div className="mt-1.5 flex items-center gap-1.5">
         <span
-          className={`px-1.5 py-0.5 rounded-full text-[9px] font-['Lexend:Medium',_sans-serif] font-medium ${colorClass}`}
+          className={`px-1.5 py-0.5 rounded-full text-[9px] font-medium ${colorClass}`}
         >
           {org.org_type}
         </span>
         {org.member_count != null && org.member_count > 0 && (
-          <span className="px-1.5 py-0.5 rounded-full bg-neutral-100 text-[9px] font-['Lexend:Medium',_sans-serif] font-medium text-neutral-600">
+          <span className="px-1.5 py-0.5 rounded-full bg-neutral-100 text-[9px] font-medium text-neutral-600">
             {org.member_count} members
           </span>
         )}

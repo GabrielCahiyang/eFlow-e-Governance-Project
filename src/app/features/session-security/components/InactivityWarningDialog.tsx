@@ -7,7 +7,7 @@ export function InactivityWarningDialog({ remainingMs, onStaySignedIn, onSignOut
       <section role="alertdialog" aria-modal="true" aria-labelledby="idle-warning-title" aria-describedby="idle-warning-description" className="w-full max-w-[430px] overflow-hidden rounded-2xl border border-white/30 bg-white shadow-2xl">
         <div className="bg-gradient-to-br from-neutral-950 to-neutral-800 px-6 py-5 text-white">
           <div className="flex items-center justify-between gap-4"><div className="grid h-10 w-10 place-items-center rounded-xl bg-white/10 text-amber-300"><Clock3 size={20} /></div><div className="rounded-full border border-white/15 bg-white/10 px-3 py-1 font-mono text-[18px] font-semibold tracking-wide text-amber-200">{formatRemainingTime(remainingMs)}</div></div>
-          <h2 id="idle-warning-title" className="mt-4 text-[18px] font-['Lexend:SemiBold',_sans-serif]">Your session is about to expire</h2>
+          <h2 id="idle-warning-title" className="mt-4 text-[18px] font-semibold">Your session is about to expire</h2>
           <p id="idle-warning-description" className="mt-1 text-[11px] leading-5 text-neutral-300">For LGU data protection, eFlow signs out accounts after one hour without genuine user activity.</p>
         </div>
         <div className="px-6 py-5">

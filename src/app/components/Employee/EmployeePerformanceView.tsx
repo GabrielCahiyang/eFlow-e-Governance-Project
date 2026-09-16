@@ -80,7 +80,7 @@ export function EmployeePerformanceView() {
             <div className="text-[10px] uppercase tracking-wider text-neutral-400">
               {label as string}
             </div>
-            <div className="mt-1 text-[25px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">
+            <div className="mt-1 text-[25px] font-semibold text-neutral-900">
               {tasksLoading ? "—" : (value as number)}
             </div>
             <div className="mt-0.5 text-[11px] text-neutral-500">
@@ -96,7 +96,7 @@ export function EmployeePerformanceView() {
             <div className={`text-[11px] font-medium uppercase tracking-wider ${health.text}`}>
               Workload health
             </div>
-            <h2 className={`mt-1 text-[16px] font-['Lexend:SemiBold',_sans-serif] ${health.text}`}>
+            <h2 className={`mt-1 text-[16px] font-semibold ${health.text}`}>
               {health.label}
             </h2>
             <p className={`mt-1 text-[12px] ${health.text}`}>
@@ -139,7 +139,7 @@ export function EmployeePerformanceView() {
             <div className="text-[10px] uppercase tracking-wider text-neutral-400">
               Head profile
             </div>
-            <h2 className="text-[15px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">
+            <h2 className="text-[15px] font-semibold text-neutral-900">
               Strengths and coaching context
             </h2>
           </div>

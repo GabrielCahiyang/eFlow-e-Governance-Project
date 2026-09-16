@@ -73,10 +73,10 @@ export function AssignmentModal({
         {/* Header */}
         <div className="px-5 py-4 border-b border-neutral-100 flex items-center justify-between shrink-0">
           <div>
-            <div className="text-[10px] uppercase tracking-[0.22em] text-neutral-400 font-['Lexend:Medium',_sans-serif]">
+            <div className="text-[10px] uppercase tracking-[0.22em] text-neutral-400 font-medium">
               Team Assignment
             </div>
-            <div className="text-[16px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mt-0.5">
+            <div className="text-[16px] font-semibold text-neutral-900 mt-0.5">
               Select Team Members
             </div>
           </div>
@@ -97,7 +97,7 @@ export function AssignmentModal({
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by name, role, or department…"
-              className="flex-1 bg-transparent px-2 text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-800 placeholder:text-neutral-400 focus:outline-none"
+              className="flex-1 bg-transparent px-2 text-[12px] font-normal text-neutral-800 placeholder:text-neutral-400 focus:outline-none"
             />
             {search && (
               <button
@@ -118,7 +118,7 @@ export function AssignmentModal({
                 return (
                   <span
                     key={id}
-                    className="inline-flex items-center gap-1 bg-violet-50 border border-violet-200 text-violet-700 text-[11px] font-['Lexend:Medium',_sans-serif] px-2 py-1 rounded-full"
+                    className="inline-flex items-center gap-1 bg-violet-50 border border-violet-200 text-violet-700 text-[11px] font-medium px-2 py-1 rounded-full"
                   >
                     {draftLead === id && (
                       <Crown size={10} className="text-amber-500" />
@@ -163,7 +163,7 @@ export function AssignmentModal({
                   >
                     {/* Avatar */}
                     <div
-                      className={`w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-['Lexend:SemiBold',_sans-serif] text-white shrink-0 ${
+                      className={`w-8 h-8 rounded-full flex items-center justify-center text-[11px] font-semibold text-white shrink-0 ${
                         load >= 80
                           ? "bg-red-500"
                           : load >= 60
@@ -177,7 +177,7 @@ export function AssignmentModal({
                     {/* Info */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center gap-1.5">
-                        <span className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900 truncate">
+                        <span className="text-[12px] font-medium text-neutral-900 truncate">
                           {emp.name}
                         </span>
                         {isLead && (
@@ -207,7 +207,7 @@ export function AssignmentModal({
                     {/* Workload */}
                     <div className="shrink-0 text-right">
                       <div
-                        className={`text-[11px] font-['Lexend:SemiBold',_sans-serif] ${load >= 80 ? "text-red-600" : load >= 60 ? "text-amber-600" : "text-emerald-600"}`}
+                        className={`text-[11px] font-semibold ${load >= 80 ? "text-red-600" : load >= 60 ? "text-amber-600" : "text-emerald-600"}`}
                       >
                         {load}%
                       </div>
@@ -259,7 +259,7 @@ export function AssignmentModal({
 
         {/* Footer */}
         <div className="px-5 py-4 border-t border-neutral-100 flex items-center justify-between shrink-0">
-          <div className="text-[12px] text-neutral-500 font-['Lexend:Regular',_sans-serif]">
+          <div className="text-[12px] text-neutral-500 font-normal">
             {draft.length > 0
               ? `${draft.length} selected${draftLead ? ` · Lead: ${employees.find((e) => e.id === draftLead)?.name?.split(" ")[0] || ""}` : ""}`
               : "No members selected"}
@@ -267,7 +267,7 @@ export function AssignmentModal({
           <div className="flex items-center gap-2">
             <button
               onClick={onClose}
-              className="px-4 py-2 text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-600 border border-neutral-200 rounded-xl hover:bg-neutral-50 transition"
+              className="px-4 py-2 text-[12px] font-medium text-neutral-600 border border-neutral-200 rounded-xl hover:bg-neutral-50 transition"
             >
               Cancel
             </button>
@@ -276,7 +276,7 @@ export function AssignmentModal({
                 onConfirm(draft, draftLead);
                 onClose();
               }}
-              className="px-4 py-2 text-[12px] font-['Lexend:SemiBold',_sans-serif] text-white bg-neutral-900 rounded-xl hover:bg-neutral-800 transition"
+              className="px-4 py-2 text-[12px] font-semibold text-white bg-neutral-900 rounded-xl hover:bg-neutral-800 transition"
             >
               Confirm Assignment
             </button>

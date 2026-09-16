@@ -73,9 +73,9 @@ export function GAAllocationReview() {
         <div className="bg-gradient-to-r from-neutral-900 to-neutral-800 text-white px-5 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Dna size={16} />
-            <span className="font-['Lexend:Medium',_sans-serif] text-[13px]">Genetic Algorithm · Fitness Optimization</span>
+            <span className="font-medium text-[13px]">Genetic Algorithm · Fitness Optimization</span>
           </div>
-          <div className="flex items-center gap-4 text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-300">
+          <div className="flex items-center gap-4 text-[11px] font-normal text-neutral-300">
             <span>pop: 240</span>
             <span>mutation: 0.04</span>
             <span>gen: {generation}/24</span>
@@ -84,8 +84,8 @@ export function GAAllocationReview() {
 
         <div className="p-5 bg-gradient-to-br from-neutral-50 to-white">
           <div className="flex items-center justify-between mb-2">
-            <span className="text-[11px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-500">Fitness Score</span>
-            <span className={`text-[13px] font-['Lexend:SemiBold',_sans-serif] ${fitness > 0.85 ? "text-emerald-600" : fitness > 0.6 ? "text-amber-600" : "text-neutral-700"}`}>
+            <span className="text-[11px] font-medium uppercase tracking-wider text-neutral-500">Fitness Score</span>
+            <span className={`text-[13px] font-semibold ${fitness > 0.85 ? "text-emerald-600" : fitness > 0.6 ? "text-amber-600" : "text-neutral-700"}`}>
               {fitness.toFixed(3)}
             </span>
           </div>
@@ -112,7 +112,7 @@ export function GAAllocationReview() {
               );
             })}
           </div>
-          <div className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-400 mt-1 text-center">
+          <div className="text-[10px] font-normal text-neutral-400 mt-1 text-center">
             chromosome · {phase === "running" ? "mutating" : phase === "done" ? "converged" : "initial population"}
           </div>
         </div>
@@ -123,15 +123,15 @@ export function GAAllocationReview() {
         <div className="bg-white border border-neutral-200 rounded-xl overflow-hidden">
           <div className="px-5 py-4 border-b border-neutral-200 flex items-center justify-between">
             <div>
-              <div className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">Proposed Redistribution</div>
-              <div className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500">
+              <div className="text-[13px] font-semibold text-neutral-900">Proposed Redistribution</div>
+              <div className="text-[11px] font-normal text-neutral-500">
                 7 of 40 moves shown · skill match ≥ 0.80 · projected fitness 0.94
               </div>
             </div>
             {!confirmed ? (
               <Btn icon={<CheckCircle2 size={14} />} label="Commit Rebalance" variant="primary" onClick={() => setConfirmed(true)} />
             ) : (
-              <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-100 text-emerald-700 text-[11px] font-['Lexend:Medium',_sans-serif]">
+              <span className="flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-emerald-100 text-emerald-700 text-[11px] font-medium">
                 <CheckCircle2 size={12} /> Committed · GA dispatched
               </span>
             )}
@@ -144,15 +144,15 @@ export function GAAllocationReview() {
                 className="px-5 py-3 flex items-center gap-4 hover:bg-neutral-50 transition-colors"
                 style={{ animation: `slideIn 0.4s ${idx * 60}ms backwards ease-out` }}
               >
-                <div className="text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-400 w-6">#{m.id}</div>
+                <div className="text-[11px] font-medium text-neutral-400 w-6">#{m.id}</div>
                 <div className="flex-1">
-                  <div className="text-[13px] font-['Lexend:Medium',_sans-serif] text-neutral-900">{m.task}</div>
-                  <div className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500">complexity {m.complexity} · skill match {m.skillMatch.toFixed(2)}</div>
+                  <div className="text-[13px] font-medium text-neutral-900">{m.task}</div>
+                  <div className="text-[11px] font-normal text-neutral-500">complexity {m.complexity} · skill match {m.skillMatch.toFixed(2)}</div>
                 </div>
-                <div className="flex items-center gap-2 text-[11px] font-['Lexend:Regular',_sans-serif]">
+                <div className="flex items-center gap-2 text-[11px] font-normal">
                   <span className="line-through text-red-600">{m.from}</span>
                   <ArrowRight size={12} className="text-neutral-400" />
-                  <span className="text-emerald-700 font-['Lexend:Medium',_sans-serif]">{m.to}</span>
+                  <span className="text-emerald-700 font-medium">{m.to}</span>
                 </div>
               </div>
             ))}
@@ -163,9 +163,9 @@ export function GAAllocationReview() {
       {phase === "idle" && (
         <div className="bg-white border border-dashed border-neutral-300 rounded-xl p-10 text-center">
           <Gauge size={32} className="mx-auto text-neutral-300 mb-2" />
-          <div className="text-[13px] font-['Lexend:Medium',_sans-serif] text-neutral-700">Balancer idle</div>
-          <div className="text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mt-1">
-            Click <span className="font-['Lexend:Medium',_sans-serif]">Run Load Balancer</span> to let the GA redistribute the 40 overburdened tasks.
+          <div className="text-[13px] font-medium text-neutral-700">Balancer idle</div>
+          <div className="text-[12px] font-normal text-neutral-500 mt-1">
+            Click <span className="font-medium">Run Load Balancer</span> to let the GA redistribute the 40 overburdened tasks.
           </div>
         </div>
       )}

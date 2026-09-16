@@ -115,10 +115,10 @@ export function IdleTimeMinimization({}: {
         <div className="bg-white border border-neutral-200 rounded-xl p-4">
           <div className="flex items-center gap-2 mb-3">
             <Navigation size={14} className="text-neutral-900" />
-            <div className="text-[12.5px] font-['Lexend:Medium',_sans-serif] text-neutral-900">
+            <div className="text-[12.5px] font-medium text-neutral-900">
               Ormoc City · Live Dispatch Map
             </div>
-            <div className="ml-auto flex items-center gap-3 text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500">
+            <div className="ml-auto flex items-center gap-3 text-[10px] font-normal text-neutral-500">
               <span className="flex items-center gap-1">
                 <span className="w-2 h-2 rounded-full bg-emerald-500" /> Active
               </span>
@@ -200,7 +200,7 @@ export function IdleTimeMinimization({}: {
                   className="w-2 h-2 rounded-full bg-neutral-500 border border-white shadow"
                   title={t.title}
                 />
-                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[9px] font-['Lexend:Regular',_sans-serif] text-neutral-700 bg-white/80 border border-neutral-200 rounded px-1 py-0.5 whitespace-nowrap">
+                <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[9px] font-normal text-neutral-700 bg-white/80 border border-neutral-200 rounded px-1 py-0.5 whitespace-nowrap">
                   {t.title}
                 </div>
               </div>
@@ -241,10 +241,10 @@ export function IdleTimeMinimization({}: {
                     className={`w-3.5 h-3.5 rounded-full border-2 border-white shadow-md ${s.pulse}`}
                     style={{ backgroundColor: s.color }}
                   />
-                  <div className="absolute left-5 top-1/2 -translate-y-1/2 text-[9.5px] font-['Lexend:Medium',_sans-serif] text-neutral-900 bg-white/95 border border-neutral-200 rounded px-1.5 py-0.5 whitespace-nowrap shadow-sm">
+                  <div className="absolute left-5 top-1/2 -translate-y-1/2 text-[9.5px] font-medium text-neutral-900 bg-white/95 border border-neutral-200 rounded px-1.5 py-0.5 whitespace-nowrap shadow-sm">
                     {u.name}
                     <span
-                      className="ml-1 text-[8px] font-['Lexend:Regular',_sans-serif]"
+                      className="ml-1 text-[8px] font-normal"
                       style={{ color: s.color }}
                     >
                       · {s.label}
@@ -258,7 +258,7 @@ export function IdleTimeMinimization({}: {
 
         <div className="space-y-3">
           <div className="bg-white border border-neutral-200 rounded-xl p-4">
-            <div className="text-[11px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400 mb-3">
+            <div className="text-[11px] font-medium uppercase tracking-wider text-neutral-400 mb-3">
               Idle Crews · Instant Dispatch
             </div>
             {units.filter((u) => u.status === "idle").length === 0 ? (
@@ -277,14 +277,14 @@ export function IdleTimeMinimization({}: {
                     >
                       <div className="flex items-center gap-2 mb-1">
                         <Timer size={12} className="text-amber-700" />
-                        <div className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900">
+                        <div className="text-[12px] font-medium text-neutral-900">
                           {u.name}
                         </div>
-                        <span className="ml-auto text-[9px] font-['Lexend:Medium',_sans-serif] uppercase bg-amber-500 text-white rounded px-1.5 py-0.5 animate-pulse">
+                        <span className="ml-auto text-[9px] font-medium uppercase bg-amber-500 text-white rounded px-1.5 py-0.5 animate-pulse">
                           Idle
                         </span>
                       </div>
-                      <div className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-600 mb-2">
+                      <div className="text-[10px] font-normal text-neutral-600 mb-2">
                         {u.lastTask}
                       </div>
                       <div className="space-y-1">
@@ -295,7 +295,7 @@ export function IdleTimeMinimization({}: {
                             className="w-full flex items-center gap-2 p-1.5 bg-white border border-neutral-200 rounded hover:border-indigo-400 text-left"
                           >
                             <Route size={10} className="text-indigo-600" />
-                            <div className="text-[10.5px] font-['Lexend:Regular',_sans-serif] text-neutral-700 truncate flex-1">
+                            <div className="text-[10.5px] font-normal text-neutral-700 truncate flex-1">
                               {t.title}
                             </div>
                             <ArrowRight
@@ -312,7 +312,7 @@ export function IdleTimeMinimization({}: {
           </div>
 
           <div className="bg-neutral-950 rounded-xl p-4 text-neutral-100">
-            <div className="flex items-center gap-2 text-[11px] font-['Lexend:Medium',_sans-serif] text-indigo-400 uppercase tracking-wider mb-3">
+            <div className="flex items-center gap-2 text-[11px] font-medium text-indigo-400 uppercase tracking-wider mb-3">
               <Radio size={12} /> Dispatch Feed
             </div>
             <div className="space-y-2 font-mono text-[10.5px] max-h-[180px] overflow-y-auto">

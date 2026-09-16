@@ -132,16 +132,16 @@ export function LeaderAssignments() {
               <div>
                 <div className="flex items-center gap-2">
                   <Crown size={14} className="text-amber-600" />
-                  <div className="text-[14px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">
+                  <div className="text-[14px] font-semibold text-neutral-900">
                     {role.title}
                   </div>
                 </div>
-                <div className="text-[10.5px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mt-0.5">
+                <div className="text-[10.5px] font-normal text-neutral-500 mt-0.5">
                   {role.responsibilities.join(" · ")}
                 </div>
               </div>
               <span
-                className={`text-[9.5px] font-['Lexend:Medium',_sans-serif] uppercase border rounded px-1.5 py-0.5 ${role.assignee ? "text-emerald-700 bg-emerald-50 border-emerald-200" : "text-neutral-500 bg-neutral-50 border-neutral-200"}`}
+                className={`text-[9.5px] font-medium uppercase border rounded px-1.5 py-0.5 ${role.assignee ? "text-emerald-700 bg-emerald-50 border-emerald-200" : "text-neutral-500 bg-neutral-50 border-neutral-200"}`}
               >
                 {role.assignee ? "Assigned" : "Vacant"}
               </span>
@@ -150,7 +150,7 @@ export function LeaderAssignments() {
             {role.assignee ? (
               <div className="bg-emerald-50 border border-emerald-200 rounded-lg p-3">
                 <div className="flex items-center gap-3">
-                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-emerald-200 to-emerald-400 flex items-center justify-center text-[11px] font-['Lexend:SemiBold',_sans-serif] text-emerald-900">
+                  <div className="w-9 h-9 rounded-full bg-gradient-to-br from-emerald-200 to-emerald-400 flex items-center justify-center text-[11px] font-semibold text-emerald-900">
                     {role.assignee.name
                       .split(" ")
                       .slice(-2)
@@ -158,10 +158,10 @@ export function LeaderAssignments() {
                       .join("")}
                   </div>
                   <div className="flex-1">
-                    <div className="text-[12.5px] font-['Lexend:Medium',_sans-serif] text-neutral-900">
+                    <div className="text-[12.5px] font-medium text-neutral-900">
                       {role.assignee.name}
                     </div>
-                    <div className="text-[10.5px] font-['Lexend:Regular',_sans-serif] text-neutral-600">
+                    <div className="text-[10.5px] font-normal text-neutral-600">
                       {role.assignee.role}
                     </div>
                   </div>
@@ -173,7 +173,7 @@ export function LeaderAssignments() {
                   </button>
                 </div>
                 <div className="mt-3 pt-3 border-t border-emerald-200">
-                  <div className="text-[9.5px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-emerald-700 mb-1.5">
+                  <div className="text-[9.5px] font-medium uppercase tracking-wider text-emerald-700 mb-1.5">
                     Permissions Elevated
                   </div>
                   <div className="flex flex-wrap gap-1">
@@ -193,7 +193,7 @@ export function LeaderAssignments() {
                 onClick={() =>
                   setPickerOpen(pickerOpen === role.id ? null : role.id)
                 }
-                className="w-full border-2 border-dashed border-neutral-200 hover:border-neutral-400 rounded-lg p-6 text-center text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-500 hover:text-neutral-700"
+                className="w-full border-2 border-dashed border-neutral-200 hover:border-neutral-400 rounded-lg p-6 text-center text-[12px] font-medium text-neutral-500 hover:text-neutral-700"
               >
                 <UserCheck size={20} className="mx-auto mb-1.5 opacity-50" />
                 Drop employee here · or tap to pick
@@ -208,7 +208,7 @@ export function LeaderAssignments() {
                     onClick={() => assign(role.id, e)}
                     className="w-full flex items-center gap-2 p-2 rounded hover:bg-white text-left"
                   >
-                    <div className="w-6 h-6 rounded-full bg-neutral-200 flex items-center justify-center text-[9px] font-['Lexend:SemiBold',_sans-serif] text-neutral-700">
+                    <div className="w-6 h-6 rounded-full bg-neutral-200 flex items-center justify-center text-[9px] font-semibold text-neutral-700">
                       {e.name
                         .split(" ")
                         .slice(-2)
@@ -216,10 +216,10 @@ export function LeaderAssignments() {
                         .join("")}
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="text-[11.5px] font-['Lexend:Medium',_sans-serif] text-neutral-900 truncate">
+                      <div className="text-[11.5px] font-medium text-neutral-900 truncate">
                         {e.name}
                       </div>
-                      <div className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500 truncate">
+                      <div className="text-[10px] font-normal text-neutral-500 truncate">
                         {e.role}
                       </div>
                     </div>
@@ -234,8 +234,8 @@ export function LeaderAssignments() {
 
       <div className="mt-4 bg-amber-50 border border-amber-200 rounded-xl p-4 flex items-start gap-3">
         <Shield size={14} className="text-amber-700 mt-0.5 shrink-0" />
-        <div className="text-[11.5px] font-['Lexend:Regular',_sans-serif] text-amber-900 leading-relaxed">
-          <span className="font-['Lexend:Medium',_sans-serif]">
+        <div className="text-[11.5px] font-normal text-amber-900 leading-relaxed">
+          <span className="font-medium">
             Automatic permission elevation.
           </span>{" "}
           Tagging someone as Site Supervisor instantly activates{" "}

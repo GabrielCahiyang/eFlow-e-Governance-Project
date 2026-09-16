@@ -79,10 +79,10 @@ export function TaskEditorModal({
       >
         <div className="px-5 py-4 border-b border-neutral-100 flex items-center justify-between shrink-0">
           <div>
-            <div className="text-[10px] uppercase tracking-[0.22em] text-neutral-400 font-['Lexend:Medium',_sans-serif]">
+            <div className="text-[10px] uppercase tracking-[0.22em] text-neutral-400 font-medium">
               Task Editor
             </div>
-            <div className="text-[16px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mt-0.5">
+            <div className="text-[16px] font-semibold text-neutral-900 mt-0.5">
               {task.title}
             </div>
           </div>
@@ -239,7 +239,7 @@ export function TaskEditorModal({
               <button
                 onClick={onOpenTeamEditor}
                 disabled={employees.length === 0}
-                className="inline-flex items-center gap-1 h-8 px-3 rounded-full border border-neutral-200 bg-white text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-700 hover:bg-neutral-100 disabled:opacity-50 transition"
+                className="inline-flex items-center gap-1 h-8 px-3 rounded-full border border-neutral-200 bg-white text-[11px] font-medium text-neutral-700 hover:bg-neutral-100 disabled:opacity-50 transition"
               >
                 <Users size={11} />
                 Edit Team
@@ -350,7 +350,7 @@ export function TaskEditorModal({
           <div className="flex items-center gap-2">
             <button
               onClick={onDelete}
-              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-red-200 text-red-600 text-[12px] font-['Lexend:Medium',_sans-serif] hover:bg-red-50 transition"
+              className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-red-200 text-red-600 text-[12px] font-medium hover:bg-red-50 transition"
             >
               <Trash2 size={13} />
               Delete Task
@@ -358,7 +358,7 @@ export function TaskEditorModal({
             {task.status !== "completed" && task.status !== "cancelled" && (
               <button
                 onClick={onCancelTask}
-                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-amber-200 text-amber-700 text-[12px] font-['Lexend:Medium',_sans-serif] hover:bg-amber-50 transition"
+                className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-amber-200 text-amber-700 text-[12px] font-medium hover:bg-amber-50 transition"
               >
                 <X size={13} /> Cancel Task
               </button>
@@ -367,14 +367,14 @@ export function TaskEditorModal({
           <div className="flex items-center gap-2">
             <button
               onClick={onClose}
-              className="px-4 py-2 text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-600 border border-neutral-200 rounded-xl hover:bg-neutral-50 transition"
+              className="px-4 py-2 text-[12px] font-medium text-neutral-600 border border-neutral-200 rounded-xl hover:bg-neutral-50 transition"
             >
               Cancel
             </button>
             <button
               onClick={onSave}
               disabled={saving}
-              className="px-4 py-2 text-[12px] font-['Lexend:SemiBold',_sans-serif] text-white bg-neutral-900 rounded-xl hover:bg-neutral-800 disabled:opacity-50 transition"
+              className="px-4 py-2 text-[12px] font-semibold text-white bg-neutral-900 rounded-xl hover:bg-neutral-800 disabled:opacity-50 transition"
             >
               {saving ? "Saving..." : "Save Changes"}
             </button>

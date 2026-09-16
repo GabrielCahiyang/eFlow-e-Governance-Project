@@ -7,7 +7,7 @@ export function SubtaskSubmissionHistory({ submissions }: { submissions: Subtask
   if (submissions.length === 0) return null;
   return (
     <div className="rounded-xl border border-neutral-200 bg-neutral-50 p-3">
-      <div className="mb-2 text-[10.5px] font-['Lexend:SemiBold',_sans-serif] uppercase tracking-wider text-neutral-500">
+      <div className="mb-2 text-[10.5px] font-semibold uppercase tracking-wider text-neutral-500">
         Submission history
       </div>
       <div className="space-y-3">

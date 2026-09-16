@@ -22,22 +22,23 @@ export function ReviewKindSwitch({
   ];
 
   return (
-    <div className="inline-flex items-center gap-1 rounded-xl border border-neutral-200/80 bg-neutral-100/70 p-1 font-['Montserrat',sans-serif]">
+    <div className="max-w-full overflow-x-auto">
+      <TabsContext
+        id="review-kind-tabs"
+        activeTabId={kinds.findIndex((kind) => kind.id === active)}
+      >
+        <TabList id="review-kind-tab-list">
       {kinds.map((kind) => {
         const count = counts[kind.id];
         const isActive = active === kind.id;
         return (
-          <button
+          <Tab
             key={kind.id}
-            type="button"
+            id={`review-kind-${kind.id}`}
+            active={isActive}
             onClick={() => onChange(kind.id)}
-            className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-xs font-semibold transition-all cursor-pointer ${
-              isActive
-                ? "bg-white text-neutral-900 shadow-xs"
-                : "text-neutral-500 hover:text-neutral-800 hover:bg-white/40"
-            }`}
           >
-            <span>{kind.label}</span>
+            <span className="inline-flex items-center gap-1.5">{kind.label}
             {typeof count === "number" && count > 0 && (
               <span
                 className={`inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full text-[10px] font-bold ${
@@ -49,9 +50,13 @@ export function ReviewKindSwitch({
                 {count}
               </span>
             )}
-          </button>
+            </span>
+          </Tab>
         );
       })}
+        </TabList>
+      </TabsContext>
     </div>
   );
 }
+import { Tab, TabList, TabsContext } from "@vibe/core";

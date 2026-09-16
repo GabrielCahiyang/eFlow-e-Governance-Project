@@ -47,12 +47,12 @@ export function HierarchyTaskRow({ task, employeeById, role, currentUserId, onVe
                                                 e.stopPropagation();
                                                 onOpenTaskEditor(task);
                                               }}
-                                              className="text-left text-[12px] text-neutral-900 font-['Lexend:Medium',_sans-serif] truncate hover:text-violet-700 transition"
+                                              className="text-left text-[12px] text-neutral-900 font-medium truncate hover:text-violet-700 transition"
                                             >
                                               {task.title}
                                             </button>
                                           ) : (
-                                            <div className="text-[12px] text-neutral-900 font-['Lexend:Medium',_sans-serif] truncate">
+                                            <div className="text-[12px] text-neutral-900 font-medium truncate">
                                               {task.title}
                                             </div>
                                           )}
@@ -69,7 +69,7 @@ export function HierarchyTaskRow({ task, employeeById, role, currentUserId, onVe
                                             </span>
                                             <SubtaskProgressChip task={task} />
                                             <span
-                                              className={`inline-flex items-center gap-1 text-[9px] font-['Lexend:Medium',_sans-serif] px-1.5 py-0.5 rounded-full border ${sm.color}`}
+                                              className={`inline-flex items-center gap-1 text-[9px] font-medium px-1.5 py-0.5 rounded-full border ${sm.color}`}
                                             >
                                               <div
                                                 className={`w-1.5 h-1.5 rounded-full ${sm.dot}`}

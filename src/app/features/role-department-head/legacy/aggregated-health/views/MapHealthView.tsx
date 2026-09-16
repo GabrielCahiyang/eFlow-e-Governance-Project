@@ -9,11 +9,11 @@ export function MapHealthView() {
           <div className="flex items-center justify-between px-4 py-2.5 border-b border-neutral-200 bg-neutral-50">
             <div className="flex items-center gap-2">
               <Icons.Map size={13} className="text-neutral-700" />
-              <span className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900">
+              <span className="text-[12px] font-medium text-neutral-900">
                 Ormoc City · GIS Project Map
               </span>
             </div>
-            <div className="flex items-center gap-3 text-[10.5px] font-['Lexend:Regular',_sans-serif] text-neutral-500">
+            <div className="flex items-center gap-3 text-[10.5px] font-normal text-neutral-500">
               <span className="flex items-center gap-1">
                 <span className="w-2 h-2 rounded-full bg-emerald-500" /> Optimal
               </span>
@@ -81,7 +81,7 @@ export function MapHealthView() {
               return (
                 <div
                   key={b}
-                  className="absolute text-[9.5px] font-['Lexend:Medium',_sans-serif] text-neutral-700 bg-white/80 rounded px-1.5 py-0.5 border border-white shadow-sm"
+                  className="absolute text-[9.5px] font-medium text-neutral-700 bg-white/80 rounded px-1.5 py-0.5 border border-white shadow-sm"
                   style={{ left: `${ref.mapX - 4}%`, top: `${ref.mapY - 10}%` }}
                 >
                   {b}
@@ -109,21 +109,21 @@ export function MapHealthView() {
                       style={{ backgroundColor: color }}
                     />
                     <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-                      <span className="text-[9px] font-['Lexend:SemiBold',_sans-serif] text-white">
+                      <span className="text-[9px] font-semibold text-white">
                         {p.code.slice(-3)}
                       </span>
                     </div>
                   </div>
-                  <div className="absolute left-1/2 -translate-x-1/2 mt-1.5 bg-neutral-900 text-white text-[10px] font-['Lexend:Medium',_sans-serif] rounded px-1.5 py-0.5 whitespace-nowrap opacity-0 group-hover:opacity-100 transition pointer-events-none">
+                  <div className="absolute left-1/2 -translate-x-1/2 mt-1.5 bg-neutral-900 text-white text-[10px] font-medium rounded px-1.5 py-0.5 whitespace-nowrap opacity-0 group-hover:opacity-100 transition pointer-events-none">
                     {p.name}
                   </div>
                 </button>
               );
             })}
-            <div className="absolute bottom-3 right-3 bg-white/90 backdrop-blur border border-neutral-200 rounded-lg p-2 text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-700">
+            <div className="absolute bottom-3 right-3 bg-white/90 backdrop-blur border border-neutral-200 rounded-lg p-2 text-[10px] font-normal text-neutral-700">
               <div className="flex items-center gap-1 mb-0.5">
                 <Icons.Flame size={10} className="text-red-600" />{" "}
-                <strong className="font-['Lexend:Medium',_sans-serif]">
+                <strong className="font-medium">
                   3 Critical
                 </strong>{" "}
                 clustered in Brgy. Cogon

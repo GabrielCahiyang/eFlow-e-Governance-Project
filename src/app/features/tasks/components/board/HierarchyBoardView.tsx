@@ -150,7 +150,7 @@ export function HierarchyBoardView({
                 <div className="text-[10px] uppercase tracking-[0.2em] text-neutral-300">
                   Proposal
                 </div>
-                <div className="text-[14px] text-white font-['Lexend:SemiBold',_sans-serif] truncate">
+                <div className="text-[14px] text-white font-semibold truncate">
                   {proposal.title}
                 </div>
               </div>
@@ -164,7 +164,7 @@ export function HierarchyBoardView({
                 <div key={program.key}>
                   <div className="flex items-center gap-2 px-4 py-2.5 bg-violet-50 border-b border-violet-100">
                     <Layers size={13} className="text-violet-600" />
-                    <div className="text-[12px] font-['Lexend:Medium',_sans-serif] text-violet-900">
+                    <div className="text-[12px] font-medium text-violet-900">
                       {program.title}
                     </div>
                     <span className="ml-auto text-[10px] uppercase tracking-wider text-violet-500">
@@ -183,7 +183,7 @@ export function HierarchyBoardView({
                             size={12}
                             className="text-neutral-400"
                           />
-                          <div className="text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-700">
+                          <div className="text-[11px] font-medium text-neutral-700">
                             {project.title}
                           </div>
                           <span className="ml-auto text-[9px] uppercase tracking-wider text-neutral-400">
@@ -199,7 +199,7 @@ export function HierarchyBoardView({
                             >
                               <div className="flex items-center gap-2 px-3 py-2 border-b border-neutral-100 bg-neutral-50">
                                 <div className="w-1.5 h-1.5 rounded-full bg-violet-400" />
-                                <div className="text-[11px] text-neutral-700 font-['Lexend:Medium',_sans-serif]">
+                                <div className="text-[11px] text-neutral-700 font-medium">
                                   {activity.title}
                                 </div>
                                 {activity.schedule && (

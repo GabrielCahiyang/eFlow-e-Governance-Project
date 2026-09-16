@@ -1,6 +1,7 @@
 import { ArrowRight, CalendarClock, Clipboard, Database, FileKey2, MessageSquareText, ShieldCheck, UserRound, X } from "lucide-react";
 import { buildDiff, type AuditEvent, type DiffRow } from "../../../services/auditService";
 import { auditActionTone, humanizeAuditAction, humanizeAuditField, humanizeEntityType, orderAuditDiff, presentAuditValue, shortenIdentifier } from "../presentation";
+import { InspectorPanel } from "../../../shared/motion";
 
 const TONE_STYLE = {
   good: "border-emerald-200 bg-emerald-50 text-emerald-700",
@@ -19,9 +20,12 @@ export function AuditDetailDrawer({ event, entityLabel, onClose }: { event: Audi
   const tone = auditActionTone(event.action);
 
   return (
-    <>
-      <div className="fixed inset-0 z-40 bg-neutral-950/25 backdrop-blur-[1px]" onClick={onClose} />
-      <aside className="fixed inset-y-0 right-0 z-50 flex w-full flex-col border-l border-neutral-200 bg-neutral-50 shadow-2xl sm:w-[560px] animate-[slidein_0.25s_cubic-bezier(0.25,1.1,0.4,1)]">
+    <InspectorPanel
+      open
+      onClose={onClose}
+      ariaLabel={`Audit event: ${humanizeAuditAction(event.action)}`}
+      className="w-full bg-neutral-50 sm:w-[560px]"
+    >
         <header className="border-b border-neutral-200 bg-white px-5 py-4">
           <div className="flex items-start justify-between gap-4">
             <div className="min-w-0">
@@ -71,8 +75,7 @@ export function AuditDetailDrawer({ event, entityLabel, onClose }: { event: Audi
 
           <div className="flex items-center gap-2 rounded-xl border border-emerald-100 bg-emerald-50 px-3 py-2.5 text-[10.5px] text-emerald-700"><ShieldCheck size={14} /> This event is append-only and cannot be rewritten from the application.</div>
         </div>
-      </aside>
-    </>
+    </InspectorPanel>
   );
 }
 

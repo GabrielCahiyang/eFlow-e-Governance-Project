@@ -51,7 +51,7 @@ function ProposalFundingCard({
           <FolderKanban size={15} />
         </div>
         <div className="min-w-0 flex-1">
-          <div className="truncate text-[12px] font-['Lexend:SemiBold',_sans-serif]">{commitment.title}</div>
+          <div className="truncate text-[12px] font-semibold">{commitment.title}</div>
           <div className="mt-1 text-[9.5px] text-neutral-500">
             {taskAllocations.length} funded task(s) · reserved at publication
           </div>
@@ -106,7 +106,7 @@ function TaskFundingCard({
       <summary className="flex cursor-pointer list-none flex-wrap items-center gap-3 p-3">
         <ListChecks size={13} className="text-blue-600" />
         <div className="min-w-0 flex-1">
-          <div className="truncate text-[10.5px] font-['Lexend:Medium',_sans-serif]">{task?.title || "Funded task"}</div>
+          <div className="truncate text-[10.5px] font-medium">{task?.title || "Funded task"}</div>
           <div className="mt-0.5 text-[9px] text-neutral-500">
             Task Leader: {task?.assigneeName || "Assigned lead"} · {childAllocations.length} funded subtask(s)
           </div>
@@ -177,7 +177,7 @@ function LegacyAllocationWarning() {
     <div className="flex gap-3 rounded-xl border border-amber-200 bg-amber-50 p-3 text-amber-950">
       <AlertTriangle size={16} className="mt-0.5 shrink-0 text-amber-600" />
       <div>
-        <div className="text-[10.5px] font-['Lexend:Medium',_sans-serif]">Task funding records are pending</div>
+        <div className="text-[10.5px] font-medium">Task funding records are pending</div>
         <p className="mt-1 max-w-3xl text-[9.5px] leading-relaxed text-amber-800">
           This proposal remains safely reserved, but it was published before task-linked funding records were available.
           Apply the latest fiscal workflow migrations before petty cash is requested against this proposal.

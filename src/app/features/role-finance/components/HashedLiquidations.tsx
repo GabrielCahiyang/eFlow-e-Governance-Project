@@ -45,20 +45,20 @@ export function HashedLiquidations() {
         <div className="bg-white border border-neutral-200 rounded-xl overflow-hidden">
           <div className="px-4 py-3 border-b border-neutral-100 flex items-center gap-2">
             <Hash size={14} className="text-neutral-900" />
-            <div className="text-[13px] font-['Lexend:Medium',_sans-serif] text-neutral-900">Sealed Voucher Registry</div>
-            <div className="ml-auto text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-400">Read-only · SHA-256</div>
+            <div className="text-[13px] font-medium text-neutral-900">Sealed Voucher Registry</div>
+            <div className="ml-auto text-[11px] font-normal text-neutral-400">Read-only · SHA-256</div>
           </div>
           <div className="divide-y divide-neutral-100">
             {HASHED_VOUCHERS.map(v => (
               <button key={v.id} onClick={() => setSelected(v)} className={`w-full text-left px-4 py-3 hover:bg-neutral-50 transition-colors ${selected.id === v.id ? "bg-emerald-50/40" : ""}`}>
                 <div className="flex items-center justify-between mb-1">
-                  <div className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900">{v.voucher}</div>
-                  <div className="flex items-center gap-1 text-[10px] font-['Lexend:Medium',_sans-serif] text-emerald-700 bg-emerald-50 border border-emerald-200 rounded px-1.5 py-0.5">
+                  <div className="text-[12px] font-medium text-neutral-900">{v.voucher}</div>
+                  <div className="flex items-center gap-1 text-[10px] font-medium text-emerald-700 bg-emerald-50 border border-emerald-200 rounded px-1.5 py-0.5">
                     <CheckCircle2 size={10} /> VERIFIED
                   </div>
                 </div>
-                <div className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500 truncate">{v.payee} · {peso(v.amount)}</div>
-                <div className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-400 mt-1 font-mono truncate">{v.hash.slice(0, 40)}…</div>
+                <div className="text-[11px] font-normal text-neutral-500 truncate">{v.payee} · {peso(v.amount)}</div>
+                <div className="text-[10px] font-normal text-neutral-400 mt-1 font-mono truncate">{v.hash.slice(0, 40)}…</div>
               </button>
             ))}
           </div>
@@ -67,12 +67,12 @@ export function HashedLiquidations() {
         <div className="bg-neutral-950 rounded-xl p-5 text-neutral-100 relative overflow-hidden">
           <div className="absolute inset-0 opacity-[0.04] pointer-events-none" style={{ backgroundImage: "repeating-linear-gradient(0deg,#fff 0 1px,transparent 1px 3px)" }} />
           <div className="relative">
-            <div className="flex items-center gap-2 text-[11px] font-['Lexend:Medium',_sans-serif] text-emerald-400 uppercase tracking-wider mb-1">
+            <div className="flex items-center gap-2 text-[11px] font-medium text-emerald-400 uppercase tracking-wider mb-1">
               <KeyRound size={12} /> Cryptographic Seal
             </div>
-            <div className="text-[15px] font-['Lexend:SemiBold',_sans-serif] mb-4">{selected.voucher}</div>
+            <div className="text-[15px] font-semibold mb-4">{selected.voucher}</div>
 
-            <div className="space-y-3 text-[11px] font-['Lexend:Regular',_sans-serif]">
+            <div className="space-y-3 text-[11px] font-normal">
               <div><div className="text-neutral-500 mb-0.5">Payee</div><div className="text-neutral-100">{selected.payee}</div></div>
               <div className="grid grid-cols-2 gap-3">
                 <div><div className="text-neutral-500 mb-0.5">Amount</div><div className="text-neutral-100 tabular-nums">{peso(selected.amount)}</div></div>

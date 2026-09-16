@@ -86,7 +86,7 @@ export function TaskDiscussion({
     <div className="flex flex-col">
       <div className="space-y-3 mb-3">
         {visible.length === 0 && (
-          <div className="text-center py-6 text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-400">
+          <div className="text-center py-6 text-[12px] font-normal text-neutral-400">
             No comments yet. Start the discussion.
           </div>
         )}
@@ -97,11 +97,11 @@ export function TaskDiscussion({
               <InitialsAvatar name={c.authorName} size={28} />
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <span className="text-[12.5px] font-['Lexend:Medium',_sans-serif] text-neutral-900">
+                  <span className="text-[12.5px] font-medium text-neutral-900">
                     {c.authorName}
                   </span>
                   {mine && (
-                    <span className="text-[9.5px] font-['Lexend:Medium',_sans-serif] text-neutral-400 uppercase tracking-wide">
+                    <span className="text-[9.5px] font-medium text-neutral-400 uppercase tracking-wide">
                       You
                     </span>
                   )}
@@ -132,11 +132,11 @@ export function TaskDiscussion({
                   )}
                 </div>
                 {c.deletedAt ? (
-                  <div className="text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-400 italic flex items-center gap-1.5 mt-0.5">
+                  <div className="text-[12px] font-normal text-neutral-400 italic flex items-center gap-1.5 mt-0.5">
                     <ShieldAlert size={12} /> Comment removed by a moderator (kept in audit log)
                   </div>
                 ) : (
-                  <div className="text-[12.5px] font-['Lexend:Regular',_sans-serif] text-neutral-700 whitespace-pre-wrap mt-0.5">
+                  <div className="text-[12.5px] font-normal text-neutral-700 whitespace-pre-wrap mt-0.5">
                     {c.body}
                   </div>
                 )}
@@ -156,18 +156,18 @@ export function TaskDiscussion({
             }}
             rows={2}
             placeholder="Write a comment…  (⌘/Ctrl + Enter to send)"
-            className="flex-1 resize-none rounded-lg border border-neutral-200 px-3 py-2 text-[12.5px] font-['Lexend:Regular',_sans-serif] text-neutral-800 placeholder:text-neutral-400 focus:outline-none focus:border-neutral-400 focus:ring-1 focus:ring-neutral-200"
+            className="flex-1 resize-none rounded-lg border border-neutral-200 px-3 py-2 text-[12.5px] font-normal text-neutral-800 placeholder:text-neutral-400 focus:outline-none focus:border-neutral-400 focus:ring-1 focus:ring-neutral-200"
           />
           <button
             onClick={send}
             disabled={!draft.trim() || sending}
-            className="h-9 px-3 rounded-lg bg-neutral-900 text-white text-[12px] font-['Lexend:Medium',_sans-serif] flex items-center gap-1.5 disabled:opacity-40 hover:bg-neutral-800"
+            className="h-9 px-3 rounded-lg bg-neutral-900 text-white text-[12px] font-medium flex items-center gap-1.5 disabled:opacity-40 hover:bg-neutral-800"
           >
             <Send size={13} /> Send
           </button>
         </div>
       ) : (
-        <div className="border-t border-neutral-100 pt-3 text-[11.5px] font-['Lexend:Regular',_sans-serif] text-neutral-400 text-center">
+        <div className="border-t border-neutral-100 pt-3 text-[11.5px] font-normal text-neutral-400 text-center">
           You have read-only access to this discussion.
         </div>
       )}

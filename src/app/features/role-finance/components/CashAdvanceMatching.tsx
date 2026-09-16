@@ -39,7 +39,7 @@ export function CashAdvanceMatching() {
         actions={
           <button
             onClick={() => setShowOverdueOnly((v) => !v)}
-            className={`flex items-center gap-2 px-3 py-2 rounded-lg text-[12px] font-['Lexend:Medium',_sans-serif] cursor-pointer transition-colors border ${
+            className={`flex items-center gap-2 px-3 py-2 rounded-lg text-[12px] font-medium cursor-pointer transition-colors border ${
               showOverdueOnly ? "bg-red-50 text-red-700 border-red-200" : "bg-white text-neutral-700 border-neutral-200"
             }`}
           >
@@ -51,7 +51,7 @@ export function CashAdvanceMatching() {
       <div className="grid grid-cols-[300px_1fr] gap-4">
         {/* Queue */}
         <div className="bg-white border border-neutral-200 rounded-xl overflow-hidden h-fit">
-          <div className="px-4 py-3 border-b border-neutral-200 text-[11px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400">
+          <div className="px-4 py-3 border-b border-neutral-200 text-[11px] font-medium uppercase tracking-wider text-neutral-400">
             Cash Advances ({filtered.length})
           </div>
           {filtered.map((c) => {
@@ -66,11 +66,11 @@ export function CashAdvanceMatching() {
               >
                 <div className="flex items-center gap-1.5 mb-1">
                   <span className={`font-mono text-[10px] ${active ? "text-neutral-400" : "text-neutral-400"}`}>{c.id}</span>
-                  {overdue && <span className="px-1 py-0.5 rounded bg-red-600 text-white text-[8px] font-['Lexend:Medium',_sans-serif] uppercase">{c.overdueDays}d</span>}
+                  {overdue && <span className="px-1 py-0.5 rounded bg-red-600 text-white text-[8px] font-medium uppercase">{c.overdueDays}d</span>}
                 </div>
-                <div className={`text-[12px] font-['Lexend:Medium',_sans-serif] ${active ? "text-white" : "text-neutral-900"}`}>{c.employee}</div>
+                <div className={`text-[12px] font-medium ${active ? "text-white" : "text-neutral-900"}`}>{c.employee}</div>
                 <div className={`text-[10px] ${active ? "text-neutral-300" : "text-neutral-500"} mt-0.5`}>{c.dept} · {peso(c.advanced)}</div>
-                <div className={`text-[10px] font-['Lexend:Regular',_sans-serif] mt-1 ${short === 0 ? (active ? "text-emerald-400" : "text-emerald-600") : active ? "text-amber-400" : "text-amber-600"}`}>
+                <div className={`text-[10px] font-normal mt-1 ${short === 0 ? (active ? "text-emerald-400" : "text-emerald-600") : active ? "text-amber-400" : "text-amber-600"}`}>
                   {short === 0 ? "✓ Reconciled" : `₱${short.toLocaleString()} unreconciled`}
                 </div>
               </button>
@@ -83,11 +83,11 @@ export function CashAdvanceMatching() {
           <div className="flex items-center justify-between mb-1">
             <div>
               <div className="text-[11px] font-mono text-neutral-400">{selected.id}</div>
-              <div className="text-[16px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mt-0.5">{selected.employee}</div>
+              <div className="text-[16px] font-semibold text-neutral-900 mt-0.5">{selected.employee}</div>
               <div className="text-[11px] text-neutral-500">{selected.dept} · {selected.purpose}</div>
             </div>
             {selected.overdueDays > 30 && (
-              <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-red-100 text-red-700 text-[11px] font-['Lexend:Medium',_sans-serif]">
+              <span className="inline-flex items-center gap-1 px-3 py-1.5 rounded-full bg-red-100 text-red-700 text-[11px] font-medium">
                 <Flame size={11} /> Overdue {selected.overdueDays} days
               </span>
             )}
@@ -120,10 +120,10 @@ export function CashAdvanceMatching() {
             style={{ borderColor: balanced ? "#10b981" : "#f59e0b", background: balanced ? "#ecfdf5" : "#fffbeb" }}>
             {balanced ? <CheckCircle2 size={20} className="text-emerald-600" /> : <Clock size={20} className="text-amber-600" />}
             <div className="flex-1">
-              <div className="text-[13px] font-['Lexend:SemiBold',_sans-serif]" style={{ color: balanced ? "#047857" : "#b45309" }}>
+              <div className="text-[13px] font-semibold" style={{ color: balanced ? "#047857" : "#b45309" }}>
                 {balanced ? "Equation balanced" : "Cycle cannot close"}
               </div>
-              <div className="text-[11px] font-['Lexend:Regular',_sans-serif]" style={{ color: balanced ? "#047857" : "#b45309" }}>
+              <div className="text-[11px] font-normal" style={{ color: balanced ? "#047857" : "#b45309" }}>
                 {balanced
                   ? "Physical cash has been reconciled. Ready to seal the liquidation."
                   : `₱${shortfall.toLocaleString()} must be physically returned before the auditor can close this cycle.`}

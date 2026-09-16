@@ -88,7 +88,7 @@ export function LeadershipAssignmentFields({
           <ShieldCheck size={16} aria-hidden="true" />
         </div>
         <div>
-          <h4 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] font-semibold text-neutral-900">
+          <h4 className="text-[13px] font-semibold text-neutral-900">
             Leadership team
           </h4>
           <p className="mt-0.5 text-[11px] leading-4 text-neutral-500">
@@ -102,7 +102,7 @@ export function LeadershipAssignmentFields({
       <div>
         <label
           htmlFor="leadership-candidate-search"
-          className="mb-1.5 block text-[11px] font-['Lexend:Medium',_sans-serif] font-medium uppercase tracking-wider text-[#676879]"
+          className="mb-1.5 block text-[11px] font-medium uppercase tracking-wider text-[#676879]"
         >
           Find an eligible user
         </label>

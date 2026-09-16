@@ -52,7 +52,7 @@ export function RecurringTaskTemplatesPanel({
           <div key={template.id} className="rounded-xl border border-neutral-200 bg-white p-3.5">
             <div className="flex items-start justify-between gap-3">
               <div className="min-w-0">
-                <div className="text-[13px] font-['Lexend:Medium',_sans-serif] text-neutral-900">{template.title}</div>
+                <div className="text-[13px] font-medium text-neutral-900">{template.title}</div>
                 {template.description && <p className="mt-1 line-clamp-2 text-[11px] text-neutral-500">{template.description}</p>}
                 <div className="mt-2 text-[10.5px] text-neutral-400">
                   Every {template.recurrenceRule.interval > 1 ? `${template.recurrenceRule.interval} ` : ""}{template.recurrenceRule.frequency} · next {new Date(template.nextRunAt).toLocaleString("en-PH")}

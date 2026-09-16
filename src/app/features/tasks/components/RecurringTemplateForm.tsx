@@ -66,7 +66,7 @@ export function RecurringTemplateForm({
 
   return (
     <div className="space-y-3 rounded-xl border border-neutral-200 bg-neutral-50 p-3">
-      <div className="text-[11px] font-['Lexend:SemiBold',_sans-serif] uppercase tracking-wide text-neutral-500">New recurring template</div>
+      <div className="text-[11px] font-semibold uppercase tracking-wide text-neutral-500">New recurring template</div>
       <input value={title} onChange={(event) => setTitle(event.target.value)} placeholder="Template title" className={`${inputClass} w-full`} />
       <textarea value={description} onChange={(event) => setDescription(event.target.value)} rows={2} placeholder="Description" className="w-full resize-none rounded-lg border border-neutral-200 px-2.5 py-2 text-[12px] outline-none focus:border-neutral-400" />
       <textarea value={criteria} onChange={(event) => setCriteria(event.target.value)} rows={2} placeholder="Acceptance criteria, one per line" className="w-full resize-none rounded-lg border border-neutral-200 px-2.5 py-2 text-[12px] outline-none focus:border-neutral-400" />
@@ -87,7 +87,7 @@ export function RecurringTemplateForm({
           {employees.filter((employee) => employee.id !== assigneeId).map((employee) => <option key={employee.id} value={employee.id}>{employee.name}</option>)}
         </select>
       </div>
-      <button onClick={save} disabled={saving} className="w-full rounded-lg bg-neutral-900 py-2 text-[12px] font-['Lexend:Medium',_sans-serif] text-white disabled:opacity-50">
+      <button onClick={save} disabled={saving} className="w-full rounded-lg bg-neutral-900 py-2 text-[12px] font-medium text-white disabled:opacity-50">
         {saving ? "Saving…" : "Create template"}
       </button>
     </div>

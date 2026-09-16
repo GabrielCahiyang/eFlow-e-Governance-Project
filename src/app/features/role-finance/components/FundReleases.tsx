@@ -86,7 +86,7 @@ export function FundReleases() {
         <div className="bg-gradient-to-r from-emerald-50 to-white border border-emerald-200 rounded-lg p-3 mb-4 flex items-center gap-3">
           <CheckCircle2 size={16} className="text-emerald-600" />
           <div className="flex-1">
-            <div className="text-[12px] font-['Lexend:Medium',_sans-serif] text-emerald-800">Release committed to blockchain</div>
+            <div className="text-[12px] font-medium text-emerald-800">Release committed to blockchain</div>
             <div className="font-mono text-[10px] text-emerald-700">{lastHash}</div>
           </div>
           <ExternalLink size={13} className="text-emerald-600 cursor-pointer" />
@@ -106,10 +106,10 @@ export function FundReleases() {
             >
               <div className="flex items-center gap-2 mb-1 px-1">
                 <span className="text-neutral-700">{col.icon}</span>
-                <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-['Lexend:Medium',_sans-serif] ${col.chip}`}>{items.length}</span>
-                <span className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-800">{col.label}</span>
+                <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-medium ${col.chip}`}>{items.length}</span>
+                <span className="text-[12px] font-medium text-neutral-800">{col.label}</span>
               </div>
-              <div className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500 px-1 mb-3 tabular-nums">{pesoShort(sum)} staged</div>
+              <div className="text-[10px] font-normal text-neutral-500 px-1 mb-3 tabular-nums">{pesoShort(sum)} staged</div>
               <div className="flex flex-col gap-2">
                 {items.map((c) => (
                   <div
@@ -123,14 +123,14 @@ export function FundReleases() {
                   >
                     <div className="flex items-center gap-1 mb-1">
                       <span className="font-mono text-[10px] text-neutral-400">{c.id}</span>
-                      {c.aging > 2 && <span className="ml-auto text-[9px] text-red-500 font-['Lexend:Medium',_sans-serif]">{c.aging}d aging</span>}
+                      {c.aging > 2 && <span className="ml-auto text-[9px] text-red-500 font-medium">{c.aging}d aging</span>}
                       {c.col === "released" && <Lock size={10} className="text-emerald-600 ml-auto" />}
                     </div>
-                    <div className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900 truncate">{c.payee}</div>
-                    <div className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500 truncate mt-0.5">{c.purpose}</div>
+                    <div className="text-[12px] font-medium text-neutral-900 truncate">{c.payee}</div>
+                    <div className="text-[10px] font-normal text-neutral-500 truncate mt-0.5">{c.purpose}</div>
                     <div className="mt-2 pt-2 border-t border-neutral-100 flex items-center justify-between">
-                      <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-400 font-mono">{c.orsRef}</span>
-                      <span className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 tabular-nums">{pesoShort(c.amount)}</span>
+                      <span className="text-[10px] font-normal text-neutral-400 font-mono">{c.orsRef}</span>
+                      <span className="text-[12px] font-semibold text-neutral-900 tabular-nums">{pesoShort(c.amount)}</span>
                     </div>
                   </div>
                 ))}
@@ -147,22 +147,22 @@ export function FundReleases() {
             <div className="bg-gradient-to-r from-neutral-900 to-neutral-800 text-white px-6 py-4">
               <div className="flex items-center gap-2">
                 <Fingerprint size={16} className="text-emerald-400" />
-                <span className="text-[14px] font-['Lexend:SemiBold',_sans-serif]">Release Funds · PKI Signature Required</span>
+                <span className="text-[14px] font-semibold">Release Funds · PKI Signature Required</span>
               </div>
             </div>
             <div className="p-6">
               <div className="text-[11px] text-neutral-400 uppercase tracking-wider mb-1">Payee</div>
-              <div className="text-[15px] font-['Lexend:Medium',_sans-serif] text-neutral-900">{releaseModal.payee}</div>
+              <div className="text-[15px] font-medium text-neutral-900">{releaseModal.payee}</div>
               <div className="text-[11px] text-neutral-500 mt-0.5">{releaseModal.purpose}</div>
 
               <div className="mt-4 p-4 bg-neutral-50 rounded-lg border border-neutral-200">
                 <div className="flex items-baseline justify-between">
                   <span className="text-[11px] text-neutral-500">Amount to disburse</span>
-                  <span className="text-[28px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 tabular-nums">{peso(releaseModal.amount)}</span>
+                  <span className="text-[28px] font-semibold text-neutral-900 tabular-nums">{peso(releaseModal.amount)}</span>
                 </div>
               </div>
 
-              <div className="mt-4 space-y-1.5 text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-600">
+              <div className="mt-4 space-y-1.5 text-[11px] font-normal text-neutral-600">
                 <div className="flex items-center gap-2"><CheckCircle2 size={12} className="text-emerald-600" /> ORS reference validated ({releaseModal.orsRef})</div>
                 <div className="flex items-center gap-2"><CheckCircle2 size={12} className="text-emerald-600" /> Treasurer PKI credential present</div>
                 <div className="flex items-center gap-2"><CheckCircle2 size={12} className="text-emerald-600" /> Treasury cash balance sufficient</div>
@@ -170,10 +170,10 @@ export function FundReleases() {
               </div>
 
               <div className="mt-5 flex gap-2">
-                <button onClick={() => setReleaseModal(null)} className="flex-1 py-2.5 bg-neutral-100 rounded-lg text-[13px] font-['Lexend:Medium',_sans-serif] cursor-pointer hover:bg-neutral-200">
+                <button onClick={() => setReleaseModal(null)} className="flex-1 py-2.5 bg-neutral-100 rounded-lg text-[13px] font-medium cursor-pointer hover:bg-neutral-200">
                   Cancel
                 </button>
-                <button onClick={confirmRelease} className="flex-1 py-2.5 bg-emerald-600 text-white rounded-lg text-[13px] font-['Lexend:Medium',_sans-serif] cursor-pointer hover:bg-emerald-700 flex items-center justify-center gap-1.5">
+                <button onClick={confirmRelease} className="flex-1 py-2.5 bg-emerald-600 text-white rounded-lg text-[13px] font-medium cursor-pointer hover:bg-emerald-700 flex items-center justify-center gap-1.5">
                   <Fingerprint size={13} /> Sign & Release
                 </button>
               </div>

@@ -99,7 +99,7 @@ export function ProjectCommandWorkspace({
   );
 
   return (
-    <div className="eflow-project-command space-y-4 font-['Montserrat',sans-serif]">
+    <div className="eflow-project-command space-y-4 font-sans">
       {/* Extensible Workspace Tab Bar (Permanent core views + optional dynamic views) */}
       <ProjectViewTabBar
         projectId={project.id}

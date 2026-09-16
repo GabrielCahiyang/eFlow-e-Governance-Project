@@ -32,8 +32,8 @@ export function EmployeeIntelligencePanel({
     <div className="space-y-4">
       <section className="rounded-xl border border-neutral-200 bg-white p-4">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-start sm:justify-between">
-          <div className="flex items-center gap-3"><div className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-neutral-900 text-[13px] font-['Lexend:SemiBold',_sans-serif] text-white">{employee.initials || "??"}</div><div><h2 className="text-[16px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">{employee.name}</h2><p className="mt-0.5 text-[10.5px] text-neutral-400">{employee.jobTitle} · {employee.email || employee.departmentName || "Department team"}</p></div></div>
-          <div className="text-left sm:text-right"><div className="text-[9px] uppercase tracking-wide text-neutral-400">Workload signal</div><div className={`mt-0.5 text-[20px] font-['Lexend:SemiBold',_sans-serif] ${metric.workloadSignal >= TEAM_WORKLOAD_HIGH_THRESHOLD ? "text-red-600" : metric.workloadSignal >= TEAM_WORKLOAD_ELEVATED_THRESHOLD ? "text-amber-600" : "text-emerald-600"}`}>{metric.workloadSignal}/100</div><div className="text-[9px] text-neutral-400">Derived from current work</div></div>
+          <div className="flex items-center gap-3"><div className="grid h-12 w-12 shrink-0 place-items-center rounded-full bg-neutral-900 text-[13px] font-semibold text-white">{employee.initials || "??"}</div><div><h2 className="text-[16px] font-semibold text-neutral-900">{employee.name}</h2><p className="mt-0.5 text-[10.5px] text-neutral-400">{employee.jobTitle} · {employee.email || employee.departmentName || "Department team"}</p></div></div>
+          <div className="text-left sm:text-right"><div className="text-[9px] uppercase tracking-wide text-neutral-400">Workload signal</div><div className={`mt-0.5 text-[20px] font-semibold ${metric.workloadSignal >= TEAM_WORKLOAD_HIGH_THRESHOLD ? "text-red-600" : metric.workloadSignal >= TEAM_WORKLOAD_ELEVATED_THRESHOLD ? "text-amber-600" : "text-emerald-600"}`}>{metric.workloadSignal}/100</div><div className="text-[9px] text-neutral-400">Derived from current work</div></div>
         </div>
         <div className="mt-5 grid grid-cols-2 gap-2 lg:grid-cols-6">
           <Metric icon={<Activity size={13} />} label="Active tasks" value={metric.activeTasks} />
@@ -53,7 +53,7 @@ export function EmployeeIntelligencePanel({
       <section className="grid grid-cols-1 gap-4 xl:grid-cols-[minmax(0,1fr)_320px]">
         <EmployeeCoachingEditor employee={employee} note={note} storedSkills={storedSkills} updatedBy={updatedBy} />
         <div className="rounded-xl border border-neutral-200 bg-white">
-          <div className="border-b border-neutral-100 px-4 py-3"><h3 className="text-[12.5px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">Recent delivery activity</h3><p className="mt-0.5 text-[9.5px] text-neutral-400">Progress and review events attributable to this person.</p></div>
+          <div className="border-b border-neutral-100 px-4 py-3"><h3 className="text-[12.5px] font-semibold text-neutral-900">Recent delivery activity</h3><p className="mt-0.5 text-[9.5px] text-neutral-400">Progress and review events attributable to this person.</p></div>
           <div className="p-4">
             <div className="space-y-4">
               {activity.map((entry) => <div key={entry.id} className="relative pl-5 before:absolute before:left-[5px] before:top-3 before:h-[calc(100%+10px)] before:w-px before:bg-neutral-100 last:before:hidden"><span className="absolute left-0 top-1 h-2.5 w-2.5 rounded-full border-2 border-white bg-neutral-400 ring-1 ring-neutral-200" /><div className="text-[10.5px] font-medium text-neutral-700">{entry.title}</div><div className="mt-0.5 text-[9.5px] leading-4 text-neutral-400">{entry.detail}</div><div className="mt-0.5 text-[8.5px] text-neutral-300">{new Date(entry.at).toLocaleString("en-PH", { month: "short", day: "numeric", hour: "numeric", minute: "2-digit" })}</div></div>)}
@@ -68,7 +68,7 @@ export function EmployeeIntelligencePanel({
 }
 
 function Metric({ icon, label, value, bad }: { icon: React.ReactNode; label: string; value: string | number; bad?: boolean }) {
-  return <div className="rounded-lg bg-neutral-50 p-2.5"><div className={`flex items-center gap-1 text-[8.5px] uppercase tracking-wide ${bad ? "text-red-500" : "text-neutral-400"}`}>{icon}{label}</div><div className={`mt-1 text-[15px] font-['Lexend:SemiBold',_sans-serif] ${bad ? "text-red-600" : "text-neutral-900"}`}>{value}</div></div>;
+  return <div className="rounded-lg bg-neutral-50 p-2.5"><div className={`flex items-center gap-1 text-[8.5px] uppercase tracking-wide ${bad ? "text-red-500" : "text-neutral-400"}`}>{icon}{label}</div><div className={`mt-1 text-[15px] font-semibold ${bad ? "text-red-600" : "text-neutral-900"}`}>{value}</div></div>;
 }
 
 function Quality({ label, value, tone = "neutral" }: { label: string; value: string; tone?: "neutral" | "amber" | "red" }) {

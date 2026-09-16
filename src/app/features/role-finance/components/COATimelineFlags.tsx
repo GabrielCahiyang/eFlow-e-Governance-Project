@@ -39,8 +39,8 @@ export function COATimelineFlags() {
       <div className="bg-white border border-neutral-200 rounded-xl p-5">
         <div className="flex items-center gap-2 mb-4">
           <CalendarX size={15} className="text-neutral-900" />
-          <div className="text-[13px] font-['Lexend:Medium',_sans-serif] text-neutral-900">Submission Gantt · Day 1–50 rolling window</div>
-          <div className="ml-auto text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500">Today: Day {today}</div>
+          <div className="text-[13px] font-medium text-neutral-900">Submission Gantt · Day 1–50 rolling window</div>
+          <div className="ml-auto text-[11px] font-normal text-neutral-500">Today: Day {today}</div>
         </div>
 
         <div className="space-y-3">
@@ -52,8 +52,8 @@ export function COATimelineFlags() {
             return (
               <div key={d.id} className="grid grid-cols-[220px_1fr_90px] gap-3 items-center">
                 <div>
-                  <div className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900 truncate">{d.name}</div>
-                  <div className="text-[10.5px] font-['Lexend:Regular',_sans-serif] text-neutral-500 truncate">{d.owner}</div>
+                  <div className="text-[12px] font-medium text-neutral-900 truncate">{d.name}</div>
+                  <div className="text-[10.5px] font-normal text-neutral-500 truncate">{d.owner}</div>
                 </div>
                 <div className="relative h-7 bg-neutral-100 rounded-md overflow-hidden">
                   <div className={`absolute top-0 bottom-0 ${t.bar} opacity-80 rounded-md`} style={{ left: `${leftPct}%`, width: `${widthPct}%` }} />
@@ -63,7 +63,7 @@ export function COATimelineFlags() {
                   </div>
                 </div>
                 <div className="flex justify-end">
-                  <span className={`text-[10px] font-['Lexend:Medium',_sans-serif] uppercase border rounded px-1.5 py-0.5 flex items-center gap-1 ${t.chip}`}>
+                  <span className={`text-[10px] font-medium uppercase border rounded px-1.5 py-0.5 flex items-center gap-1 ${t.chip}`}>
                     <span className={`w-1.5 h-1.5 rounded-full ${t.dot}`} />{d.status === "ontrack" ? "on track" : d.status}
                   </span>
                 </div>
@@ -72,7 +72,7 @@ export function COATimelineFlags() {
           })}
         </div>
 
-        <div className="mt-5 flex items-center gap-4 text-[10.5px] font-['Lexend:Regular',_sans-serif] text-neutral-500 pt-4 border-t border-neutral-100">
+        <div className="mt-5 flex items-center gap-4 text-[10.5px] font-normal text-neutral-500 pt-4 border-t border-neutral-100">
           <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-emerald-500" /> On track</div>
           <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-amber-500" /> ≤5 days to due</div>
           <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-red-500" /> Overdue · AOM risk</div>

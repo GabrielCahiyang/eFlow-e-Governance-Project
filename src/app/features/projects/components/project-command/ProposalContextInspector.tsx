@@ -24,6 +24,7 @@ import {
 import { isExternalReviewParticipant } from "../../../interdepartment-collaboration/selectors/organizationEligibility";
 import { useProposalGovernance } from "../../../interdepartment-collaboration/hooks/useProposalGovernance";
 import { SourcePdfPreviewDialog } from "../../../interdepartment-collaboration/components/SourcePdfPreviewDialog";
+import { InspectorPanel } from "../../../../shared/motion";
 
 export function ProposalContextInspector({
   draftId,
@@ -204,18 +205,11 @@ export function ProposalContextInspector({
 
   return (
     <>
-      {/* Backdrop */}
-      <div
-        className="fixed inset-0 z-40 bg-neutral-900/30 backdrop-blur-[2px] transition-opacity duration-200"
-        onClick={onClose}
-        aria-hidden="true"
-      />
-
-      {/* Inspector Panel */}
-      <aside
-        className="fixed top-0 right-0 bottom-0 z-50 flex w-full max-w-[460px] flex-col bg-white shadow-2xl transition-transform duration-200 ease-out animate-in slide-in-from-right"
-        role="dialog"
-        aria-label="Proposal context inspector"
+      <InspectorPanel
+        open={open}
+        onClose={onClose}
+        ariaLabel="Proposal context inspector"
+        className="w-full max-w-[460px]"
       >
         {/* Header */}
         <div className="flex items-center justify-between border-b border-neutral-200 px-5 py-4">
@@ -545,7 +539,7 @@ export function ProposalContextInspector({
             </>
           )}
         </div>
-      </aside>
+      </InspectorPanel>
 
       {/* PDF Dialog if requested */}
       {pdfPreviewUrl && (

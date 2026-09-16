@@ -88,7 +88,7 @@ export function CallModal({
         </>
       ) : (
         <div className="flex flex-col items-center">
-          <div className="w-24 h-24 rounded-full bg-neutral-700 text-white flex items-center justify-center text-[28px] font-['Lexend:SemiBold',_sans-serif] mb-4">
+          <div className="w-24 h-24 rounded-full bg-neutral-700 text-white flex items-center justify-center text-[28px] font-semibold mb-4">
             {otherPersonName?.[0] || "?"}
           </div>
           <video ref={localVideoRef} autoPlay playsInline muted className="hidden" />
@@ -96,7 +96,7 @@ export function CallModal({
       )}
 
       <div className="absolute top-8 text-white text-center">
-        <div className="text-[16px] font-['Lexend:Medium',_sans-serif]">{otherPersonName}</div>
+        <div className="text-[16px] font-medium">{otherPersonName}</div>
         <div className="text-[12px] text-white/60">{connected ? "Connected" : "Connecting\u2026"}</div>
       </div>
 

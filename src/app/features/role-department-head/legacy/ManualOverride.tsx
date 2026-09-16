@@ -124,8 +124,8 @@ export function ManualOverride({}: {
 
       <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-4 flex items-start gap-2">
         <Info size={13} className="text-amber-700 mt-0.5" />
-        <div className="text-[11.5px] font-['Lexend:Regular',_sans-serif] text-amber-900 leading-relaxed">
-          <span className="font-['Lexend:Medium',_sans-serif]">
+        <div className="text-[11.5px] font-normal text-amber-900 leading-relaxed">
+          <span className="font-medium">
             Human-in-the-loop.
           </span>{" "}
           Drag any avatar to another task column to resolve conflicts the
@@ -137,7 +137,7 @@ export function ManualOverride({}: {
 
       <div className="grid grid-cols-4 gap-3 relative">
         {recalc && (
-          <div className="absolute -top-2 right-0 z-10 text-[10px] font-['Lexend:Medium',_sans-serif] uppercase text-indigo-700 bg-white border border-indigo-200 rounded-full px-2 py-1 flex items-center gap-1 shadow-sm">
+          <div className="absolute -top-2 right-0 z-10 text-[10px] font-medium uppercase text-indigo-700 bg-white border border-indigo-200 rounded-full px-2 py-1 flex items-center gap-1 shadow-sm">
             <Dna size={11} className="animate-spin" /> GA recalculating…
           </div>
         )}
@@ -149,18 +149,18 @@ export function ManualOverride({}: {
             className={`bg-white border-2 rounded-xl p-4 min-h-[320px] transition ${drag && drag.colId !== col.id ? "border-dashed border-indigo-400 bg-indigo-50/30" : "border-neutral-200"} ${flash === col.id ? "ring-2 ring-emerald-400" : ""}`}
           >
             <div className="mb-3 pb-3 border-b border-neutral-100">
-              <div className="text-[12.5px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">
+              <div className="text-[12.5px] font-semibold text-neutral-900">
                 {col.title}
               </div>
-              <div className="text-[10.5px] font-['Lexend:Regular',_sans-serif] text-neutral-500 flex items-center gap-1">
+              <div className="text-[10.5px] font-normal text-neutral-500 flex items-center gap-1">
                 <MapPin size={10} /> {col.site}
               </div>
               <div className="mt-1.5 flex items-center gap-1.5">
-                <span className="text-[9px] font-['Lexend:Medium',_sans-serif] uppercase bg-neutral-100 text-neutral-700 rounded px-1.5 py-0.5">
+                <span className="text-[9px] font-medium uppercase bg-neutral-100 text-neutral-700 rounded px-1.5 py-0.5">
                   {col.workers.length} deployed
                 </span>
                 {col.workers.length < 2 && (
-                  <span className="text-[9px] font-['Lexend:Medium',_sans-serif] uppercase bg-amber-100 text-amber-700 rounded px-1.5 py-0.5">
+                  <span className="text-[9px] font-medium uppercase bg-amber-100 text-amber-700 rounded px-1.5 py-0.5">
                     Under-staffed
                   </span>
                 )}
@@ -176,7 +176,7 @@ export function ManualOverride({}: {
                   className={`bg-neutral-50 border border-neutral-200 rounded-lg p-2.5 cursor-grab active:cursor-grabbing hover:shadow-sm transition ${drag?.worker.id === w.id ? "opacity-40" : ""}`}
                 >
                   <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 rounded-full bg-gradient-to-br from-neutral-200 to-neutral-300 flex items-center justify-center text-[9px] font-['Lexend:SemiBold',_sans-serif] text-neutral-700 shrink-0">
+                    <div className="w-7 h-7 rounded-full bg-gradient-to-br from-neutral-200 to-neutral-300 flex items-center justify-center text-[9px] font-semibold text-neutral-700 shrink-0">
                       {w.name
                         .split(" ")
                         .slice(-2)
@@ -184,10 +184,10 @@ export function ManualOverride({}: {
                         .join("")}
                     </div>
                     <div className="min-w-0 flex-1">
-                      <div className="text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-900 truncate">
+                      <div className="text-[11px] font-medium text-neutral-900 truncate">
                         {w.name}
                       </div>
-                      <div className="text-[9.5px] font-['Lexend:Regular',_sans-serif] text-neutral-500 truncate">
+                      <div className="text-[9.5px] font-normal text-neutral-500 truncate">
                         {w.role}
                       </div>
                     </div>

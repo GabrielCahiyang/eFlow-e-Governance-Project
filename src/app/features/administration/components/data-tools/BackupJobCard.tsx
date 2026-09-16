@@ -52,10 +52,10 @@ export function BackupJobCard({
         </div>
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="text-[12.5px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">
+            <span className="text-[12.5px] font-semibold text-neutral-900">
               {job.archive_name || (active ? "Generating eFlow backup" : "Backup attempt")}
             </span>
-            <span className={`rounded-full px-2 py-0.5 text-[9.5px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wide ${
+            <span className={`rounded-full px-2 py-0.5 text-[9.5px] font-medium uppercase tracking-wide ${
               completed ? "bg-emerald-50 text-emerald-700" : active ? "bg-blue-50 text-blue-700" : "bg-red-50 text-red-700"
             }`}>
               {job.status.replace("_", " ")}
@@ -119,7 +119,7 @@ function Metric({ label, value }: { label: string; value: string | number }) {
   return (
     <div className="rounded-lg bg-neutral-50 px-2.5 py-2">
       <div className="text-[9px] uppercase tracking-wide text-neutral-400">{label}</div>
-      <div className="mt-0.5 truncate text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-800">{value}</div>
+      <div className="mt-0.5 truncate text-[11px] font-medium text-neutral-800">{value}</div>
     </div>
   );
 }

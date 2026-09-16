@@ -75,7 +75,7 @@ export function EmployeeCoachingEditor({
   return (
     <section className="rounded-xl border border-neutral-200 bg-white">
       <div className="flex items-start justify-between gap-3 border-b border-neutral-100 px-4 py-3">
-        <div className="flex items-start gap-2.5"><div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-violet-50 text-violet-600"><Sparkles size={15} /></div><div><h3 className="text-[12.5px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">Assignment and coaching profile</h3><p className="mt-0.5 text-[10px] leading-4 text-neutral-400">Strengths, development context, and tags remain inputs to AI team recommendations.</p></div></div>
+        <div className="flex items-start gap-2.5"><div className="grid h-8 w-8 shrink-0 place-items-center rounded-lg bg-violet-50 text-violet-600"><Sparkles size={15} /></div><div><h3 className="text-[12.5px] font-semibold text-neutral-900">Assignment and coaching profile</h3><p className="mt-0.5 text-[10px] leading-4 text-neutral-400">Strengths, development context, and tags remain inputs to AI team recommendations.</p></div></div>
         <span className="shrink-0 rounded-full border border-violet-100 bg-violet-50 px-2 py-1 text-[9px] font-medium text-violet-700">AI input</span>
       </div>
       <div className="grid grid-cols-1 gap-4 p-4 md:grid-cols-2">
@@ -96,5 +96,5 @@ export function EmployeeCoachingEditor({
 }
 
 function Field({ label, hint, children }: { label: string; hint: string; children: React.ReactNode }) {
-  return <label className="block"><span className="block text-[9.5px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-500">{label}</span><span className="mb-1.5 mt-0.5 block text-[9.5px] leading-4 text-neutral-400">{hint}</span>{children}</label>;
+  return <label className="block"><span className="block text-[9.5px] font-medium uppercase tracking-wider text-neutral-500">{label}</span><span className="mb-1.5 mt-0.5 block text-[9.5px] leading-4 text-neutral-400">{hint}</span>{children}</label>;
 }

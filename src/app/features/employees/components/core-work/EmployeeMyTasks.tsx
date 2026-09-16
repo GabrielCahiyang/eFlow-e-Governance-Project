@@ -74,7 +74,7 @@ export function EmployeeMyTasks() {
                 <button key={t.id} onClick={() => setOpen(t)} className="w-full text-left flex items-center gap-3 px-4 py-3 hover:bg-neutral-50">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
-                      <span className="text-[12.5px] font-['Lexend:Medium',_sans-serif] text-neutral-900 truncate">{t.title}</span>
+                      <span className="text-[12.5px] font-medium text-neutral-900 truncate">{t.title}</span>
                       <PriorityPill priority={t.priority} />
                     </div>
                     <div className="flex items-center gap-2 mt-1">

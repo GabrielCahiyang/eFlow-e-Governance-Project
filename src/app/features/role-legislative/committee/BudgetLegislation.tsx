@@ -68,8 +68,8 @@ export function BudgetLegislation() {
         <div className="bg-red-50 border border-red-200 rounded-xl p-4 mb-5 flex items-start gap-3">
           <Lucide.AlertTriangle size={18} className="text-red-500 mt-0.5 shrink-0" />
           <div>
-            <p className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-red-800">Unfunded Mandate Detected</p>
-            <p className="text-[12px] font-['Lexend:Regular',_sans-serif] text-red-700 mt-1">
+            <p className="text-[13px] font-semibold text-red-800">Unfunded Mandate Detected</p>
+            <p className="text-[12px] font-normal text-red-700 mt-1">
               The appropriation amount of ₱{appropriationAmount.toLocaleString()} exceeds the available balance of ₱{selectedFund.available.toLocaleString()} in the {selectedFund.fund}. The Submit button is disabled until the amount is corrected or an alternative fund source is identified.
             </p>
           </div>
@@ -83,10 +83,10 @@ export function BudgetLegislation() {
           <div className="flex items-center justify-between px-5 py-3 border-b border-neutral-100 bg-neutral-50/50">
             <div className="flex items-center gap-2">
               <Lucide.Edit3 size={14} className="text-neutral-500" />
-              <span className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-neutral-700">Ordinance Draft Editor</span>
+              <span className="text-[12px] font-semibold text-neutral-700">Ordinance Draft Editor</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-400">Auto-saved 30s ago</span>
+              <span className="text-[10px] font-normal text-neutral-400">Auto-saved 30s ago</span>
               <div className="size-2 rounded-full bg-emerald-400" />
             </div>
           </div>
@@ -94,7 +94,7 @@ export function BudgetLegislation() {
             <textarea
               value={editorText}
               onChange={(e) => setEditorText(e.target.value)}
-              className={`w-full min-h-[520px] bg-transparent text-[13px] font-['Lexend:Regular',_sans-serif] text-neutral-700 leading-relaxed outline-none resize-none ${
+              className={`w-full min-h-[520px] bg-transparent text-[13px] font-normal text-neutral-700 leading-relaxed outline-none resize-none ${
                 isOverBudget ? "selection:bg-red-100" : ""
               }`}
               style={{ whiteSpace: "pre-wrap" }}
@@ -104,7 +104,7 @@ export function BudgetLegislation() {
           {isOverBudget && (
             <div className="px-5 py-3 bg-red-50 border-t border-red-200 flex items-center gap-2">
               <Carbon.Warning size={14} className="text-red-500" />
-              <span className="text-[11px] font-['Lexend:Medium',_sans-serif] text-red-700">
+              <span className="text-[11px] font-medium text-red-700">
                 ₱{appropriationAmount.toLocaleString()} exceeds available ₱{selectedFund.available.toLocaleString()} — Text flagged in red
               </span>
             </div>
@@ -117,19 +117,19 @@ export function BudgetLegislation() {
           <div className="bg-white rounded-xl border border-neutral-200 p-5">
             <div className="flex items-center gap-2 mb-4">
               <div className="size-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">City Treasury — Live Ledger</span>
+              <span className="text-[12px] font-semibold text-neutral-900">City Treasury — Live Ledger</span>
             </div>
-            <p className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-400 mb-3">
+            <p className="text-[10px] font-normal text-neutral-400 mb-3">
               Real-time fund availability via blockchain API
             </p>
             <div className="flex flex-col gap-2">
               {treasuryFunds.map((f, i) => (
                 <div key={i} className={`p-3 rounded-lg border ${f.status === "Insufficient" ? "border-red-200 bg-red-50/50" : "border-neutral-100 bg-neutral-50/30"}`}>
                   <div className="flex items-center justify-between mb-1">
-                    <span className="text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-700">{f.fund}</span>
+                    <span className="text-[11px] font-medium text-neutral-700">{f.fund}</span>
                     <UI.Pill status={f.status} />
                   </div>
-                  <span className="text-[16px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">₱{f.available.toLocaleString()}</span>
+                  <span className="text-[16px] font-semibold text-neutral-900">₱{f.available.toLocaleString()}</span>
                 </div>
               ))}
             </div>
@@ -137,27 +137,27 @@ export function BudgetLegislation() {
 
           {/* Fiscal Math Box */}
           <div className={`rounded-xl border p-5 ${isFundSufficient ? "bg-emerald-50 border-emerald-200" : "bg-red-50 border-red-200"}`}>
-            <h4 className={`text-[12px] font-['Lexend:SemiBold',_sans-serif] mb-3 ${isFundSufficient ? "text-emerald-800" : "text-red-800"}`}>
+            <h4 className={`text-[12px] font-semibold mb-3 ${isFundSufficient ? "text-emerald-800" : "text-red-800"}`}>
               Fiscal Gatekeeper Check
             </h4>
             <div className="flex flex-col gap-2">
               <div className="flex justify-between">
-                <span className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-600">Requested Amount</span>
-                <span className="text-[11px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">₱{appropriationAmount.toLocaleString()}</span>
+                <span className="text-[11px] font-normal text-neutral-600">Requested Amount</span>
+                <span className="text-[11px] font-semibold text-neutral-900">₱{appropriationAmount.toLocaleString()}</span>
               </div>
               <div className="flex justify-between">
-                <span className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-600">Available (General Fund)</span>
-                <span className="text-[11px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">₱{selectedFund.available.toLocaleString()}</span>
+                <span className="text-[11px] font-normal text-neutral-600">Available (General Fund)</span>
+                <span className="text-[11px] font-semibold text-neutral-900">₱{selectedFund.available.toLocaleString()}</span>
               </div>
               <div className="h-px bg-neutral-200 my-1" />
               <div className="flex justify-between">
-                <span className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-600">Remaining After</span>
-                <span className={`text-[11px] font-['Lexend:SemiBold',_sans-serif] ${isFundSufficient ? "text-emerald-700" : "text-red-700"}`}>
+                <span className="text-[11px] font-normal text-neutral-600">Remaining After</span>
+                <span className={`text-[11px] font-semibold ${isFundSufficient ? "text-emerald-700" : "text-red-700"}`}>
                   ₱{(selectedFund.available - appropriationAmount).toLocaleString()}
                 </span>
               </div>
             </div>
-            <div className={`mt-3 flex items-center gap-1.5 text-[11px] font-['Lexend:Medium',_sans-serif] ${isFundSufficient ? "text-emerald-700" : "text-red-700"}`}>
+            <div className={`mt-3 flex items-center gap-1.5 text-[11px] font-medium ${isFundSufficient ? "text-emerald-700" : "text-red-700"}`}>
               {isFundSufficient ? <Lucide.Check size={14} /> : <Lucide.X size={14} />}
               {isFundSufficient ? "Funds verified — Submit enabled" : "Insufficient funds — Submit disabled"}
             </div>
@@ -167,9 +167,9 @@ export function BudgetLegislation() {
           <div className="bg-white rounded-xl border border-neutral-200 p-4">
             <div className="flex items-center gap-2 mb-2">
               <Carbon.Locked size={12} className="text-neutral-500" />
-              <span className="text-[11px] font-['Lexend:SemiBold',_sans-serif] text-neutral-700">Blockchain Sync</span>
+              <span className="text-[11px] font-semibold text-neutral-700">Blockchain Sync</span>
             </div>
-            <p className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500">
+            <p className="text-[10px] font-normal text-neutral-500">
               Last treasury block: #48,294 · Synced 8s ago · All balances hash-verified
             </p>
           </div>

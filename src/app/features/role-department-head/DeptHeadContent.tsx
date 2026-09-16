@@ -42,7 +42,7 @@ export function DeptHeadTaskBoard() {
     return (
       <div className="p-8 h-full bg-neutral-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="text-[13px] font-['Lexend:Regular',_sans-serif] text-neutral-600">
+          <div className="text-[13px] font-normal text-neutral-600">
             Loading tasks and team members...
           </div>
         </div>
@@ -181,7 +181,7 @@ export function DeptHeadContent({
         <div className="flex h-full items-center justify-center text-neutral-400">
           <div className="text-center">
             <Settings size={40} className="mx-auto mb-3 opacity-30" />
-            <p className="text-[14px] font-['Lexend:Regular',_sans-serif]">
+            <p className="text-[14px] font-normal">
               Section unavailable
             </p>
             <p className="mt-1 text-[12px]">Section: {section}</p>

@@ -40,12 +40,12 @@ function HealthRow({
           ) : (
             <AlertTriangle size={15} className="text-amber-500 shrink-0" />
           )}
-          <span className="text-[12.5px] font-['Lexend:Medium',_sans-serif] text-neutral-800 truncate">
+          <span className="text-[12.5px] font-medium text-neutral-800 truncate">
             {label}
           </span>
         </div>
         <span
-          className={`px-2 py-0.5 rounded-full text-[11px] font-['Lexend:SemiBold',_sans-serif] tabular-nums shrink-0 ${
+          className={`px-2 py-0.5 rounded-full text-[11px] font-semibold tabular-nums shrink-0 ${
             ok
               ? "bg-emerald-50 text-emerald-700"
               : "bg-amber-50 text-amber-700"
@@ -54,18 +54,18 @@ function HealthRow({
           {count}
         </span>
       </div>
-      <div className="text-[10.5px] font-['Lexend:Regular',_sans-serif] text-neutral-400 mt-1 ml-[23px]">
+      <div className="text-[10.5px] font-normal text-neutral-400 mt-1 ml-[23px]">
         {hint}
       </div>
       {!ok && (
         <ul className="mt-1.5 ml-[23px] space-y-0.5">
           {tasks.slice(0, 5).map((t) => (
-            <li key={t.id} className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-600 truncate">
+            <li key={t.id} className="text-[11px] font-normal text-neutral-600 truncate">
               • {t.title}
             </li>
           ))}
           {tasks.length > 5 && (
-            <li className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-400">
+            <li className="text-[11px] font-normal text-neutral-400">
               + {tasks.length - 5} more
             </li>
           )}
@@ -96,13 +96,13 @@ export function DataHealthPanel() {
       <div className="px-4 py-3 border-b border-neutral-100 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <ShieldAlert size={15} className="text-neutral-500" />
-          <span className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-neutral-700">
+          <span className="text-[12px] font-semibold text-neutral-700">
             Data Health
           </span>
         </div>
         {!loading && (
           <span
-            className={`px-2 py-0.5 rounded-full text-[10px] font-['Lexend:Medium',_sans-serif] ${
+            className={`px-2 py-0.5 rounded-full text-[10px] font-medium ${
               totalIssues === 0
                 ? "bg-emerald-50 text-emerald-700"
                 : "bg-amber-50 text-amber-700"
@@ -114,11 +114,11 @@ export function DataHealthPanel() {
       </div>
 
       {loading ? (
-        <div className="px-4 py-8 text-center text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-400">
+        <div className="px-4 py-8 text-center text-[12px] font-normal text-neutral-400">
           Checking operational data…
         </div>
       ) : error ? (
-        <div className="px-4 py-8 text-center text-[12px] font-['Lexend:Regular',_sans-serif] text-red-500">
+        <div className="px-4 py-8 text-center text-[12px] font-normal text-red-500">
           Couldn't load task data — health checks unavailable. Retry shortly.
         </div>
       ) : (

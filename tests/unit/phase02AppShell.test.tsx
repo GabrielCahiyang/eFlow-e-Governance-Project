@@ -33,7 +33,6 @@ const navigationItems: ShellNavigationItem[] = [
 afterEach(() => cleanup());
 
 function SidebarFixture({ onPageSelect = vi.fn() }: { onPageSelect?: (section: string, page: string) => void }) {
-  const [collapsed, setCollapsed] = useState(false);
   const [selection, setSelection] = useState({ section: "dashboard", page: "Dashboard" });
 
   return (
@@ -41,9 +40,7 @@ function SidebarFixture({ onPageSelect = vi.fn() }: { onPageSelect?: (section: s
       <ProductivitySidebar
         activePage={selection.page}
         activeSection={selection.section}
-        collapsed={collapsed}
         navigationItems={navigationItems}
-        onCollapsedChange={setCollapsed}
         onPageSelect={(section, page) => {
           onPageSelect(section, page);
           setSelection({ section, page });
@@ -57,6 +54,7 @@ describe("Phase 02 productivity sidebar", () => {
   it("keeps the registered destination and page callback intact", () => {
     const onPageSelect = vi.fn();
     render(<SidebarFixture onPageSelect={onPageSelect} />);
+    fireEvent.mouseEnter(screen.getByRole("complementary", { name: "Primary navigation" }));
 
     fireEvent.click(screen.getByRole("button", { name: "Tasks" }));
     expect(onPageSelect).toHaveBeenCalledWith("tasks", "My Tasks");
@@ -66,11 +64,17 @@ describe("Phase 02 productivity sidebar", () => {
     expect(screen.getByRole("button", { name: "Tasks" }).getAttribute("aria-pressed")).toBe("true");
   });
 
-  it("keeps compact navigation understandable with a labelled expand control", () => {
+  it("reveals the labelled navigation on hover without manual toggle buttons", () => {
     render(<SidebarFixture />);
 
-    fireEvent.click(screen.getAllByRole("button", { name: "Collapse navigation" })[0]);
-    expect(screen.getByRole("button", { name: "Expand navigation" })).toBeTruthy();
+    const sidebar = screen.getByRole("complementary", { name: "Primary navigation" });
+    expect(sidebar.getAttribute("data-navigation-density")).toBe("compact");
+
+    fireEvent.mouseEnter(sidebar);
+    expect(sidebar.getAttribute("data-navigation-density")).toBe("expanded");
     expect(screen.getByRole("button", { name: "Tasks" })).toBeTruthy();
+
+    fireEvent.mouseLeave(sidebar);
+    expect(sidebar.getAttribute("data-navigation-density")).toBe("compact");
   });
 });

@@ -5,7 +5,7 @@ export function GanttHealthView() {
   return <>
 {view === "gantt" && (
         <div className="bg-white border border-neutral-200 rounded-xl p-5">
-          <div className="text-[12.5px] font-['Lexend:Medium',_sans-serif] text-neutral-900 mb-3">
+          <div className="text-[12.5px] font-medium text-neutral-900 mb-3">
             Portfolio Gantt · Apr–Dec 2026
           </div>
           <div className="space-y-2">
@@ -17,7 +17,7 @@ export function GanttHealthView() {
                   key={p.id}
                   className="grid grid-cols-[240px_1fr] gap-3 items-center"
                 >
-                  <div className="text-[11.5px] font-['Lexend:Medium',_sans-serif] text-neutral-900 truncate">
+                  <div className="text-[11.5px] font-medium text-neutral-900 truncate">
                     {p.name}
                   </div>
                   <div className="relative h-6 bg-neutral-50 rounded">
@@ -30,7 +30,7 @@ export function GanttHealthView() {
                         opacity: 0.85,
                       }}
                     >
-                      <span className="text-[9px] font-['Lexend:Medium',_sans-serif] text-white truncate">
+                      <span className="text-[9px] font-medium text-white truncate">
                         {p.tasksPct}% complete
                       </span>
                     </div>

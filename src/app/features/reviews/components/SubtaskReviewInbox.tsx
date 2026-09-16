@@ -1,11 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
+import { Search as VibeSearch } from "@vibe/core";
 import { CheckCircle2, Clock, Inbox, MessageSquareWarning, Search } from "lucide-react";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useToast } from "../../../components/ui/Toast";
 import {
   LoadingState,
   PageHeader,
-  SearchInput,
   SectionEmpty,
   formatDate,
 } from "../../../components/workflow/primitives";
@@ -93,7 +93,7 @@ export function SubtaskReviewInbox({
   if (loading) return <div className="p-8"><LoadingState label="Loading subtask evidence…" /></div>;
 
   return (
-    <div className="min-h-full p-6 sm:p-8">
+    <div className="eflow-operational-workspace min-h-full p-4 sm:p-8">
       <PageHeader
         eyebrow="Leader Workspace · Reviews"
         title="Subtask Evidence"
@@ -123,7 +123,7 @@ export function SubtaskReviewInbox({
         <div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(300px,380px)_1fr]">
           <div className="overflow-hidden rounded-xl border border-neutral-200 bg-white">
             <div className="border-b border-neutral-100 p-3">
-              <SearchInput value={query} onChange={setQuery} placeholder="Search subtask evidence…" />
+              <VibeSearch value={query} onChange={setQuery} onClear={() => setQuery("")} placeholder="Search subtask evidence…" inputAriaLabel="Search subtask evidence" showClearIcon size="small" />
             </div>
             <div className="max-h-[calc(100vh-260px)] divide-y divide-neutral-100 overflow-y-auto">
               {filtered.map((item) => (
@@ -133,7 +133,7 @@ export function SubtaskReviewInbox({
                   onClick={() => setSelectedId(item.subtask.id)}
                   className={`w-full p-3 text-left hover:bg-neutral-50 ${selectedId === item.subtask.id ? "bg-neutral-50" : ""}`}
                 >
-                  <div className="text-[12.5px] font-['Lexend:Medium',_sans-serif] text-neutral-900">{item.subtask.title}</div>
+                  <div className="text-[12.5px] font-medium text-neutral-900">{item.subtask.title}</div>
                   <div className="mt-0.5 truncate text-[11px] text-neutral-500">{item.submission.submitterName} · {item.taskTitle}</div>
                   <div className="mt-1 flex items-center gap-1 text-[10.5px] text-neutral-400"><Clock size={10} /> {formatDate(item.submission.submittedAt)}</div>
                 </button>
@@ -145,7 +145,7 @@ export function SubtaskReviewInbox({
             <div className="space-y-4 rounded-xl border border-neutral-200 bg-white p-4">
               <div>
                 <div className="text-[10.5px] uppercase tracking-wider text-neutral-400">Subtask evidence · Attempt {selected.submission.version}</div>
-                <h2 className="mt-1 text-[17px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">{selected.subtask.title}</h2>
+                <h2 className="mt-1 text-[17px] font-semibold text-neutral-900">{selected.subtask.title}</h2>
                 <div className="mt-1 text-[11.5px] text-neutral-500">Parent task: {selected.taskTitle}{selected.projectTitle ? ` · ${selected.projectTitle}` : ""}</div>
               </div>
 
@@ -155,7 +155,7 @@ export function SubtaskReviewInbox({
               </div>
 
               <div>
-                <div className="mb-2 text-[10.5px] font-['Lexend:SemiBold',_sans-serif] uppercase tracking-wider text-neutral-500">Evidence files</div>
+                <div className="mb-2 text-[10.5px] font-semibold uppercase tracking-wider text-neutral-500">Evidence files</div>
                 <div className="space-y-2">
                   {selected.submission.attachments.map((attachment) => (
                     <SubtaskEvidenceLink key={attachment.id || attachment.filePath} fileName={attachment.fileName} filePath={attachment.filePath} />
@@ -164,7 +164,7 @@ export function SubtaskReviewInbox({
               </div>
 
               <div className="border-t border-neutral-100 pt-4">
-                <label className="text-[10.5px] font-['Lexend:Medium',_sans-serif] text-neutral-500">
+                <label className="text-[10.5px] font-medium text-neutral-500">
                   Feedback (required when requesting changes)
                   <textarea
                     value={feedback}

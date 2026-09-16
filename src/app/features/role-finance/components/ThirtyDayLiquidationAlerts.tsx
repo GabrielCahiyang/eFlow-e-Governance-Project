@@ -32,7 +32,7 @@ export function ThirtyDayLiquidationAlerts() {
       </div>
 
       <div className="bg-white border border-neutral-200 rounded-xl overflow-hidden">
-        <div className="grid grid-cols-[1.3fr_1fr_1.5fr_1fr_1fr_0.9fr_auto] gap-3 px-5 py-3 bg-neutral-50 border-b border-neutral-200 text-[10px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-500">
+        <div className="grid grid-cols-[1.3fr_1fr_1.5fr_1fr_1fr_0.9fr_auto] gap-3 px-5 py-3 bg-neutral-50 border-b border-neutral-200 text-[10px] font-medium uppercase tracking-wider text-neutral-500">
           <div>Employee</div><div>Office</div><div>Purpose</div><div>Amount</div><div>Issued</div><div>Countdown</div><div>Status</div>
         </div>
         {DELINQUENTS.map(d => {
@@ -42,17 +42,17 @@ export function ThirtyDayLiquidationAlerts() {
           return (
             <div key={d.id} className={`grid grid-cols-[1.3fr_1fr_1.5fr_1fr_1fr_0.9fr_auto] gap-3 px-5 py-3.5 border-b border-neutral-100 items-center ${isBlocked ? "bg-red-50/40" : ""}`}>
               <div>
-                <div className="text-[12.5px] font-['Lexend:Medium',_sans-serif] text-neutral-900">{d.employee}</div>
-                <div className="text-[10.5px] font-['Lexend:Regular',_sans-serif] text-neutral-500">CA Ref · {d.id.toUpperCase()}-2026</div>
+                <div className="text-[12.5px] font-medium text-neutral-900">{d.employee}</div>
+                <div className="text-[10.5px] font-normal text-neutral-500">CA Ref · {d.id.toUpperCase()}-2026</div>
               </div>
-              <div className="text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-700">{d.office}</div>
-              <div className="text-[11.5px] font-['Lexend:Regular',_sans-serif] text-neutral-600 truncate">{d.purpose}</div>
-              <div className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900 tabular-nums">{peso(d.amount)}</div>
-              <div className="text-[11.5px] font-['Lexend:Regular',_sans-serif] text-neutral-600 tabular-nums">{d.issued}</div>
+              <div className="text-[12px] font-normal text-neutral-700">{d.office}</div>
+              <div className="text-[11.5px] font-normal text-neutral-600 truncate">{d.purpose}</div>
+              <div className="text-[12px] font-medium text-neutral-900 tabular-nums">{peso(d.amount)}</div>
+              <div className="text-[11.5px] font-normal text-neutral-600 tabular-nums">{d.issued}</div>
               <div>
                 <div className="flex items-center gap-1.5 mb-1">
                   <Timer size={11} className={isBlocked ? "text-red-600" : daysLeft <= 5 ? "text-amber-600" : "text-neutral-500"} />
-                  <span className={`text-[11px] font-['Lexend:Medium',_sans-serif] tabular-nums ${isBlocked ? "text-red-700" : daysLeft <= 5 ? "text-amber-700" : "text-neutral-700"}`}>
+                  <span className={`text-[11px] font-medium tabular-nums ${isBlocked ? "text-red-700" : daysLeft <= 5 ? "text-amber-700" : "text-neutral-700"}`}>
                     {isBlocked ? `Day ${d.dayNo} · +${d.dayNo - 30} over` : `${daysLeft}d left`}
                   </span>
                 </div>
@@ -62,13 +62,13 @@ export function ThirtyDayLiquidationAlerts() {
               </div>
               <div>
                 {isBlocked ? (
-                  <span className="text-[10px] font-['Lexend:Medium',_sans-serif] uppercase bg-red-600 text-white rounded px-2 py-1 flex items-center gap-1">
+                  <span className="text-[10px] font-medium uppercase bg-red-600 text-white rounded px-2 py-1 flex items-center gap-1">
                     <Siren size={10} /> Delinquent
                   </span>
                 ) : daysLeft <= 5 ? (
-                  <span className="text-[10px] font-['Lexend:Medium',_sans-serif] uppercase bg-amber-50 border border-amber-200 text-amber-700 rounded px-2 py-1">Due Soon</span>
+                  <span className="text-[10px] font-medium uppercase bg-amber-50 border border-amber-200 text-amber-700 rounded px-2 py-1">Due Soon</span>
                 ) : (
-                  <span className="text-[10px] font-['Lexend:Medium',_sans-serif] uppercase bg-emerald-50 border border-emerald-200 text-emerald-700 rounded px-2 py-1">In Window</span>
+                  <span className="text-[10px] font-medium uppercase bg-emerald-50 border border-emerald-200 text-emerald-700 rounded px-2 py-1">In Window</span>
                 )}
               </div>
             </div>
@@ -79,8 +79,8 @@ export function ThirtyDayLiquidationAlerts() {
       <div className="mt-4 bg-red-50 border border-red-200 rounded-xl p-4">
         <div className="flex items-start gap-2">
           <Ban size={14} className="text-red-600 mt-0.5" />
-          <div className="text-[11.5px] font-['Lexend:Regular',_sans-serif] text-red-900 leading-relaxed">
-            <span className="font-['Lexend:Medium',_sans-serif]">Mathematical enforcement.</span> Employees past Day 30 are automatically tagged <span className="font-['Lexend:Medium',_sans-serif]">Delinquent</span>. The HRMO module is signaled to block any new cash advance request, leave application, or travel order until the prior CA is fully liquidated — per COA Circular 97-002 §5.1.3.
+          <div className="text-[11.5px] font-normal text-red-900 leading-relaxed">
+            <span className="font-medium">Mathematical enforcement.</span> Employees past Day 30 are automatically tagged <span className="font-medium">Delinquent</span>. The HRMO module is signaled to block any new cash advance request, leave application, or travel order until the prior CA is fully liquidated — per COA Circular 97-002 §5.1.3.
           </div>
         </div>
       </div>

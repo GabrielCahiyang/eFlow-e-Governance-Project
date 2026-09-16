@@ -67,7 +67,7 @@ export function DraftTaskRow({
               autoFocus
               value={dt.title}
               onChange={(e) => onUpdate(dt.key, { title: e.target.value })}
-              className="w-full text-[13px] font-['Lexend:Medium',_sans-serif] text-neutral-900 border border-neutral-300 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-neutral-500"
+              className="w-full text-[13px] font-medium text-neutral-900 border border-neutral-300 rounded-lg px-2.5 py-1.5 focus:outline-none focus:border-neutral-500"
             />
             <textarea
               aria-label="Task description"
@@ -104,7 +104,7 @@ export function DraftTaskRow({
               <button
                 data-testid="manual-task-finish-editing"
                 onClick={() => setEditing(false)}
-                className="text-[11px] font-['Lexend:Medium',_sans-serif] text-white bg-neutral-800 border border-neutral-200 rounded-lg px-3 py-1 hover:bg-neutral-900 transition"
+                className="text-[11px] font-medium text-white bg-neutral-800 border border-neutral-200 rounded-lg px-3 py-1 hover:bg-neutral-900 transition"
               >
                 Done
               </button>
@@ -112,7 +112,7 @@ export function DraftTaskRow({
           </div>
         ) : (
           <>
-            <div className="text-[13px] font-['Lexend:Medium',_sans-serif] text-neutral-900">
+            <div className="text-[13px] font-medium text-neutral-900">
               {dt.title}
             </div>
             {dt.description && (

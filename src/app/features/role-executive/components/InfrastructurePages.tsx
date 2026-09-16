@@ -92,11 +92,11 @@ export function InfrastructurePage() {
         <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-5">
           <div className="flex items-center gap-2 mb-2">
             <Carbon.Warning size={16} className="text-amber-600" />
-            <h4 className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-amber-800">Dependency Alerts — Timeline Shift Detected</h4>
+            <h4 className="text-[12px] font-semibold text-amber-800">Dependency Alerts — Timeline Shift Detected</h4>
           </div>
           <div className="space-y-2">
             {dependencyAlerts.map((a, i) => (
-              <div key={i} className="flex items-center gap-3 text-[11px] font-['Lexend:Regular',_sans-serif]">
+              <div key={i} className="flex items-center gap-3 text-[11px] font-normal">
                 <span className="text-amber-700 bg-amber-100 px-2 py-0.5 rounded">{a.delay}</span>
                 <span className="text-neutral-600">{a.from}</span>
                 <Carbon.ChevronRight size={12} className="text-neutral-400" />
@@ -119,8 +119,8 @@ export function InfrastructurePage() {
               className="w-full flex items-center gap-3 px-5 py-3.5 cursor-pointer hover:bg-neutral-50/50 transition-colors"
             >
               <div className="w-3 h-3 rounded-sm" style={{ backgroundColor: phase.color }} />
-              <span className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 flex-1 text-left">{phase.phase}</span>
-              <span className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500">{phase.tasks.filter(t => t.status === "Done").length}/{phase.tasks.length} complete</span>
+              <span className="text-[13px] font-semibold text-neutral-900 flex-1 text-left">{phase.phase}</span>
+              <span className="text-[11px] font-normal text-neutral-500">{phase.tasks.filter(t => t.status === "Done").length}/{phase.tasks.length} complete</span>
               <Carbon.ChevronDown size={14} className={`text-neutral-400 transition-transform ${expandedPhases.has(pi) ? "" : "-rotate-90"}`} />
             </button>
 
@@ -128,12 +128,12 @@ export function InfrastructurePage() {
               <>
                 {/* Column Headers */}
                 <div className="grid grid-cols-[1fr_140px_120px_110px_90px_90px] gap-0 px-5 py-2 border-t border-b border-neutral-100 bg-neutral-50/50">
-                  <span className="text-[10px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase tracking-wide">Task Name</span>
-                  <span className="text-[10px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase tracking-wide">Assigned To</span>
-                  <span className="text-[10px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase tracking-wide">Status</span>
-                  <span className="text-[10px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase tracking-wide">Budget Draw</span>
-                  <span className="text-[10px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase tracking-wide text-right">% of ₱450M</span>
-                  <span className="text-[10px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase tracking-wide text-center">BC Seal</span>
+                  <span className="text-[10px] font-medium text-neutral-500 uppercase tracking-wide">Task Name</span>
+                  <span className="text-[10px] font-medium text-neutral-500 uppercase tracking-wide">Assigned To</span>
+                  <span className="text-[10px] font-medium text-neutral-500 uppercase tracking-wide">Status</span>
+                  <span className="text-[10px] font-medium text-neutral-500 uppercase tracking-wide">Budget Draw</span>
+                  <span className="text-[10px] font-medium text-neutral-500 uppercase tracking-wide text-right">% of ₱450M</span>
+                  <span className="text-[10px] font-medium text-neutral-500 uppercase tracking-wide text-center">BC Seal</span>
                 </div>
                 {/* Rows */}
                 {phase.tasks.map((t) => (
@@ -141,26 +141,26 @@ export function InfrastructurePage() {
                     <div className="flex items-center gap-2">
                       <div className="w-1 h-6 rounded-full" style={{ backgroundColor: phase.color, opacity: t.status === "Done" ? 1 : 0.4 }} />
                       <div>
-                        <span className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900">{t.task}</span>
+                        <span className="text-[12px] font-medium text-neutral-900">{t.task}</span>
                         {t.dependency && (
-                          <span className="ml-2 text-[9px] font-['Lexend:Regular',_sans-serif] text-neutral-400 bg-neutral-100 px-1.5 py-0.5 rounded">dep: {t.dependency}</span>
+                          <span className="ml-2 text-[9px] font-normal text-neutral-400 bg-neutral-100 px-1.5 py-0.5 rounded">dep: {t.dependency}</span>
                         )}
                       </div>
                     </div>
                     <div className="flex items-center gap-2">
-                      <div className="w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-['Lexend:SemiBold',_sans-serif] text-white" style={{ backgroundColor: phase.color }}>
+                      <div className="w-6 h-6 rounded-full flex items-center justify-center text-[9px] font-semibold text-white" style={{ backgroundColor: phase.color }}>
                         {t.initials}
                       </div>
-                      <span className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-600 truncate">{t.assignee.split(". ")[1]}</span>
+                      <span className="text-[11px] font-normal text-neutral-600 truncate">{t.assignee.split(". ")[1]}</span>
                     </div>
                     <UI.Pill status={t.status} />
-                    <span className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900">{t.budget}</span>
+                    <span className="text-[12px] font-medium text-neutral-900">{t.budget}</span>
                     <div className="text-right">
                       <div className="inline-flex items-center gap-1.5">
                         <div className="w-12 h-1.5 bg-neutral-100 rounded-full overflow-hidden">
                           <div className="h-full rounded-full" style={{ width: `${Math.min(t.budgetPct * 5, 100)}%`, backgroundColor: phase.color }} />
                         </div>
-                        <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500">{t.budgetPct}%</span>
+                        <span className="text-[10px] font-normal text-neutral-500">{t.budgetPct}%</span>
                       </div>
                     </div>
                     <div className="text-center"><UI.BlockchainSeal sealed={t.sealed} /></div>
@@ -207,24 +207,24 @@ export function SustainableTourismOverview() {
           <div className="flex items-center gap-2 mb-3">
             <div className="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center"><Carbon.Home size={16} className="text-blue-600" /></div>
             <div>
-              <h4 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">Infrastructure (₱450M)</h4>
-              <p className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500">Physical build progress</p>
+              <h4 className="text-[13px] font-semibold text-neutral-900">Infrastructure (₱450M)</h4>
+              <p className="text-[10px] font-normal text-neutral-500">Physical build progress</p>
             </div>
           </div>
           {/* Mini battery */}
           <div className="flex rounded-full overflow-hidden h-4 bg-neutral-100 mb-2">
             <div className="bg-emerald-500 flex items-center justify-center" style={{ width: "17%" }}>
-              <span className="text-[8px] text-white font-['Lexend:Medium',_sans-serif]">Done</span>
+              <span className="text-[8px] text-white font-medium">Done</span>
             </div>
             <div className="bg-amber-400" style={{ width: "25%" }} />
             <div className="bg-neutral-200" style={{ width: "58%" }} />
           </div>
-          <div className="flex justify-between text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500">
+          <div className="flex justify-between text-[10px] font-normal text-neutral-500">
             <span>2/12 tasks complete</span>
             <span>142 workers</span>
           </div>
           {dependencyAlerts.length > 0 && (
-            <div className="mt-3 flex items-center gap-1.5 text-[10px] font-['Lexend:Medium',_sans-serif] text-amber-700 bg-amber-50 rounded px-2 py-1">
+            <div className="mt-3 flex items-center gap-1.5 text-[10px] font-medium text-amber-700 bg-amber-50 rounded px-2 py-1">
               <Carbon.Warning size={10} /> {dependencyAlerts.length} dependency alerts
             </div>
           )}
@@ -235,19 +235,19 @@ export function SustainableTourismOverview() {
           <div className="flex items-center gap-2 mb-3">
             <div className="w-8 h-8 rounded-lg bg-emerald-50 flex items-center justify-center"><Carbon.Flag size={16} className="text-emerald-600" /></div>
             <div>
-              <h4 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">Environmental Protection</h4>
-              <p className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500">Permits & clearances</p>
+              <h4 className="text-[13px] font-semibold text-neutral-900">Environmental Protection</h4>
+              <p className="text-[10px] font-normal text-neutral-500">Permits & clearances</p>
             </div>
           </div>
           <div className="flex rounded-full overflow-hidden h-4 bg-neutral-100 mb-2">
             <div className="bg-emerald-500" style={{ width: `${compliancePct}%` }} />
             <div className="bg-amber-300" style={{ width: `${Math.round((3 / complianceTotal) * 100)}%` }} />
           </div>
-          <div className="flex justify-between text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500">
+          <div className="flex justify-between text-[10px] font-normal text-neutral-500">
             <span>{complianceCleared}/{complianceTotal} cleared</span>
             <span>{compliancePct}% compliant</span>
           </div>
-          <div className="mt-3 flex items-center gap-1.5 text-[10px] font-['Lexend:Medium',_sans-serif] text-red-700 bg-red-50 rounded px-2 py-1">
+          <div className="mt-3 flex items-center gap-1.5 text-[10px] font-medium text-red-700 bg-red-50 rounded px-2 py-1">
             <Carbon.Warning size={10} /> 1 SLA breach — DENR ECC
           </div>
         </div>
@@ -257,8 +257,8 @@ export function SustainableTourismOverview() {
           <div className="flex items-center gap-2 mb-3">
             <div className="w-8 h-8 rounded-lg bg-violet-50 flex items-center justify-center"><Carbon.ChartBar size={16} className="text-violet-600" /></div>
             <div>
-              <h4 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">Revenue Projections</h4>
-              <p className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500">Fiscal viability</p>
+              <h4 className="text-[13px] font-semibold text-neutral-900">Revenue Projections</h4>
+              <p className="text-[10px] font-normal text-neutral-500">Fiscal viability</p>
             </div>
           </div>
           <Charts.ResponsiveContainer width="100%" height={70}>
@@ -266,7 +266,7 @@ export function SustainableTourismOverview() {
               <Charts.Area key="a" type="monotone" dataKey="npv" stroke="#8B5CF6" fill="#EDE9FE" strokeWidth={1.5} />
             </Charts.AreaChart>
           </Charts.ResponsiveContainer>
-          <div className="flex justify-between text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mt-1">
+          <div className="flex justify-between text-[10px] font-normal text-neutral-500 mt-1">
             <span>NPV: ₱{currentNPV}M</span>
             <span className="text-emerald-600">IRR: 14.2%</span>
           </div>
@@ -275,13 +275,13 @@ export function SustainableTourismOverview() {
 
       {/* Quick board preview */}
       <div className="bg-white rounded-xl border border-neutral-200 p-5">
-        <h3 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mb-3">Priority Tasks Across Phases</h3>
+        <h3 className="text-[13px] font-semibold text-neutral-900 mb-3">Priority Tasks Across Phases</h3>
         <div className="space-y-2">
           {infraPhases.flatMap(p => p.tasks).filter(t => t.status === "Working on it" || t.status === "Stuck").map((t) => (
             <div key={t.id} className="flex items-center gap-3 px-3 py-2.5 rounded-lg border border-neutral-100 hover:bg-neutral-50/50 transition-colors">
-              <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center text-[9px] font-['Lexend:SemiBold',_sans-serif] text-blue-600">{t.initials}</div>
-              <span className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900 flex-1">{t.task}</span>
-              <span className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500">{t.budget}</span>
+              <div className="w-6 h-6 rounded-full bg-blue-100 flex items-center justify-center text-[9px] font-semibold text-blue-600">{t.initials}</div>
+              <span className="text-[12px] font-medium text-neutral-900 flex-1">{t.task}</span>
+              <span className="text-[11px] font-normal text-neutral-500">{t.budget}</span>
               <UI.Pill status={t.status} />
               <UI.BlockchainSeal sealed={t.sealed} />
             </div>

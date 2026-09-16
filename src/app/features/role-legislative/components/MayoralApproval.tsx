@@ -27,7 +27,7 @@ export function MayoralApproval() {
         actions={<>
           <div className="flex items-center gap-2 px-3 py-2 bg-amber-50 border border-amber-200 rounded-lg">
             <Time size={14} className="text-amber-600" />
-            <span className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-amber-700">10-Day Lapse Timer Active</span>
+            <span className="text-[12px] font-semibold text-amber-700">10-Day Lapse Timer Active</span>
           </div>
           <Btn icon={<Download size={14} />} label="Export" />
         </>}
@@ -45,8 +45,8 @@ export function MayoralApproval() {
         <div className="flex items-start gap-3">
           <Renew size={16} className="text-cyan-600 mt-0.5 shrink-0" />
           <div>
-            <span className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-cyan-800">Automated Lapse Rule (R.A. 7160, Sec. 54)</span>
-            <p className="text-[11px] font-['Lexend:Regular',_sans-serif] text-cyan-700 mt-0.5">
+            <span className="text-[12px] font-semibold text-cyan-800">Automated Lapse Rule (R.A. 7160, Sec. 54)</span>
+            <p className="text-[11px] font-normal text-cyan-700 mt-0.5">
               If the Mayor does not sign or veto this ordinance within the legally mandated {item.deadlineDays}-day timeframe, the BPA engine will automatically change the status to <strong>"Enacted into Law (Lapsed)"</strong> and push it to the Adopted Ordinances Archive.
             </p>
           </div>
@@ -62,16 +62,16 @@ export function MayoralApproval() {
                 <span className="font-['JetBrains_Mono',_'Fira_Code',_monospace] text-[11px] text-cyan-600">{p.trackingNo}</span>
                 <Pill status="Mayoral Approval" />
               </div>
-              <h3 className="text-[16px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">{p.title}</h3>
-              <p className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mt-1">Author: {p.author} · Passed: {p.passedDate} · Vote: {p.voteResult}</p>
+              <h3 className="text-[16px] font-semibold text-neutral-900">{p.title}</h3>
+              <p className="text-[11px] font-normal text-neutral-500 mt-1">Author: {p.author} · Passed: {p.passedDate} · Vote: {p.voteResult}</p>
             </div>
           </div>
 
           {/* Countdown timer */}
           <div className="bg-neutral-50 rounded-xl p-5 mb-4">
             <div className="flex items-center justify-between mb-2">
-              <span className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">Executive Action Countdown</span>
-              <span className={`text-[14px] font-['Lexend:SemiBold',_sans-serif] ${daysRemaining < 4 ? "text-red-600" : "text-cyan-700"}`}>
+              <span className="text-[12px] font-semibold text-neutral-900">Executive Action Countdown</span>
+              <span className={`text-[14px] font-semibold ${daysRemaining < 4 ? "text-red-600" : "text-cyan-700"}`}>
                 {daysRemaining} days remaining
               </span>
             </div>
@@ -82,24 +82,24 @@ export function MayoralApproval() {
                 }`}
                 style={{ width: `${pctElapsed}%` }}
               >
-                <span className="text-[10px] font-['Lexend:SemiBold',_sans-serif] text-white">{item.daysElapsed}d elapsed</span>
+                <span className="text-[10px] font-semibold text-white">{item.daysElapsed}d elapsed</span>
               </div>
             </div>
             <div className="flex justify-between mt-1.5">
-              <span className="text-[9px] font-['Lexend:Regular',_sans-serif] text-neutral-400">Passed ({p.passedDate})</span>
-              <span className="text-[9px] font-['Lexend:Regular',_sans-serif] text-neutral-400">Deadline (2026-04-20)</span>
+              <span className="text-[9px] font-normal text-neutral-400">Passed ({p.passedDate})</span>
+              <span className="text-[9px] font-normal text-neutral-400">Deadline (2026-04-20)</span>
             </div>
           </div>
 
           {/* Action buttons */}
           <div className="flex items-center gap-3 pt-4 border-t border-neutral-100">
-            <button className="flex items-center gap-2 px-5 py-2.5 bg-emerald-600 text-white rounded-lg text-[12px] font-['Lexend:SemiBold',_sans-serif] cursor-pointer hover:bg-emerald-700 transition-colors">
+            <button className="flex items-center gap-2 px-5 py-2.5 bg-emerald-600 text-white rounded-lg text-[12px] font-semibold cursor-pointer hover:bg-emerald-700 transition-colors">
               <CheckmarkOutline size={16} /> Sign into Law
             </button>
-            <button className="flex items-center gap-2 px-5 py-2.5 bg-red-50 text-red-600 border border-red-200 rounded-lg text-[12px] font-['Lexend:SemiBold',_sans-serif] cursor-pointer hover:bg-red-100 transition-colors">
+            <button className="flex items-center gap-2 px-5 py-2.5 bg-red-50 text-red-600 border border-red-200 rounded-lg text-[12px] font-semibold cursor-pointer hover:bg-red-100 transition-colors">
               <Warning size={16} /> Veto with Remarks
             </button>
-            <span className="ml-auto text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-400">
+            <span className="ml-auto text-[10px] font-normal text-neutral-400">
               If no action is taken by deadline, measure auto-enacts via lapse provision.
             </span>
           </div>

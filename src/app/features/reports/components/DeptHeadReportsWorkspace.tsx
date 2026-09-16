@@ -155,7 +155,7 @@ export function DeptHeadReportsWorkspace() {
                 onClick={() => changeKind(report.id)}
                 className={`w-full text-left p-3 rounded-lg transition-colors ${kind === report.id ? "bg-neutral-900 text-white" : "hover:bg-neutral-50 text-neutral-700"}`}
               >
-                <div className="flex items-center gap-2 text-[11.5px] font-['Lexend:Medium',_sans-serif]">{reportIcons[report.id]} {report.title}</div>
+                <div className="flex items-center gap-2 text-[11.5px] font-medium">{reportIcons[report.id]} {report.title}</div>
                 <p className={`text-[9.5px] leading-4 mt-1 ${kind === report.id ? "text-neutral-300" : "text-neutral-400"}`}>{report.description}</p>
               </button>
             ))}

@@ -137,10 +137,10 @@ export function KanbanBoardView({
             {/* Column header */}
             <div className="flex items-center gap-2 px-3.5 py-3 border-b border-neutral-200 shrink-0">
               <div className={`w-2 h-2 rounded-full ${meta.dot}`} />
-              <span className="text-[11px] font-['Lexend:SemiBold',_sans-serif] text-neutral-700">
+              <span className="text-[11px] font-semibold text-neutral-700">
                 {meta.label}
               </span>
-              <div className="ml-auto flex items-center justify-center w-5 h-5 rounded-full bg-neutral-200 text-[10px] font-['Lexend:SemiBold',_sans-serif] text-neutral-600">
+              <div className="ml-auto flex items-center justify-center w-5 h-5 rounded-full bg-neutral-200 text-[10px] font-semibold text-neutral-600">
                 {items.length}
               </div>
             </div>
@@ -191,12 +191,12 @@ export function KanbanBoardView({
                           e.stopPropagation();
                           taskOpener(task);
                         }}
-                        className="text-left text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900 leading-snug hover:text-violet-700 transition"
+                        className="text-left text-[12px] font-medium text-neutral-900 leading-snug hover:text-violet-700 transition"
                       >
                         {task.title}
                       </button>
                     ) : (
-                      <div className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900 leading-snug">
+                      <div className="text-[12px] font-medium text-neutral-900 leading-snug">
                         {task.title}
                       </div>
                     )}
@@ -229,11 +229,11 @@ export function KanbanBoardView({
                     <div className="flex items-center gap-1.5 mt-2.5 flex-wrap">
                       {leadName && (
                         <div className="flex items-center gap-1">
-                          <div className="w-4 h-4 rounded-full bg-neutral-800 text-[8px] text-white flex items-center justify-center font-['Lexend:SemiBold',_sans-serif]">
+                          <div className="w-4 h-4 rounded-full bg-neutral-800 text-[8px] text-white flex items-center justify-center font-semibold">
                             {getInitials(leadName)}
                           </div>
                           <Crown size={9} className="text-amber-500" />
-                          <span className="text-[10px] text-neutral-600 font-['Lexend:Regular',_sans-serif]">
+                          <span className="text-[10px] text-neutral-600 font-normal">
                             {leadName.split(" ")[0]}
                           </span>
                         </div>

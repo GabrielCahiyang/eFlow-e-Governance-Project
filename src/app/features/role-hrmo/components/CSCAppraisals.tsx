@@ -145,7 +145,7 @@ export function CSCAppraisals() {
       <div className="grid grid-cols-[280px_1fr_340px] gap-4">
         {/* Left: Employee roster */}
         <div className="bg-white border border-neutral-200 rounded-xl overflow-hidden h-fit sticky top-0">
-          <div className="px-4 py-3 border-b border-neutral-200 text-[11px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400">
+          <div className="px-4 py-3 border-b border-neutral-200 text-[11px] font-medium uppercase tracking-wider text-neutral-400">
             Roster · {APPRAISALS.length} employees
           </div>
           {APPRAISALS.map((e) => {
@@ -157,15 +157,15 @@ export function CSCAppraisals() {
                 onClick={() => pickEmployee(e)}
                 className={`w-full text-left px-4 py-3 border-b border-neutral-100 last:border-0 cursor-pointer transition-colors ${active ? "bg-neutral-900 text-white" : "hover:bg-neutral-50"}`}
               >
-                <div className={`text-[12px] font-['Lexend:Medium',_sans-serif] ${active ? "text-white" : "text-neutral-900"}`}>{e.name}</div>
-                <div className={`text-[10px] font-['Lexend:Regular',_sans-serif] mt-0.5 ${active ? "text-neutral-300" : "text-neutral-500"}`}>
+                <div className={`text-[12px] font-medium ${active ? "text-white" : "text-neutral-900"}`}>{e.name}</div>
+                <div className={`text-[10px] font-normal mt-0.5 ${active ? "text-neutral-300" : "text-neutral-500"}`}>
                   {e.dept}
                 </div>
                 <div className="mt-1.5 flex items-center justify-between">
-                  <span className={`inline-block px-1.5 py-0.5 rounded text-[10px] font-['Lexend:Medium',_sans-serif] ${t.chip}`}>
+                  <span className={`inline-block px-1.5 py-0.5 rounded text-[10px] font-medium ${t.chip}`}>
                     {e.rating.toFixed(1)}
                   </span>
-                  <span className={`text-[10px] font-['Lexend:Regular',_sans-serif] ${active ? "text-neutral-300" : "text-neutral-500"}`}>{e.label}</span>
+                  <span className={`text-[10px] font-normal ${active ? "text-neutral-300" : "text-neutral-500"}`}>{e.label}</span>
                 </div>
               </button>
             );
@@ -176,15 +176,15 @@ export function CSCAppraisals() {
         <div className="bg-white border border-neutral-200 rounded-xl overflow-hidden">
           <div className="border-b border-neutral-200 px-6 py-4 bg-[linear-gradient(135deg,#fafaf9_0%,#f5f5f4_100%)]">
             <div className="flex items-center justify-between mb-1">
-              <span className="text-[10px] font-['Lexend:Medium',_sans-serif] uppercase tracking-[0.15em] text-neutral-500">
+              <span className="text-[10px] font-medium uppercase tracking-[0.15em] text-neutral-500">
                 Republic of the Philippines · Civil Service Commission
               </span>
-              <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500">CSC Form No. IPCR</span>
+              <span className="text-[10px] font-normal text-neutral-500">CSC Form No. IPCR</span>
             </div>
-            <div className="text-[15px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">
+            <div className="text-[15px] font-semibold text-neutral-900">
               Individual Performance Commitment and Review
             </div>
-            <div className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mt-0.5">
+            <div className="text-[11px] font-normal text-neutral-500 mt-0.5">
               {selected.period} · Local Government Unit · City of Ormoc
             </div>
           </div>
@@ -197,7 +197,7 @@ export function CSCAppraisals() {
           </div>
 
           <div className="px-6 py-4">
-            <div className="grid grid-cols-12 gap-2 px-2 py-2 bg-neutral-900 text-white rounded-t-md text-[10px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider">
+            <div className="grid grid-cols-12 gap-2 px-2 py-2 bg-neutral-900 text-white rounded-t-md text-[10px] font-medium uppercase tracking-wider">
               <div className="col-span-3">MFO · Output</div>
               <div className="col-span-3">Success Indicator</div>
               <div className="col-span-1 text-center">Q</div>
@@ -214,19 +214,19 @@ export function CSCAppraisals() {
                 <button
                   key={t.id}
                   onClick={() => setTarget(t)}
-                  className={`w-full grid grid-cols-12 gap-2 px-2 py-3 border-b border-neutral-100 items-center text-[11px] font-['Lexend:Regular',_sans-serif] text-left cursor-pointer transition-colors ${
+                  className={`w-full grid grid-cols-12 gap-2 px-2 py-3 border-b border-neutral-100 items-center text-[11px] font-normal text-left cursor-pointer transition-colors ${
                     isActive ? "bg-blue-50" : "hover:bg-neutral-50"
                   }`}
                 >
                   <div className="col-span-3">
                     <div className="text-[10px] uppercase tracking-wider text-neutral-400">{t.mfo}</div>
-                    <div className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900">{t.output}</div>
+                    <div className="text-[12px] font-medium text-neutral-900">{t.output}</div>
                   </div>
                   <div className="col-span-3 text-neutral-600">{t.target}</div>
                   <RatingCell value={t.actualQ} />
                   <RatingCell value={t.actualE} />
                   <RatingCell value={t.actualT} />
-                  <div className={`col-span-1 text-center font-['Lexend:SemiBold',_sans-serif] ${tone.text}`}>{avg.toFixed(1)}</div>
+                  <div className={`col-span-1 text-center font-semibold ${tone.text}`}>{avg.toFixed(1)}</div>
                   <div className="col-span-2 text-right font-mono text-[10px] text-neutral-500 flex items-center justify-end gap-1">
                     <Link2 size={9} />
                     {t.evidenceHash}
@@ -237,17 +237,17 @@ export function CSCAppraisals() {
 
             <div className="mt-4 p-4 rounded-md bg-gradient-to-r from-neutral-50 to-white border-l-4 border-neutral-900">
               <div className="flex items-center justify-between mb-1">
-                <span className="text-[10px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-500">Final Adjectival Rating</span>
+                <span className="text-[10px] font-medium uppercase tracking-wider text-neutral-500">Final Adjectival Rating</span>
                 <Award size={14} className={ratingTone(selected.rating).text} />
               </div>
               <div className="flex items-baseline gap-3">
-                <span className={`text-[40px] font-['Lexend:SemiBold',_sans-serif] leading-none ${ratingTone(selected.rating).text}`}>{selected.rating.toFixed(1)}</span>
-                <span className={`text-[14px] font-['Lexend:Medium',_sans-serif] ${ratingTone(selected.rating).text}`}>{selected.label}</span>
+                <span className={`text-[40px] font-semibold leading-none ${ratingTone(selected.rating).text}`}>{selected.rating.toFixed(1)}</span>
+                <span className={`text-[14px] font-medium ${ratingTone(selected.rating).text}`}>{selected.label}</span>
               </div>
             </div>
           </div>
 
-          <div className="px-6 py-4 border-t border-neutral-200 flex items-center justify-between text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500">
+          <div className="px-6 py-4 border-t border-neutral-200 flex items-center justify-between text-[10px] font-normal text-neutral-500">
             <span>Digitally signed · Ratee + Rater + Approver</span>
             <span className="font-mono">ipcr::{selected.id}::{selected.period.replace(/\s+/g, "")}</span>
           </div>
@@ -258,17 +258,17 @@ export function CSCAppraisals() {
           <div className="px-5 py-4 border-b border-neutral-200 bg-white">
             <div className="flex items-center gap-2">
               <Sparkles size={14} className="text-neutral-700" />
-              <span className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-700">AI Justification</span>
+              <span className="text-[12px] font-medium text-neutral-700">AI Justification</span>
             </div>
-            <div className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mt-1">
+            <div className="text-[10px] font-normal text-neutral-500 mt-1">
               {target ? `Target · ${target.output}` : "Select a row to see evidence"}
             </div>
           </div>
 
           {target && (
             <div className="p-5">
-              <p className="text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-700 leading-relaxed mb-4">
-                Rating generated based on <span className="font-['Lexend:Medium',_sans-serif] text-neutral-900">{target.workflowsCited} completed workflows</span>. <span className="font-['Lexend:Medium',_sans-serif] text-neutral-900">{selected.slaMet}%</span> met SLA timelines. Quality score: only <span className="font-['Lexend:Medium',_sans-serif] text-neutral-900">{selected.revisions}%</span> of submitted drafts were returned for revision.
+              <p className="text-[12px] font-normal text-neutral-700 leading-relaxed mb-4">
+                Rating generated based on <span className="font-medium text-neutral-900">{target.workflowsCited} completed workflows</span>. <span className="font-medium text-neutral-900">{selected.slaMet}%</span> met SLA timelines. Quality score: only <span className="font-medium text-neutral-900">{selected.revisions}%</span> of submitted drafts were returned for revision.
               </p>
 
               <div className="space-y-2.5 mb-4">
@@ -279,16 +279,16 @@ export function CSCAppraisals() {
 
               <div className="rounded-lg bg-neutral-900 text-white p-3 mb-3">
                 <div className="flex items-center justify-between mb-1">
-                  <span className="text-[10px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400">Evidence chain</span>
+                  <span className="text-[10px] font-medium uppercase tracking-wider text-neutral-400">Evidence chain</span>
                   <Hash size={10} className="text-emerald-400" />
                 </div>
                 <div className="font-mono text-[10px] text-emerald-400 break-all">{target.evidenceHash}</div>
-                <div className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-400 mt-1">
+                <div className="text-[10px] font-normal text-neutral-400 mt-1">
                   Merkle-verified · {target.workflowsCited} workflows anchored
                 </div>
               </div>
 
-              <button className="w-full py-2 bg-white border border-neutral-200 rounded-lg text-[11px] font-['Lexend:Medium',_sans-serif] hover:bg-neutral-50 cursor-pointer flex items-center justify-center gap-1">
+              <button className="w-full py-2 bg-white border border-neutral-200 rounded-lg text-[11px] font-medium hover:bg-neutral-50 cursor-pointer flex items-center justify-center gap-1">
                 Open Evidence Locker <ExternalLink size={11} />
               </button>
             </div>
@@ -302,24 +302,24 @@ export function CSCAppraisals() {
 function Field({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <div className="text-[9px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400">{label}</div>
-      <div className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900">{value}</div>
+      <div className="text-[9px] font-medium uppercase tracking-wider text-neutral-400">{label}</div>
+      <div className="text-[12px] font-medium text-neutral-900">{value}</div>
     </div>
   );
 }
 
 function RatingCell({ value }: { value: number }) {
   const color = value >= 5 ? "text-emerald-600" : value >= 4 ? "text-blue-600" : value >= 3 ? "text-amber-600" : "text-red-600";
-  return <div className={`col-span-1 text-center font-['Lexend:SemiBold',_sans-serif] ${color}`}>{value}</div>;
+  return <div className={`col-span-1 text-center font-semibold ${color}`}>{value}</div>;
 }
 
 function MetricBar({ label, value, tone }: { label: string; value: number; tone: "good" | "neutral" | "bad" }) {
   const barColor = tone === "good" ? "bg-emerald-500" : tone === "bad" ? "bg-red-500" : "bg-blue-500";
   return (
     <div>
-      <div className="flex items-center justify-between text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-600 mb-0.5">
+      <div className="flex items-center justify-between text-[10px] font-normal text-neutral-600 mb-0.5">
         <span>{label}</span>
-        <span className="font-['Lexend:Medium',_sans-serif] text-neutral-900">{value}%</span>
+        <span className="font-medium text-neutral-900">{value}%</span>
       </div>
       <div className="h-1.5 bg-neutral-100 rounded-full overflow-hidden">
         <div className={`h-full ${barColor}`} style={{ width: `${value}%` }} />

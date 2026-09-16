@@ -54,11 +54,11 @@ export function TerminalLeaveCredits() {
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search employee or department..."
-            className="flex-1 text-[13px] font-['Lexend:Regular',_sans-serif] bg-transparent outline-none placeholder:text-neutral-400"
+            className="flex-1 text-[13px] font-normal bg-transparent outline-none placeholder:text-neutral-400"
           />
-          <span className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-400">{filtered.length} of {LEAVE_DATA.length}</span>
+          <span className="text-[11px] font-normal text-neutral-400">{filtered.length} of {LEAVE_DATA.length}</span>
         </div>
-        <div className="grid grid-cols-12 px-5 py-3 bg-neutral-50 border-b border-neutral-200 text-[10px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400">
+        <div className="grid grid-cols-12 px-5 py-3 bg-neutral-50 border-b border-neutral-200 text-[10px] font-medium uppercase tracking-wider text-neutral-400">
           <div className="col-span-3">Employee</div>
           <div className="col-span-2">Department</div>
           <div className="col-span-1 text-right">Vacation</div>
@@ -68,19 +68,19 @@ export function TerminalLeaveCredits() {
           <div className="col-span-2 text-right">Status</div>
         </div>
         {filtered.map((r) => (
-          <div key={r.id} className="grid grid-cols-12 px-5 py-3 border-b border-neutral-100 last:border-0 items-center text-[12px] font-['Lexend:Regular',_sans-serif] hover:bg-neutral-50 transition-colors">
+          <div key={r.id} className="grid grid-cols-12 px-5 py-3 border-b border-neutral-100 last:border-0 items-center text-[12px] font-normal hover:bg-neutral-50 transition-colors">
             <div className="col-span-3">
-              <div className="font-['Lexend:Medium',_sans-serif] text-neutral-900">{r.name}</div>
+              <div className="font-medium text-neutral-900">{r.name}</div>
               <div className="text-[10px] text-neutral-400">{r.position}</div>
             </div>
             <div className="col-span-2 text-neutral-600">{r.dept}</div>
-            <div className="col-span-1 text-right font-['Lexend:Medium',_sans-serif] tabular-nums">{r.vac.toFixed(1)}</div>
-            <div className="col-span-1 text-right font-['Lexend:Medium',_sans-serif] tabular-nums">{r.sick.toFixed(1)}</div>
-            <div className="col-span-1 text-right font-['Lexend:Medium',_sans-serif] tabular-nums">{r.special.toFixed(1)}</div>
+            <div className="col-span-1 text-right font-medium tabular-nums">{r.vac.toFixed(1)}</div>
+            <div className="col-span-1 text-right font-medium tabular-nums">{r.sick.toFixed(1)}</div>
+            <div className="col-span-1 text-right font-medium tabular-nums">{r.special.toFixed(1)}</div>
             <div className="col-span-2 text-neutral-500">{r.lastAutoApproved || "—"}</div>
             <div className="col-span-2 text-right">
               {r.monetizable ? (
-                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] bg-blue-100 text-blue-700 font-['Lexend:Medium',_sans-serif]">
+                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] bg-blue-100 text-blue-700 font-medium">
                   <DollarSign size={9} /> Monetizable
                 </span>
               ) : (

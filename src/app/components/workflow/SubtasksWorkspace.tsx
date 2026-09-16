@@ -3,6 +3,7 @@
 // subtasks assigned to the user across all department projects and tasks.
 
 import { useState, useEffect, useMemo } from "react";
+import { Dropdown, Search as VibeSearch } from "@vibe/core";
 import {
   ListChecks,
   CheckCircle2,
@@ -27,8 +28,6 @@ import {
   PageHeader,
   StatCard,
   Card,
-  SearchInput,
-  WSelect,
   SectionEmpty,
   LoadingState,
   formatDate,
@@ -42,6 +41,15 @@ import {
 import { getSubtaskDeadlineState } from "../../features/subtasks/selectors/deadlines";
 import { useSubtaskReviewerDirectory } from "../../features/subtasks/hooks/useSubtaskReviewerDirectory";
 import { SubtaskReviewerBadge } from "../../features/subtasks/components/SubtaskReviewerBadge";
+
+const subtaskStatusOptions = [
+  { value: "all", label: "All Items" },
+  { value: "pending", label: "Pending Only" },
+  { value: "for_review", label: "For Review" },
+  { value: "changes_requested", label: "Changes Requested" },
+  { value: "overdue", label: "Overdue" },
+  { value: "completed", label: "Completed" },
+];
 
 export function SubtasksWorkspace() {
   const { user } = useAuth();
@@ -191,7 +199,7 @@ export function SubtasksWorkspace() {
   }
 
   return (
-    <div className="p-6 sm:p-8 min-h-full font-['Lexend:Regular',_sans-serif]">
+    <div className="eflow-operational-workspace min-h-full p-4 sm:p-8">
       <PageHeader
         eyebrow="My Workspace · Subtasks"
         title="My Subtask Checklist"
@@ -233,24 +241,25 @@ export function SubtasksWorkspace() {
       </div>
 
       {/* Filters */}
-      <div className="flex items-center gap-2 mb-4 flex-wrap">
-        <SearchInput
+      <div className="mb-4 flex flex-col gap-2 sm:flex-row sm:items-center">
+        <VibeSearch
           value={query}
           onChange={setQuery}
+          onClear={() => setQuery("")}
           placeholder="Search subtasks or tasks…"
-          className="w-[260px]"
+          inputAriaLabel="Search subtasks"
+          showClearIcon
+          size="small"
+          className="w-full sm:w-[300px]"
         />
-        <WSelect
-          value={statusFilter}
-          onChange={setStatusFilter}
-          options={[
-            { value: "all", label: "All Items" },
-            { value: "pending", label: "Pending Only" },
-            { value: "for_review", label: "For Review" },
-            { value: "changes_requested", label: "Changes Requested" },
-            { value: "overdue", label: "Overdue" },
-            { value: "completed", label: "Completed" },
-          ]}
+        <Dropdown
+          aria-label="Filter subtasks by status"
+          className="w-full sm:w-[190px]"
+          clearable={false}
+          value={subtaskStatusOptions.find((option) => option.value === statusFilter)}
+          onChange={(option) => setStatusFilter(String(option.value))}
+          options={subtaskStatusOptions}
+          size="small"
         />
       </div>
 
@@ -273,7 +282,7 @@ export function SubtasksWorkspace() {
                 {/* Parent Task Header */}
                 <div className="flex items-center justify-between gap-3 pb-3 border-b border-neutral-100 mb-3">
                   <div className="flex items-center gap-2 min-w-0">
-                    <span className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 truncate">
+                    <span className="text-[13px] font-semibold text-neutral-900 truncate">
                       {parent?.title || "Parent Task"}
                     </span>
                     {parent?.priority && <PriorityPill priority={parent.priority} />}
@@ -283,7 +292,7 @@ export function SubtasksWorkspace() {
                   {parent && (
                     <button
                       onClick={() => setActiveTaskDetail(parent)}
-                      className="text-[11px] font-['Lexend:Medium',_sans-serif] text-blue-600 hover:text-blue-700 flex items-center gap-1 shrink-0"
+                      className="text-[11px] font-medium text-blue-600 hover:text-blue-700 flex items-center gap-1 shrink-0"
                     >
                       View Task Details <ChevronRight size={12} />
                     </button>
@@ -319,7 +328,7 @@ export function SubtasksWorkspace() {
                         <CheckCircle2 size={13} />
                       </span>
                       <span
-                        className={`flex-1 text-[13px] font-['Lexend:Regular',_sans-serif] ${
+                        className={`flex-1 text-[13px] font-normal ${
                           st.isCompleted
                             ? "text-neutral-400 line-through"
                             : "text-neutral-900"
@@ -346,7 +355,7 @@ export function SubtasksWorkspace() {
                       )}
 
                       {st.source === "ai_extracted" && (
-                        <span className="inline-flex items-center gap-0.5 text-[9px] uppercase tracking-wider text-violet-600 bg-violet-50 border border-violet-200 px-1.5 py-0.5 rounded-full font-['Lexend:SemiBold',_sans-serif] shrink-0">
+                        <span className="inline-flex items-center gap-0.5 text-[9px] uppercase tracking-wider text-violet-600 bg-violet-50 border border-violet-200 px-1.5 py-0.5 rounded-full font-semibold shrink-0">
                           <Sparkles size={9} /> AI Extracted
                         </span>
                       )}
@@ -358,7 +367,7 @@ export function SubtasksWorkspace() {
                           compact
                         />
                       )}
-                      <span className={`inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-[9px] font-['Lexend:Medium',_sans-serif] ${
+                      <span className={`inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-[9px] font-medium ${
                         deadlineState.tone === "overdue" ? "bg-red-50 text-red-700" :
                         deadlineState.tone === "due_soon" ? "bg-amber-50 text-amber-700" :
                         deadlineState.tone === "completed" ? "bg-emerald-50 text-emerald-700" :
@@ -366,7 +375,7 @@ export function SubtasksWorkspace() {
                       }`} title={st.dueDate ? `Due ${formatDate(st.dueDate)}` : "Ask your Team Leader to assign a deadline"}>
                         <CalendarClock size={9} /> {st.dueDate ? `${formatDate(st.dueDate)} · ${deadlineState.label}` : deadlineState.label}
                       </span>
-                      <span className={`rounded-full px-2 py-0.5 text-[9.5px] font-['Lexend:Medium',_sans-serif] ${
+                      <span className={`rounded-full px-2 py-0.5 text-[9.5px] font-medium ${
                         st.status === "completed" ? "bg-emerald-50 text-emerald-700" :
                         st.status === "for_review" ? "bg-amber-50 text-amber-700" :
                         st.status === "changes_requested" ? "bg-rose-50 text-rose-700" :

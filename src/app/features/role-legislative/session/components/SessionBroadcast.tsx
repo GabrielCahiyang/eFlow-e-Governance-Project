@@ -40,10 +40,10 @@ export function BroadcastTimeline({ events, isCollapsed, onToggle }: { events: B
         className="w-full px-5 py-3 flex items-center gap-3 border-b border-neutral-100 cursor-pointer hover:bg-neutral-50/50 transition-colors"
       >
         <EventSchedule size={16} className="text-slate-600" />
-        <span className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">Broadcast Audit Trail</span>
-        <span className="text-[10px] font-['Lexend:Medium',_sans-serif] bg-slate-100 text-slate-600 rounded-full px-2 py-0.5">{events.length} events</span>
+        <span className="text-[13px] font-semibold text-neutral-900">Broadcast Audit Trail</span>
+        <span className="text-[10px] font-medium bg-slate-100 text-slate-600 rounded-full px-2 py-0.5">{events.length} events</span>
         <div className="ml-auto flex items-center gap-2">
-          <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-400">Real-time session activity log</span>
+          <span className="text-[10px] font-normal text-neutral-400">Real-time session activity log</span>
           {isCollapsed ? <ChevronRight size={14} className="text-neutral-400" /> : <ChevronDown size={14} className="text-neutral-400" />}
         </div>
       </button>
@@ -65,11 +65,11 @@ export function BroadcastTimeline({ events, isCollapsed, onToggle }: { events: B
                     {/* Content */}
                     <div className={`flex-1 py-1.5 ${idx < recentEvents.length - 1 ? "border-b border-neutral-50" : ""}`}>
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className={`text-[10px] font-['Lexend:SemiBold',_sans-serif] ${style.color} uppercase tracking-wide`}>{style.label}</span>
+                        <span className={`text-[10px] font-semibold ${style.color} uppercase tracking-wide`}>{style.label}</span>
                         <span className="font-['JetBrains_Mono',_'Fira_Code',_monospace] text-[9px] text-neutral-400">{event.timestamp}</span>
                       </div>
                       {isSessionLevel ? (
-                        <p className="text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-700 mt-0.5">
+                        <p className="text-[11px] font-medium text-neutral-700 mt-0.5">
                           {event.action === "suspended" ? "Session recessed by Presiding Officer" :
                            event.action === "session_resumed" ? "Session resumed from recess" :
                            event.action === "adjourned" ? "Session officially adjourned" :
@@ -77,7 +77,7 @@ export function BroadcastTimeline({ events, isCollapsed, onToggle }: { events: B
                         </p>
                       ) : (
                         <div className="flex items-center gap-2 mt-0.5">
-                          <span className="text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-800">{event.itemTitle}</span>
+                          <span className="text-[11px] font-medium text-neutral-800">{event.itemTitle}</span>
                           {event.itemRef && <span className="font-['JetBrains_Mono',_'Fira_Code',_monospace] text-[9px] text-blue-500">{event.itemRef}</span>}
                         </div>
                       )}
@@ -130,14 +130,14 @@ export function BatchConcludeModal({
             <ListChecked size={20} className="text-white" />
           </div>
           <div>
-            <h3 className="text-[15px] font-['Lexend:SemiBold',_sans-serif] text-white">Batch Conclude Items</h3>
-            <p className="text-[11px] font-['Lexend:Regular',_sans-serif] text-emerald-100 mt-0.5">{groupName}</p>
+            <h3 className="text-[15px] font-semibold text-white">Batch Conclude Items</h3>
+            <p className="text-[11px] font-normal text-emerald-100 mt-0.5">{groupName}</p>
           </div>
         </div>
 
         {/* Body */}
         <div className="px-6 py-5 space-y-3">
-          <p className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-600">
+          <p className="text-[11px] font-normal text-neutral-600">
             Select items to mark as officially concluded. This is typically used for procedural items (Roll Call, Approval of Minutes, etc.) that have clearly finished.
           </p>
           
@@ -146,7 +146,7 @@ export function BatchConcludeModal({
             {selectedIds.size === items.length
               ? <CheckboxCheckedFilled size={18} className="text-emerald-600" />
               : <Checkbox size={18} className="text-neutral-400" />}
-            <span className="text-[11px] font-['Lexend:SemiBold',_sans-serif] text-neutral-700">Select All ({items.length})</span>
+            <span className="text-[11px] font-semibold text-neutral-700">Select All ({items.length})</span>
           </button>
           
           <div className="border-t border-neutral-100" />
@@ -163,13 +163,13 @@ export function BatchConcludeModal({
                   ? <CheckboxCheckedFilled size={18} className="text-emerald-600 shrink-0" />
                   : <Checkbox size={18} className="text-neutral-300 shrink-0" />}
                 <div className="flex-1 min-w-0">
-                  <span className="text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-900 block truncate">{item.title}</span>
+                  <span className="text-[11px] font-medium text-neutral-900 block truncate">{item.title}</span>
                   <div className="flex items-center gap-2 mt-0.5">
                     {item.ref && <span className="font-['JetBrains_Mono',_'Fira_Code',_monospace] text-[9px] text-blue-500">{item.ref}</span>}
-                    <span className="text-[9px] font-['Lexend:Regular',_sans-serif] text-neutral-400">{item.type}</span>
+                    <span className="text-[9px] font-normal text-neutral-400">{item.type}</span>
                   </div>
                 </div>
-                <span className={`text-[9px] font-['Lexend:Medium',_sans-serif] px-2 py-0.5 rounded-full ${
+                <span className={`text-[9px] font-medium px-2 py-0.5 rounded-full ${
                   item.status === "broadcasting" ? "bg-emerald-100 text-emerald-700" :
                   item.status === "paused" ? "bg-yellow-100 text-yellow-700" :
                   "bg-neutral-100 text-neutral-500"
@@ -185,14 +185,14 @@ export function BatchConcludeModal({
         <div className="px-6 py-4 border-t border-neutral-100 flex items-center gap-3 bg-neutral-50/50">
           <button
             onClick={onCancel}
-            className="flex-1 px-4 py-2.5 rounded-lg text-[12px] font-['Lexend:SemiBold',_sans-serif] text-neutral-600 bg-white border border-neutral-200 cursor-pointer hover:bg-neutral-50 transition-colors"
+            className="flex-1 px-4 py-2.5 rounded-lg text-[12px] font-semibold text-neutral-600 bg-white border border-neutral-200 cursor-pointer hover:bg-neutral-50 transition-colors"
           >
             Cancel
           </button>
           <button
             onClick={() => onConfirm(Array.from(selectedIds))}
             disabled={selectedIds.size === 0}
-            className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-[12px] font-['Lexend:SemiBold',_sans-serif] transition-colors ${
+            className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-[12px] font-semibold transition-colors ${
               selectedIds.size > 0
                 ? "bg-emerald-600 text-white cursor-pointer hover:bg-emerald-700 shadow-md shadow-emerald-200"
                 : "bg-neutral-200 text-neutral-400 cursor-not-allowed"
@@ -233,10 +233,10 @@ export function EndOfSessionChecklist({
             {hasIssues ? <Warning size={20} className="text-white" /> : <CheckmarkOutline size={20} className="text-white" />}
           </div>
           <div>
-            <h3 className="text-[15px] font-['Lexend:SemiBold',_sans-serif] text-white">
+            <h3 className="text-[15px] font-semibold text-white">
               {hasIssues ? "Pre-Adjournment Checklist" : "Session Ready for Adjournment"}
             </h3>
-            <p className="text-[11px] font-['Lexend:Regular',_sans-serif] text-white/80 mt-0.5">
+            <p className="text-[11px] font-normal text-white/80 mt-0.5">
               {hasIssues ? "Review incomplete items before proceeding" : "All active items have been resolved"}
             </p>
           </div>
@@ -249,14 +249,14 @@ export function EndOfSessionChecklist({
             <div className="bg-emerald-50 border border-emerald-200 rounded-xl p-3">
               <div className="flex items-center gap-2 mb-2">
                 <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-[10px] font-['Lexend:SemiBold',_sans-serif] text-emerald-700 uppercase tracking-wide">Currently Broadcasting</span>
+                <span className="text-[10px] font-semibold text-emerald-700 uppercase tracking-wide">Currently Broadcasting</span>
               </div>
-              <p className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900">{broadcastingItem.title}</p>
+              <p className="text-[12px] font-medium text-neutral-900">{broadcastingItem.title}</p>
               <div className="flex items-center gap-2 mt-1">
                 {broadcastingItem.ref && <span className="font-['JetBrains_Mono',_'Fira_Code',_monospace] text-[9px] text-emerald-600">{broadcastingItem.ref}</span>}
                 <span className="font-['JetBrains_Mono',_'Fira_Code',_monospace] text-[10px] text-emerald-600">⏱ {formatTime(broadcastingItem.id)}</span>
               </div>
-              <p className="text-[10px] font-['Lexend:Regular',_sans-serif] text-amber-700 mt-2 bg-amber-50 rounded-lg px-2 py-1 border border-amber-200">
+              <p className="text-[10px] font-normal text-amber-700 mt-2 bg-amber-50 rounded-lg px-2 py-1 border border-amber-200">
                 ⚠️ This item is still on floor. It will be auto-deferred if you adjourn.
               </p>
             </div>
@@ -267,7 +267,7 @@ export function EndOfSessionChecklist({
             <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-3">
               <div className="flex items-center gap-2 mb-2">
                 <Pause size={14} className="text-yellow-600" />
-                <span className="text-[10px] font-['Lexend:SemiBold',_sans-serif] text-yellow-700 uppercase tracking-wide">
+                <span className="text-[10px] font-semibold text-yellow-700 uppercase tracking-wide">
                   {pausedItems.length} Paused Item{pausedItems.length !== 1 ? "s" : ""} — Timer Frozen
                 </span>
               </div>
@@ -276,14 +276,14 @@ export function EndOfSessionChecklist({
                   <div key={item.id} className="flex items-center gap-2 bg-white/60 rounded-lg px-3 py-2 border border-yellow-100">
                     <Pause size={12} className="text-yellow-500 shrink-0" />
                     <div className="flex-1 min-w-0">
-                      <span className="text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-900 block truncate">{item.title}</span>
+                      <span className="text-[11px] font-medium text-neutral-900 block truncate">{item.title}</span>
                       {item.ref && <span className="font-['JetBrains_Mono',_'Fira_Code',_monospace] text-[9px] text-blue-500">{item.ref}</span>}
                     </div>
                     <span className="font-['JetBrains_Mono',_'Fira_Code',_monospace] text-[10px] text-yellow-600 tabular-nums shrink-0">⏱ {formatTime(item.id)}</span>
                   </div>
                 ))}
               </div>
-              <p className="text-[10px] font-['Lexend:Regular',_sans-serif] text-yellow-700 mt-2">
+              <p className="text-[10px] font-normal text-yellow-700 mt-2">
                 These items were paused mid-debate. Adjourning will defer them as Unfinished Business for the next session.
               </p>
             </div>
@@ -292,7 +292,7 @@ export function EndOfSessionChecklist({
           {/* Pending items count */}
           {pendingItems.length > 0 && (
             <div className="bg-neutral-50 border border-neutral-200 rounded-xl p-3 flex items-center gap-3">
-              <span className="text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-700">
+              <span className="text-[11px] font-medium text-neutral-700">
                 📋 {pendingItems.length} pending item{pendingItems.length !== 1 ? "s" : ""} not yet reached — will be auto-deferred
               </span>
             </div>
@@ -300,7 +300,7 @@ export function EndOfSessionChecklist({
 
           {/* Summary */}
           <div className="bg-slate-50 rounded-xl p-3 border border-slate-200">
-            <p className="text-[11px] font-['Lexend:Regular',_sans-serif] text-slate-700">
+            <p className="text-[11px] font-normal text-slate-700">
               {hasIssues
                 ? "⚠️ Proceeding will trigger the Adjourn Friction Modal. All paused and pending items will be moved to Unfinished Business."
                 : "✅ No items are currently broadcasting or paused. You may proceed safely."}
@@ -312,13 +312,13 @@ export function EndOfSessionChecklist({
         <div className="px-6 py-4 border-t border-neutral-100 flex items-center gap-3 bg-neutral-50/50">
           <button
             onClick={onCancel}
-            className="flex-1 px-4 py-2.5 rounded-lg text-[12px] font-['Lexend:SemiBold',_sans-serif] text-neutral-600 bg-white border border-neutral-200 cursor-pointer hover:bg-neutral-50 transition-colors"
+            className="flex-1 px-4 py-2.5 rounded-lg text-[12px] font-semibold text-neutral-600 bg-white border border-neutral-200 cursor-pointer hover:bg-neutral-50 transition-colors"
           >
             Go Back — Review Items
           </button>
           <button
             onClick={onProceed}
-            className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-[12px] font-['Lexend:SemiBold',_sans-serif] cursor-pointer transition-colors shadow-md ${
+            className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-lg text-[12px] font-semibold cursor-pointer transition-colors shadow-md ${
               hasIssues
                 ? "bg-amber-500 text-white hover:bg-amber-600 shadow-amber-200"
                 : "bg-red-600 text-white hover:bg-red-700 shadow-red-200"

@@ -86,14 +86,14 @@ export function EmployeeWorkReport() {
               <thead>
                 <tr className="bg-neutral-50 border-b border-neutral-200">
                   {["Task", "Status", "% complete", "Deadline", "Last update"].map((h) => (
-                    <th key={h} className="px-4 py-2.5 text-left text-[10px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400">{h}</th>
+                    <th key={h} className="px-4 py-2.5 text-left text-[10px] font-medium uppercase tracking-wider text-neutral-400">{h}</th>
                   ))}
                 </tr>
               </thead>
               <tbody>
                 {rows.map((t) => (
                   <tr key={t.id} className="border-b border-neutral-50">
-                    <td className="px-4 py-2.5 text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900">{t.title}</td>
+                    <td className="px-4 py-2.5 text-[12px] font-medium text-neutral-900">{t.title}</td>
                     <td className="px-4 py-2.5"><TaskStatusBadge status={t.status} size="sm" /></td>
                     <td className="px-4 py-2.5 text-[12px] text-neutral-600 tabular-nums">{t.percentComplete ?? 0}%</td>
                     <td className="px-4 py-2.5 text-[12px] text-neutral-600">{formatDate(t.deadline || t.dueDate)}</td>

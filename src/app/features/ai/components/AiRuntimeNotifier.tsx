@@ -35,7 +35,7 @@ export function AiRuntimeNotifier() {
         <RefreshCw size={18} className="mt-0.5 shrink-0 animate-spin text-amber-600" />
       )}
       <div>
-        <div className="text-[12px] font-['Lexend:Medium',_sans-serif] text-amber-950">
+        <div className="text-[12px] font-medium text-amber-950">
           AI service temporarily unavailable
         </div>
         <div className="mt-0.5 text-[11px] leading-relaxed text-amber-800">

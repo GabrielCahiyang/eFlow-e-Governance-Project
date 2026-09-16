@@ -13,14 +13,14 @@ export function EqBlock({ label, value, tone, big }: { label: string; value: num
   const t = tones[tone];
   return (
     <div className={`flex-1 rounded-xl border-2 ${t.bg} p-4`}>
-      <div className="text-[10px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400">{label}</div>
-      <div className={`${big ? "text-[26px]" : "text-[20px]"} font-['Lexend:SemiBold',_sans-serif] tabular-nums ${t.txt} mt-0.5`}>{peso(value)}</div>
+      <div className="text-[10px] font-medium uppercase tracking-wider text-neutral-400">{label}</div>
+      <div className={`${big ? "text-[26px]" : "text-[20px]"} font-semibold tabular-nums ${t.txt} mt-0.5`}>{peso(value)}</div>
     </div>
   );
 }
 
 export function OpChar({ children }: { children: React.ReactNode }) {
-  return <div className="flex items-center text-[28px] font-['Lexend:SemiBold',_sans-serif] text-neutral-400 w-4 flex-shrink-0">{children}</div>;
+  return <div className="flex items-center text-[28px] font-semibold text-neutral-400 w-4 flex-shrink-0">{children}</div>;
 }
 
 // ==================== 13.2.A — UNSPENT FUNDS (ESCALATION KANBAN) ====================
@@ -98,11 +98,11 @@ export function UnspentFunds() {
             >
               <div className="flex items-center gap-2 px-1 mb-1">
                 <span className="text-neutral-700">{col.icon}</span>
-                <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-['Lexend:Medium',_sans-serif] ${col.chip}`}>{items.length}</span>
-                <span className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-800 leading-tight">{col.label}</span>
+                <span className={`px-1.5 py-0.5 rounded-full text-[10px] font-medium ${col.chip}`}>{items.length}</span>
+                <span className="text-[12px] font-medium text-neutral-800 leading-tight">{col.label}</span>
               </div>
               <div className="text-[10px] px-1 text-neutral-500 mb-1">{col.hint}</div>
-              <div className="text-[10px] px-1 text-neutral-700 font-['Lexend:Medium',_sans-serif] mb-3 tabular-nums">{peso(sum)} outstanding</div>
+              <div className="text-[10px] px-1 text-neutral-700 font-medium mb-3 tabular-nums">{peso(sum)} outstanding</div>
               <div className="flex flex-col gap-2">
                 {items.map((c) => (
                   <div
@@ -115,17 +115,17 @@ export function UnspentFunds() {
                     }`}
                   >
                     <div className="flex items-center justify-between mb-1">
-                      <span className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900">{c.employee}</span>
-                      <span className={`text-[9px] font-['Lexend:Medium',_sans-serif] px-1 py-0.5 rounded ${
+                      <span className="text-[12px] font-medium text-neutral-900">{c.employee}</span>
+                      <span className={`text-[9px] font-medium px-1 py-0.5 rounded ${
                         c.daysSinceVerify >= 30 ? "bg-red-100 text-red-700" : c.daysSinceVerify >= 15 ? "bg-amber-100 text-amber-700" : "bg-neutral-100 text-neutral-600"
                       }`}>
                         {c.daysSinceVerify}d
                       </span>
                     </div>
-                    <div className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500">{c.dept}</div>
+                    <div className="text-[10px] font-normal text-neutral-500">{c.dept}</div>
                     <div className="mt-2 pt-2 border-t border-neutral-100 flex items-center justify-between">
                       <span className="text-[9px] text-neutral-400 font-mono">spare change</span>
-                      <span className="text-[14px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 tabular-nums">{peso(c.amount)}</span>
+                      <span className="text-[14px] font-semibold text-neutral-900 tabular-nums">{peso(c.amount)}</span>
                     </div>
                   </div>
                 ))}

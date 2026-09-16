@@ -31,7 +31,7 @@ export function SubmissionAttachments({
 
   return (
     <div className="mb-3">
-      <div className="mb-1.5 text-[10.5px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400">
+      <div className="mb-1.5 text-[10.5px] font-medium uppercase tracking-wider text-neutral-400">
         Attachments
       </div>
       <div className="flex flex-wrap gap-2">
@@ -39,7 +39,7 @@ export function SubmissionAttachments({
           <button
             key={attachment.id}
             onClick={() => openAttachment(attachment)}
-            className="inline-flex max-w-[220px] items-center gap-1.5 rounded-lg border border-neutral-200 bg-white px-2.5 py-1.5 text-[11.5px] font-['Lexend:Medium',_sans-serif] text-neutral-700 hover:bg-neutral-50"
+            className="inline-flex max-w-[220px] items-center gap-1.5 rounded-lg border border-neutral-200 bg-white px-2.5 py-1.5 text-[11.5px] font-medium text-neutral-700 hover:bg-neutral-50"
           >
             {openingPath === attachment.filePath ? (
               <Loader2 size={12} className="animate-spin" />

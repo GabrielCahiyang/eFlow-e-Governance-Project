@@ -31,3 +31,13 @@ This inventory is the no-feature-loss baseline for the modularisation effort. Ev
 
 - npm run build passes before this program begins.
 - Sidebar section identifiers, page labels, default destinations, and role mappings are tested as a public navigation contract.
+
+## Vibe and Motion presentation contract
+
+- Vibe is the primary control, typography, status, form, tab, modal, loading, and empty-state system. Feature-owned components retain domain meaning and permissions.
+- Figtree is the only application presentation font. Financial values, percentages, counts, dates, durations, hashes, and identifiers use tabular numerals where alignment matters.
+- The desktop navigation is a rounded 280px floating sidebar with a 68px compact rail. Mobile navigation preserves the existing destinations and access rules in a full-view Vibe modal.
+- `InspectorPanel` is the shared task, subtask, project, proposal, announcement, and audit detail surface. It owns portal rendering, background inertness, scroll locking, focus trapping/restoration, Escape handling, and reduced-motion-aware presence.
+- Motion is limited to panel presence, local view continuity, and other orientation/feedback cases. Initial tables, realtime rows, security actions, and KPI values do not receive ornamental animation.
+- Shared compatibility adapters may preserve an existing feature API while delegating behavior to Vibe. They must not perform authorization or change persisted workflow state.
+- See [Vibe and Motion redesign migration](./vibe-motion-redesign.md) for the implementation boundaries and verification record.

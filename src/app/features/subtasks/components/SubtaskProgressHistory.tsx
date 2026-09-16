@@ -10,7 +10,7 @@ export function SubtaskProgressHistory({
 }) {
   return (
     <section className="rounded-xl border border-neutral-200 bg-neutral-50 p-3">
-      <div className="mb-2 text-[10.5px] font-['Lexend:SemiBold',_sans-serif] uppercase tracking-wider text-neutral-500">
+      <div className="mb-2 text-[10.5px] font-semibold uppercase tracking-wider text-neutral-500">
         Progress updates
       </div>
       {updates.length === 0 ? (
@@ -27,11 +27,11 @@ export function SubtaskProgressHistory({
                     <UserRound size={12} />
                   </span>
                   <div className="min-w-0">
-                    <div className="truncate font-['Lexend:Medium',_sans-serif] text-neutral-800">{update.authorName}</div>
+                    <div className="truncate font-medium text-neutral-800">{update.authorName}</div>
                     <div className="text-[9.5px] text-neutral-400">{formatDate(update.createdAt)}</div>
                   </div>
                 </div>
-                <span className="rounded-full bg-blue-50 px-2 py-0.5 text-[10.5px] font-['Lexend:SemiBold',_sans-serif] text-blue-700">
+                <span className="rounded-full bg-blue-50 px-2 py-0.5 text-[10.5px] font-semibold text-blue-700">
                   {update.percentComplete}%
                 </span>
               </div>
@@ -51,7 +51,7 @@ export function SubtaskProgressHistory({
               {update.nextStep && (
                 <div className="mt-2 flex items-start gap-2 text-[11px] text-neutral-600">
                   <ArrowRight size={13} className="mt-0.5 shrink-0 text-neutral-400" />
-                  <span><strong className="font-['Lexend:Medium',_sans-serif]">Next:</strong> {update.nextStep}</span>
+                  <span><strong className="font-medium">Next:</strong> {update.nextStep}</span>
                 </div>
               )}
               {update.attachmentPath && (

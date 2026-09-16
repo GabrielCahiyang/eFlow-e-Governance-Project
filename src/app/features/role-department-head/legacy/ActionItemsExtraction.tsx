@@ -141,15 +141,15 @@ export function ActionItemsExtraction() {
             >
               <div className="grid grid-cols-[1fr_auto_1fr] gap-4 items-center">
                 <div>
-                  <div className="text-[9.5px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400 mb-1.5">
+                  <div className="text-[9.5px] font-medium uppercase tracking-wider text-neutral-400 mb-1.5">
                     Raw Field Report
                   </div>
                   <div className="bg-neutral-50 border border-neutral-100 rounded-lg p-3">
-                    <div className="text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-700 italic leading-relaxed">
+                    <div className="text-[12px] font-normal text-neutral-700 italic leading-relaxed">
                       "{a.sourceText}"
                     </div>
-                    <div className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mt-2 flex items-center gap-2">
-                      <span className="font-['Lexend:Medium',_sans-serif] text-neutral-700">
+                    <div className="text-[10px] font-normal text-neutral-500 mt-2 flex items-center gap-2">
+                      <span className="font-medium text-neutral-700">
                         {a.author}
                       </span>
                       <span>·</span>
@@ -161,18 +161,18 @@ export function ActionItemsExtraction() {
                 <div className="flex flex-col items-center gap-1 text-indigo-600 shrink-0">
                   <Brain size={18} />
                   <ArrowRight size={14} />
-                  <div className="text-[8.5px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider">
+                  <div className="text-[8.5px] font-medium uppercase tracking-wider">
                     NLP
                   </div>
                 </div>
 
                 <div>
                   <div className="flex items-center justify-between mb-1.5">
-                    <div className="text-[9.5px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-emerald-700">
+                    <div className="text-[9.5px] font-medium uppercase tracking-wider text-emerald-700">
                       Auto-Generated Task
                     </div>
                     <span
-                      className={`text-[9.5px] font-['Lexend:Medium',_sans-serif] border rounded px-1.5 py-0.5 ${statusTone.chip}`}
+                      className={`text-[9.5px] font-medium border rounded px-1.5 py-0.5 ${statusTone.chip}`}
                     >
                       {statusTone.label}
                     </span>
@@ -183,20 +183,20 @@ export function ActionItemsExtraction() {
                         size={13}
                         className="text-emerald-700 mt-0.5 shrink-0"
                       />
-                      <div className="text-[12.5px] font-['Lexend:Medium',_sans-serif] text-neutral-900 leading-snug">
+                      <div className="text-[12.5px] font-medium text-neutral-900 leading-snug">
                         {a.extractedTask}
                       </div>
                     </div>
-                    <div className="mt-2 pt-2 border-t border-emerald-200 grid grid-cols-2 gap-2 text-[10px] font-['Lexend:Regular',_sans-serif]">
+                    <div className="mt-2 pt-2 border-t border-emerald-200 grid grid-cols-2 gap-2 text-[10px] font-normal">
                       <div>
                         <span className="text-neutral-500">Assignee: </span>
-                        <span className="text-neutral-900 font-['Lexend:Medium',_sans-serif]">
+                        <span className="text-neutral-900 font-medium">
                           {a.assignee}
                         </span>
                       </div>
                       <div>
                         <span className="text-neutral-500">Due: </span>
-                        <span className="text-neutral-900 font-['Lexend:Medium',_sans-serif] tabular-nums">
+                        <span className="text-neutral-900 font-medium tabular-nums">
                           {a.dueDate}
                         </span>
                       </div>

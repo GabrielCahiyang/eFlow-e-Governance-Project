@@ -711,7 +711,7 @@
   border: 0;
   background: transparent;
   color: #777;
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-family);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: .08em;
@@ -840,7 +840,7 @@
 .eflow-project-context__members h2 {
   margin: 0 0 12px;
   color: #777;
-  font-family: 'Montserrat', sans-serif;
+  font-family: var(--font-family);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: .08em;
@@ -1916,15 +1916,6 @@
 }
 
 /* --- Secondary project tools inspector --- */
-.eflow-project-tools-inspector__backdrop {
-  position: fixed;
-  inset: 0;
-  z-index: 60;
-  border: 0;
-  background: rgba(17, 24, 39, 0.24);
-  cursor: default;
-}
-
 .eflow-project-tools-inspector {
   position: fixed;
   top: 0;
@@ -3181,4 +3172,332 @@
   padding-top: 16px;
   margin-top: 4px;
   border-top: 1px solid #f1f5f9;
+}
+
+/* ========================================================================== 
+   Navigation dock — aligned with the application rail and shaped as a set of
+   calm, scannable Vibe surfaces. Kept presentation-only: destinations,
+   permissions, and project operations retain their existing behavior.
+   ========================================================================== */
+
+.eflow-ide-workspace {
+  height: 100%;
+  min-height: 0;
+  background: var(--allgrey-background-color, #f5f6f8);
+}
+
+.eflow-project-context {
+  box-sizing: border-box;
+  display: flex;
+  flex: 0 0 304px;
+  flex-direction: column;
+  gap: 10px;
+  width: 304px;
+  height: 100%;
+  min-height: 0;
+  padding: 12px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  border-right: 1px solid color-mix(in srgb, var(--layout-border-color) 82%, transparent);
+  background: var(--allgrey-background-color, #f5f6f8);
+  color: var(--primary-text-color, #151515);
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.eflow-project-context::-webkit-scrollbar {
+  display: none;
+}
+
+.eflow-project-context__section,
+.eflow-project-context__planning,
+.eflow-project-context__members {
+  border: 1px solid color-mix(in srgb, var(--layout-border-color) 82%, transparent);
+  border-radius: 14px;
+  background: var(--primary-background-color, #fff);
+  box-shadow: 0 2px 8px rgba(15, 23, 42, 0.035);
+}
+
+.eflow-project-context__section {
+  padding: 16px;
+}
+
+.eflow-project-context__title {
+  display: flex;
+  width: 100%;
+  min-height: 24px;
+  margin: 0 0 12px;
+  color: var(--secondary-text-color, #676879);
+  font-size: 11px;
+  line-height: 16px;
+  transition: color var(--motion-productive-short, 100ms) var(--motion-timing-transition, ease);
+}
+
+.eflow-project-context__title:hover {
+  color: var(--primary-text-color, #151515);
+}
+
+.eflow-project-context__list {
+  display: grid;
+  gap: 6px;
+}
+
+.eflow-project-context__project {
+  position: relative;
+  isolation: isolate;
+  display: flex;
+  min-height: 46px;
+  padding: 4px 6px;
+  border: 1px solid transparent;
+  border-radius: 12px;
+  background: transparent;
+  cursor: default;
+  transition: border-color var(--motion-productive-short, 100ms) var(--motion-timing-transition, ease), background-color var(--motion-productive-short, 100ms) var(--motion-timing-transition, ease);
+}
+
+.eflow-project-context__project:hover {
+  border-color: color-mix(in srgb, var(--layout-border-color) 70%, transparent);
+  background: var(--primary-background-hover-color, #f0f0f0);
+}
+
+.eflow-project-context__project--active {
+  border-color: transparent;
+  background: transparent;
+}
+
+.eflow-project-context__active-surface,
+.eflow-project-context__planning-active-surface {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  pointer-events: none;
+  border: 1px solid color-mix(in srgb, var(--primary-color) 16%, transparent);
+  border-radius: 11px;
+  background: var(--primary-selected-color, #e6f5f5);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--primary-color) 8%, transparent);
+}
+
+.eflow-project-context__project-select,
+.eflow-project-context__project-menu {
+  position: relative;
+  z-index: 1;
+}
+
+.eflow-project-context__project-select {
+  gap: 10px;
+  min-height: 36px;
+}
+
+.eflow-project-context__project-select:focus-visible,
+.eflow-project-context__project-menu button:focus-visible,
+.eflow-project-context__planning button:focus-visible {
+  outline: 2px solid var(--primary-color, #007f80);
+  outline-offset: 2px;
+}
+
+.eflow-project-context__project-mark {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.18);
+  font-size: 12px;
+}
+
+.eflow-project-context__project-name {
+  color: var(--primary-text-color, #151515);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.eflow-project-context__create {
+  margin-top: 12px;
+}
+
+.eflow-project-context__add {
+  height: 42px;
+  margin-top: 0;
+  border-radius: 10px !important;
+  font-size: 14px;
+}
+
+.eflow-project-context details {
+  margin-top: 10px;
+  color: var(--secondary-text-color, #676879);
+}
+
+.eflow-project-context details summary {
+  border-radius: 8px;
+  transition: background-color var(--motion-productive-short, 100ms) var(--motion-timing-transition, ease);
+}
+
+.eflow-project-context details summary:hover {
+  background: var(--primary-background-hover-color, #f0f0f0);
+}
+
+.eflow-project-context__planning {
+  display: grid;
+  gap: 4px;
+  padding: 14px;
+  border-top: 1px solid color-mix(in srgb, var(--layout-border-color) 82%, transparent);
+}
+
+.eflow-project-context__planning h2,
+.eflow-project-context__members h2 {
+  margin: 0 0 8px;
+  color: var(--secondary-text-color, #676879);
+  font-size: 11px;
+  line-height: 16px;
+}
+
+.eflow-project-context__planning button {
+  position: relative;
+  isolation: isolate;
+  min-height: 40px;
+  padding: 0 10px;
+  border-radius: 10px;
+  color: var(--secondary-text-color, #676879);
+  transition: color var(--motion-productive-short, 100ms) var(--motion-timing-transition, ease), background-color var(--motion-productive-short, 100ms) var(--motion-timing-transition, ease);
+}
+
+.eflow-project-context__planning button:hover {
+  background: var(--primary-background-hover-color, #f0f0f0) !important;
+  color: var(--primary-text-color, #151515) !important;
+}
+
+.eflow-project-context__planning-item--active {
+  background: transparent !important;
+  color: var(--primary-color, #007f80) !important;
+}
+
+.eflow-project-context__planning button > span:not(.eflow-project-context__planning-active-surface),
+.eflow-project-context__planning button > strong {
+  position: relative;
+  z-index: 1;
+}
+
+.eflow-project-context__planning strong {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  min-height: 22px;
+  padding-inline: 6px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--secondary-text-color) 9%, transparent);
+  color: currentColor;
+  font-size: 11px;
+}
+
+.eflow-project-context__members {
+  display: grid;
+  flex: 0 0 auto;
+  gap: 6px;
+  padding: 14px;
+  border-top: 1px solid color-mix(in srgb, var(--layout-border-color) 82%, transparent);
+}
+
+.eflow-project-context__member {
+  min-height: 46px;
+  padding: 5px 8px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  background: transparent;
+  transition: background-color var(--motion-productive-short, 100ms) var(--motion-timing-transition, ease);
+}
+
+.eflow-project-context__member:hover {
+  background: var(--primary-background-hover-color, #f0f0f0);
+}
+
+.eflow-project-context__member-copy strong {
+  color: var(--primary-text-color, #151515);
+  font-size: 13px;
+}
+
+.eflow-project-context__member-copy small {
+  color: var(--secondary-text-color, #676879);
+}
+
+.eflow-project-context__empty {
+  margin: 0;
+  padding: 11px 12px;
+  border: 1px dashed color-mix(in srgb, var(--layout-border-color) 88%, transparent);
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--allgrey-background-color, #f5f6f8) 70%, transparent);
+  color: var(--secondary-text-color, #676879);
+  font-size: 12px;
+  line-height: 18px;
+}
+
+@media (max-width: 1100px) and (min-width: 769px) {
+  .eflow-project-context {
+    flex-basis: 280px;
+    width: 280px;
+    padding: 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  .eflow-ide-workspace {
+    display: block;
+    height: auto;
+  }
+
+  .eflow-project-context {
+    display: grid;
+    width: 100%;
+    height: auto;
+    max-height: 380px;
+    padding: 10px;
+    border-right: 0;
+    border-bottom: 1px solid color-mix(in srgb, var(--layout-border-color) 82%, transparent);
+    overflow-y: auto;
+  }
+
+  .eflow-project-context__section {
+    padding: 14px;
+  }
+
+  .eflow-project-context__list {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 3px;
+    scrollbar-width: thin;
+  }
+
+  .eflow-project-context__project {
+    min-width: 220px;
+  }
+
+  .eflow-project-context__planning {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 12px 14px;
+  }
+
+  .eflow-project-context__planning h2 {
+    grid-column: 1 / -1;
+  }
+
+  .eflow-project-context__planning button {
+    min-width: 0;
+    padding-inline: 8px;
+  }
+
+  .eflow-project-context__planning button > span:not(.eflow-project-context__planning-active-surface) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .eflow-project-context__members {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    padding: 14px;
+    gap: 6px;
+  }
+
+  .eflow-project-context__members h2,
+  .eflow-project-context__members > .eflow-project-context__empty {
+    grid-column: 1 / -1;
+  }
 }

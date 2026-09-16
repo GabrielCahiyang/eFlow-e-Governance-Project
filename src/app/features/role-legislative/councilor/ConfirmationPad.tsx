@@ -47,22 +47,22 @@ export function ConfirmationPad({
           </div>
         </div>
 
-        <h3 className="text-[18px] font-['Lexend:Regular',_sans-serif] text-neutral-900 text-center mb-1">
+        <h3 className="text-[18px] font-normal text-neutral-900 text-center mb-1">
           {isVote ? "Confirm Your Vote" : "Digital Signature Required"}
         </h3>
-        <p className="text-[13px] font-['Lexend:Regular',_sans-serif] text-neutral-500 text-center mb-6">
+        <p className="text-[13px] font-normal text-neutral-500 text-center mb-6">
           {isVote ? "Enter your 4-digit PIN to cast your vote" : "Enter your 4-digit PIN to seal your approval"}
         </p>
 
         {/* Document Info */}
         <div className="bg-neutral-50 rounded-xl p-4 mb-6">
-          <p className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-400 uppercase tracking-wider mb-1">
+          <p className="text-[11px] font-normal text-neutral-400 uppercase tracking-wider mb-1">
             {isVote ? "Voting on" : "Signing"}
           </p>
-          <p className="text-[13px] font-['Lexend:Regular',_sans-serif] text-neutral-700">
+          <p className="text-[13px] font-normal text-neutral-700">
             {task.title}
           </p>
-          <p className={`text-[11px] font-['Lexend:Regular',_sans-serif] ${actionInfo.color} mt-2 flex items-center gap-1`}>
+          <p className={`text-[11px] font-normal ${actionInfo.color} mt-2 flex items-center gap-1`}>
             <Carbon.CheckmarkOutline size={12} />
             {actionInfo.label}
           </p>
@@ -73,7 +73,7 @@ export function ConfirmationPad({
           {[0, 1, 2, 3].map((i) => (
             <div
               key={i}
-              className={`size-14 rounded-xl border-2 flex items-center justify-center text-[24px] font-['Lexend:Regular',_sans-serif] transition-all duration-200 ${
+              className={`size-14 rounded-xl border-2 flex items-center justify-center text-[24px] font-normal transition-all duration-200 ${
                 error
                   ? "border-red-300 bg-red-50"
                   : pin.length > i
@@ -87,7 +87,7 @@ export function ConfirmationPad({
         </div>
 
         {error && (
-          <p className="text-[12px] font-['Lexend:Regular',_sans-serif] text-red-500 text-center mb-4">
+          <p className="text-[12px] font-normal text-red-500 text-center mb-4">
             Please enter a valid 4-digit PIN
           </p>
         )}
@@ -103,7 +103,7 @@ export function ConfirmationPad({
                   if (num === "del") setPin((p) => p.slice(0, -1));
                   else if (pin.length < 4) setPin((p) => p + num);
                 }}
-                className="py-3 rounded-xl bg-neutral-50 text-[18px] font-['Lexend:Regular',_sans-serif] text-neutral-700 cursor-pointer hover:bg-neutral-100 active:bg-neutral-200 transition-colors"
+                className="py-3 rounded-xl bg-neutral-50 text-[18px] font-normal text-neutral-700 cursor-pointer hover:bg-neutral-100 active:bg-neutral-200 transition-colors"
               >
                 {num === "del" ? "←" : num}
               </button>
@@ -115,13 +115,13 @@ export function ConfirmationPad({
         <div className="flex gap-3">
           <button
             onClick={onCancel}
-            className="flex-1 py-3 bg-neutral-100 text-neutral-600 rounded-xl text-[14px] font-['Lexend:Regular',_sans-serif] cursor-pointer hover:bg-neutral-200 transition-colors"
+            className="flex-1 py-3 bg-neutral-100 text-neutral-600 rounded-xl text-[14px] font-normal cursor-pointer hover:bg-neutral-200 transition-colors"
           >
             Cancel
           </button>
           <button
             onClick={handleSubmit}
-            className={`flex-1 py-3 rounded-xl text-[14px] font-['Lexend:Regular',_sans-serif] cursor-pointer transition-all ${
+            className={`flex-1 py-3 rounded-xl text-[14px] font-normal cursor-pointer transition-all ${
               pin.length === 4
                 ? "bg-emerald-600 text-white hover:bg-emerald-700"
                 : "bg-neutral-200 text-neutral-400 cursor-not-allowed"
@@ -131,7 +131,7 @@ export function ConfirmationPad({
           </button>
         </div>
 
-        <p className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-400 text-center mt-4 flex items-center justify-center gap-1">
+        <p className="text-[10px] font-normal text-neutral-400 text-center mt-4 flex items-center justify-center gap-1">
           <Carbon.Locked size={10} />
           Cryptographically sealed via eFlow Immutable Ledger
         </p>

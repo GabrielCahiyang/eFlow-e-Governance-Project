@@ -28,7 +28,7 @@ export function ProjectHeader({
   const archived = project.status === "archived";
 
   return (
-    <header className="space-y-2.5 pb-2 font-['Montserrat',sans-serif]">
+    <header className="space-y-2.5 pb-2 font-sans">
       {/* Project identity and utilities stay below the persistent workspace tabs. */}
       <div className="flex flex-wrap items-start justify-between gap-4">
         <div className="min-w-0 flex-1">

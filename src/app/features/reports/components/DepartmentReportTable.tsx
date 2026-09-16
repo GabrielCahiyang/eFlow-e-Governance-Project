@@ -23,7 +23,7 @@ export function DepartmentReportTable({
         <thead>
           <tr className="bg-neutral-50 border-b border-neutral-200">
             {["Work item", "Person / role", "Project", "Status", "Signal", "Event / due", "Detail"].map((header) => (
-              <th key={header} className="px-4 py-3 text-left text-[10px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400">
+              <th key={header} className="px-4 py-3 text-left text-[10px] font-medium uppercase tracking-wider text-neutral-400">
                 {header}
               </th>
             ))}
@@ -39,7 +39,7 @@ export function DepartmentReportTable({
                   onClick={() => row.taskId && onOpenTask(row.taskId)}
                   className={`text-left group ${row.taskId ? "cursor-pointer" : "cursor-default"}`}
                 >
-                  <span className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900 group-hover:underline">
+                  <span className="text-[12px] font-medium text-neutral-900 group-hover:underline">
                     {row.title}
                   </span>
                   {row.taskId && <ArrowUpRight size={11} className="inline ml-1 text-neutral-400" />}

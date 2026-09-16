@@ -1,11 +1,18 @@
-// ─── Shared workflow page primitives ─────────────────────────────
-// House-style building blocks reused by every Phase 1-3 screen so Dept Head,
-// Admin, and Employee surfaces read as one system. Matches the existing
-// DeptHeadContent/EmployeeContent look: Lexend, rounded-xl white cards,
-// neutral borders, emerald/amber/red tone system.
+// Shared workflow composition contracts. These keep the existing public API
+// while delegating controls, states, typography, and progress to Vibe.
 
+import {
+  Button,
+  Dropdown,
+  EmptyState,
+  Heading,
+  Loader,
+  ProgressBar as VibeProgressBar,
+  Search as VibeSearch,
+  Text,
+} from "@vibe/core";
+import { Download, PDF, Warning } from "@vibe/icons";
 import React from "react";
-import { Loader2, AlertCircle, Search, X, Download, FileDown } from "lucide-react";
 
 // ─── PageHeader ──────────────────────────────────────────────────
 export function PageHeader({
@@ -20,24 +27,24 @@ export function PageHeader({
   actions?: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3 mb-6">
+    <header className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
       <div className="min-w-0">
         {eyebrow && (
-          <div className="text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-400 uppercase tracking-wider mb-1">
+          <Text className="mb-1 uppercase tracking-[0.08em] text-neutral-500" type="text3" weight="medium">
             {eyebrow}
-          </div>
+          </Text>
         )}
-        <h1 className="text-[22px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 leading-tight">
+        <Heading className="leading-tight text-neutral-900" type="h1" weight="medium">
           {title}
-        </h1>
+        </Heading>
         {subtitle && (
-          <p className="text-[13px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mt-0.5">
+          <Text className="mt-1 max-w-3xl text-neutral-500" type="text2">
             {subtitle}
-          </p>
+          </Text>
         )}
       </div>
       {actions && <div className="flex items-center gap-2 flex-wrap shrink-0">{actions}</div>}
-    </div>
+    </header>
   );
 }
 
@@ -59,26 +66,65 @@ export function WButton({
   type?: "button" | "submit";
   className?: string;
 }) {
-  const styles: Record<string, string> = {
-    primary: "bg-neutral-900 text-white hover:bg-neutral-800",
-    secondary: "bg-white text-neutral-700 border border-neutral-200 hover:bg-neutral-50",
-    danger: "bg-red-50 text-red-600 border border-red-200 hover:bg-red-100",
-    success: "bg-emerald-600 text-white hover:bg-emerald-700",
-    ghost: "text-neutral-600 hover:bg-neutral-100",
-  };
+  const presentation = {
+    primary: { kind: "primary", color: "primary" },
+    secondary: { kind: "secondary", color: "primary" },
+    danger: { kind: "secondary", color: "negative" },
+    success: { kind: "primary", color: "positive" },
+    ghost: { kind: "tertiary", color: "primary" },
+  } as const;
+  const selected = presentation[variant];
   return (
-    <button
-      type={type}
-      onClick={onClick}
+    <Button
+      className={`eflow-workflow-button ${className}`}
+      color={selected.color}
       disabled={disabled}
-      className={`inline-flex items-center gap-1.5 px-3 py-2 rounded-lg text-[12px] font-['Lexend:Medium',_sans-serif] transition-colors ${styles[variant]} ${
-        disabled ? "opacity-40 cursor-not-allowed" : "cursor-pointer"
-      } ${className}`}
+      kind={selected.kind}
+      onClick={() => onClick?.()}
+      size="small"
+      type={type}
     >
-      {icon}
+      {icon && <span aria-hidden="true" className="inline-flex shrink-0">{icon}</span>}
       {children}
-    </button>
+    </Button>
   );
+}
+
+function StatCardContent({
+  label,
+  value,
+  hint,
+  tone,
+  icon,
+}: {
+  label: string;
+  value: string | number;
+  hint?: string;
+  tone: "neutral" | "good" | "warn" | "bad" | "info";
+  icon?: React.ReactNode;
+}) {
+  const toneMap: Record<typeof tone, string> = {
+    neutral: "text-neutral-900",
+    good: "text-emerald-700",
+    warn: "text-amber-700",
+    bad: "text-red-700",
+    info: "text-blue-700",
+  };
+  const iconTone: Record<typeof tone, string> = {
+    neutral: "bg-neutral-100 text-neutral-600",
+    good: "bg-emerald-50 text-emerald-700",
+    warn: "bg-amber-50 text-amber-700",
+    bad: "bg-red-50 text-red-700",
+    info: "bg-blue-50 text-blue-700",
+  };
+  return <>
+    <div className="flex items-start justify-between gap-3">
+      <Text className="uppercase tracking-[0.08em] text-neutral-500" type="text3" weight="medium">{label}</Text>
+      {icon && <span aria-hidden="true" className={`grid size-7 shrink-0 place-items-center rounded-lg ${iconTone[tone]}`}>{icon}</span>}
+    </div>
+    <div className={`eflow-tabular mt-1 text-2xl font-semibold ${toneMap[tone]}`}>{value}</div>
+    {hint && <Text className="mt-1 text-neutral-500" type="text3">{hint}</Text>}
+  </>;
 }
 
 // ─── StatCard ────────────────────────────────────────────────────
@@ -99,48 +145,21 @@ export function StatCard({
   onClick?: () => void;
   active?: boolean;
 }) {
-  const toneMap: Record<string, string> = {
-    neutral: "text-neutral-900",
-    good: "text-emerald-600",
-    warn: "text-amber-600",
-    bad: "text-red-600",
-    info: "text-blue-600",
-  };
-  const iconTone: Record<string, string> = {
-    neutral: "bg-neutral-100 text-neutral-500",
-    good: "bg-emerald-50 text-emerald-600",
-    warn: "bg-amber-50 text-amber-600",
-    bad: "bg-red-50 text-red-600",
-    info: "bg-blue-50 text-blue-600",
-  };
-  return (
+  const classes = `w-full rounded-xl border bg-white p-4 text-left transition-[border-color,box-shadow] duration-100 ${
+    active ? "border-blue-500 ring-1 ring-blue-500/15" : "border-neutral-200"
+  }`;
+  const content = <StatCardContent icon={icon} hint={hint} label={label} tone={tone} value={value} />;
+  return onClick ? (
     <button
+      aria-pressed={active}
       type="button"
       onClick={onClick}
-      disabled={!onClick}
-      className={`text-left bg-white border rounded-xl p-4 transition-all w-full ${
-        onClick ? "hover:shadow-sm hover:border-neutral-300 cursor-pointer" : "cursor-default"
-      } ${active ? "border-neutral-900 ring-1 ring-neutral-900/10" : "border-neutral-200"}`}
+      className={`${classes} cursor-pointer hover:border-neutral-300 hover:shadow-sm`}
     >
-      <div className="flex items-start justify-between">
-        <div className="text-[11px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400">
-          {label}
-        </div>
-        {icon && (
-          <div className={`w-7 h-7 rounded-lg flex items-center justify-center ${iconTone[tone]}`}>
-            {icon}
-          </div>
-        )}
-      </div>
-      <div className={`text-[24px] font-['Lexend:SemiBold',_sans-serif] mt-1 tabular-nums ${toneMap[tone]}`}>
-        {value}
-      </div>
-      {hint && (
-        <div className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mt-0.5">
-          {hint}
-        </div>
-      )}
+      {content}
     </button>
+  ) : (
+    <section aria-label={label} className={classes}>{content}</section>
   );
 }
 
@@ -161,22 +180,22 @@ export function Card({
   bodyClassName?: string;
 }) {
   return (
-    <div className={`bg-white border border-neutral-200 rounded-xl ${className}`}>
+    <section className={`rounded-xl border border-neutral-200 bg-white ${className}`}>
       {(title || right) && (
         <div className="flex items-center justify-between px-4 py-3 border-b border-neutral-100">
           <div>
             {title && (
-              <div className="text-[13px] font-['Lexend:Medium',_sans-serif] text-neutral-900">{title}</div>
+              <Heading className="text-neutral-900" type="h3" weight="medium">{title}</Heading>
             )}
             {subtitle && (
-              <div className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mt-0.5">{subtitle}</div>
+              <Text className="mt-0.5 text-neutral-500" type="text3">{subtitle}</Text>
             )}
           </div>
           {right}
         </div>
       )}
       <div className={bodyClassName || "p-4"}>{children}</div>
-    </div>
+    </section>
   );
 }
 
@@ -193,20 +212,17 @@ export function SearchInput({
   className?: string;
 }) {
   return (
-    <div className={`relative flex items-center bg-white border border-neutral-200 rounded-lg h-[34px] focus-within:border-neutral-400 focus-within:ring-1 focus-within:ring-neutral-200 ${className}`}>
-      <Search size={14} className="text-neutral-400 ml-2.5" />
-      <input
-        value={value}
-        onChange={(e) => onChange(e.target.value)}
-        placeholder={placeholder}
-        className="flex-1 bg-transparent px-2 text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-800 placeholder:text-neutral-400 focus:outline-none"
-      />
-      {value && (
-        <button onClick={() => onChange("")} className="pr-2 text-neutral-400 hover:text-neutral-700">
-          <X size={13} />
-        </button>
-      )}
-    </div>
+    <VibeSearch
+      className={className}
+      clearIconLabel="Clear search"
+      inputAriaLabel={placeholder}
+      onChange={onChange}
+      onClear={() => onChange("")}
+      placeholder={placeholder}
+      showClearIcon
+      size="small"
+      value={value}
+    />
   );
 }
 
@@ -216,22 +232,25 @@ export function WSelect({
   onChange,
   options,
   className = "",
+  ariaLabel = "Filter options",
 }: {
   value: string;
   onChange: (v: string) => void;
   options: { value: string; label: string }[];
   className?: string;
+  ariaLabel?: string;
 }) {
+  const selected = options.find((option) => option.value === value);
   return (
-    <select
-      value={value}
-      onChange={(e) => onChange(e.target.value)}
-      className={`h-[34px] px-2.5 border border-neutral-200 rounded-lg text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-800 bg-white focus:outline-none focus:border-neutral-400 focus:ring-1 focus:ring-neutral-200 ${className}`}
-    >
-      {options.map((o) => (
-        <option key={o.value} value={o.value}>{o.label}</option>
-      ))}
-    </select>
+    <Dropdown
+      aria-label={ariaLabel}
+      className={`eflow-workflow-select ${className}`}
+      clearable={false}
+      onChange={(option) => onChange(String(option.value))}
+      options={options}
+      size="small"
+      value={selected}
+    />
   );
 }
 
@@ -257,20 +276,9 @@ export function ExportMenu({
   disabled?: boolean;
 }) {
   return (
-    <div className={`inline-flex items-center bg-white border border-neutral-200 rounded-lg overflow-hidden h-[34px] ${disabled ? "opacity-40 pointer-events-none" : ""}`}>
-      <button
-        onClick={onPdf}
-        className="flex items-center gap-1.5 px-3 text-[11.5px] font-['Lexend:Medium',_sans-serif] text-neutral-700 hover:bg-neutral-50 h-full"
-      >
-        <FileDown size={13} /> PDF
-      </button>
-      <div className="w-px h-4 bg-neutral-200" />
-      <button
-        onClick={onCsv}
-        className="flex items-center gap-1.5 px-3 text-[11.5px] font-['Lexend:Medium',_sans-serif] text-neutral-700 hover:bg-neutral-50 h-full"
-      >
-        <Download size={13} /> CSV
-      </button>
+    <div aria-label="Export report" className="inline-flex items-center gap-1" role="group">
+      <Button color="primary" disabled={disabled} kind="secondary" leftIcon={PDF} onClick={onPdf} size="small">PDF</Button>
+      <Button color="primary" disabled={disabled} kind="secondary" leftIcon={Download} onClick={onCsv} size="small">CSV</Button>
     </div>
   );
 }
@@ -278,21 +286,21 @@ export function ExportMenu({
 // ─── Section states ──────────────────────────────────────────────
 export function LoadingState({ label = "Loading…" }: { label?: string }) {
   return (
-    <div className="flex flex-col items-center justify-center py-20 text-neutral-400">
-      <Loader2 size={26} className="animate-spin mb-3" />
-      <p className="text-[13px] font-['Lexend:Regular',_sans-serif]">{label}</p>
+    <div aria-live="polite" className="flex flex-col items-center justify-center gap-3 py-20 text-neutral-500" role="status">
+      <Loader size="medium" />
+      <Text type="text2">{label}</Text>
     </div>
   );
 }
 
 export function ErrorState({ message, onRetry }: { message?: string; onRetry?: () => void }) {
   return (
-    <div className="flex flex-col items-center justify-center py-16 text-center">
-      <AlertCircle size={28} className="text-red-400 mb-3" />
-      <p className="text-[14px] font-['Lexend:Medium',_sans-serif] text-neutral-700 mb-1">Something went wrong</p>
-      <p className="text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-400 max-w-sm mb-4">
-        {message || "We couldn't load this data. Please try again."}
-      </p>
+    <div aria-live="assertive" className="flex flex-col items-center justify-center gap-4 py-16 text-center" role="alert">
+      <EmptyState
+        description={message || "We couldn't load this data. Please try again."}
+        title="Something went wrong"
+        visual={<Warning aria-hidden="true" size={32} />}
+      />
       {onRetry && <WButton onClick={onRetry}>Retry</WButton>}
     </div>
   );
@@ -310,32 +318,38 @@ export function SectionEmpty({
   action?: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col items-center justify-center py-16 px-4 text-center">
-      {icon && <div className="text-neutral-300 mb-3">{icon}</div>}
-      <h3 className="text-[15px] font-['Lexend:SemiBold',_sans-serif] text-neutral-700 mb-1">{title}</h3>
-      {description && (
-        <p className="text-[13px] font-['Lexend:Regular',_sans-serif] text-neutral-400 max-w-sm mb-4">
-          {description}
-        </p>
-      )}
-      {action}
+    <div className="flex flex-col items-center justify-center gap-4 px-4 py-16 text-center">
+      <EmptyState
+        description={description || title}
+        layout="compact"
+        title={description ? title : undefined}
+        visual={icon && <span aria-hidden="true" className="text-neutral-400">{icon}</span>}
+      />
+      {action && <div>{action}</div>}
     </div>
   );
 }
 
 // ─── Progress bar ────────────────────────────────────────────────
 export function ProgressBar({ value, tone = "neutral" }: { value: number; tone?: "neutral" | "good" | "warn" | "bad" }) {
-  const map: Record<string, string> = {
-    neutral: "bg-neutral-800",
-    good: "bg-emerald-500",
-    warn: "bg-amber-500",
-    bad: "bg-red-500",
-  };
+  const map = {
+    neutral: "primary",
+    good: "positive",
+    warn: "warning",
+    bad: "negative",
+  } as const;
   const pct = Math.max(0, Math.min(100, value));
   return (
-    <div className="h-1.5 bg-neutral-100 rounded-full overflow-hidden">
-      <div className={`h-full ${map[tone]} rounded-full transition-all`} style={{ width: `${pct}%` }} />
-    </div>
+    <VibeProgressBar
+      aria-label={`${Math.round(pct)}% complete`}
+      animated={false}
+      barStyle={map[tone]}
+      fullWidth
+      max={100}
+      min={0}
+      size="small"
+      value={pct}
+    />
   );
 }
 

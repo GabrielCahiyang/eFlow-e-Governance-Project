@@ -167,7 +167,7 @@ export function TaskSubtasksWidget({
   return (
     <div className="pt-2">
       <div className="flex items-center justify-between mb-2">
-        <label className="text-[10px] uppercase tracking-[0.12em] text-neutral-400 font-['Lexend:SemiBold',_sans-serif] flex items-center gap-1.5">
+        <label className="text-[10px] uppercase tracking-[0.12em] text-neutral-400 font-semibold flex items-center gap-1.5">
           <CheckSquare size={12} className="text-neutral-500" />
           Subtasks {subtasks.length > 0 && `(${completedCount}/${subtasks.length})`}
         </label>
@@ -239,7 +239,7 @@ export function TaskSubtasksWidget({
                 {st.status === "for_review" ? <Clock3 size={9} /> : <Check size={9} />}
               </span>
               <span
-                className={`flex-1 text-[12px] font-['Lexend:Regular',_sans-serif] ${
+                className={`flex-1 text-[12px] font-normal ${
                   st.isCompleted ? "text-neutral-400 line-through" : "text-neutral-800"
                 }`}
               >
@@ -256,7 +256,7 @@ export function TaskSubtasksWidget({
               )}
 
               {st.source === "ai_extracted" && (
-                <span className="inline-flex items-center gap-0.5 text-[8px] uppercase tracking-wider text-violet-600 bg-violet-50 border border-violet-200 px-1 py-0.5 rounded font-['Lexend:SemiBold',_sans-serif] shrink-0">
+                <span className="inline-flex items-center gap-0.5 text-[8px] uppercase tracking-wider text-violet-600 bg-violet-50 border border-violet-200 px-1 py-0.5 rounded font-semibold shrink-0">
                   <Sparkles size={8} /> AI
                 </span>
               )}
@@ -281,14 +281,14 @@ export function TaskSubtasksWidget({
                 </button>
               )}
 
-              <span className={`rounded-full px-1.5 py-0.5 text-[8.5px] font-['Lexend:Medium',_sans-serif] ${
+              <span className={`rounded-full px-1.5 py-0.5 text-[8.5px] font-medium ${
                 st.status === "completed" ? "bg-emerald-50 text-emerald-700" :
                 st.status === "for_review" ? "bg-amber-50 text-amber-700" :
                 st.status === "changes_requested" ? "bg-rose-50 text-rose-700" :
                 st.status === "in_progress" ? "bg-blue-50 text-blue-700" : "bg-neutral-100 text-neutral-500"
               }`}>{st.status.replace("_", " ")}</span>
 
-              <span className="text-[9.5px] font-['Lexend:Medium',_sans-serif] tabular-nums text-neutral-500">
+              <span className="text-[9.5px] font-medium tabular-nums text-neutral-500">
                 {st.percentComplete}%
               </span>
 
@@ -333,7 +333,7 @@ export function TaskSubtasksWidget({
                     assignedUsers.map((u) => (
                       <div
                         key={u.id}
-                        className="w-6 h-6 rounded-full bg-neutral-900 border border-white text-white text-[9px] flex items-center justify-center font-['Lexend:SemiBold',_sans-serif] shadow-sm"
+                        className="w-6 h-6 rounded-full bg-neutral-900 border border-white text-white text-[9px] flex items-center justify-center font-semibold shadow-sm"
                       >
                         {u.initials}
                       </div>
@@ -347,7 +347,7 @@ export function TaskSubtasksWidget({
 
                 {canManage && pickerOpenFor === st.id && (
                   <div className="absolute z-30 top-7 right-0 bg-white rounded-xl border border-neutral-200 shadow-xl py-1.5 w-52 max-h-60 overflow-y-auto">
-                    <div className="px-3 py-1 text-[9px] uppercase tracking-wider text-neutral-400 font-['Lexend:SemiBold',_sans-serif]">
+                    <div className="px-3 py-1 text-[9px] uppercase tracking-wider text-neutral-400 font-semibold">
                       Assign Team Members
                     </div>
                     {assignedIds.length > 0 && (
@@ -360,7 +360,7 @@ export function TaskSubtasksWidget({
                             { id: user?.id || "", name: userProfile?.full_name || "Team Lead" },
                           );
                         }}
-                        className="w-full text-left px-3 py-1 text-[11px] hover:bg-red-50 text-red-600 font-['Lexend:Medium',_sans-serif] border-b border-neutral-100 mb-1 pb-1.5"
+                        className="w-full text-left px-3 py-1 text-[11px] hover:bg-red-50 text-red-600 font-medium border-b border-neutral-100 mb-1 pb-1.5"
                       >
                         Clear All Assignees
                       </button>
@@ -386,10 +386,10 @@ export function TaskSubtasksWidget({
                           }`}
                         >
                           <div className="flex items-center gap-2 min-w-0">
-                            <div className="w-5 h-5 rounded-full bg-neutral-800 text-white text-[8px] flex items-center justify-center font-['Lexend:SemiBold',_sans-serif] shrink-0">
+                            <div className="w-5 h-5 rounded-full bg-neutral-800 text-white text-[8px] flex items-center justify-center font-semibold shrink-0">
                               {e.initials}
                             </div>
-                            <span className="font-['Lexend:Regular',_sans-serif] truncate">{e.name}</span>
+                            <span className="font-normal truncate">{e.name}</span>
                           </div>
                           {selected && <Check size={12} className="text-blue-600 shrink-0" />}
                         </button>
@@ -424,7 +424,7 @@ export function TaskSubtasksWidget({
           onChange={(e) => setNewTitle(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleAdd()}
           placeholder="Add a subtask for team members…"
-          className="flex-1 h-[32px] rounded-lg border border-neutral-200 bg-white px-2.5 text-[12px] text-neutral-900 outline-none focus:border-neutral-400 placeholder:text-neutral-400 font-['Lexend:Regular',_sans-serif]"
+          className="flex-1 h-[32px] rounded-lg border border-neutral-200 bg-white px-2.5 text-[12px] text-neutral-900 outline-none focus:border-neutral-400 placeholder:text-neutral-400 font-normal"
         />
         <input
           type="date"
@@ -439,7 +439,7 @@ export function TaskSubtasksWidget({
           type="button"
           onClick={() => setNewStandalone((current) => !current)}
           aria-pressed={newStandalone}
-          className={`h-[32px] rounded-lg border px-2.5 text-[10px] font-['Lexend:Medium',_sans-serif] transition ${
+          className={`h-[32px] rounded-lg border px-2.5 text-[10px] font-medium transition ${
             newStandalone
               ? "border-violet-300 bg-violet-50 text-violet-700"
               : "border-neutral-200 bg-white text-neutral-500 hover:border-neutral-300"
@@ -452,7 +452,7 @@ export function TaskSubtasksWidget({
           type="button"
           onClick={handleAdd}
           disabled={adding || !newTitle.trim() || !newDueDate}
-          className="h-[32px] px-3 rounded-lg bg-neutral-900 text-white text-[11px] font-['Lexend:Medium',_sans-serif] disabled:opacity-40 hover:bg-neutral-800 shrink-0 inline-flex items-center gap-1"
+          className="h-[32px] px-3 rounded-lg bg-neutral-900 text-white text-[11px] font-medium disabled:opacity-40 hover:bg-neutral-800 shrink-0 inline-flex items-center gap-1"
         >
           <Plus size={13} /> Add
         </button>

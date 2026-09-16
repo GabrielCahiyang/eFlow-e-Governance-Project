@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
+import { AttentionBox, Tab, TabList, TabsContext } from "@vibe/core";
 import { AlertTriangle, CircleAlert, Clock3, ListFilter } from "lucide-react";
-import { PageHeader, StatCard, WSelect } from "../../../../components/workflow/primitives";
+import { LoadingState, PageHeader, StatCard, WSelect } from "../../../../components/workflow/primitives";
 import { TaskDetailDrawer } from "../../../tasks";
 import type { Task } from "../../../tasks";
 import { useDepartmentTeamAnalytics } from "../../hooks/useDepartmentTeamAnalytics";
@@ -35,13 +36,13 @@ export function TeamSupervisionWorkspace() {
     setView("people");
   };
 
-  if (analytics.loading) return <div className="flex min-h-full items-center justify-center p-8 text-[12px] text-neutral-500">Building the live supervision view…</div>;
+  if (analytics.loading) return <div className="p-8"><LoadingState label="Building the live supervision view…" /></div>;
 
   return (
     <div className="min-h-full p-6 sm:p-8">
       <PageHeader eyebrow="Department · Operations" title="Team Supervision" subtitle="Act on overdue work, blockers, stalled updates, review queues, and workload imbalance from one live workspace." actions={<span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-[10.5px] font-medium text-emerald-700"><span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" /> Live workflow data</span>} />
 
-      {analytics.error && <div className="mb-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-[11px] text-amber-800">Some workflow details could not be loaded: {analytics.error}. Task-level data remains available.</div>}
+      {analytics.error && <AttentionBox className="mb-4" text={`Some workflow details could not be loaded: ${analytics.error}. Task-level data remains available.`} type="warning" />}
 
       <div className="mb-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
         <StatCard label="Needs attention" value={analytics.attention.length} hint={`${criticalCount} critical`} tone={criticalCount ? "bad" : analytics.attention.length ? "warn" : "good"} icon={<ListFilter size={15} />} onClick={() => setView("attention")} active={view === "attention"} />
@@ -51,11 +52,13 @@ export function TeamSupervisionWorkspace() {
       </div>
 
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <div className="inline-flex rounded-lg border border-neutral-200 bg-white p-1">
-          <button type="button" onClick={() => setView("attention")} className={`rounded-md px-3 py-1.5 text-[11.5px] font-medium transition ${view === "attention" ? "bg-neutral-900 text-white" : "text-neutral-500 hover:bg-neutral-50"}`}>Attention queue</button>
-          <button type="button" onClick={() => setView("people")} className={`rounded-md px-3 py-1.5 text-[11.5px] font-medium transition ${view === "people" ? "bg-neutral-900 text-white" : "text-neutral-500 hover:bg-neutral-50"}`}>People & workload</button>
-        </div>
-        {view === "attention" && <WSelect value={attentionFilter} onChange={(value) => setAttentionFilter(value as TeamAttentionKind | "all")} options={[ { value: "all", label: "All attention items" }, { value: "overdue", label: "Overdue" }, { value: "due_soon", label: "Due soon" }, { value: "blocked", label: "Blocked" }, { value: "stalled", label: "Stalled" }, { value: "awaiting_review", label: "Review waiting" }, { value: "changes_requested", label: "Changes requested" }, { value: "unassigned", label: "Unassigned" }, { value: "vague_schedule", label: "Vague schedules" } ]} />}
+        <TabsContext activeTabId={view === "attention" ? 0 : 1} id="team-supervision-tabs">
+          <TabList id="team-supervision-tab-list">
+            <Tab active={view === "attention"} id="attention" onClick={() => setView("attention")}>Attention queue</Tab>
+            <Tab active={view === "people"} id="people" onClick={() => setView("people")}>People & workload</Tab>
+          </TabList>
+        </TabsContext>
+        {view === "attention" && <WSelect ariaLabel="Filter attention queue" value={attentionFilter} onChange={(value) => setAttentionFilter(value as TeamAttentionKind | "all")} options={[ { value: "all", label: "All attention items" }, { value: "overdue", label: "Overdue" }, { value: "due_soon", label: "Due soon" }, { value: "blocked", label: "Blocked" }, { value: "stalled", label: "Stalled" }, { value: "awaiting_review", label: "Review waiting" }, { value: "changes_requested", label: "Changes requested" }, { value: "unassigned", label: "Unassigned" }, { value: "vague_schedule", label: "Vague schedules" } ]} />}
       </div>
 
       <div className="grid grid-cols-1 items-start gap-5 xl:grid-cols-[minmax(0,1fr)_390px]">

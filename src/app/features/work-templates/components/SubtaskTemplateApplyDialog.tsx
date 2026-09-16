@@ -85,7 +85,7 @@ export function SubtaskTemplateApplyDialog({
         <div className="flex items-start justify-between border-b border-neutral-100 px-5 py-4">
           <div>
             <div className="text-[10px] uppercase tracking-[0.2em] text-violet-500">Apply subtask template</div>
-            <h3 className="mt-0.5 text-[17px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">{template.title}</h3>
+            <h3 className="mt-0.5 text-[17px] font-semibold text-neutral-900">{template.title}</h3>
             <p className="mt-1 text-[11px] text-neutral-500">Preview the checklist, assign contributors, and choose how it should interact with existing subtasks.</p>
           </div>
           <button onClick={onClose} className="rounded-lg p-1.5 text-neutral-400 hover:bg-neutral-100"><X size={16} /></button>
@@ -93,7 +93,7 @@ export function SubtaskTemplateApplyDialog({
 
         <div className="grid flex-1 overflow-y-auto lg:grid-cols-[280px_1fr]">
           <aside className="space-y-4 border-b border-neutral-100 bg-neutral-50 p-4 lg:border-b-0 lg:border-r">
-            <label className="block text-[10.5px] font-['Lexend:Medium',_sans-serif] text-neutral-500">Task you lead
+            <label className="block text-[10.5px] font-medium text-neutral-500">Task you lead
               <select value={taskId} onChange={(event) => { setTaskId(event.target.value); setError(""); }} className="mt-1 h-10 w-full rounded-xl border border-neutral-200 bg-white px-2.5 text-[11.5px] outline-none">
                 {tasks.length === 0 && <option value="">No eligible leading tasks</option>}
                 {tasks.map((task) => <option key={task.id} value={task.id}>{task.title}</option>)}
@@ -101,21 +101,21 @@ export function SubtaskTemplateApplyDialog({
             </label>
 
             <div>
-              <div className="text-[10.5px] font-['Lexend:Medium',_sans-serif] text-neutral-500">Apply mode</div>
+              <div className="text-[10.5px] font-medium text-neutral-500">Apply mode</div>
               <label className={`mt-2 block cursor-pointer rounded-xl border p-3 ${mode === "merge" ? "border-violet-300 bg-violet-50" : "border-neutral-200 bg-white"}`}>
                 <input type="radio" name="apply-mode" value="merge" checked={mode === "merge"} onChange={() => setMode("merge")} className="mr-2 accent-violet-600" />
-                <span className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-800">Merge</span>
+                <span className="text-[12px] font-medium text-neutral-800">Merge</span>
                 <p className="ml-5 mt-1 text-[10.5px] text-neutral-500">Keep existing subtasks. Exact duplicate titles are skipped.</p>
               </label>
               <label className={`mt-2 block cursor-pointer rounded-xl border p-3 ${mode === "replace" ? "border-amber-300 bg-amber-50" : "border-neutral-200 bg-white"}`}>
                 <input type="radio" name="apply-mode" value="replace" checked={mode === "replace"} onChange={() => setMode("replace")} className="mr-2 accent-amber-600" />
-                <span className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-800">Replace existing</span>
+                <span className="text-[12px] font-medium text-neutral-800">Replace existing</span>
                 <p className="ml-5 mt-1 text-[10.5px] text-neutral-500">Remove untouched subtasks and replace them with this checklist.</p>
               </label>
             </div>
 
             <div className="rounded-xl border border-neutral-200 bg-white p-3">
-              <div className="text-[10.5px] font-['Lexend:Medium',_sans-serif] text-neutral-700">Current task checklist</div>
+              <div className="text-[10.5px] font-medium text-neutral-700">Current task checklist</div>
               {loadingExisting ? (
                 <div className="mt-2 text-[10.5px] text-neutral-400">Checking existing subtasks…</div>
               ) : existing.length === 0 ? (
@@ -143,7 +143,7 @@ export function SubtaskTemplateApplyDialog({
           <main className="space-y-3 p-4 sm:p-5">
             <div className="flex items-center justify-between">
               <div>
-                <div className="text-[11px] font-['Lexend:SemiBold',_sans-serif] uppercase tracking-wide text-neutral-600">Checklist preview</div>
+                <div className="text-[11px] font-semibold uppercase tracking-wide text-neutral-600">Checklist preview</div>
                 <div className="mt-0.5 text-[10.5px] text-neutral-400">Edit titles and assign one or more department members before applying.</div>
               </div>
               <button onClick={() => setItems((current) => [...current, { title: "", assignedToIds: [] }])} className="inline-flex items-center gap-1 rounded-lg border border-neutral-200 px-2.5 py-1.5 text-[10.5px] text-neutral-600 hover:bg-neutral-50"><Plus size={11} /> Add</button>
@@ -184,7 +184,7 @@ export function SubtaskTemplateApplyDialog({
           <div className="min-w-0 text-[10.5px] text-neutral-400">{selectedTask ? `Applying to “${selectedTask.title}”` : "Select an eligible task"}</div>
           <div className="flex gap-2">
             <button onClick={onClose} className="rounded-xl border border-neutral-200 px-4 py-2 text-[12px] text-neutral-600 hover:bg-neutral-50">Cancel</button>
-            <button onClick={apply} disabled={saving || !taskId || loadingExisting || (mode === "replace" && Boolean(replacementBlocker))} className="rounded-xl bg-neutral-900 px-4 py-2 text-[12px] font-['Lexend:Medium',_sans-serif] text-white disabled:opacity-40">{saving ? "Applying…" : `Apply ${items.filter((item) => item.title.trim()).length} subtasks`}</button>
+            <button onClick={apply} disabled={saving || !taskId || loadingExisting || (mode === "replace" && Boolean(replacementBlocker))} className="rounded-xl bg-neutral-900 px-4 py-2 text-[12px] font-medium text-white disabled:opacity-40">{saving ? "Applying…" : `Apply ${items.filter((item) => item.title.trim()).length} subtasks`}</button>
           </div>
         </div>
       </div>

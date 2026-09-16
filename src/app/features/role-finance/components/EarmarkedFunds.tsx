@@ -69,10 +69,10 @@ export function EarmarkedFunds() {
       <div className="bg-white border border-neutral-200 rounded-xl p-5 mb-5">
         <div className="flex items-center justify-between mb-3">
           <div>
-            <div className="text-[13px] font-['Lexend:SemiBold',_sans-serif]">Obligation vs Release Burn Rate</div>
-            <div className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500">The shaded area is money on the hook but not yet paid.</div>
+            <div className="text-[13px] font-semibold">Obligation vs Release Burn Rate</div>
+            <div className="text-[11px] font-normal text-neutral-500">The shaded area is money on the hook but not yet paid.</div>
           </div>
-          <div className="flex items-center gap-3 text-[11px] font-['Lexend:Regular',_sans-serif]">
+          <div className="flex items-center gap-3 text-[11px] font-normal">
             <span className="flex items-center gap-1.5"><span className="w-3 h-0.5 bg-amber-500" /> Obligated</span>
             <span className="flex items-center gap-1.5"><span className="w-3 h-0.5 bg-emerald-500" /> Released</span>
             <span className="flex items-center gap-1.5"><span className="w-3 h-3 bg-amber-200 rounded-sm" /> Earmarked gap</span>
@@ -94,7 +94,7 @@ export function EarmarkedFunds() {
             return (
               <g key={t}>
                 <line x1={pad} y1={y} x2={W - pad} y2={y} stroke="#f5f5f5" />
-                <text x={pad - 6} y={y + 3} textAnchor="end" fontSize="9" fill="#a3a3a3" fontFamily="Lexend">
+                <text x={pad - 6} y={y + 3} textAnchor="end" fontSize="9" fill="#a3a3a3" fontFamily="Figtree">
                   ₱{val}M
                 </text>
               </g>
@@ -126,13 +126,13 @@ export function EarmarkedFunds() {
             stroke="#f59e0b"
             strokeWidth="1.5"
           />
-          <text x={scaleX(30) + 14} y={(scaleY(totalObligated) + scaleY(totalReleased)) / 2 + 3} fontSize="10" fill="#b45309" fontFamily="Lexend" fontWeight="600">
+          <text x={scaleX(30) + 14} y={(scaleY(totalObligated) + scaleY(totalReleased)) / 2 + 3} fontSize="10" fill="#b45309" fontFamily="Figtree" fontWeight="600">
             gap ₱{earmarkedGap.toFixed(1)}M
           </text>
 
           {/* X axis labels */}
           {[1, 7, 14, 21, 30].map((d) => (
-            <text key={d} x={scaleX(d)} y={H - pad + 14} textAnchor="middle" fontSize="9" fill="#a3a3a3" fontFamily="Lexend">
+            <text key={d} x={scaleX(d)} y={H - pad + 14} textAnchor="middle" fontSize="9" fill="#a3a3a3" fontFamily="Figtree">
               D{d}
             </text>
           ))}
@@ -143,10 +143,10 @@ export function EarmarkedFunds() {
       <div className="bg-white border border-neutral-200 rounded-xl overflow-hidden">
         <div className="px-5 py-4 border-b border-neutral-200 flex items-center gap-2">
           <Clock size={14} className="text-neutral-700" />
-          <span className="text-[13px] font-['Lexend:SemiBold',_sans-serif]">Upcoming Cash-Out Windows</span>
-          <span className="ml-auto text-[11px] text-neutral-500 font-['Lexend:Regular',_sans-serif]">Plan treasury inflows accordingly</span>
+          <span className="text-[13px] font-semibold">Upcoming Cash-Out Windows</span>
+          <span className="ml-auto text-[11px] text-neutral-500 font-normal">Plan treasury inflows accordingly</span>
         </div>
-        <div className="grid grid-cols-12 px-5 py-3 bg-neutral-50 border-b border-neutral-200 text-[10px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400">
+        <div className="grid grid-cols-12 px-5 py-3 bg-neutral-50 border-b border-neutral-200 text-[10px] font-medium uppercase tracking-wider text-neutral-400">
           <div className="col-span-5">Payee / Counterparty</div>
           <div className="col-span-3">Due by</div>
           <div className="col-span-2 text-right">Obligated</div>
@@ -158,18 +158,18 @@ export function EarmarkedFunds() {
           const days = Math.ceil((dueDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
           const urgent = days <= 7;
           return (
-            <div key={i} className="grid grid-cols-12 px-5 py-3 border-b border-neutral-100 last:border-0 items-center hover:bg-neutral-50 text-[12px] font-['Lexend:Regular',_sans-serif]">
+            <div key={i} className="grid grid-cols-12 px-5 py-3 border-b border-neutral-100 last:border-0 items-center hover:bg-neutral-50 text-[12px] font-normal">
               <div className="col-span-5">
-                <div className="font-['Lexend:Medium',_sans-serif] text-neutral-900">{p.payee}</div>
+                <div className="font-medium text-neutral-900">{p.payee}</div>
               </div>
               <div className="col-span-3">
-                <span className={`text-[11px] ${urgent ? "text-red-600 font-['Lexend:Medium',_sans-serif]" : "text-neutral-600"}`}>
+                <span className={`text-[11px] ${urgent ? "text-red-600 font-medium" : "text-neutral-600"}`}>
                   {p.due} · {days}d
                 </span>
               </div>
-              <div className="col-span-2 text-right font-['Lexend:SemiBold',_sans-serif] text-neutral-900 tabular-nums">{peso(p.amt)}</div>
+              <div className="col-span-2 text-right font-semibold text-neutral-900 tabular-nums">{peso(p.amt)}</div>
               <div className="col-span-2 text-right">
-                <button className="text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-900 hover:underline cursor-pointer inline-flex items-center gap-1">
+                <button className="text-[11px] font-medium text-neutral-900 hover:underline cursor-pointer inline-flex items-center gap-1">
                   Release <ArrowRight size={11} />
                 </button>
               </div>

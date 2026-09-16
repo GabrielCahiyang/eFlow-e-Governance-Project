@@ -78,9 +78,9 @@ export function ArchivedMinutes() {
         <div className="max-w-2xl mx-auto">
           <div className="flex items-center gap-2 mb-2">
             <Analytics size={20} className="text-violet-600" />
-            <span className="text-[14px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">Semantic Transcript Search</span>
+            <span className="text-[14px] font-semibold text-neutral-900">Semantic Transcript Search</span>
           </div>
-          <p className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mb-4">
+          <p className="text-[11px] font-normal text-neutral-500 mb-4">
             Search using natural language. The AI understands context — searching "coastal cleanup" will also find "beach garbage," "marine debris," and "shore cleanup" across years of transcripts.
           </p>
           <div className="flex items-center gap-2">
@@ -91,20 +91,20 @@ export function ArchivedMinutes() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder='e.g. "Arguments about the coastal cleanup"'
-                className="flex-1 bg-transparent outline-none text-[13px] font-['Lexend:Regular',_sans-serif] text-neutral-800 placeholder:text-neutral-400"
+                className="flex-1 bg-transparent outline-none text-[13px] font-normal text-neutral-800 placeholder:text-neutral-400"
               />
             </div>
             <button
               onClick={() => setHasSearched(true)}
-              className="px-5 py-3 bg-violet-600 text-white rounded-xl text-[12px] font-['Lexend:SemiBold',_sans-serif] cursor-pointer hover:bg-violet-700 transition-colors"
+              className="px-5 py-3 bg-violet-600 text-white rounded-xl text-[12px] font-semibold cursor-pointer hover:bg-violet-700 transition-colors"
             >
               Search
             </button>
           </div>
           <div className="flex items-center gap-2 mt-2">
-            <span className="text-[9px] font-['Lexend:Regular',_sans-serif] text-neutral-400">Semantic expansion:</span>
+            <span className="text-[9px] font-normal text-neutral-400">Semantic expansion:</span>
             {["coastal cleanup", "beach garbage", "marine debris", "shore cleanup", "waste management"].map(term => (
-              <span key={term} className="text-[9px] font-['Lexend:Medium',_sans-serif] bg-violet-50 text-violet-600 px-2 py-0.5 rounded-full border border-violet-100">{term}</span>
+              <span key={term} className="text-[9px] font-medium bg-violet-50 text-violet-600 px-2 py-0.5 rounded-full border border-violet-100">{term}</span>
             ))}
           </div>
         </div>
@@ -114,37 +114,37 @@ export function ArchivedMinutes() {
       {hasSearched && (
         <div className="space-y-3">
           <div className="flex items-center gap-2 mb-3">
-            <span className="text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-500">{sampleSearchResults.length} results found across {[...new Set(sampleSearchResults.map(r => r.session))].length} sessions — 0.6 seconds</span>
+            <span className="text-[12px] font-normal text-neutral-500">{sampleSearchResults.length} results found across {[...new Set(sampleSearchResults.map(r => r.session))].length} sessions — 0.6 seconds</span>
           </div>
 
           {sampleSearchResults.map((result, idx) => (
             <div key={idx} className="bg-white rounded-xl border border-neutral-200 p-5 hover:border-violet-200 transition-colors">
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-3">
-                  <span className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">{result.session}</span>
-                  <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500">{result.date}</span>
+                  <span className="text-[12px] font-semibold text-neutral-900">{result.session}</span>
+                  <span className="text-[10px] font-normal text-neutral-500">{result.date}</span>
                   <span className="font-['JetBrains_Mono',_'Fira_Code',_monospace] text-[10px] text-violet-600">⏱ {result.timestamp}</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <div className="w-16 h-2 bg-neutral-100 rounded-full overflow-hidden">
                     <div className="h-full rounded-full bg-violet-500" style={{ width: `${result.relevance}%` }} />
                   </div>
-                  <span className="text-[10px] font-['Lexend:Medium',_sans-serif] text-violet-600">{result.relevance}%</span>
+                  <span className="text-[10px] font-medium text-violet-600">{result.relevance}%</span>
                 </div>
               </div>
 
               <div className="flex items-start gap-3">
-                <div className="w-7 h-7 rounded-full bg-slate-700 flex items-center justify-center text-[8px] font-['Lexend:SemiBold',_sans-serif] text-white shrink-0 mt-0.5">
+                <div className="w-7 h-7 rounded-full bg-slate-700 flex items-center justify-center text-[8px] font-semibold text-white shrink-0 mt-0.5">
                   {result.speaker.split(" ").slice(-1)[0][0]}{result.speaker.split(" ").slice(-2)[0][0]}
                 </div>
                 <div className="flex-1">
-                  <span className="text-[11px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">{result.speaker}</span>
+                  <span className="text-[11px] font-semibold text-neutral-900">{result.speaker}</span>
                   <div className="bg-neutral-50 rounded-lg p-3 border border-neutral-100 mt-1.5">
-                    <p className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-700 leading-relaxed">
+                    <p className="text-[11px] font-normal text-neutral-700 leading-relaxed">
                       "{result.text.split(result.highlight).map((part, i, arr) => (
                         <React.Fragment key={i}>
                           {part}
-                          {i < arr.length - 1 && <mark className="bg-yellow-200 px-0.5 rounded font-['Lexend:SemiBold',_sans-serif]">{result.highlight}</mark>}
+                          {i < arr.length - 1 && <mark className="bg-yellow-200 px-0.5 rounded font-semibold">{result.highlight}</mark>}
                         </React.Fragment>
                       ))}"
                     </p>
@@ -166,19 +166,19 @@ export function ArchivedMinutes() {
       <div className="bg-white rounded-xl border border-neutral-200 overflow-hidden mt-5">
         <div className="px-5 py-3 bg-neutral-50/50 border-b border-neutral-100 flex items-center gap-2">
           <Archive size={14} className="text-neutral-500" />
-          <span className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">Session Archive Index</span>
+          <span className="text-[12px] font-semibold text-neutral-900">Session Archive Index</span>
         </div>
         <div className="grid grid-cols-[120px_1fr_80px_80px] gap-0 px-5 py-2.5 bg-neutral-50/30 border-b border-neutral-100">
           {["Session", "Date", "Measures", "Duration"].map(h => (
-            <span key={h} className="text-[10px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase tracking-wide">{h}</span>
+            <span key={h} className="text-[10px] font-medium text-neutral-500 uppercase tracking-wide">{h}</span>
           ))}
         </div>
         {archivedSessions.map(s => (
           <div key={s.session} className="grid grid-cols-[120px_1fr_80px_80px] gap-0 px-5 py-3 border-b border-neutral-50 hover:bg-neutral-50/50 transition-colors items-center cursor-pointer">
-            <span className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900">{s.session} Session</span>
-            <span className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-600">{s.date}</span>
-            <span className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-600">{s.measures} items</span>
-            <span className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-600">{s.duration}</span>
+            <span className="text-[12px] font-medium text-neutral-900">{s.session} Session</span>
+            <span className="text-[11px] font-normal text-neutral-600">{s.date}</span>
+            <span className="text-[11px] font-normal text-neutral-600">{s.measures} items</span>
+            <span className="text-[11px] font-normal text-neutral-600">{s.duration}</span>
           </div>
         ))}
       </div>

@@ -101,15 +101,15 @@ function BurnDownChart({ prog }: { prog: BurndownProgram }) {
     <div className="bg-white border border-neutral-200 rounded-xl p-4">
       <div className="flex items-start justify-between mb-2">
         <div>
-          <div className="text-[12.5px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">
+          <div className="text-[12.5px] font-semibold text-neutral-900">
             {prog.name}
           </div>
-          <div className="text-[10.5px] font-['Lexend:Regular',_sans-serif] text-neutral-500">
+          <div className="text-[10.5px] font-normal text-neutral-500">
             Allocated · {peso(prog.allocated)}
           </div>
         </div>
         <span
-          className={`text-[9.5px] font-['Lexend:Medium',_sans-serif] uppercase border rounded px-1.5 py-0.5 ${prog.tone === "bad" ? "text-red-700 bg-red-50 border-red-200" : prog.tone === "warn" ? "text-amber-700 bg-amber-50 border-amber-200" : "text-emerald-700 bg-emerald-50 border-emerald-200"}`}
+          className={`text-[9.5px] font-medium uppercase border rounded px-1.5 py-0.5 ${prog.tone === "bad" ? "text-red-700 bg-red-50 border-red-200" : prog.tone === "warn" ? "text-amber-700 bg-amber-50 border-amber-200" : "text-emerald-700 bg-emerald-50 border-emerald-200"}`}
         >
           {prog.tone === "bad"
             ? "Accelerated Burn"
@@ -136,7 +136,7 @@ function BurnDownChart({ prog }: { prog: BurndownProgram }) {
               x={PADX - 4}
               y={yFor(prog.allocated * (1 - f)) + 3}
               textAnchor="end"
-              className="text-[8px] font-['Lexend:Regular',_sans-serif]"
+              className="text-[8px] font-normal"
               fill="#a3a3a3"
             >
               {pesoShort(prog.allocated * (1 - f))}
@@ -150,7 +150,7 @@ function BurnDownChart({ prog }: { prog: BurndownProgram }) {
             x={xFor(i)}
             y={H - 4}
             textAnchor="middle"
-            className="text-[8px] font-['Lexend:Regular',_sans-serif]"
+            className="text-[8px] font-normal"
             fill="#a3a3a3"
           >
             {m}
@@ -188,7 +188,7 @@ function BurnDownChart({ prog }: { prog: BurndownProgram }) {
         <text
           x={xFor(prog.currentMonth) + 2}
           y={PADY + 8}
-          className="text-[8px] font-['Lexend:Medium',_sans-serif]"
+          className="text-[8px] font-medium"
           fill="#171717"
         >
           Today
@@ -207,7 +207,7 @@ function BurnDownChart({ prog }: { prog: BurndownProgram }) {
             <text
               x={xFor(depletionMonthIdx) + 2}
               y={PADY + 18}
-              className="text-[8px] font-['Lexend:Medium',_sans-serif]"
+              className="text-[8px] font-medium"
               fill="#dc2626"
             >
               Depleted · {months[depletionMonthIdx]}
@@ -219,12 +219,12 @@ function BurnDownChart({ prog }: { prog: BurndownProgram }) {
       {prog.tone === "bad" && (
         <div className="mt-2 bg-red-50 border border-red-200 rounded-lg p-2.5 flex items-start gap-2">
           <AlertOctagon size={12} className="text-red-700 mt-0.5" />
-          <div className="text-[10.5px] font-['Lexend:Regular',_sans-serif] text-red-900 leading-relaxed">
-            <span className="font-['Lexend:Medium',_sans-serif]">
+          <div className="text-[10.5px] font-normal text-red-900 leading-relaxed">
+            <span className="font-medium">
               AI Warning · Accelerated burn rate.
             </span>{" "}
             At current pacing, the {prog.name} budget will be depleted by{" "}
-            <span className="font-['Lexend:Medium',_sans-serif]">
+            <span className="font-medium">
               {months[depletionMonthIdx]}
             </span>
             , 4 months before year-end.
@@ -261,7 +261,7 @@ export function RealTimeSpendTracking({}: {
                 <button
                   key={q}
                   onClick={() => setQuarter(q)}
-                  className={`px-2.5 py-1.5 rounded text-[11px] font-['Lexend:Medium',_sans-serif] ${quarter === q ? "bg-neutral-900 text-white" : "text-neutral-600 hover:bg-neutral-50"}`}
+                  className={`px-2.5 py-1.5 rounded text-[11px] font-medium ${quarter === q ? "bg-neutral-900 text-white" : "text-neutral-600 hover:bg-neutral-50"}`}
                 >
                   {q}
                 </button>
@@ -311,8 +311,8 @@ export function RealTimeSpendTracking({}: {
 
       <div className="mt-4 bg-neutral-50 border border-neutral-200 rounded-xl p-4 flex items-start gap-3">
         <Info size={14} className="text-neutral-600 mt-0.5 shrink-0" />
-        <div className="text-[11.5px] font-['Lexend:Regular',_sans-serif] text-neutral-700 leading-relaxed">
-          <span className="font-['Lexend:Medium',_sans-serif] text-neutral-900">
+        <div className="text-[11.5px] font-normal text-neutral-700 leading-relaxed">
+          <span className="font-medium text-neutral-900">
             Reading the chart:
           </span>{" "}
           the dashed gray line is the ideal burn (straight diagonal from full

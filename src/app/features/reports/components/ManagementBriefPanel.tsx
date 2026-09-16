@@ -1,7 +1,9 @@
 import { useState } from "react";
-import { Bot, RefreshCw, Sparkles, X } from "lucide-react";
+import { AttentionBox, Heading, IconButton, Loader, Text } from "@vibe/core";
+import { Close, Retry, Robot } from "@vibe/icons";
 import type { AiQueueUpdate } from "../../ai";
 import { WButton } from "../../../components/workflow/primitives";
+import { InspectorPanel } from "../../../shared/motion";
 import { generateManagementBrief } from "../services/managementBriefService";
 import type { DepartmentReportRow } from "../types";
 
@@ -27,36 +29,33 @@ export function ManagementBriefPanel({ title, rows }: { title: string; rows: Dep
   };
 
   if (!open) {
-    return <WButton icon={<Sparkles size={13} />} onClick={generate} disabled={rows.length === 0}>AI management brief</WButton>;
+    return <WButton icon={<Robot size={14} />} onClick={generate} disabled={rows.length === 0}>AI management brief</WButton>;
   }
 
   return (
-    <div className="fixed inset-0 z-[90] bg-black/25 backdrop-blur-[1px] flex justify-end" onMouseDown={(event) => event.target === event.currentTarget && setOpen(false)}>
-      <aside className="w-full max-w-[480px] h-full bg-white shadow-2xl border-l border-neutral-200 flex flex-col animate-in slide-in-from-right duration-300">
+    <InspectorPanel open={open} onClose={() => setOpen(false)} ariaLabel="AI management brief" className="h-full w-full max-w-[480px]">
         <div className="px-5 py-4 border-b border-neutral-200 flex items-start justify-between">
           <div>
-            <div className="flex items-center gap-2 text-[13px] font-['Lexend:Medium',_sans-serif] text-neutral-900"><Bot size={15} /> AI management brief</div>
-            <p className="text-[10.5px] text-neutral-500 mt-1">Uses only the currently filtered, permission-scoped report rows. It never changes work records.</p>
+            <Heading className="flex items-center gap-2 text-neutral-900" type="h2" weight="medium"><Robot size={16} /> AI management brief</Heading>
+            <Text className="mt-1 text-neutral-500" type="text3">Uses only the currently filtered, permission-scoped report rows. It never changes work records.</Text>
           </div>
-          <button onClick={() => setOpen(false)} className="p-1.5 rounded-lg hover:bg-neutral-100 text-neutral-500"><X size={16} /></button>
+          <IconButton aria-label="Close management brief" icon={Close} kind="tertiary" size="small" onClick={() => setOpen(false)} />
         </div>
         <div className="flex-1 overflow-y-auto p-5">
           {loading ? (
-            <div className="rounded-xl border border-blue-100 bg-blue-50 p-4">
-              <div className="flex items-center gap-2 text-[12px] text-blue-800"><RefreshCw size={14} className="animate-spin" /> Preparing the brief…</div>
-              {queue && <div className="text-[10.5px] text-blue-600 mt-2">{queue.status === "queued" ? `${queue.jobsAhead} AI job(s) ahead of this report.` : "DeepSeek is analyzing the visible report now."}</div>}
+            <div className="flex flex-col gap-3 rounded-xl border border-blue-100 bg-blue-50 p-4" role="status">
+              <div className="flex items-center gap-2 text-[12px] text-blue-800"><Loader size="small" /> Preparing the brief…</div>
+              {queue && <Text type="text3" className="text-blue-700">{queue.status === "queued" ? `${queue.jobsAhead} AI job(s) ahead of this report.` : "DeepSeek is analyzing the visible report now."}</Text>}
             </div>
           ) : error ? (
-            <div className="rounded-xl border border-red-200 bg-red-50 p-4 text-[11.5px] text-red-700">{error}</div>
+            <AttentionBox title="Brief unavailable" text={error} type="negative" />
           ) : (
             <div className="whitespace-pre-wrap text-[12px] leading-6 text-neutral-700">{brief}</div>
           )}
         </div>
         <div className="p-4 border-t border-neutral-200 flex justify-end">
-          <WButton icon={<RefreshCw size={13} />} onClick={generate} disabled={loading}>Regenerate from visible rows</WButton>
+          <WButton icon={<Retry size={14} />} onClick={generate} disabled={loading}>Regenerate from visible rows</WButton>
         </div>
-      </aside>
-    </div>
+    </InspectorPanel>
   );
 }
-

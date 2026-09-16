@@ -1,74 +1,64 @@
 import React from "react";
+import { Button, Heading, Label, Text } from "@vibe/core";
 
-export const pillMap: Record<string, string> = {
-  "First Reading": "bg-blue-100 text-blue-700",
-  "Committee Level": "bg-violet-100 text-violet-700",
-  "Second Reading": "bg-amber-100 text-amber-700",
-  "Third Reading": "bg-orange-100 text-orange-700",
-  "Mayoral Approval": "bg-cyan-100 text-cyan-700",
-  Favorable: "bg-emerald-100 text-emerald-700",
-  Archived: "bg-neutral-100 text-neutral-600",
-  Pending: "bg-amber-100 text-amber-700",
-  Passed: "bg-emerald-100 text-emerald-700",
-  Vetoed: "bg-red-100 text-red-700",
-  Signed: "bg-emerald-100 text-emerald-700",
-  "Enacted (Lapsed)": "bg-blue-100 text-blue-700",
-  Active: "bg-emerald-100 text-emerald-700",
-  Repealed: "bg-red-100 text-red-700",
-  Amended: "bg-amber-100 text-amber-700",
-  "In Session": "bg-blue-100 text-blue-700",
-  Referred: "bg-violet-100 text-violet-700",
-  "Under Review": "bg-amber-100 text-amber-700",
-  YES: "bg-emerald-100 text-emerald-700",
-  NO: "bg-red-100 text-red-700",
-  ABSTAIN: "bg-neutral-100 text-neutral-600",
+export const pillMap: Record<string, React.ComponentProps<typeof Label>["color"]> = {
+  "First Reading": "bright-blue",
+  "Committee Level": "purple",
+  "Second Reading": "working_orange",
+  "Third Reading": "dark-orange",
+  "Mayoral Approval": "aquamarine",
+  Favorable: "positive",
+  Archived: "dark",
+  Pending: "working_orange",
+  Passed: "positive",
+  Vetoed: "negative",
+  Signed: "positive",
+  "Enacted (Lapsed)": "bright-blue",
+  Active: "positive",
+  Repealed: "negative",
+  Amended: "working_orange",
+  "In Session": "bright-blue",
+  Referred: "purple",
+  "Under Review": "working_orange",
+  YES: "positive",
+  NO: "negative",
+  ABSTAIN: "dark",
 };
 
 export function Pill({ status }: { status: string }) {
   return (
-    <span className={`px-2.5 py-0.5 rounded-full text-[11px] font-['Lexend:Medium',_sans-serif] whitespace-nowrap ${pillMap[status] || "bg-neutral-100 text-neutral-600"}`}>
-      {status}
-    </span>
+    <span aria-label={`Status: ${status}`} role="status"><Label color={pillMap[status] || "dark"} text={status} /></span>
   );
 }
 
 export function PageHeader({ title, subtitle, actions }: { title: string; subtitle?: string; actions: React.ReactNode }) {
   return (
-    <div className="flex items-center justify-between mb-6">
+    <header className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
       <div>
-        <h1 className="text-[22px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">{title}</h1>
-        <p className="text-[13px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mt-0.5">{subtitle || "Sangguniang Panlungsod · Ormoc City"}</p>
+        <Heading className="text-neutral-900" type="h1" weight="medium">{title}</Heading>
+        <Text className="mt-1 text-neutral-500" type="text2">{subtitle || "Sangguniang Panlungsod · Ormoc City"}</Text>
       </div>
       <div className="flex items-center gap-2">{actions}</div>
-    </div>
+    </header>
   );
 }
 
 export function Btn({ icon, label, variant = "secondary" }: { icon: React.ReactNode; label: string; variant?: "primary" | "secondary" | "danger" | "success" }) {
-  const s: Record<string, string> = {
-    primary: "bg-blue-600 text-white hover:bg-blue-700",
-    secondary: "bg-white text-neutral-700 border border-neutral-200 hover:bg-neutral-50",
-    danger: "bg-red-50 text-red-600 border border-red-200 hover:bg-red-100",
-    success: "bg-emerald-50 text-emerald-700 border border-emerald-200 hover:bg-emerald-100",
-  };
-  return (
-    <button className={`flex items-center gap-1.5 px-3 py-2 rounded-lg text-[12px] font-['Lexend:Medium',_sans-serif] cursor-pointer transition-colors ${s[variant]}`}>
-      {icon}{label}
-    </button>
-  );
+  const styles = { primary: { kind: "primary", color: "primary" }, secondary: { kind: "secondary", color: "primary" }, danger: { kind: "secondary", color: "negative" }, success: { kind: "primary", color: "positive" } } as const;
+  return <Button color={styles[variant].color} kind={styles[variant].kind} size="small"><span aria-hidden="true" className="inline-flex">{icon}</span>{label}</Button>;
 }
 
 export function StatCard({ label, value, sub, trend }: { label: string; value: string; sub?: string; trend?: "up" | "down" | "flat" }) {
   return (
-    <div className="bg-white rounded-xl border border-neutral-200 p-4 flex-1 min-w-[155px]">
-      <p className="text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase tracking-wide">{label}</p>
-      <p className="text-[24px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mt-1">{value}</p>
+    <section aria-label={label} className="min-w-[155px] flex-1 rounded-xl border border-neutral-200 bg-white p-4">
+      <Text className="uppercase tracking-[0.08em] text-neutral-500" type="text3" weight="medium">{label}</Text>
+      <p className="eflow-tabular mt-1 text-[24px] font-semibold text-neutral-900">{value}</p>
       {sub && (
-        <p className={`text-[11px] font-['Lexend:Regular',_sans-serif] mt-0.5 ${trend === "up" ? "text-emerald-600" : trend === "down" ? "text-red-600" : "text-neutral-500"}`}>
+        <p className={`mt-1 text-[11px] ${trend === "up" ? "text-emerald-600" : trend === "down" ? "text-red-600" : "text-neutral-500"}`}>
           {trend === "up" ? "↑ " : trend === "down" ? "↓ " : ""}{sub}
         </p>
       )}
-    </div>
+    </section>
   );
 }
 

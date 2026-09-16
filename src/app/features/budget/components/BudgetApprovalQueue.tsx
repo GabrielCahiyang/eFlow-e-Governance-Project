@@ -148,7 +148,7 @@ export function BudgetApprovalQueue({
               <div id={`financial-record-${item.id}`} key={item.id} className={`border-b border-neutral-100 p-4 last:border-0 ${focusRecordId === item.id ? "bg-blue-50 ring-1 ring-inset ring-blue-200" : ""}`}>
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
-                    <div className="text-[11.5px] font-['Lexend:Medium',_sans-serif] text-neutral-900">{request && `FR-${String(request.requestNumber).padStart(5, "0")} · `}{[request ? commitmentById.get(request.commitmentId)?.title : undefined, request?.taskTitle, request?.subtaskTitle].filter(Boolean).join(" → ") || "Cash liquidation"}</div>
+                    <div className="text-[11.5px] font-medium text-neutral-900">{request && `FR-${String(request.requestNumber).padStart(5, "0")} · `}{[request ? commitmentById.get(request.commitmentId)?.title : undefined, request?.taskTitle, request?.subtaskTitle].filter(Boolean).join(" → ") || "Cash liquidation"}</div>
                     <div className="mt-1 text-[10px] text-neutral-500">{request?.requesterName} · spent {peso.format(item.declaredSpent)} · return {peso.format(item.returnedAmount)}</div>
                     <div className="mt-1 text-[10px] text-neutral-600">{item.note}</div>
                   </div>
@@ -202,7 +202,7 @@ function QueueSection({ icon, title, count, children }: { icon: ReactNode; title
     <section className="overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm">
       <header className="flex items-center gap-2 border-b border-neutral-100 px-4 py-3">
         <span className="text-neutral-500">{icon}</span>
-        <h3 className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">{title}</h3>
+        <h3 className="text-[12px] font-semibold text-neutral-900">{title}</h3>
         <span className="ml-auto rounded-full bg-amber-50 px-2 py-1 text-[9px] text-amber-700">{count}</span>
       </header>
       {children}
@@ -215,7 +215,7 @@ function QueueRow({ recordId, title, meta, status, actions, details, focused = f
     <div id={`financial-record-${recordId}`} className={`flex flex-wrap items-center gap-3 border-b border-neutral-100 p-4 last:border-0 ${focused ? "bg-blue-50 ring-1 ring-inset ring-blue-200" : ""}`}>
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2">
-          <div className="truncate text-[11.5px] font-['Lexend:Medium',_sans-serif] text-neutral-900">{title}</div>
+          <div className="truncate text-[11.5px] font-medium text-neutral-900">{title}</div>
           <StatusPill status={status} />
         </div>
         <div className="mt-1 text-[10px] text-neutral-500">{meta}</div>
@@ -241,7 +241,7 @@ function RejectionDialog({ title, busy, onClose, onConfirm }: { title: string; b
     <>
       <div className="fixed inset-0 z-[80] bg-neutral-950/35 backdrop-blur-[1px]" onClick={onClose} />
       <div className="fixed left-1/2 top-1/2 z-[81] w-[calc(100%-2rem)] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-neutral-200 bg-white p-5 shadow-2xl">
-        <h3 className="text-[14px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">{title}</h3>
+        <h3 className="text-[14px] font-semibold text-neutral-900">{title}</h3>
         <p className="mt-1 text-[10.5px] text-neutral-500">Record a clear reason so the requester knows exactly what to correct.</p>
         <textarea autoFocus rows={4} value={reason} onChange={(event) => setReason(event.target.value)} placeholder="Reason or required correction" className="mt-4 w-full rounded-xl border border-neutral-200 px-3 py-2 text-[10.5px]" />
         <div className="mt-4 flex justify-end gap-2">

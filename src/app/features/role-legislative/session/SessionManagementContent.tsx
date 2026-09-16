@@ -45,7 +45,7 @@ function OrderOfBusiness() {
             {isPreSession && (
               <button
                 onClick={handleStartSession}
-                className="flex items-center gap-2 px-4 py-2 rounded-lg text-[12px] font-['Lexend:SemiBold',_sans-serif] cursor-pointer transition-all bg-emerald-600 text-white hover:bg-emerald-700 shadow-md shadow-emerald-200"
+                className="flex items-center gap-2 px-4 py-2 rounded-lg text-[12px] font-semibold cursor-pointer transition-all bg-emerald-600 text-white hover:bg-emerald-700 shadow-md shadow-emerald-200"
               >
                 <Play size={14} /> Start Live Session
               </button>
@@ -55,20 +55,20 @@ function OrderOfBusiness() {
                 {/* Suspend / Recess — safe, non-destructive */}
                 <button
                   onClick={handleSuspend}
-                  className="flex items-center gap-2 px-3.5 py-2 rounded-lg text-[12px] font-['Lexend:SemiBold',_sans-serif] cursor-pointer transition-all bg-amber-500 text-white hover:bg-amber-600 shadow-md shadow-amber-200"
+                  className="flex items-center gap-2 px-3.5 py-2 rounded-lg text-[12px] font-semibold cursor-pointer transition-all bg-amber-500 text-white hover:bg-amber-600 shadow-md shadow-amber-200"
                 >
                   <Pause size={14} /> Suspend / Recess
                 </button>
                 {/* Adjourn — destructive, opens friction modal */}
                 <button
                   onClick={handleAdjournClick}
-                  className="flex items-center gap-2 px-3.5 py-2 rounded-lg text-[12px] font-['Lexend:SemiBold',_sans-serif] cursor-pointer transition-all bg-red-600 text-white hover:bg-red-700 shadow-md shadow-red-200"
+                  className="flex items-center gap-2 px-3.5 py-2 rounded-lg text-[12px] font-semibold cursor-pointer transition-all bg-red-600 text-white hover:bg-red-700 shadow-md shadow-red-200"
                 >
                   <StopFilled size={14} /> Adjourn Session
                 </button>
                 <div className="flex items-center gap-1.5 px-3 py-1.5 bg-red-500 rounded-lg">
                   <div className="w-2 h-2 rounded-full bg-white animate-pulse" />
-                  <span className="text-[11px] font-['Lexend:SemiBold',_sans-serif] text-white">LIVE</span>
+                  <span className="text-[11px] font-semibold text-white">LIVE</span>
                 </div>
               </>
             )}
@@ -76,31 +76,31 @@ function OrderOfBusiness() {
               <>
                 <button
                   onClick={handleResume}
-                  className="flex items-center gap-2 px-4 py-2 rounded-lg text-[12px] font-['Lexend:SemiBold',_sans-serif] cursor-pointer transition-all bg-emerald-600 text-white hover:bg-emerald-700 shadow-md shadow-emerald-200 animate-pulse"
+                  className="flex items-center gap-2 px-4 py-2 rounded-lg text-[12px] font-semibold cursor-pointer transition-all bg-emerald-600 text-white hover:bg-emerald-700 shadow-md shadow-emerald-200 animate-pulse"
                 >
                   <Play size={14} /> Resume Session
                 </button>
                 <button
                   onClick={handleAdjournClick}
-                  className="flex items-center gap-2 px-3.5 py-2 rounded-lg text-[12px] font-['Lexend:SemiBold',_sans-serif] cursor-pointer transition-all bg-red-600 text-white hover:bg-red-700 shadow-md shadow-red-200"
+                  className="flex items-center gap-2 px-3.5 py-2 rounded-lg text-[12px] font-semibold cursor-pointer transition-all bg-red-600 text-white hover:bg-red-700 shadow-md shadow-red-200"
                 >
                   <StopFilled size={14} /> Adjourn Session
                 </button>
                 <div className="flex items-center gap-1.5 px-3 py-1.5 bg-amber-500 rounded-lg">
                   <Pause size={12} className="text-white" />
-                  <span className="text-[11px] font-['Lexend:SemiBold',_sans-serif] text-white">RECESSED</span>
+                  <span className="text-[11px] font-semibold text-white">RECESSED</span>
                 </div>
               </>
             )}
             {(isGrace || isAdjourned) && (
               <div className="flex items-center gap-1.5 px-3 py-1.5 bg-neutral-700 rounded-lg">
-                <span className="text-[11px] font-['Lexend:SemiBold',_sans-serif] text-white">ADJOURNED</span>
+                <span className="text-[11px] font-semibold text-white">ADJOURNED</span>
               </div>
             )}
             {!isAdjourned && !isGrace && (
               <button
                 onClick={() => setDrawerOpen(true)}
-                className="flex items-center gap-1.5 px-3 py-2 bg-blue-600 text-white rounded-lg text-[12px] font-['Lexend:SemiBold',_sans-serif] cursor-pointer hover:bg-blue-700 transition-colors"
+                className="flex items-center gap-1.5 px-3 py-2 bg-blue-600 text-white rounded-lg text-[12px] font-semibold cursor-pointer hover:bg-blue-700 transition-colors"
               >
                 <Add size={14} /> Add Agenda Item
               </button>
@@ -123,8 +123,8 @@ function OrderOfBusiness() {
           <div className="bg-neutral-100 border border-neutral-300 rounded-xl px-4 py-3 mb-5 flex items-center gap-3">
             <Locked size={16} className="text-neutral-600" />
             <div>
-              <span className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-neutral-800">SESSION ADJOURNED — Record Sealed</span>
-              <p className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-600 mt-0.5">
+              <span className="text-[12px] font-semibold text-neutral-800">SESSION ADJOURNED — Record Sealed</span>
+              <p className="text-[10px] font-normal text-neutral-600 mt-0.5">
                 The 142nd Regular Session has been officially adjourned. The undo grace period has expired. Session data is now immutable.
               </p>
             </div>
@@ -137,13 +137,13 @@ function OrderOfBusiness() {
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-2">
                 <Pause size={16} className="text-amber-600" />
-                <span className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-amber-800">SESSION SUSPENDED — Recess in Progress</span>
+                <span className="text-[13px] font-semibold text-amber-800">SESSION SUSPENDED — Recess in Progress</span>
               </div>
               <div className="ml-auto flex items-center gap-2">
-                <span className="text-[11px] font-['Lexend:Regular',_sans-serif] text-amber-700">All items preserved · Click <strong>[Resume]</strong> to continue</span>
+                <span className="text-[11px] font-normal text-amber-700">All items preserved · Click <strong>[Resume]</strong> to continue</span>
               </div>
             </div>
-            <p className="text-[10px] font-['Lexend:Regular',_sans-serif] text-amber-700 mt-1.5">
+            <p className="text-[10px] font-normal text-amber-700 mt-1.5">
               The agenda board is locked during recess. No items have been moved or deferred. The session timer is paused.
             </p>
           </div>
@@ -155,21 +155,21 @@ function OrderOfBusiness() {
             <div className="flex items-center gap-3">
               <div className="flex items-center gap-2">
                 <div className="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse" />
-                <span className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-emerald-300">SYNCED</span>
+                <span className="text-[12px] font-semibold text-emerald-300">SYNCED</span>
               </div>
               <div className="h-4 w-px bg-slate-600" />
-              <span className="text-[11px] font-['Lexend:Regular',_sans-serif] text-slate-300">
+              <span className="text-[11px] font-normal text-slate-300">
                 13 devices connected — Mayor · Vice Mayor · 12 Councilors · SP Secretary
               </span>
               <div className="ml-auto flex items-center gap-3">
-                <span className="text-[11px] font-['Lexend:Regular',_sans-serif] text-slate-400">Session Duration: <strong className="text-white">1h 42m</strong></span>
-                <span className="text-[11px] font-['Lexend:Regular',_sans-serif] text-slate-400">Progress: <strong className="text-white">{doneCount}/{totalCount}</strong></span>
+                <span className="text-[11px] font-normal text-slate-400">Session Duration: <strong className="text-white">1h 42m</strong></span>
+                <span className="text-[11px] font-normal text-slate-400">Progress: <strong className="text-white">{doneCount}/{totalCount}</strong></span>
               </div>
             </div>
             {currentItem && (
               <div className="mt-2 pt-2 border-t border-slate-700 flex items-center gap-2">
-                <span className="text-[10px] font-['Lexend:Medium',_sans-serif] text-emerald-400 uppercase tracking-wide">Now Broadcasting →</span>
-                <span className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-white">{currentItem.title}</span>
+                <span className="text-[10px] font-medium text-emerald-400 uppercase tracking-wide">Now Broadcasting →</span>
+                <span className="text-[12px] font-semibold text-white">{currentItem.title}</span>
                 <span className="font-['JetBrains_Mono',_'Fira_Code',_monospace] text-[11px] text-emerald-300 ml-2 tabular-nums">⏱ {currentItem ? formatTime(currentItem.id) : "00:00"}</span>
               </div>
             )}
@@ -181,8 +181,8 @@ function OrderOfBusiness() {
           <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 mb-5 flex items-center gap-3">
             <Edit size={16} className="text-amber-600" />
             <div>
-              <span className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-amber-800">PRE-SESSION MODE · Agenda Builder Active</span>
-              <p className="text-[10px] font-['Lexend:Regular',_sans-serif] text-amber-700 mt-0.5">
+              <span className="text-[12px] font-semibold text-amber-800">PRE-SESSION MODE · Agenda Builder Active</span>
+              <p className="text-[10px] font-normal text-amber-700 mt-0.5">
                 Drag items to reorder (⋮⋮) · Double-click any title to edit inline · Add items via the <strong>[+ Add Agenda Item]</strong> drawer. Click <strong>[Start Live Session]</strong> to lock the agenda and arm broadcast buttons.
               </p>
             </div>
@@ -205,17 +205,17 @@ function OrderOfBusiness() {
             return (
               <div key={group} className="bg-white rounded-xl border border-neutral-200 overflow-hidden">
                 <div className="px-5 py-3 flex items-center gap-3 border-b border-neutral-100" style={{ borderLeft: `4px solid ${groupColors[group]}` }}>
-                  <span className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">{group}</span>
-                  <span className="text-[10px] font-['Lexend:Medium',_sans-serif] bg-neutral-100 text-neutral-600 rounded-full px-2 py-0.5">{groupItems.length}</span>
+                  <span className="text-[13px] font-semibold text-neutral-900">{group}</span>
+                  <span className="text-[10px] font-medium bg-neutral-100 text-neutral-600 rounded-full px-2 py-0.5">{groupItems.length}</span>
                   {allDone && (
                     <div className="flex items-center gap-1 ml-auto">
                       <CheckmarkOutline size={14} className="text-emerald-500" />
-                      <span className="text-[10px] font-['Lexend:Medium',_sans-serif] text-emerald-600">Complete</span>
+                      <span className="text-[10px] font-medium text-emerald-600">Complete</span>
                     </div>
                   )}
                   {!allDone && (isLive || isSuspended) && (
                     <div className="flex items-center gap-2 ml-auto">
-                      <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-400">
+                      <span className="text-[10px] font-normal text-neutral-400">
                         {groupItems.filter(i => i.status === "done").length}/{groupItems.length} concluded
                         {groupItems.some(i => i.status === "paused") && <span className="text-yellow-600 ml-1">· {groupItems.filter(i => i.status === "paused").length} paused</span>}
                       </span>
@@ -223,7 +223,7 @@ function OrderOfBusiness() {
                       {isLive && groupItems.filter(i => i.status !== "done" && i.status !== "deferred").length >= 2 && (
                         <button
                           onClick={() => setBatchConcludeGroup(group)}
-                          className="flex items-center gap-1 px-2 py-1 rounded-md text-[9px] font-['Lexend:SemiBold',_sans-serif] text-emerald-700 bg-emerald-50 border border-emerald-200 cursor-pointer hover:bg-emerald-100 transition-colors"
+                          className="flex items-center gap-1 px-2 py-1 rounded-md text-[9px] font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 cursor-pointer hover:bg-emerald-100 transition-colors"
                         >
                           <ListChecked size={12} /> Batch Conclude
                         </button>
@@ -273,8 +273,8 @@ function OrderOfBusiness() {
           <div className="flex items-start gap-3">
             <Renew size={16} className="text-blue-600 mt-0.5 shrink-0" />
             <div>
-              <span className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-blue-800">BPA Engine — Decoupled Broadcast + Triple Fail-Safe</span>
-              <p className="text-[11px] font-['Lexend:Regular',_sans-serif] text-blue-700 mt-0.5">
+              <span className="text-[12px] font-semibold text-blue-800">BPA Engine — Decoupled Broadcast + Triple Fail-Safe</span>
+              <p className="text-[11px] font-normal text-blue-700 mt-0.5">
                 <strong>📡 Broadcast</strong> is a projector switch only — it never finalizes items. Use <strong>[✓ Conclude Item]</strong> to legally close an item.{" "}
                 Switching broadcast shows an <strong>interruption warning</strong> and pauses the current item.{" "}
                 <strong>⏸ Suspend/Recess</strong> freezes the board.{" "}

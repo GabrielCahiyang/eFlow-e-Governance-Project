@@ -56,9 +56,9 @@ export function SemanticSearch() {
         <div className="max-w-2xl mx-auto">
           <div className="flex items-center gap-2 mb-2">
             <Analytics size={20} className="text-blue-600" />
-            <span className="text-[14px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">Ask the Legal Assistant</span>
+            <span className="text-[14px] font-semibold text-neutral-900">Ask the Legal Assistant</span>
           </div>
-          <p className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mb-4">
+          <p className="text-[11px] font-normal text-neutral-500 mb-4">
             Ask questions in plain language. The NLP engine understands context, synonyms, and legal cross-references.
           </p>
           <div className="flex items-center gap-2">
@@ -69,12 +69,12 @@ export function SemanticSearch() {
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 placeholder="Ask a question about city ordinances…"
-                className="flex-1 bg-transparent outline-none text-[13px] font-['Lexend:Regular',_sans-serif] text-neutral-800 placeholder:text-neutral-400"
+                className="flex-1 bg-transparent outline-none text-[13px] font-normal text-neutral-800 placeholder:text-neutral-400"
               />
             </div>
             <button
               onClick={() => setHasSearched(true)}
-              className="px-5 py-3 bg-blue-600 text-white rounded-xl text-[12px] font-['Lexend:SemiBold',_sans-serif] cursor-pointer hover:bg-blue-700 transition-colors"
+              className="px-5 py-3 bg-blue-600 text-white rounded-xl text-[12px] font-semibold cursor-pointer hover:bg-blue-700 transition-colors"
             >
               Search
             </button>
@@ -86,7 +86,7 @@ export function SemanticSearch() {
       {hasSearched && (
         <div className="space-y-4">
           <div className="flex items-center gap-2 mb-2">
-            <span className="text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-500">{sampleResults.length} results found in 0.4 seconds</span>
+            <span className="text-[12px] font-normal text-neutral-500">{sampleResults.length} results found in 0.4 seconds</span>
           </div>
 
           {sampleResults.map(r => (
@@ -94,19 +94,19 @@ export function SemanticSearch() {
               <div className="flex items-center justify-between mb-2">
                 <div className="flex items-center gap-2">
                   <span className="font-['JetBrains_Mono',_'Fira_Code',_monospace] text-[11px] text-blue-600">{r.ordinance}</span>
-                  <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-400">·</span>
-                  <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500">{r.section}</span>
+                  <span className="text-[10px] font-normal text-neutral-400">·</span>
+                  <span className="text-[10px] font-normal text-neutral-500">{r.section}</span>
                 </div>
                 <div className="flex items-center gap-1.5">
                   <div className="w-16 h-2 bg-neutral-100 rounded-full overflow-hidden">
                     <div className="h-full rounded-full bg-blue-500" style={{ width: `${r.relevance}%` }} />
                   </div>
-                  <span className="text-[10px] font-['Lexend:Medium',_sans-serif] text-blue-600">{r.relevance}% match</span>
+                  <span className="text-[10px] font-medium text-blue-600">{r.relevance}% match</span>
                 </div>
               </div>
-              <h4 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mb-2">{r.title}</h4>
+              <h4 className="text-[13px] font-semibold text-neutral-900 mb-2">{r.title}</h4>
               <div className="bg-neutral-50 rounded-lg p-3 border border-neutral-100">
-                <p className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-700 leading-relaxed">
+                <p className="text-[11px] font-normal text-neutral-700 leading-relaxed">
                   "…{r.excerpt.split(r.highlight).map((part, i, arr) => (
                     <React.Fragment key={i}>
                       {part}

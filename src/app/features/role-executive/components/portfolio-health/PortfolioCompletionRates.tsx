@@ -27,8 +27,8 @@ export function PortfolioCompletionRates() {
       <div className="grid grid-cols-3 gap-5 mb-5">
         {/* Pillar Sunburst */}
         <div className="bg-white rounded-xl border border-neutral-200 p-5 col-span-1">
-          <h3 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mb-3">Pillar Breakdown</h3>
-          <p className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mb-3">Click a slice to filter projects</p>
+          <h3 className="text-[13px] font-semibold text-neutral-900 mb-3">Pillar Breakdown</h3>
+          <p className="text-[11px] font-normal text-neutral-500 mb-3">Click a slice to filter projects</p>
           <Charts.ResponsiveContainer width="100%" height={220}>
             <Charts.PieChart>
               <Charts.Pie
@@ -52,7 +52,7 @@ export function PortfolioCompletionRates() {
           </Charts.ResponsiveContainer>
           <div className="flex flex-wrap gap-2 mt-2">
             {pillarData.map((p) => (
-              <button key={p.name} onClick={() => setSelectedPillar(selectedPillar === p.name ? null : p.name)} className={`flex items-center gap-1.5 text-[10px] font-['Lexend:Regular',_sans-serif] px-2 py-1 rounded-full cursor-pointer transition-all ${selectedPillar === p.name ? "ring-2 ring-offset-1" : ""}`} style={{ borderColor: p.color }}>
+              <button key={p.name} onClick={() => setSelectedPillar(selectedPillar === p.name ? null : p.name)} className={`flex items-center gap-1.5 text-[10px] font-normal px-2 py-1 rounded-full cursor-pointer transition-all ${selectedPillar === p.name ? "ring-2 ring-offset-1" : ""}`} style={{ borderColor: p.color }}>
                 <div className="w-2 h-2 rounded-full" style={{ backgroundColor: p.color }} />
                 {p.name}
               </button>
@@ -62,7 +62,7 @@ export function PortfolioCompletionRates() {
 
         {/* Completion Trend */}
         <div className="bg-white rounded-xl border border-neutral-200 p-5 col-span-2">
-          <h3 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mb-3">Monthly Completion Trend</h3>
+          <h3 className="text-[13px] font-semibold text-neutral-900 mb-3">Monthly Completion Trend</h3>
           <Charts.ResponsiveContainer width="100%" height={260}>
             <Charts.AreaChart data={[
               { month: "Jan", completion: 32, target: 35 },
@@ -89,7 +89,7 @@ export function PortfolioCompletionRates() {
 
       {/* Battery Boards */}
       <div>
-        <h3 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mb-3">
+        <h3 className="text-[13px] font-semibold text-neutral-900 mb-3">
           Project Battery Boards {selectedPillar && <span className="text-blue-600">· {selectedPillar}</span>}
         </h3>
         <div className="grid grid-cols-2 gap-4">

@@ -85,7 +85,7 @@ export function TimelineView({
       {/* Header */}
       <div className="flex border-b border-neutral-200 sticky top-0 bg-white z-10">
         <div className="w-[220px] shrink-0 px-4 py-2.5 border-r border-neutral-100">
-          <div className="text-[10px] font-['Lexend:SemiBold',_sans-serif] uppercase tracking-[0.12em] text-neutral-400">
+          <div className="text-[10px] font-semibold uppercase tracking-[0.12em] text-neutral-400">
             Task
           </div>
         </div>
@@ -95,7 +95,7 @@ export function TimelineView({
               key={i}
               className="flex-1 px-1 py-2.5 border-r border-neutral-100 last:border-0 text-center"
             >
-              <div className="text-[10px] font-['Lexend:SemiBold',_sans-serif] text-neutral-400">
+              <div className="text-[10px] font-semibold text-neutral-400">
                 {w.toLocaleDateString("en-US", {
                   month: "short",
                   day: "numeric",
@@ -158,12 +158,12 @@ export function TimelineView({
                     {role === "depthead" && onOpenTaskEditor ? (
                       <button
                         onClick={() => onOpenTaskEditor(task)}
-                        className="text-left text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900 truncate hover:text-violet-700 transition"
+                        className="text-left text-[12px] font-medium text-neutral-900 truncate hover:text-violet-700 transition"
                       >
                         {task.title}
                       </button>
                     ) : (
-                      <div className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900 truncate">
+                      <div className="text-[12px] font-medium text-neutral-900 truncate">
                         {task.title}
                       </div>
                     )}
@@ -209,7 +209,7 @@ export function TimelineView({
                 {/* Task bar */}
                 {endOff > 0 && startOff <= totalDays && (
                   <div
-                    className={`absolute top-1/2 -translate-y-1/2 h-5 rounded-full flex items-center px-2 text-[10px] text-white font-['Lexend:Medium',_sans-serif] whitespace-nowrap overflow-hidden shadow-sm transition-all group-hover:shadow-md ${barColor}`}
+                    className={`absolute top-1/2 -translate-y-1/2 h-5 rounded-full flex items-center px-2 text-[10px] text-white font-medium whitespace-nowrap overflow-hidden shadow-sm transition-all group-hover:shadow-md ${barColor}`}
                     style={{
                       left: `${barLeft}%`,
                       width: `${barWidth}%`,
@@ -228,7 +228,7 @@ export function TimelineView({
 
       {undatedTasks.length > 0 && (
         <div className="border-t border-neutral-200 bg-neutral-50/70 px-4 py-3">
-          <div className="text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-700">
+          <div className="text-[11px] font-medium text-neutral-700">
             Relative or unscheduled work ({undatedTasks.length})
           </div>
           <div className="mt-0.5 text-[10px] text-neutral-400">

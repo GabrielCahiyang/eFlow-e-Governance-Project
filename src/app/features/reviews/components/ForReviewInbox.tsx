@@ -7,6 +7,7 @@
 // 4. Subtasks & Budget reviews
 
 import { useEffect, useMemo, useState } from "react";
+import { Dropdown, Search as VibeSearch } from "@vibe/core";
 import {
   Inbox,
   Clock,
@@ -33,8 +34,6 @@ import {
 } from "../../../services/taskDiscussionService";
 import {
   PageHeader,
-  SearchInput,
-  WSelect,
   SectionEmpty,
   LoadingState,
   formatDate,
@@ -58,6 +57,11 @@ import {
   useNotificationNavigationIntent,
   type NotificationNavigationIntent,
 } from "../../notifications";
+
+const reviewSortOptions = [
+  { value: "oldest", label: "Oldest first" },
+  { value: "newest", label: "Newest first" },
+];
 
 function timeAgo(ts: number): string {
   const h = Math.floor((Date.now() - ts) / 3600000);
@@ -253,7 +257,7 @@ export function ForReviewInbox({ scope = "department" }: ForReviewInboxProps) {
   }
 
   return (
-    <div className="p-6 sm:p-8 min-h-full font-['Montserrat',sans-serif]">
+    <div className="eflow-operational-workspace min-h-full p-4 sm:p-8">
       <PageHeader
         eyebrow={
           scope === "leading"
@@ -300,15 +304,16 @@ export function ForReviewInbox({ scope = "department" }: ForReviewInboxProps) {
             <div className="grid grid-cols-1 lg:grid-cols-[minmax(300px,380px)_1fr] gap-4">
               {/* Queue */}
               <div className="bg-white border border-neutral-200/80 rounded-2xl overflow-hidden flex flex-col shadow-xs">
-                <div className="p-3 border-b border-neutral-100 flex items-center gap-2">
-                  <SearchInput value={query} onChange={setQuery} placeholder="Search submissions…" className="flex-1" />
-                  <WSelect
-                    value={sort}
-                    onChange={setSort}
-                    options={[
-                      { value: "oldest", label: "Oldest first" },
-                      { value: "newest", label: "Newest first" },
-                    ]}
+                <div className="flex flex-col gap-2 border-b border-neutral-100 p-3 sm:flex-row sm:items-center">
+                  <VibeSearch value={query} onChange={setQuery} onClear={() => setQuery("")} placeholder="Search submissions…" inputAriaLabel="Search review submissions" showClearIcon size="small" className="flex-1" />
+                  <Dropdown
+                    aria-label="Sort review submissions"
+                    className="w-full sm:w-[160px]"
+                    clearable={false}
+                    value={reviewSortOptions.find((option) => option.value === sort)}
+                    onChange={(option) => setSort(String(option.value))}
+                    options={reviewSortOptions}
+                    size="small"
                   />
                 </div>
                 <div className="divide-y divide-neutral-100 overflow-y-auto max-h-[calc(100vh-260px)]">

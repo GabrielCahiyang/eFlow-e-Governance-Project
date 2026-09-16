@@ -1,9 +1,9 @@
 import type { ReactNode } from 'react';
-import { Check, CircleAlert } from 'lucide-react';
+import { AttentionBox, Heading, Loader, Text } from '@vibe/core';
 
 export type Result = { tone: 'success' | 'error'; text: string } | null;
 
-export const inputClass = 'h-11 rounded-xl border-neutral-200 bg-white px-3.5 text-[13px] text-neutral-900 shadow-sm placeholder:text-neutral-400 focus-visible:border-blue-500 focus-visible:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100';
+export const inputClass = 'h-11 rounded-lg border-neutral-200 bg-white px-3.5 text-[13px] text-neutral-900 placeholder:text-neutral-400 focus-visible:border-blue-500 focus-visible:ring-blue-500/20 dark:border-slate-700 dark:bg-slate-900 dark:text-slate-100';
 
 export function initials(name: string): string {
   return name
@@ -22,27 +22,21 @@ export function formatRole(role: string): string {
 
 export function ResultMessage({ result }: { result: Result }) {
   if (!result) return null;
-  const isSuccess = result.tone === 'success';
-  return (
-    <div className={`mt-3 flex items-start gap-2 rounded-xl border px-3 py-2.5 text-[12px] ${isSuccess ? 'border-emerald-200 bg-emerald-50 text-emerald-800 dark:border-emerald-900/70 dark:bg-emerald-950/30 dark:text-emerald-300' : 'border-red-200 bg-red-50 text-red-800 dark:border-red-900/70 dark:bg-red-950/30 dark:text-red-300'}`}>
-      {isSuccess ? <Check size={15} className="mt-0.5 shrink-0" /> : <CircleAlert size={15} className="mt-0.5 shrink-0" />}
-      <span>{result.text}</span>
-    </div>
-  );
+  return <AttentionBox animate={false} className="mt-3" compact text={result.text} type={result.tone === 'success' ? 'positive' : 'negative'} />;
 }
 
 export function Surface({ children, className = '' }: { children: ReactNode; className?: string }) {
-  return <section className={`rounded-2xl border border-neutral-200 bg-white shadow-[0_1px_2px_rgba(15,23,42,0.04)] dark:border-slate-800 dark:bg-slate-950 ${className}`}>{children}</section>;
+  return <section className={`rounded-xl border border-neutral-200 bg-white dark:border-slate-800 dark:bg-slate-950 ${className}`}>{children}</section>;
 }
 
 export function SectionHeading({ icon, eyebrow, title, description }: { icon: ReactNode; eyebrow: string; title: string; description: string }) {
   return (
     <div className="flex items-start gap-3">
-      <div className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-700 dark:bg-blue-500/10 dark:text-blue-300">{icon}</div>
+      <div aria-hidden="true" className="flex size-10 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-blue-700 dark:bg-blue-500/10 dark:text-blue-300">{icon}</div>
       <div>
-        <p className="text-[10px] font-semibold uppercase tracking-[0.16em] text-blue-600 dark:text-blue-400">{eyebrow}</p>
-        <h2 className="mt-0.5 text-[16px] font-semibold text-neutral-900 dark:text-slate-100">{title}</h2>
-        <p className="mt-1 text-[12px] leading-5 text-neutral-500 dark:text-slate-400">{description}</p>
+        <Text className="uppercase tracking-[0.12em] text-blue-600 dark:text-blue-400" type="text3" weight="medium">{eyebrow}</Text>
+        <Heading className="mt-0.5 text-neutral-900 dark:text-slate-100" type="h2" weight="medium">{title}</Heading>
+        <Text className="mt-1 leading-5 text-neutral-500 dark:text-slate-400" type="text3">{description}</Text>
       </div>
     </div>
   );
@@ -63,9 +57,9 @@ export function IdentityItem({ icon, label, value }: { icon: ReactNode; label: s
 export function SettingsLoading({ label }: { label: string }) {
   return (
     <div className="flex min-h-72 items-center justify-center">
-      <div className="flex items-center gap-3 rounded-xl border border-neutral-200 bg-white px-4 py-3 text-[12px] text-neutral-500 shadow-sm dark:border-slate-800 dark:bg-slate-950 dark:text-slate-400">
-        <span className="size-4 animate-spin rounded-full border-2 border-blue-200 border-t-blue-600" />
-        {label}
+      <div aria-live="polite" className="flex items-center gap-3 rounded-xl border border-neutral-200 bg-white px-4 py-3 text-neutral-500 dark:border-slate-800 dark:bg-slate-950 dark:text-slate-400" role="status">
+        <Loader size="small" />
+        <Text type="text3">{label}</Text>
       </div>
     </div>
   );

@@ -150,14 +150,14 @@ export function TimelineReview() {
       <div className="bg-white border border-neutral-200 rounded-xl p-5 overflow-x-auto">
         <div className="min-w-[900px]">
           <div className="grid grid-cols-[240px_1fr] gap-3 mb-3 pb-2 border-b border-neutral-100">
-            <div className="text-[10px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400">
+            <div className="text-[10px] font-medium uppercase tracking-wider text-neutral-400">
               Activity · Resource
             </div>
             <div className="relative h-5">
               {[0, 7, 14, 21, 28, 35].map((d) => (
                 <div
                   key={d}
-                  className="absolute top-0 text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-400"
+                  className="absolute top-0 text-[10px] font-normal text-neutral-400"
                   style={{ left: `${(d / max) * 100}%` }}
                 >
                   Apr {d + 1}
@@ -179,10 +179,10 @@ export function TimelineReview() {
                   className="grid grid-cols-[240px_1fr] gap-3 items-center"
                 >
                   <div>
-                    <div className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900 truncate">
+                    <div className="text-[12px] font-medium text-neutral-900 truncate">
                       {b.project}
                     </div>
-                    <div className="text-[10.5px] font-['Lexend:Regular',_sans-serif] text-neutral-500 truncate">
+                    <div className="text-[10.5px] font-normal text-neutral-500 truncate">
                       {b.resource}
                     </div>
                   </div>
@@ -198,7 +198,7 @@ export function TimelineReview() {
                       className={`absolute top-1 bottom-1 ${b.color} rounded flex items-center px-2 ${inConflict ? "ring-2 ring-orange-500" : ""}`}
                       style={{ left: `${left}%`, width: `${width}%` }}
                     >
-                      <span className="text-[9.5px] font-['Lexend:Medium',_sans-serif] text-white truncate">
+                      <span className="text-[9.5px] font-medium text-white truncate">
                         {b.end - b.start}d
                       </span>
                     </div>
@@ -210,7 +210,7 @@ export function TimelineReview() {
 
           {/* Conflict overlay band */}
           <div className="mt-5 pt-4 border-t border-neutral-100">
-            <div className="text-[11px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400 mb-2">
+            <div className="text-[11px] font-medium uppercase tracking-wider text-neutral-400 mb-2">
               Detected Resource Conflicts
             </div>
             <div className="space-y-2">
@@ -220,16 +220,16 @@ export function TimelineReview() {
                   className="bg-orange-50 border border-orange-200 rounded-lg p-3 flex items-start gap-2"
                 >
                   <AlertTriangle size={14} className="text-orange-600 mt-0.5" />
-                  <div className="text-[11.5px] font-['Lexend:Regular',_sans-serif] text-orange-900 leading-relaxed">
-                    <span className="font-['Lexend:Medium',_sans-serif]">
+                  <div className="text-[11.5px] font-normal text-orange-900 leading-relaxed">
+                    <span className="font-medium">
                       "{c.a.project}"
                     </span>{" "}
                     and{" "}
-                    <span className="font-['Lexend:Medium',_sans-serif]">
+                    <span className="font-medium">
                       "{c.b.project}"
                     </span>{" "}
                     both require the{" "}
-                    <span className="font-['Lexend:Medium',_sans-serif]">
+                    <span className="font-medium">
                       {c.a.resource}
                     </span>{" "}
                     during{" "}
@@ -241,7 +241,7 @@ export function TimelineReview() {
                 </div>
               ))}
               {conflicts.length === 0 && (
-                <div className="text-[12px] font-['Lexend:Regular',_sans-serif] text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg p-3 flex items-center gap-2">
+                <div className="text-[12px] font-normal text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg p-3 flex items-center gap-2">
                   <CheckCircle2 size={13} /> No resource conflicts detected.
                 </div>
               )}

@@ -113,10 +113,10 @@ export function InterventionMandates() {
             <Flame size={18} className="text-white" />
           </div>
           <div className="flex-1">
-            <div className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">
+            <div className="text-[13px] font-semibold text-neutral-900">
               Active Traffic Jam · Legal Review · Atty. Reyes
             </div>
-            <div className="text-[11.5px] font-['Lexend:Regular',_sans-serif] text-neutral-700 mt-0.5">
+            <div className="text-[11.5px] font-normal text-neutral-700 mt-0.5">
               42 documents queued · 288h average clearance (4× SLA) · HRMO
               burnout flag active. Select an intervention below to instantly
               command the Genetic Algorithm to reroute digital paperwork.
@@ -142,10 +142,10 @@ export function InterventionMandates() {
                     {isApplied ? <CheckCircle2 size={14} /> : m.icon}
                   </div>
                   <div>
-                    <div className="text-[12.5px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">
+                    <div className="text-[12.5px] font-semibold text-neutral-900">
                       {m.label}
                     </div>
-                    <div className="text-[10.5px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mt-0.5 leading-relaxed">
+                    <div className="text-[10.5px] font-normal text-neutral-500 mt-0.5 leading-relaxed">
                       {m.description}
                     </div>
                   </div>
@@ -153,18 +153,18 @@ export function InterventionMandates() {
               </div>
               <div className="grid grid-cols-2 gap-2 mb-3">
                 <div className="bg-neutral-50 border border-neutral-100 rounded-lg p-2.5">
-                  <div className="text-[9px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400">
+                  <div className="text-[9px] font-medium uppercase tracking-wider text-neutral-400">
                     Projected Impact
                   </div>
-                  <div className="text-[11.5px] font-['Lexend:Medium',_sans-serif] text-emerald-700 mt-0.5">
+                  <div className="text-[11.5px] font-medium text-emerald-700 mt-0.5">
                     {m.impact}
                   </div>
                 </div>
                 <div className="bg-neutral-50 border border-neutral-100 rounded-lg p-2.5">
-                  <div className="text-[9px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400">
+                  <div className="text-[9px] font-medium uppercase tracking-wider text-neutral-400">
                     Cost
                   </div>
-                  <div className="text-[11.5px] font-['Lexend:Medium',_sans-serif] text-neutral-900 mt-0.5">
+                  <div className="text-[11.5px] font-medium text-neutral-900 mt-0.5">
                     {m.cost}
                   </div>
                 </div>
@@ -172,7 +172,7 @@ export function InterventionMandates() {
               <button
                 onClick={() => execute(m.id)}
                 disabled={isExec || isApplied}
-                className={`w-full flex items-center justify-center gap-1.5 py-2 rounded-lg text-[12px] font-['Lexend:Medium',_sans-serif] transition ${
+                className={`w-full flex items-center justify-center gap-1.5 py-2 rounded-lg text-[12px] font-medium transition ${
                   isApplied
                     ? "bg-emerald-50 text-emerald-700 border border-emerald-200 cursor-default"
                     : isExec

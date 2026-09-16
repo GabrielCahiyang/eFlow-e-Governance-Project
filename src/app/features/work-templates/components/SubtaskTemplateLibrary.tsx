@@ -97,7 +97,7 @@ export function SubtaskTemplateLibrary({
             <button key={value} onClick={() => setFilter(value)} className={`rounded-lg px-3 py-1.5 text-[10.5px] capitalize ${filter === value ? "bg-white text-neutral-900 shadow-sm" : "text-neutral-500 hover:text-neutral-700"}`}>{value}</button>
           ))}
         </div>
-        <button onClick={() => setEditing("new")} disabled={!orgId} className="inline-flex items-center gap-1.5 rounded-xl bg-neutral-900 px-3.5 py-2 text-[11.5px] font-['Lexend:Medium',_sans-serif] text-white hover:bg-neutral-800 disabled:opacity-40"><Plus size={13} /> New subtask template</button>
+        <button onClick={() => setEditing("new")} disabled={!orgId} className="inline-flex items-center gap-1.5 rounded-xl bg-neutral-900 px-3.5 py-2 text-[11.5px] font-medium text-white hover:bg-neutral-800 disabled:opacity-40"><Plus size={13} /> New subtask template</button>
       </div>
 
       {leadingTasks.length === 0 && !canManageDepartment && (
@@ -129,7 +129,7 @@ export function SubtaskTemplateLibrary({
                   </div>
                   <span className="text-[10px] text-neutral-400">{template.items.length} items</span>
                 </div>
-                <h3 className="mt-3 text-[14px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">{template.title}</h3>
+                <h3 className="mt-3 text-[14px] font-semibold text-neutral-900">{template.title}</h3>
                 {template.description && <p className="mt-1 line-clamp-2 text-[11px] leading-relaxed text-neutral-500">{template.description}</p>}
                 <ol className="mt-3 flex-1 space-y-1.5">
                   {template.items.slice(0, 5).map((item, index) => (

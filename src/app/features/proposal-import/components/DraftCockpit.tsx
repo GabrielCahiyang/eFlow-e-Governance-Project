@@ -112,19 +112,19 @@ export function DraftCockpit({
       <div className="flex items-center justify-between bg-gradient-to-br from-neutral-900 to-neutral-800 rounded-2xl p-4">
         <div>
           {isManual && (
-            <div className="text-[10px] uppercase tracking-[0.2em] text-neutral-400 font-['Lexend:Medium',_sans-serif]">
+            <div className="text-[10px] uppercase tracking-[0.2em] text-neutral-400 font-medium">
               Manual collaboration draft
             </div>
           )}
-          <div className={isManual ? "hidden" : "text-[10px] uppercase tracking-[0.2em] text-neutral-400 font-['Lexend:Medium',_sans-serif]"}>
+          <div className={isManual ? "hidden" : "text-[10px] uppercase tracking-[0.2em] text-neutral-400 font-medium"}>
             AI collaboration draft
           </div>
           {isManual && (
-            <div className="text-[15px] font-['Lexend:SemiBold',_sans-serif] text-white mt-0.5">
+            <div className="text-[15px] font-semibold text-white mt-0.5">
               Build and review · autosaved
             </div>
           )}
-          <div className={isManual ? "hidden" : "text-[15px] font-['Lexend:SemiBold',_sans-serif] text-white mt-0.5"}>
+          <div className={isManual ? "hidden" : "text-[15px] font-semibold text-white mt-0.5"}>
             Review and edit · autosaved
           </div>
           <div className="text-[11px] text-violet-200 mt-1">
@@ -139,13 +139,13 @@ export function DraftCockpit({
             <button
               onClick={onAddProgram}
               disabled={committing}
-              className="flex items-center gap-1.5 px-3 py-2 text-[12px] font-['Lexend:Medium',_sans-serif] text-white border border-white/25 rounded-xl hover:bg-white/10 disabled:opacity-50 transition"
+              className="flex items-center gap-1.5 px-3 py-2 text-[12px] font-medium text-white border border-white/25 rounded-xl hover:bg-white/10 disabled:opacity-50 transition"
             >
               <Plus size={13} /> Add Program
             </button>
           )}
           {commitMessage && (
-            <div className="text-[12px] text-emerald-400 font-['Lexend:Medium',_sans-serif]">
+            <div className="text-[12px] text-emerald-400 font-medium">
               {commitMessage}
             </div>
           )}
@@ -158,7 +158,7 @@ export function DraftCockpit({
             data-testid="manual-plan-done-editing"
             onClick={onCommit}
             disabled={committing || enabledCount === 0}
-            className="flex items-center gap-2 px-5 py-2.5 bg-white text-neutral-900 text-[13px] font-['Lexend:SemiBold',_sans-serif] rounded-xl hover:bg-neutral-100 disabled:opacity-50 disabled:cursor-not-allowed transition shadow-sm"
+            className="flex items-center gap-2 px-5 py-2.5 bg-white text-neutral-900 text-[13px] font-semibold rounded-xl hover:bg-neutral-100 disabled:opacity-50 disabled:cursor-not-allowed transition shadow-sm"
           >
             {committing ? (
               <>
@@ -187,18 +187,18 @@ export function DraftCockpit({
                 aria-label={`Program ${program.pi + 1} title`}
                 value={program.title}
                 onChange={(event) => onRenameProgram(program.pi, event.target.value)}
-                className="min-w-0 flex-1 bg-transparent text-[13px] font-['Lexend:SemiBold',_sans-serif] text-white outline-none placeholder:text-violet-200"
+                className="min-w-0 flex-1 bg-transparent text-[13px] font-semibold text-white outline-none placeholder:text-violet-200"
                 placeholder={`Program ${program.pi + 1}`}
               />
             ) : (
-              <div className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-white">
+              <div className="text-[13px] font-semibold text-white">
                 {program.title}
               </div>
             )}
             {isManual && onAddProject && (
               <button
                 onClick={() => onAddProject(program.pi)}
-                className="flex items-center gap-1 text-[10px] font-['Lexend:Medium',_sans-serif] text-white/85 hover:text-white transition"
+                className="flex items-center gap-1 text-[10px] font-medium text-white/85 hover:text-white transition"
               >
                 <Plus size={11} /> Add Project
               </button>
@@ -219,18 +219,18 @@ export function DraftCockpit({
                       aria-label={`Project ${project.pj + 1} title`}
                       value={project.title}
                       onChange={(event) => onRenameProject(program.pi, project.pj, event.target.value)}
-                      className="min-w-0 flex-1 bg-transparent text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-700 outline-none placeholder:text-neutral-400"
+                      className="min-w-0 flex-1 bg-transparent text-[12px] font-medium text-neutral-700 outline-none placeholder:text-neutral-400"
                       placeholder={`Project ${project.pj + 1}`}
                     />
                   ) : (
-                    <div className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-700">
+                    <div className="text-[12px] font-medium text-neutral-700">
                       {project.title}
                     </div>
                   )}
                   {isManual && onAddActivity && (
                     <button
                       onClick={() => onAddActivity(program.pi, project.pj)}
-                      className="flex items-center gap-1 text-[10px] font-['Lexend:Medium',_sans-serif] text-neutral-500 hover:text-neutral-800 transition"
+                      className="flex items-center gap-1 text-[10px] font-medium text-neutral-500 hover:text-neutral-800 transition"
                     >
                       <Plus size={11} /> Add Activity
                     </button>
@@ -251,7 +251,7 @@ export function DraftCockpit({
                             aria-label={`Activity ${activity.ai + 1} title`}
                             value={activity.title}
                             onChange={(event) => onUpdateActivity(program.pi, project.pj, activity.ai, event.target.value, activity.schedule)}
-                            className="min-w-0 flex-1 bg-transparent text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-600 outline-none placeholder:text-neutral-400"
+                            className="min-w-0 flex-1 bg-transparent text-[11px] font-medium text-neutral-600 outline-none placeholder:text-neutral-400"
                             placeholder={`Activity ${activity.ai + 1}`}
                           />
                           <input
@@ -264,7 +264,7 @@ export function DraftCockpit({
                         </>
                       ) : (
                         <>
-                          <div className="text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-600">
+                          <div className="text-[11px] font-medium text-neutral-600">
                             {activity.title}
                           </div>
                           {activity.schedule && (
@@ -279,7 +279,7 @@ export function DraftCockpit({
                         onClick={() =>
                           onAdd(program.pi, project.pj, activity.ai)
                         }
-                        className="ml-auto flex items-center gap-1 text-[10px] font-['Lexend:Medium',_sans-serif] text-neutral-400 hover:text-neutral-700 transition"
+                        className="ml-auto flex items-center gap-1 text-[10px] font-medium text-neutral-400 hover:text-neutral-700 transition"
                       >
                         <Plus size={11} />
                         Add Task

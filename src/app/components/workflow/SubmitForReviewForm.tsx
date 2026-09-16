@@ -73,14 +73,14 @@ export function SubmitForReviewForm({
         <div className="flex items-start gap-2.5">
           <CircleAlert size={16} className="mt-0.5 shrink-0 text-amber-600" />
           <div>
-            <div className="text-[12px] font-['Lexend:Medium',_sans-serif] text-amber-950">
+            <div className="text-[12px] font-medium text-amber-950">
               Finish subtask review first
             </div>
             <p className="mt-0.5 text-[11px] leading-relaxed text-amber-800">
               {readiness.approvedSubtasks} of {readiness.totalSubtasks} subtasks approved. The parent task can be submitted only after every subtask is approved by its reviewer.
             </p>
             {readiness.awaitingReviewSubtasks > 0 && (
-              <div className="mt-2 inline-flex rounded-full border border-amber-200 bg-white/80 px-2 py-1 text-[10.5px] font-['Lexend:Medium',_sans-serif] text-amber-800">
+              <div className="mt-2 inline-flex rounded-full border border-amber-200 bg-white/80 px-2 py-1 text-[10.5px] font-medium text-amber-800">
                 {readiness.awaitingReviewSubtasks} awaiting Team Leader review
               </div>
             )}
@@ -92,7 +92,7 @@ export function SubmitForReviewForm({
 
   return (
     <div className="rounded-xl border border-blue-200 bg-blue-50/50 p-4">
-      <div className="text-[12px] font-['Lexend:Medium',_sans-serif] text-blue-900">
+      <div className="text-[12px] font-medium text-blue-900">
         Ready for review?
       </div>
       <p className="mt-0.5 text-[11px] text-blue-700">
@@ -134,7 +134,7 @@ export function SubmitForReviewForm({
       )}
 
       <div className="mt-3 flex items-center justify-between gap-3">
-        <label className="inline-flex cursor-pointer items-center gap-1.5 text-[11px] font-['Lexend:Medium',_sans-serif] text-blue-800">
+        <label className="inline-flex cursor-pointer items-center gap-1.5 text-[11px] font-medium text-blue-800">
           <Paperclip size={13} />
           Add evidence
           <input
@@ -150,7 +150,7 @@ export function SubmitForReviewForm({
           type="button"
           onClick={submit}
           disabled={submitting}
-          className="inline-flex items-center gap-1.5 rounded-lg bg-blue-700 px-3 py-2 text-[11.5px] font-['Lexend:Medium',_sans-serif] text-white hover:bg-blue-800 disabled:opacity-50"
+          className="inline-flex items-center gap-1.5 rounded-lg bg-blue-700 px-3 py-2 text-[11.5px] font-medium text-white hover:bg-blue-800 disabled:opacity-50"
         >
           <Send size={13} />
           {submitting ? "Submitting…" : "Submit for review"}

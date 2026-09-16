@@ -38,7 +38,7 @@ export function FirstReading() {
       <div className="bg-white rounded-xl border border-neutral-200 overflow-hidden">
         <div className="grid grid-cols-[100px_1fr_150px_100px_200px] gap-0 px-5 py-3 bg-neutral-50/50 border-b border-neutral-100">
           {["Tracking No.", "Title", "Principal Author", "Date Received", "Referral Action"].map(h => (
-            <span key={h} className="text-[10px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase tracking-wide">{h}</span>
+            <span key={h} className="text-[10px] font-medium text-neutral-500 uppercase tracking-wide">{h}</span>
           ))}
         </div>
 
@@ -46,20 +46,20 @@ export function FirstReading() {
           <div key={m.trackingNo} className="grid grid-cols-[100px_1fr_150px_100px_200px] gap-0 px-5 py-4 border-b border-neutral-50 hover:bg-blue-50/20 transition-colors items-center">
             <span className="font-['JetBrains_Mono',_'Fira_Code',_monospace] text-[11px] text-blue-600">{m.trackingNo}</span>
             <div>
-              <p className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900 leading-tight">{m.title}</p>
+              <p className="text-[12px] font-medium text-neutral-900 leading-tight">{m.title}</p>
               <Pill status={m.type} />
             </div>
             <div className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded-full bg-slate-700 flex items-center justify-center text-[8px] font-['Lexend:SemiBold',_sans-serif] text-white">{m.authorInitials}</div>
-              <span className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-700">{m.author}</span>
+              <div className="w-6 h-6 rounded-full bg-slate-700 flex items-center justify-center text-[8px] font-semibold text-white">{m.authorInitials}</div>
+              <span className="text-[11px] font-normal text-neutral-700">{m.author}</span>
             </div>
-            <span className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-600">{m.dateReceived}</span>
+            <span className="text-[11px] font-normal text-neutral-600">{m.dateReceived}</span>
             {/* Referral dropdown */}
             <div className="relative">
               <select
                 value={referrals[m.trackingNo] || ""}
                 onChange={(e) => setReferrals(prev => ({ ...prev, [m.trackingNo]: e.target.value }))}
-                className={`w-full px-3 py-2 rounded-lg border text-[11px] font-['Lexend:Medium',_sans-serif] cursor-pointer appearance-none bg-white pr-8 ${
+                className={`w-full px-3 py-2 rounded-lg border text-[11px] font-medium cursor-pointer appearance-none bg-white pr-8 ${
                   referrals[m.trackingNo] ? "border-violet-300 bg-violet-50 text-violet-700" : "border-neutral-200 text-neutral-600"
                 }`}
               >
@@ -70,7 +70,7 @@ export function FirstReading() {
               {referrals[m.trackingNo] && (
                 <div className="mt-1.5 flex items-center gap-1">
                   <CheckmarkOutline size={12} className="text-violet-500" />
-                  <span className="text-[9px] font-['Lexend:Regular',_sans-serif] text-violet-600">Referred → moves to Committee Level</span>
+                  <span className="text-[9px] font-normal text-violet-600">Referred → moves to Committee Level</span>
                 </div>
               )}
             </div>

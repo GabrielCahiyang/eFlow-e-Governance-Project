@@ -98,7 +98,7 @@ export function ProjectDashboardTab({
   const todoPercent = Math.round((statusCounts.todo / totalTasks) * 100);
 
   return (
-    <div className="space-y-6 font-['Montserrat',sans-serif]">
+    <div className="space-y-6 font-sans">
       {/* Top Health & Delivery Progress Summary */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {/* Metric 1: Overall Progress */}

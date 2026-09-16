@@ -36,7 +36,7 @@ export function TeamAttentionQueue({
     return (
       <div className="flex min-h-[320px] flex-col items-center justify-center rounded-xl border border-dashed border-emerald-200 bg-emerald-50/40 p-8 text-center">
         <div className="grid h-11 w-11 place-items-center rounded-full bg-emerald-100 text-emerald-600"><CircleAlert size={20} /></div>
-        <h3 className="mt-3 text-[14px] font-['Lexend:SemiBold',_sans-serif] text-emerald-900">No immediate intervention required</h3>
+        <h3 className="mt-3 text-[14px] font-semibold text-emerald-900">No immediate intervention required</h3>
         <p className="mt-1 max-w-sm text-[12px] leading-5 text-emerald-700">The current filters contain no overdue, blocked, stalled, unassigned, or aging review items.</p>
       </div>
     );
@@ -56,10 +56,10 @@ export function TeamAttentionQueue({
               <div className={`mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg border ${tone}`}>{kindIcon[item.kind]}</div>
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className={`rounded-full border px-2 py-0.5 text-[9.5px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wide ${tone}`}>{kindLabel[item.kind]}</span>
+                  <span className={`rounded-full border px-2 py-0.5 text-[9.5px] font-medium uppercase tracking-wide ${tone}`}>{kindLabel[item.kind]}</span>
                   {item.subtaskId && <span className="text-[9.5px] uppercase tracking-wide text-neutral-400">Subtask</span>}
                 </div>
-                <h3 className="mt-1.5 text-[12.5px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">{item.title}</h3>
+                <h3 className="mt-1.5 text-[12.5px] font-semibold text-neutral-900">{item.title}</h3>
                 <p className="mt-0.5 text-[11.5px] leading-5 text-neutral-600">{item.detail}</p>
                 <p className="mt-1 truncate text-[10.5px] text-neutral-400">Parent task: {item.taskTitle}</p>
               </div>
@@ -67,7 +67,7 @@ export function TeamAttentionQueue({
                 {item.employeeIds[0] && (
                   <button type="button" onClick={() => onSelectEmployee(item.employeeIds[0])} className="rounded-lg border border-neutral-200 px-2.5 py-1.5 text-[10.5px] text-neutral-600 transition hover:bg-neutral-50">Person</button>
                 )}
-                <button type="button" onClick={() => onOpenTask(item.taskId)} className="inline-flex items-center gap-1 rounded-lg bg-neutral-900 px-2.5 py-1.5 text-[10.5px] font-['Lexend:Medium',_sans-serif] text-white transition hover:bg-neutral-800">Open <ExternalLink size={11} /></button>
+                <button type="button" onClick={() => onOpenTask(item.taskId)} className="inline-flex items-center gap-1 rounded-lg bg-neutral-900 px-2.5 py-1.5 text-[10.5px] font-medium text-white transition hover:bg-neutral-800">Open <ExternalLink size={11} /></button>
               </div>
             </div>
           </article>

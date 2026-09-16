@@ -19,7 +19,7 @@ export function DeptHeadTaskBoardView(
   const activeTasks = props.tasks.filter((task) => !task.archivedAt);
   const openCount = activeTasks.filter((task) => !["completed", "cancelled"].includes(task.status)).length;
   return (
-    <div className="min-h-full bg-neutral-50 p-6 sm:p-8">
+    <div className="eflow-operational-workspace min-h-full bg-neutral-50 p-4 sm:p-8">
       <PageHeader
         eyebrow={`${getHeadWorkspaceLabel(userProfile?.role)} · Tasks`}
         title="Task Board"

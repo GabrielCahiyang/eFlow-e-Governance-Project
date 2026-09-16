@@ -64,7 +64,7 @@ export function EquitableDistribution() {
           <>
             <button
               onClick={() => setAutoRebalance((v) => !v)}
-              className={`flex items-center gap-2 px-3 py-2 rounded-lg text-[12px] font-['Lexend:Medium',_sans-serif] cursor-pointer transition-colors border ${
+              className={`flex items-center gap-2 px-3 py-2 rounded-lg text-[12px] font-medium cursor-pointer transition-colors border ${
                 autoRebalance ? "bg-emerald-50 text-emerald-700 border-emerald-200" : "bg-white text-neutral-700 border-neutral-200"
               }`}
             >
@@ -87,12 +87,12 @@ export function EquitableDistribution() {
       <div className="bg-white border border-neutral-200 rounded-xl p-5">
         <div className="flex items-center justify-between mb-4">
           <div>
-            <div className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-700">The Fairness Graph</div>
-            <div className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500">
+            <div className="text-[12px] font-medium text-neutral-700">The Fairness Graph</div>
+            <div className="text-[11px] font-normal text-neutral-500">
               Ideal state is a tight cluster. Outliers are the story.
             </div>
           </div>
-          <div className="flex items-center gap-3 text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500">
+          <div className="flex items-center gap-3 text-[10px] font-normal text-neutral-500">
             <span className="flex items-center gap-1">
               <span className="w-2 h-2 rounded-full bg-emerald-500" /> tight cluster
             </span>
@@ -116,17 +116,17 @@ export function EquitableDistribution() {
             ))}
             {/* Ideal zone */}
             <rect x={40 + 0.3 * 540} y={20 + (1 - 0.6) * 300} width={0.4 * 540} height={0.35 * 300} fill="#10b981" opacity="0.05" stroke="#10b981" strokeDasharray="3 3" strokeOpacity="0.3" />
-            <text x={40 + 0.5 * 540} y={20 + (1 - 0.6) * 300 - 6} textAnchor="middle" fontSize="9" fill="#10b981" fontFamily="Lexend">
+            <text x={40 + 0.5 * 540} y={20 + (1 - 0.6) * 300 - 6} textAnchor="middle" fontSize="9" fill="#10b981" fontFamily="Figtree">
               equitable cluster
             </text>
 
             {/* Axes */}
             <line x1="40" y1="320" x2="580" y2="320" stroke="#a3a3a3" strokeWidth="1" />
             <line x1="40" y1="20" x2="40" y2="320" stroke="#a3a3a3" strokeWidth="1" />
-            <text x="310" y="350" textAnchor="middle" fontSize="10" fill="#525252" fontFamily="Lexend">
+            <text x="310" y="350" textAnchor="middle" fontSize="10" fill="#525252" fontFamily="Figtree">
               Task Complexity (BPA-weighted) →
             </text>
-            <text x="14" y="170" textAnchor="middle" fontSize="10" fill="#525252" fontFamily="Lexend" transform="rotate(-90 14 170)">
+            <text x="14" y="170" textAnchor="middle" fontSize="10" fill="#525252" fontFamily="Figtree" transform="rotate(-90 14 170)">
               Active Task Count →
             </text>
 
@@ -161,8 +161,8 @@ export function EquitableDistribution() {
           </svg>
 
           {hover && (
-            <div className="absolute top-4 right-4 bg-neutral-900 text-white rounded-lg px-3 py-2 text-[11px] font-['Lexend:Regular',_sans-serif] shadow-xl pointer-events-none">
-              <div className="font-['Lexend:Medium',_sans-serif]">{hover.name}</div>
+            <div className="absolute top-4 right-4 bg-neutral-900 text-white rounded-lg px-3 py-2 text-[11px] font-normal shadow-xl pointer-events-none">
+              <div className="font-medium">{hover.name}</div>
               <div className="text-neutral-300">
                 {hover.dept} · {Math.round(hover.y * 0.4)} tasks · complexity {Math.round(hover.x)}
               </div>
@@ -174,9 +174,9 @@ export function EquitableDistribution() {
         <div className="mt-4 p-3 bg-red-50 border border-red-200 rounded-lg flex items-start gap-2">
           <AlertTriangle size={14} className="text-red-600 mt-0.5" />
           <div className="flex-1">
-            <div className="text-[12px] font-['Lexend:Medium',_sans-serif] text-red-700">Inequity detected</div>
-            <div className="text-[12px] font-['Lexend:Regular',_sans-serif] text-red-600">
-              2 employees in the top-right outlier zone are carrying 40+ complex tasks. 312 employees in the bottom-left are underutilized. Head to <span className="font-['Lexend:Medium',_sans-serif]">GA Allocation Review</span> to rebalance.
+            <div className="text-[12px] font-medium text-red-700">Inequity detected</div>
+            <div className="text-[12px] font-normal text-red-600">
+              2 employees in the top-right outlier zone are carrying 40+ complex tasks. 312 employees in the bottom-left are underutilized. Head to <span className="font-medium">GA Allocation Review</span> to rebalance.
             </div>
           </div>
         </div>

@@ -45,7 +45,7 @@ export function CryptographicVerification() {
       <div className="grid grid-cols-[320px_1fr] gap-4">
         {/* Ready queue */}
         <div className="bg-white border border-neutral-200 rounded-xl overflow-hidden h-fit">
-          <div className="px-4 py-3 border-b border-neutral-200 text-[11px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wider text-neutral-400">
+          <div className="px-4 py-3 border-b border-neutral-200 text-[11px] font-medium uppercase tracking-wider text-neutral-400">
             Ready to Seal ({SEAL_READY.length})
           </div>
           {SEAL_READY.map((s) => {
@@ -61,7 +61,7 @@ export function CryptographicVerification() {
                   <span className={`font-mono text-[10px] ${active ? "text-neutral-400" : "text-neutral-400"}`}>{s.id}</span>
                   {isSealed && <Lock size={10} className="text-emerald-600 ml-auto" />}
                 </div>
-                <div className={`text-[12px] font-['Lexend:Medium',_sans-serif] ${active ? "text-white" : "text-neutral-900"}`}>{s.employee}</div>
+                <div className={`text-[12px] font-medium ${active ? "text-white" : "text-neutral-900"}`}>{s.employee}</div>
                 <div className={`text-[10px] ${active ? "text-neutral-300" : "text-neutral-500"}`}>{s.dept}</div>
                 <div className={`text-[11px] mt-1 ${active ? "text-emerald-400" : "text-emerald-600"}`}>✓ Equation balanced</div>
               </button>
@@ -73,9 +73,9 @@ export function CryptographicVerification() {
         <div className="bg-gradient-to-br from-neutral-900 via-neutral-900 to-neutral-800 text-white rounded-xl overflow-hidden">
           <div className="px-5 py-4 border-b border-neutral-800 flex items-center gap-2">
             <Fingerprint size={14} className="text-emerald-400" />
-            <span className="text-[13px] font-['Lexend:SemiBold',_sans-serif]">Liquidation Package · {selected.id}</span>
+            <span className="text-[13px] font-semibold">Liquidation Package · {selected.id}</span>
             {sealed?.id === selected.id && (
-              <span className="ml-auto inline-flex items-center gap-1 text-[10px] text-emerald-400 font-['Lexend:Medium',_sans-serif]">
+              <span className="ml-auto inline-flex items-center gap-1 text-[10px] text-emerald-400 font-medium">
                 <CheckCircle2 size={10} /> Sealed
               </span>
             )}
@@ -116,7 +116,7 @@ export function CryptographicVerification() {
             </div>
 
             {sealed?.id === selected.id && (
-              <div className="flex items-center justify-between text-[11px] font-['Lexend:Regular',_sans-serif] mb-4">
+              <div className="flex items-center justify-between text-[11px] font-normal mb-4">
                 <span className="text-neutral-400">Block height</span>
                 <span className="font-mono text-white">#{sealed.block.toLocaleString()}</span>
               </div>
@@ -127,7 +127,7 @@ export function CryptographicVerification() {
               <button
                 onClick={doSeal}
                 disabled={sealing || sealed?.id === selected.id}
-                className="flex-1 py-2 bg-emerald-500 text-white rounded-lg text-[12px] font-['Lexend:Medium',_sans-serif] hover:bg-emerald-400 cursor-pointer disabled:opacity-50 flex items-center justify-center gap-1.5"
+                className="flex-1 py-2 bg-emerald-500 text-white rounded-lg text-[12px] font-medium hover:bg-emerald-400 cursor-pointer disabled:opacity-50 flex items-center justify-center gap-1.5"
               >
                 <Shield size={13} />
                 {sealed?.id === selected.id ? "Sealed & Forwarded ✓" : sealing ? "Sealing..." : "Seal Liquidation → Immutable Audit"}

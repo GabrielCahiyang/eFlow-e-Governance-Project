@@ -47,7 +47,7 @@ export function SubtaskTemplateEditor({
         <div className="flex items-center justify-between border-b border-neutral-100 px-5 py-4">
           <div>
             <div className="text-[10px] uppercase tracking-[0.2em] text-neutral-400">Subtask template</div>
-            <h3 className="text-[16px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">{initial?.id ? "Edit checklist" : "Create checklist"}</h3>
+            <h3 className="text-[16px] font-semibold text-neutral-900">{initial?.id ? "Edit checklist" : "Create checklist"}</h3>
           </div>
           <button onClick={onClose} className="rounded-lg p-1.5 text-neutral-400 hover:bg-neutral-100"><X size={16} /></button>
         </div>
@@ -69,7 +69,7 @@ export function SubtaskTemplateEditor({
           )}
           <div>
             <div className="mb-2 flex items-center justify-between">
-              <span className="text-[10.5px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wide text-neutral-500">Checklist items</span>
+              <span className="text-[10.5px] font-medium uppercase tracking-wide text-neutral-500">Checklist items</span>
               <button onClick={() => setDraft((current) => ({ ...current, items: [...current.items, emptyItem(current.items.length)] }))} className="inline-flex items-center gap-1 rounded-lg border border-neutral-200 px-2.5 py-1.5 text-[10.5px] text-neutral-600 hover:bg-neutral-50"><Plus size={11} /> Add item</button>
             </div>
             <div className="space-y-2">
@@ -86,7 +86,7 @@ export function SubtaskTemplateEditor({
         </div>
         <div className="flex justify-end gap-2 border-t border-neutral-100 px-5 py-4">
           <button onClick={onClose} className="rounded-xl border border-neutral-200 px-4 py-2 text-[12px] text-neutral-600 hover:bg-neutral-50">Cancel</button>
-          <button onClick={save} disabled={saving} className="rounded-xl bg-neutral-900 px-4 py-2 text-[12px] font-['Lexend:Medium',_sans-serif] text-white disabled:opacity-50">{saving ? "Saving…" : initial?.id ? "Save changes" : "Create template"}</button>
+          <button onClick={save} disabled={saving} className="rounded-xl bg-neutral-900 px-4 py-2 text-[12px] font-medium text-white disabled:opacity-50">{saving ? "Saving…" : initial?.id ? "Save changes" : "Create template"}</button>
         </div>
       </div>
     </div>

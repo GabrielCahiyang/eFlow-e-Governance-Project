@@ -23,7 +23,7 @@ export function PredictiveInsightCards() {
           <div className="flex bg-neutral-100 rounded-lg p-0.5">
             {(["30-Day", "90-Day"] as const).map((h) => (
               <button key={h} onClick={() => setHorizon(h)}
-                className={`px-3 py-1.5 rounded-md text-[11px] font-['Lexend:Medium',_sans-serif] cursor-pointer transition-all ${
+                className={`px-3 py-1.5 rounded-md text-[11px] font-medium cursor-pointer transition-all ${
                   horizon === h ? "bg-white text-neutral-900 shadow-sm" : "text-neutral-500 hover:text-neutral-700"
                 }`}
               >{h} Horizon</button>
@@ -46,20 +46,20 @@ export function PredictiveInsightCards() {
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2">
                 {card.icon}
-                <span className="text-[10px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase tracking-wide">{card.type}</span>
+                <span className="text-[10px] font-medium text-neutral-500 uppercase tracking-wide">{card.type}</span>
               </div>
               <UI.Pill status={card.severity} />
             </div>
-            <h3 className="text-[14px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mb-1.5">{card.title}</h3>
-            <p className="text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-600 leading-relaxed mb-3">{card.body}</p>
+            <h3 className="text-[14px] font-semibold text-neutral-900 mb-1.5">{card.title}</h3>
+            <p className="text-[12px] font-normal text-neutral-600 leading-relaxed mb-3">{card.body}</p>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1.5">
                 <div className="w-16 h-1.5 bg-neutral-100 rounded-full overflow-hidden">
                   <div className="h-full rounded-full bg-blue-500" style={{ width: `${card.confidence}%` }} />
                 </div>
-                <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500">{card.confidence}% conf.</span>
+                <span className="text-[10px] font-normal text-neutral-500">{card.confidence}% conf.</span>
               </div>
-              <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-400">{card.horizon}</span>
+              <span className="text-[10px] font-normal text-neutral-400">{card.horizon}</span>
             </div>
           </div>
         ))}
@@ -114,25 +114,25 @@ export function ProcurementDelayAlerts() {
 
       {/* Heatmap */}
       <div className="bg-white rounded-xl border border-neutral-200 p-5 mb-5">
-        <h3 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mb-1">Process Mining Heatmap</h3>
-        <p className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mb-4">Duration ratio vs. historical average (1.0 = on par, &gt;2.0 = anomalous)</p>
+        <h3 className="text-[13px] font-semibold text-neutral-900 mb-1">Process Mining Heatmap</h3>
+        <p className="text-[11px] font-normal text-neutral-500 mb-4">Duration ratio vs. historical average (1.0 = on par, &gt;2.0 = anomalous)</p>
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
               <tr>
-                <th className="text-left py-2 px-3 text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase tracking-wide">Project</th>
+                <th className="text-left py-2 px-3 text-[11px] font-medium text-neutral-500 uppercase tracking-wide">Project</th>
                 {heatmapStages.map((s) => (
-                  <th key={s} className="py-2 px-3 text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase tracking-wide text-center">{s}</th>
+                  <th key={s} className="py-2 px-3 text-[11px] font-medium text-neutral-500 uppercase tracking-wide text-center">{s}</th>
                 ))}
               </tr>
             </thead>
             <tbody>
               {heatmapData.map((row) => (
                 <tr key={row.project}>
-                  <td className="py-2 px-3 text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900">{row.project}</td>
+                  <td className="py-2 px-3 text-[12px] font-medium text-neutral-900">{row.project}</td>
                   {row.values.map((v, i) => (
                     <td key={i} className="py-2 px-3 text-center">
-                      <span className={`inline-block px-3 py-1 rounded-md text-[11px] font-['Lexend:Medium',_sans-serif] ${getHeatColor(v)}`}>{v.toFixed(1)}x</span>
+                      <span className={`inline-block px-3 py-1 rounded-md text-[11px] font-medium ${getHeatColor(v)}`}>{v.toFixed(1)}x</span>
                     </td>
                   ))}
                 </tr>
@@ -144,33 +144,33 @@ export function ProcurementDelayAlerts() {
 
       {/* Bidding Pipeline Table */}
       <div className="bg-white rounded-xl border border-neutral-200 p-5">
-        <h3 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 mb-3">Bidding Pipeline</h3>
+        <h3 className="text-[13px] font-semibold text-neutral-900 mb-3">Bidding Pipeline</h3>
         <div className="overflow-x-auto">
           <table className="w-full text-left">
             <thead>
               <tr className="border-b border-neutral-100">
-                <th className="py-2.5 px-3 text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase tracking-wide">Project</th>
-                <th className="py-2.5 px-3 text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase tracking-wide">Current Stage</th>
-                <th className="py-2.5 px-3 text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase tracking-wide">Days Elapsed</th>
-                <th className="py-2.5 px-3 text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase tracking-wide">City Avg</th>
-                <th className="py-2.5 px-3 text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase tracking-wide">Anomaly</th>
-                <th className="py-2.5 px-3 text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-500 uppercase tracking-wide">Status</th>
+                <th className="py-2.5 px-3 text-[11px] font-medium text-neutral-500 uppercase tracking-wide">Project</th>
+                <th className="py-2.5 px-3 text-[11px] font-medium text-neutral-500 uppercase tracking-wide">Current Stage</th>
+                <th className="py-2.5 px-3 text-[11px] font-medium text-neutral-500 uppercase tracking-wide">Days Elapsed</th>
+                <th className="py-2.5 px-3 text-[11px] font-medium text-neutral-500 uppercase tracking-wide">City Avg</th>
+                <th className="py-2.5 px-3 text-[11px] font-medium text-neutral-500 uppercase tracking-wide">Anomaly</th>
+                <th className="py-2.5 px-3 text-[11px] font-medium text-neutral-500 uppercase tracking-wide">Status</th>
               </tr>
             </thead>
             <tbody>
               {biddingPipeline.map((b) => (
                 <tr key={b.project} className="border-b border-neutral-50 hover:bg-neutral-50/50 transition-colors">
-                  <td className="py-3 px-3 text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900">{b.project}</td>
-                  <td className="py-3 px-3 text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-600">{b.stage}</td>
-                  <td className="py-3 px-3 text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-900">{b.days}d</td>
-                  <td className="py-3 px-3 text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-500">{b.avgDays}d</td>
+                  <td className="py-3 px-3 text-[12px] font-medium text-neutral-900">{b.project}</td>
+                  <td className="py-3 px-3 text-[12px] font-normal text-neutral-600">{b.stage}</td>
+                  <td className="py-3 px-3 text-[12px] font-medium text-neutral-900">{b.days}d</td>
+                  <td className="py-3 px-3 text-[12px] font-normal text-neutral-500">{b.avgDays}d</td>
                   <td className="py-3 px-3">
                     {b.anomaly ? (
-                      <span className="flex items-center gap-1 text-[11px] font-['Lexend:Medium',_sans-serif] text-red-600">
+                      <span className="flex items-center gap-1 text-[11px] font-medium text-red-600">
                         <Carbon.Warning size={12} /> {(b.days / b.avgDays).toFixed(1)}x slower
                       </span>
                     ) : (
-                      <span className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-400">Normal</span>
+                      <span className="text-[11px] font-normal text-neutral-400">Normal</span>
                     )}
                   </td>
                   <td className="py-3 px-3"><UI.Pill status={b.status} /></td>

@@ -41,7 +41,7 @@ export function ProposalBudgetSection({
       <header className="flex flex-wrap items-end gap-3 border-b border-neutral-200 bg-neutral-100/80 px-4 py-3">
         <label className="min-w-56 flex-1">
           <span className="text-[8.5px] uppercase tracking-[0.16em] text-neutral-400">Expense class</span>
-          <select aria-label="Expense class" disabled={readOnly} value={section.expenseClass} onChange={(event) => updateIds(sectionIds, { expenseClass: event.target.value })} className={`${fieldClass} mt-1 font-['Lexend:SemiBold',_sans-serif] uppercase`}>
+          <select aria-label="Expense class" disabled={readOnly} value={section.expenseClass} onChange={(event) => updateIds(sectionIds, { expenseClass: event.target.value })} className={`${fieldClass} mt-1 font-semibold uppercase`}>
             {expenseOptions.map((option) => <option key={option} value={option}>{option}</option>)}
           </select>
         </label>
@@ -51,7 +51,7 @@ export function ProposalBudgetSection({
             <option value={PROPOSAL_FUND_SOURCE}>{PROPOSAL_FUND_SOURCE}</option>
           </select>
         </label>
-        <div className="min-w-36 text-right"><div className="text-[8.5px] uppercase tracking-[0.16em] text-neutral-400">Section subtotal</div><div className="mt-2 text-[13px] font-['Lexend:SemiBold',_sans-serif] tabular-nums text-neutral-950">{peso.format(section.amount)}</div></div>
+        <div className="min-w-36 text-right"><div className="text-[8.5px] uppercase tracking-[0.16em] text-neutral-400">Section subtotal</div><div className="mt-2 text-[13px] font-semibold tabular-nums text-neutral-950">{peso.format(section.amount)}</div></div>
         {!readOnly && <button type="button" aria-label={`Remove ${section.expenseClass} section`} disabled={!canRemoveSection} onClick={() => removeIds(sectionIds)} className="mb-0.5 rounded-lg p-2 text-neutral-400 hover:bg-rose-50 hover:text-rose-600 disabled:opacity-25"><Trash2 size={13} /></button>}
       </header>
 
@@ -61,8 +61,8 @@ export function ProposalBudgetSection({
           return (
             <article key={category.id} className="overflow-hidden rounded-xl border border-neutral-200">
               <header className="flex flex-wrap items-center gap-3 border-b border-neutral-100 bg-neutral-50 px-3 py-2.5">
-                <label className="min-w-56 flex-1"><span className="sr-only">Category</span><input aria-label={`Category ${categoryIndex + 1}`} disabled={readOnly} value={category.category} onChange={(event) => updateIds(categoryIds, { category: event.target.value })} placeholder="Category name" className={`${fieldClass} font-['Lexend:Medium',_sans-serif]`} /></label>
-                <div className="text-right"><div className="text-[8px] uppercase tracking-wide text-neutral-400">Category subtotal</div><div className="mt-1 text-[11px] font-['Lexend:SemiBold',_sans-serif] tabular-nums">{peso.format(category.amount)}</div></div>
+                <label className="min-w-56 flex-1"><span className="sr-only">Category</span><input aria-label={`Category ${categoryIndex + 1}`} disabled={readOnly} value={category.category} onChange={(event) => updateIds(categoryIds, { category: event.target.value })} placeholder="Category name" className={`${fieldClass} font-medium`} /></label>
+                <div className="text-right"><div className="text-[8px] uppercase tracking-wide text-neutral-400">Category subtotal</div><div className="mt-1 text-[11px] font-semibold tabular-nums">{peso.format(category.amount)}</div></div>
                 {!readOnly && <button type="button" aria-label={`Remove category ${categoryIndex + 1}`} disabled={allLines.length === category.particulars.length} onClick={() => removeIds(categoryIds)} className="rounded-lg p-2 text-neutral-400 hover:bg-rose-50 hover:text-rose-600 disabled:opacity-25"><Trash2 size={12} /></button>}
               </header>
 

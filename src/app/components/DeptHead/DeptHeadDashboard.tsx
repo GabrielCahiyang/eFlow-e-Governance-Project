@@ -170,7 +170,7 @@ export function DeptHeadDashboard() {
         subtitle="Your department at a glance — manage by exception."
         actions={
           <div className="flex items-center gap-2">
-            <span className="text-[11px] font-['Lexend:Medium',_sans-serif] text-neutral-400">Completion window</span>
+            <span className="text-[11px] font-medium text-neutral-400">Completion window</span>
             <WSelect
               value={period}
               onChange={setPeriod}
@@ -235,7 +235,7 @@ export function DeptHeadDashboard() {
             `Recently completed (${completedList.length})`
           }
           right={
-            <button onClick={() => setFocus(null)} className="text-[11.5px] font-['Lexend:Medium',_sans-serif] text-neutral-500 hover:text-neutral-900">
+            <button onClick={() => setFocus(null)} className="text-[11.5px] font-medium text-neutral-500 hover:text-neutral-900">
               Close
             </button>
           }
@@ -281,8 +281,8 @@ export function DeptHeadDashboard() {
                   {(Object.keys(healthBuckets) as Health[]).map((h) => (
                     <div key={h} className="flex items-center gap-2">
                       <span className="w-2.5 h-2.5 rounded-full" style={{ background: HEALTH_META[h].color }} />
-                      <span className="text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-600">{HEALTH_META[h].label}</span>
-                      <span className="text-[12px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 tabular-nums ml-auto">{healthBuckets[h]}</span>
+                      <span className="text-[12px] font-normal text-neutral-600">{HEALTH_META[h].label}</span>
+                      <span className="text-[12px] font-semibold text-neutral-900 tabular-nums ml-auto">{healthBuckets[h]}</span>
                     </div>
                   ))}
                 </div>
@@ -318,13 +318,13 @@ export function DeptHeadDashboard() {
                     <div key={w.id}>
                       <div className="flex items-center gap-2 mb-1">
                         <InitialsAvatar name={w.name} size={22} />
-                        <span className="text-[12px] font-['Lexend:Medium',_sans-serif] text-neutral-800 truncate flex-1">{w.name}</span>
+                        <span className="text-[12px] font-medium text-neutral-800 truncate flex-1">{w.name}</span>
                         {heavy && <Flame size={12} className="text-red-500" />}
-                        <span className="text-[11.5px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900 tabular-nums">{w.active}</span>
+                        <span className="text-[11.5px] font-semibold text-neutral-900 tabular-nums">{w.active}</span>
                       </div>
                       <ProgressBar value={(w.active / maxLoad) * 100} tone={heavy ? "bad" : w.overdue ? "warn" : "neutral"} />
                       {(w.overdue > 0 || w.review > 0) && (
-                        <div className="flex gap-3 mt-1 text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-400">
+                        <div className="flex gap-3 mt-1 text-[10px] font-normal text-neutral-400">
                           {w.overdue > 0 && <span className="text-red-500">{w.overdue} overdue</span>}
                           {w.review > 0 && <span className="text-amber-500">{w.review} in review</span>}
                         </div>
@@ -333,7 +333,7 @@ export function DeptHeadDashboard() {
                   );
                 })}
                 {unassigned.length > 0 && (
-                  <div className="mt-2 pt-2 border-t border-neutral-100 flex items-center gap-2 text-[11.5px] font-['Lexend:Regular',_sans-serif] text-neutral-500">
+                  <div className="mt-2 pt-2 border-t border-neutral-100 flex items-center gap-2 text-[11.5px] font-normal text-neutral-500">
                     <Users size={12} /> {unassigned.length} unassigned task(s) need an owner
                   </div>
                 )}
@@ -371,8 +371,8 @@ export function DeptHeadDashboard() {
                       className="w-full text-left flex items-center gap-2 px-4 py-2.5 hover:bg-neutral-50"
                     >
                       <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${rel.overdue ? "bg-red-500" : "bg-amber-500"}`} />
-                      <span className="text-[12px] font-['Lexend:Regular',_sans-serif] text-neutral-800 truncate flex-1">{t.title}</span>
-                      <span className={`text-[10.5px] font-['Lexend:Medium',_sans-serif] tabular-nums ${rel.overdue ? "text-red-600" : "text-neutral-400"}`}>
+                      <span className="text-[12px] font-normal text-neutral-800 truncate flex-1">{t.title}</span>
+                      <span className={`text-[10.5px] font-medium tabular-nums ${rel.overdue ? "text-red-600" : "text-neutral-400"}`}>
                         {rel.label}
                       </span>
                     </button>

@@ -1,7 +1,10 @@
-import { Button, IconButton, Tooltip } from "@vibe/core";
-import { Collapse, Expand, NavigationChevronDown } from "@vibe/icons";
+import { Button, Tooltip } from "@vibe/core";
+import { NavigationChevronDown } from "@vibe/icons";
+import { AnimatePresence } from "motion/react";
+import * as m from "motion/react-m";
 import { useEffect, useMemo, useState } from "react";
 import type { RoleNavItem } from "../../navigation";
+import { motionTransition } from "../../../shared/motion";
 import eflowLogo from "../../../shared/branding/eflow-logo.svg";
 import eflowIcon from "../../../shared/branding/icon.svg";
 import { getEflowNavigationIcon } from "../eflowNavigationIcons";
@@ -18,10 +21,8 @@ export interface ShellNavigationItem extends RoleNavItem {
 interface ProductivitySidebarProps {
   activePage?: string;
   activeSection: string;
-  collapsed: boolean;
   mobile?: boolean;
   navigationItems: ShellNavigationItem[];
-  onCollapsedChange: (collapsed: boolean) => void;
   onPageSelect: (section: string, page: string) => void;
 }
 
@@ -41,12 +42,12 @@ function groupNavigationItems(items: ShellNavigationItem[]) {
 export function ProductivitySidebar({
   activePage,
   activeSection,
-  collapsed,
   mobile = false,
   navigationItems,
-  onCollapsedChange,
   onPageSelect,
 }: ProductivitySidebarProps) {
+  const [hasFocusWithin, setHasFocusWithin] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   const [expandedSections, setExpandedSections] = useState<Set<string>>(
     () => new Set([activeSection]),
   );
@@ -54,14 +55,13 @@ export function ProductivitySidebar({
     () => groupNavigationItems(navigationItems),
     [navigationItems],
   );
-  const isCompact = collapsed && !mobile;
+  const isCompact = !mobile && !isHovered && !hasFocusWithin;
 
   useEffect(() => {
     setExpandedSections((current) => new Set(current).add(activeSection));
   }, [activeSection]);
 
   const selectSection = (item: ShellNavigationItem) => {
-    if (isCompact) onCollapsedChange(false);
     if (item.pages.length > 1) {
       setExpandedSections((current) => new Set(current).add(item.id));
     }
@@ -69,38 +69,57 @@ export function ProductivitySidebar({
   };
 
   return (
-    <aside
+    <m.aside
+      layout
+      transition={motionTransition.navigation}
       aria-label="Primary navigation"
       data-tour-id="primary-navigation"
+      data-navigation-density={isCompact ? "compact" : "expanded"}
       className={`eflow-productivity-sidebar ${isCompact ? "eflow-productivity-sidebar--compact" : ""}`}
+      onFocusCapture={() => setHasFocusWithin(true)}
+      onBlurCapture={(event) => {
+        const nextTarget = event.relatedTarget;
+        if (!(nextTarget instanceof Node) || !event.currentTarget.contains(nextTarget)) {
+          setHasFocusWithin(false);
+        }
+      }}
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
     >
       {/* Top Brand Box */}
       <div className="eflow-productivity-sidebar__brand" data-tour-id="brand">
-        {isCompact ? (
-          <img alt="eFlow" className="eflow-productivity-sidebar__icon" src={eflowIcon} />
-        ) : (
-          <div className="eflow-productivity-sidebar__brand-lockup">
-            <img alt="eFlow" className="eflow-productivity-sidebar__logo" src={eflowLogo} />
-            <p className="eflow-productivity-sidebar__workspace">Government workspace</p>
-          </div>
-        )}
-        {!mobile && !isCompact && (
-          <Tooltip content="Collapse navigation">
-            <IconButton
-              aria-label="Collapse navigation"
-              icon={Collapse}
-              kind="tertiary"
-              onClick={() => onCollapsedChange(true)}
-              size="small"
+        <AnimatePresence initial={false} mode="wait">
+          {isCompact ? (
+            <m.img
+              key="compact-brand"
+              alt="eFlow"
+              className="eflow-productivity-sidebar__icon"
+              src={eflowIcon}
+              initial={{ opacity: 0, scale: 0.88 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.92 }}
+              transition={motionTransition.productive}
             />
-          </Tooltip>
-        )}
+          ) : (
+            <m.div
+              key="expanded-brand"
+              className="eflow-productivity-sidebar__brand-lockup"
+              initial={{ opacity: 0, x: -6 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -4 }}
+              transition={motionTransition.productive}
+            >
+              <img alt="eFlow" className="eflow-productivity-sidebar__logo" src={eflowLogo} />
+              <p className="eflow-productivity-sidebar__workspace">Government workspace</p>
+            </m.div>
+          )}
+        </AnimatePresence>
       </div>
 
       {/* Navigation Items */}
       <nav className="eflow-productivity-sidebar__nav" aria-label="Workspace destinations">
         {navigationGroups.map((group) => (
-          <section className="eflow-productivity-sidebar__group" key={group.title} aria-label={group.title}>
+          <m.section layout="position" transition={motionTransition.navigation} className="eflow-productivity-sidebar__group" key={group.title} aria-label={group.title}>
             {!isCompact && <p className="eflow-productivity-sidebar__group-label">{group.title}</p>}
             <div className="eflow-productivity-sidebar__items">
               {group.items.map((item) => {
@@ -112,81 +131,97 @@ export function ProductivitySidebar({
                 if (isCompact) {
                   return (
                     <div className="eflow-productivity-sidebar__item-wrap" data-tour-section={item.id} key={item.id}>
-                      <Tooltip content={item.label}>
-                        <button
-                          aria-label={item.label}
-                          aria-pressed={isCurrentSection}
-                          className={`eflow-productivity-sidebar__compact-item ${
-                            isCurrentSection ? "eflow-productivity-sidebar__compact-item--active" : ""
-                          }`}
-                          onClick={() => selectSection(item)}
-                          type="button"
-                        >
-                          <Icon size={20} />
-                        </button>
-                      </Tooltip>
+                      <div className="eflow-productivity-sidebar__item-main">
+                        {isCurrentSection && (
+                          <m.span
+                            aria-hidden="true"
+                            className="eflow-productivity-sidebar__active-surface"
+                            layoutId="eflow-sidebar-active-destination"
+                            transition={motionTransition.navigation}
+                          />
+                        )}
+                        <Tooltip content={item.label}>
+                          <m.button
+                            aria-label={item.label}
+                            aria-pressed={isCurrentSection}
+                            className={`eflow-productivity-sidebar__compact-item ${
+                              isCurrentSection ? "eflow-productivity-sidebar__compact-item--active" : ""
+                            }`}
+                            onClick={() => selectSection(item)}
+                            type="button"
+                            whileTap={{ scale: 0.92 }}
+                          >
+                            <span className="eflow-productivity-sidebar__compact-icon"><Icon size={20} /></span>
+                          </m.button>
+                        </Tooltip>
+                      </div>
                     </div>
                   );
                 }
 
                 return (
                   <div className="eflow-productivity-sidebar__item-wrap" data-tour-section={item.id} key={item.id}>
-                    <Button
-                      aria-pressed={isCurrentSection}
-                      className={`eflow-productivity-sidebar__item ${isCurrentSection ? "eflow-productivity-sidebar__item--active" : ""}`}
-                      key={item.id}
-                      kind="tertiary"
-                      leftIcon={Icon}
-                      onClick={() => selectSection(item)}
-                    >
-                      <span className="eflow-productivity-sidebar__item-label">{item.label}</span>
-                      {hasSubpages && (
-                        <span
+                    <div className="eflow-productivity-sidebar__item-main">
+                      {isCurrentSection && (
+                        <m.span
                           aria-hidden="true"
-                          className={`eflow-productivity-sidebar__chevron ${isExpanded ? "eflow-productivity-sidebar__chevron--expanded" : ""}`}
-                        >
-                          <NavigationChevronDown size={14} />
-                        </span>
+                          className="eflow-productivity-sidebar__active-surface"
+                          layoutId="eflow-sidebar-active-destination"
+                          transition={motionTransition.navigation}
+                        />
                       )}
-                    </Button>
-                    {hasSubpages && isCurrentSection && isExpanded && (
-                      <div className="eflow-productivity-sidebar__subpages" aria-label={`${item.label} pages`}>
-                        {item.pages.map((page) => (
-                          <Button
-                            aria-pressed={activePage === page.label}
-                            className={`eflow-productivity-sidebar__subpage ${activePage === page.label ? "eflow-productivity-sidebar__subpage--active" : ""}`}
-                            key={`${item.id}-${page.label}`}
-                            kind="tertiary"
-                            onClick={() => onPageSelect(item.id, page.label)}
+                      <Button
+                        aria-pressed={isCurrentSection}
+                        className={`eflow-productivity-sidebar__item ${isCurrentSection ? "eflow-productivity-sidebar__item--active" : ""}`}
+                        key={item.id}
+                        kind="tertiary"
+                        leftIcon={Icon}
+                        onClick={() => selectSection(item)}
+                      >
+                        <span className="eflow-productivity-sidebar__item-label">{item.label}</span>
+                        {hasSubpages && (
+                          <span
+                            aria-hidden="true"
+                            className={`eflow-productivity-sidebar__chevron ${isExpanded ? "eflow-productivity-sidebar__chevron--expanded" : ""}`}
                           >
-                            {page.label}
-                          </Button>
-                        ))}
-                      </div>
-                    )}
+                            <NavigationChevronDown size={14} />
+                          </span>
+                        )}
+                      </Button>
+                    </div>
+                    <AnimatePresence initial={false}>
+                      {hasSubpages && isCurrentSection && isExpanded && (
+                        <m.div
+                          key={`${item.id}-pages`}
+                          className="eflow-productivity-sidebar__subpages"
+                          aria-label={`${item.label} pages`}
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={motionTransition.navigation}
+                        >
+                          {item.pages.map((page) => (
+                            <Button
+                              aria-pressed={activePage === page.label}
+                              className={`eflow-productivity-sidebar__subpage ${activePage === page.label ? "eflow-productivity-sidebar__subpage--active" : ""}`}
+                              key={`${item.id}-${page.label}`}
+                              kind="tertiary"
+                              onClick={() => onPageSelect(item.id, page.label)}
+                            >
+                              {page.label}
+                            </Button>
+                          ))}
+                        </m.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 );
               })}
             </div>
-          </section>
+          </m.section>
         ))}
       </nav>
 
-      {/* Bottom Compact Collapse/Expand Toggle */}
-      {!mobile && isCompact && (
-        <div className="eflow-productivity-sidebar__footer">
-          <Tooltip content="Expand navigation">
-            <button
-              aria-label="Expand navigation"
-              className="eflow-productivity-sidebar__toggle-circle"
-              onClick={() => onCollapsedChange(false)}
-              type="button"
-            >
-              <Expand size={16} />
-            </button>
-          </Tooltip>
-        </div>
-      )}
-    </aside>
+    </m.aside>
   );
 }

@@ -67,7 +67,7 @@ export function CommitteeChairmanships() {
           <button
             key={s}
             onClick={() => setFilterStatus(s)}
-            className={`px-3 py-1.5 rounded-lg text-[11px] font-['Lexend:Medium',_sans-serif] cursor-pointer transition-colors ${
+            className={`px-3 py-1.5 rounded-lg text-[11px] font-medium cursor-pointer transition-colors ${
               filterStatus === s ? "bg-neutral-900 text-white" : "bg-white text-neutral-600 border border-neutral-200 hover:bg-neutral-50"
             }`}
           >
@@ -85,11 +85,11 @@ export function CommitteeChairmanships() {
               <div className="flex items-start justify-between mb-4">
                 <div className="flex items-start gap-3">
                   <div className="size-10 rounded-full bg-blue-100 flex items-center justify-center shrink-0">
-                    <span className="text-[11px] font-['Lexend:SemiBold',_sans-serif] text-blue-700">{c.chairInitials}</span>
+                    <span className="text-[11px] font-semibold text-blue-700">{c.chairInitials}</span>
                   </div>
                   <div>
-                    <h4 className="text-[13px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">{c.name}</h4>
-                    <p className="text-[11px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mt-0.5">Chair: {c.chair}</p>
+                    <h4 className="text-[13px] font-semibold text-neutral-900">{c.name}</h4>
+                    <p className="text-[11px] font-normal text-neutral-500 mt-0.5">Chair: {c.chair}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-1.5">
@@ -101,34 +101,34 @@ export function CommitteeChairmanships() {
               {/* Metrics Row */}
               <div className="grid grid-cols-3 gap-3 mb-4">
                 <div className="bg-neutral-50 rounded-lg p-2.5 text-center">
-                  <p className="text-[16px] font-['Lexend:SemiBold',_sans-serif] text-neutral-900">{c.activeMeasures}</p>
-                  <p className="text-[9px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mt-0.5">Active Measures</p>
+                  <p className="text-[16px] font-semibold text-neutral-900">{c.activeMeasures}</p>
+                  <p className="text-[9px] font-normal text-neutral-500 mt-0.5">Active Measures</p>
                 </div>
                 <div className={`rounded-lg p-2.5 text-center ${c.avgDays > 30 ? "bg-red-50" : c.avgDays > 20 ? "bg-amber-50" : "bg-neutral-50"}`}>
-                  <p className={`text-[16px] font-['Lexend:SemiBold',_sans-serif] ${c.avgDays > 30 ? "text-red-700" : c.avgDays > 20 ? "text-amber-700" : "text-neutral-900"}`}>{c.avgDays}d</p>
-                  <p className="text-[9px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mt-0.5">Avg. Time</p>
+                  <p className={`text-[16px] font-semibold ${c.avgDays > 30 ? "text-red-700" : c.avgDays > 20 ? "text-amber-700" : "text-neutral-900"}`}>{c.avgDays}d</p>
+                  <p className="text-[9px] font-normal text-neutral-500 mt-0.5">Avg. Time</p>
                 </div>
                 <div className={`rounded-lg p-2.5 text-center ${c.overdueMeasures > 0 ? "bg-red-50" : "bg-neutral-50"}`}>
-                  <p className={`text-[16px] font-['Lexend:SemiBold',_sans-serif] ${c.overdueMeasures > 0 ? "text-red-700" : "text-neutral-900"}`}>{c.overdueMeasures}</p>
-                  <p className="text-[9px] font-['Lexend:Regular',_sans-serif] text-neutral-500 mt-0.5">Overdue</p>
+                  <p className={`text-[16px] font-semibold ${c.overdueMeasures > 0 ? "text-red-700" : "text-neutral-900"}`}>{c.overdueMeasures}</p>
+                  <p className="text-[9px] font-normal text-neutral-500 mt-0.5">Overdue</p>
                 </div>
               </div>
 
               {/* Footer */}
               <div className="flex items-center justify-between pt-3 border-t border-neutral-100">
                 {c.nextHearing ? (
-                  <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-neutral-500 flex items-center gap-1">
+                  <span className="text-[10px] font-normal text-neutral-500 flex items-center gap-1">
                     <Lucide.Clock size={10} /> Next Hearing: {c.nextHearing}
                   </span>
                 ) : (
-                  <span className="text-[10px] font-['Lexend:Regular',_sans-serif] text-red-500 flex items-center gap-1">
+                  <span className="text-[10px] font-normal text-red-500 flex items-center gap-1">
                     <Lucide.AlertCircle size={10} /> No hearing scheduled
                   </span>
                 )}
                 {(c.status === "Overdue" || c.status === "At Risk") && (
                   <button
                     onClick={() => setNudgeSent(prev => new Set(prev).add(c.id))}
-                    className={`flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[10px] font-['Lexend:Medium',_sans-serif] cursor-pointer transition-colors ${
+                    className={`flex items-center gap-1 px-2.5 py-1.5 rounded-lg text-[10px] font-medium cursor-pointer transition-colors ${
                       nudgeSent.has(c.id)
                         ? "bg-emerald-100 text-emerald-700"
                         : "bg-amber-100 text-amber-700 hover:bg-amber-200"

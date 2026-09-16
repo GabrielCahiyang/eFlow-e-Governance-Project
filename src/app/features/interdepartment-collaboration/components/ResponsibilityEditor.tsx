@@ -38,7 +38,7 @@ export function ResponsibilityEditor({
     onSupporting: (orgIds: string[]) => void;
   }) => (
     <div className="rounded-xl border border-neutral-100 bg-neutral-50 p-3">
-      <div className="mb-2 flex items-center gap-1.5 text-[9px] font-['Lexend:Medium',_sans-serif] uppercase tracking-wide text-neutral-500">
+      <div className="mb-2 flex items-center gap-1.5 text-[9px] font-medium uppercase tracking-wide text-neutral-500">
         <Building2 size={11} /> {label}
       </div>
       <div className="flex items-center justify-between gap-2 text-[9px] text-neutral-400">
@@ -51,7 +51,7 @@ export function ResponsibilityEditor({
           >
             {operational.map((item) => <option key={item.orgId} value={item.orgId}>{nameOf(item.orgId)}</option>)}
           </select>
-        ) : <span className="font-['Lexend:Medium',_sans-serif] normal-case text-neutral-700">{nameOf(primaryOrgId)}</span>}
+        ) : <span className="font-medium normal-case text-neutral-700">{nameOf(primaryOrgId)}</span>}
       </div>
       <div className="mt-2">
         <div className="mb-1.5 flex items-center gap-1 text-[9px] text-neutral-400"><Handshake size={10} /> Supporting offices</div>
