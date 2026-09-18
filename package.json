@@ -108,6 +108,7 @@
     "@vitejs/plugin-react": "4.7.0",
     "concurrently": "^9.2.4",
     "jsdom": "^26.1.0",
+    "sass": "^1.104.1",
     "tailwindcss": "4.1.12",
     "typescript": "^6.0.3",
     "vite": "6.3.5",

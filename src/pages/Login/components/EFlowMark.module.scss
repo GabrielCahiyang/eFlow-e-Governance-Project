@@ -1,0 +1,20 @@
+.markWrapper {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  user-select: none;
+  cursor: pointer;
+}
+
+.svgMark {
+  overflow: visible;
+  height: 100%;
+  width: auto;
+  display: block;
+}
+
+.rotatingRing {
+  transform-box: fill-box;
+  transform-origin: center;
+  will-change: transform;
+}

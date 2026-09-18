@@ -76,6 +76,11 @@ function destinationForProject(role: string) {
 }
 
 function destinationForBudget(notification: Notification, role: string) {
+  if (role === "accounting_staff") {
+    return notification.type.includes("settlement") || notification.type.includes("release") || notification.type.includes("liquidation")
+      ? { section: "accounting_releases", page: "Voucher & Cash Releases" }
+      : { section: "accounting_audit", page: "Financial Audit Trail" };
+  }
   if (role === "depthead") {
     return { section: "reviews", page: "For Review" };
   }
@@ -133,7 +138,7 @@ export function resolveNotificationDestination(
       notification,
       destinationForBudget(notification, role),
       "budget",
-      role === "depthead" || notification.type.includes("leader_review") ? "Open funding review" : "Open task funding",
+      role === "accounting_staff" ? "Open accounting record" : role === "depthead" || notification.type.includes("leader_review") ? "Open funding review" : "Open task funding",
       notification.taskTitle || messageLabels[0],
     );
   }

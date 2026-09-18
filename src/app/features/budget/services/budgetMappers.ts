@@ -106,6 +106,9 @@ export const mapRelease = (row: Record<string, unknown>): PettyCashRelease => ({
   acknowledgedBy: row.acknowledged_by ? String(row.acknowledged_by) : undefined,
   acknowledgedAt: millis(row.acknowledged_at),
   createdAt: millis(row.created_at) || 0,
+  voucherNumber: row.voucher_number ? String(row.voucher_number) : undefined,
+  releaseMethod: String(row.release_method || "cash") as PettyCashRelease["releaseMethod"],
+  chequeNumber: row.cheque_number ? String(row.cheque_number) : undefined,
 });
 
 export const mapReceipt = (row: Record<string, unknown>): PettyCashReceipt => ({
@@ -123,6 +126,9 @@ export const mapLiquidation = (row: Record<string, unknown>, receipts: PettyCash
   status: String(row.status) as PettyCashLiquidation["status"], submittedBy: String(row.submitted_by),
   submittedAt: millis(row.submitted_at) || 0, decisionReason: row.decision_reason ? String(row.decision_reason) : undefined,
   receipts: receipts.filter((receipt) => receipt.liquidationId === String(row.id)),
+  liquidationNumber: row.liquidation_number ? String(row.liquidation_number) : undefined,
+  refundReceiptNumber: row.refund_receipt_number ? String(row.refund_receipt_number) : undefined,
+  refundDate: row.refund_date ? String(row.refund_date) : undefined,
 });
 
 export const mapLedger = (row: Record<string, unknown>): BudgetLedgerEntry => ({

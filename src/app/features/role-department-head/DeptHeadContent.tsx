@@ -26,6 +26,7 @@ import { TeamSupervision } from "./components/TeamSupervision";
 import { useAuth } from "../../contexts/AuthContext";
 import { getHeadWorkspaceLabel } from "../../shared/roles";
 import { DepartmentBudgetWorkspace } from "../budget";
+import { DepartmentIdentityAccessWorkspace } from "../team-management/components/supervision/DepartmentIdentityAccessWorkspace";
 
 export function DeptHeadTaskBoard() {
   const {
@@ -65,10 +66,7 @@ export function DeptHeadTaskBoard() {
       onVerify={(taskId, approve, feedback) =>
         verifyTask(taskId, approve, feedback, {
           id: userProfile?.uid,
-          name:
-            userProfile?.fullName ||
-            userProfile?.email ||
-            workspaceLabel,
+          name: userProfile?.fullName || userProfile?.email || workspaceLabel,
         })
       }
       onUpdateTask={updateTask}
@@ -89,7 +87,6 @@ function HeadAnnouncementCenter() {
 // ==================== ROUTER ====================
 
 // ── Core Workflow (Phase 1) screens ──
-
 
 export const deptheadPages: RolePageSections = {
   dashboard: {
@@ -112,6 +109,9 @@ export const deptheadPages: RolePageSections = {
   },
   team: {
     "Team Supervision": TeamSupervision,
+  },
+  identity: {
+    "Identity & Access": DepartmentIdentityAccessWorkspace,
   },
   intelligence: {
     "Team Intelligence": EmployeeInsights,
@@ -155,6 +155,7 @@ export const deptheadDefaultPages: Record<string, string> = {
   subtasks: "My Subtasks",
   reviews: "For Review",
   team: "Team Supervision",
+  identity: "Identity & Access",
   intelligence: "Team Intelligence",
   leading: "Leading Work",
   reports: "Reports",
@@ -181,9 +182,7 @@ export function DeptHeadContent({
         <div className="flex h-full items-center justify-center text-neutral-400">
           <div className="text-center">
             <Settings size={40} className="mx-auto mb-3 opacity-30" />
-            <p className="text-[14px] font-normal">
-              Section unavailable
-            </p>
+            <p className="text-[14px] font-normal">Section unavailable</p>
             <p className="mt-1 text-[12px]">Section: {section}</p>
           </div>
         </div>

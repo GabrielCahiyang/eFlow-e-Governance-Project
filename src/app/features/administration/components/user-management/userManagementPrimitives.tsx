@@ -5,6 +5,7 @@ import { getRoleLabel } from "../../../../shared/roles";
 
 export const ROLE_OPTIONS: { value: UserRole; label: string }[] = [
   { value: "employee", label: "Employee" },
+  { value: "accounting_staff", label: "Accounting Staff" },
   { value: "dept_head", label: "Head" },
   { value: "assistant_head", label: "Assistant Head" },
   { value: "super_admin", label: "Super Admin" },
@@ -16,6 +17,7 @@ export function RoleBadge({ role }: { role: string }) {
     super_admin: "negative",
     dept_head: "purple",
     assistant_head: "indigo",
+    accounting_staff: "primary",
     employee: "positive",
   };
   return <Label color={colors[role] || "dark"} text={getRoleLabel(role)} />;

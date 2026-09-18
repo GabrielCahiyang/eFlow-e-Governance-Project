@@ -102,7 +102,7 @@ function AccountMenu({ onPageSelect, role }: Pick<EflowTopBarProps, "onPageSelec
             </Menu>
           </DialogContentContainer>
         )}
-        hideTrigger={[]}
+        hideTrigger={["clickoutside", "esckey"]}
         onDialogDidHide={() => setMenuOpen(false)}
         open={isMenuOpen}
         position="bottom-end"
@@ -116,7 +116,7 @@ function AccountMenu({ onPageSelect, role }: Pick<EflowTopBarProps, "onPageSelec
             className="eflow-topbar__account-trigger"
             kind="tertiary"
             leftIcon={Person}
-            onClick={() => setMenuOpen(true)}
+            onClick={() => setMenuOpen((open) => !open)}
           >
             Account
           </Button>

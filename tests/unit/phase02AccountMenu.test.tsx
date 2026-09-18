@@ -66,6 +66,12 @@ describe("Phase 02 account utility", () => {
     await waitFor(() => expect(onPageSelect).toHaveBeenCalledWith("settings", "Appearance"));
 
     fireEvent.click(screen.getByRole("button", { name: "Open account menu" }));
+    const profile = await screen.findByRole("menuitem", { name: "Profile" });
+    fireEvent.mouseEnter(profile);
+    fireEvent.click(profile);
+    await waitFor(() => expect(onPageSelect).toHaveBeenCalledWith("settings", "Profile"));
+
+    fireEvent.click(screen.getByRole("button", { name: "Open account menu" }));
     const logout = await screen.findByRole("menuitem", { name: "Log out" });
     fireEvent.mouseEnter(logout);
     fireEvent.click(logout);

@@ -197,7 +197,17 @@ export function DeptHeadDashboard() {
         />
         <StatCard
           label="Pending review"
-          value={forReview.length}
+          value={
+            <span className="inline-flex items-center gap-2">
+              <span>{forReview.length}</span>
+              {forReview.length > 0 && (
+                <span className="relative flex h-2.5 w-2.5" title="Items awaiting your review">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
+                  <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.9)]" />
+                </span>
+              )}
+            </span>
+          }
           hint="Awaiting your decision"
           tone={forReview.length ? "warn" : "neutral"}
           icon={<Inbox size={15} />}

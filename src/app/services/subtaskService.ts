@@ -66,6 +66,25 @@ export function rowToSubtask(row: Record<string, unknown>): Subtask {
   };
 }
 
+// ─── In-Memory Subtask Cache ──────────────────────────────────────
+export const subtaskMemoryCache = new Map<string, Subtask[]>();
+
+export function getCachedSubtasks(taskId: string): Subtask[] | undefined {
+  return subtaskMemoryCache.get(taskId);
+}
+
+export function setCachedSubtasks(taskId: string, subtasks: Subtask[]): void {
+  subtaskMemoryCache.set(taskId, subtasks);
+}
+
+export function clearSubtaskCache(taskId?: string): void {
+  if (taskId) {
+    subtaskMemoryCache.delete(taskId);
+  } else {
+    subtaskMemoryCache.clear();
+  }
+}
+
 export async function fetchTaskSubtasks(taskId: string): Promise<Subtask[]> {
   const { data, error } = await supabase
     .from('subtasks')
@@ -73,7 +92,9 @@ export async function fetchTaskSubtasks(taskId: string): Promise<Subtask[]> {
     .eq('task_id', taskId)
     .order('position', { ascending: true });
   if (error) throw new Error(error.message);
-  return (data || []).map(rowToSubtask);
+  const subtasks = (data || []).map(rowToSubtask);
+  subtaskMemoryCache.set(taskId, subtasks);
+  return subtasks;
 }
 
 // ─── subscribeToSubtasks ───────────────────────────────────────────
@@ -81,14 +102,20 @@ export function subscribeToSubtasks(
   taskId: string,
   callback: (subtasks: Subtask[]) => void,
 ): () => void {
+  const cached = subtaskMemoryCache.get(taskId);
+  if (cached) {
+    callback(cached);
+  }
+
   const load = async () => {
     try {
-      callback(await fetchTaskSubtasks(taskId));
+      const items = await fetchTaskSubtasks(taskId);
+      callback(items);
     } catch {
-      callback([]);
+      callback(subtaskMemoryCache.get(taskId) || []);
     }
   };
-  load();
+  void load();
 
   const channelId = `subtasks-${taskId}-${Math.random().toString(36).substring(2, 9)}`;
   const channel = supabase
@@ -96,11 +123,38 @@ export function subscribeToSubtasks(
     .on(
       'postgres_changes',
       { event: '*', schema: 'public', table: 'subtasks', filter: `task_id=eq.${taskId}` },
-      () => load(),
+      (payload) => {
+        const current = subtaskMemoryCache.get(taskId) || [];
+        if (payload.eventType === 'INSERT' && payload.new) {
+          const newSubtask = rowToSubtask(payload.new as Record<string, unknown>);
+          if (!current.some((item) => item.id === newSubtask.id)) {
+            const next = [...current, newSubtask].sort((a, b) => a.position - b.position);
+            subtaskMemoryCache.set(taskId, next);
+            callback(next);
+          }
+        } else if (payload.eventType === 'UPDATE' && payload.new) {
+          const updated = rowToSubtask(payload.new as Record<string, unknown>);
+          const next = current
+            .map((item) => (item.id === updated.id ? updated : item))
+            .sort((a, b) => a.position - b.position);
+          subtaskMemoryCache.set(taskId, next);
+          callback(next);
+        } else if (payload.eventType === 'DELETE' && payload.old) {
+          const deletedId = (payload.old as { id?: string })?.id;
+          if (deletedId) {
+            const next = current.filter((item) => item.id !== deletedId);
+            subtaskMemoryCache.set(taskId, next);
+            callback(next);
+          }
+        }
+        void load();
+      },
     )
     .subscribe();
 
-  return () => supabase.removeChannel(channel);
+  return () => {
+    void supabase.removeChannel(channel);
+  };
 }
 
 // ─── syncTaskSubtaskStats ──────────────────────────────────────────
@@ -308,6 +362,11 @@ export async function deleteSubtask(subtaskId: string): Promise<void> {
     .eq('id', subtaskId);
   if (error) throw error;
 
+  for (const [taskId, list] of subtaskMemoryCache.entries()) {
+    if (list.some((item) => item.id === subtaskId)) {
+      subtaskMemoryCache.set(taskId, list.filter((item) => item.id !== subtaskId));
+    }
+  }
 }
 
 // ─── reorderSubtasks ────────────────────────────────────────────────

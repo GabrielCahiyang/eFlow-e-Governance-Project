@@ -1,0 +1,386 @@
+.pageLayout {
+  display: grid;
+  grid-template-columns: minmax(380px, 34fr) 66fr;
+  min-height: 100dvh;
+  width: 100%;
+  background: #ffffff;
+  color: #0f172a;
+  font-family: "Figtree", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   LEFT PANEL — Authentication Column (No duplicate logo)
+   ───────────────────────────────────────────────────────────── */
+.authColumn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  background: #ffffff;
+  z-index: 2;
+}
+
+.authContent {
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.headerGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.loginHeading {
+  font-size: 30px !important;
+  font-weight: 800 !important;
+  color: #0f172a !important; /* Bold dark charcoal */
+  line-height: 1.18 !important;
+  margin: 0 !important;
+  letter-spacing: -0.02em !important;
+}
+
+.subhead {
+  font-size: 15px !important;
+  color: #334155 !important; /* High-contrast slate */
+  font-weight: 500 !important;
+  margin: 0 !important;
+  line-height: 1.4 !important;
+}
+
+.loginForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
+}
+
+.fieldWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  width: 100%;
+
+  input {
+    background: #ffffff !important;
+    color: #0f172a !important;
+    border: 1.5px solid #cbd5e1 !important;
+    border-radius: 8px !important;
+    font-size: 14px !important;
+
+    &:focus {
+      border-color: #0073ea !important;
+      box-shadow: 0 0 0 3px rgba(0, 115, 234, 0.18) !important;
+    }
+  }
+
+  label {
+    color: #0f172a !important;
+    font-weight: 600 !important;
+    font-size: 13.5px !important;
+  }
+}
+
+.passwordInputContainer {
+  position: relative;
+  width: 100%;
+}
+
+.passwordRevealBtn {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+}
+
+.capsLockWarning {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background: #fffbf0;
+  border: 1px solid #ffcb00;
+  border-radius: 6px;
+  color: #92400e;
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+.utilityRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 2px;
+  margin-bottom: 2px;
+  width: 100%;
+
+  a, button {
+    color: #0073ea !important;
+    font-weight: 600 !important;
+    font-size: 13.5px !important;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.checkboxLabel {
+  color: #0f172a !important;
+  font-weight: 600 !important;
+  font-size: 13.5px !important;
+}
+
+.submitAction {
+  width: 100%;
+  margin-top: 6px;
+}
+
+/* Primary CTA — Electric blue, ZERO teal */
+.submitButton {
+  width: 100% !important;
+  justify-content: center !important;
+  background: #0073ea !important;
+  color: #ffffff !important;
+  border: none !important;
+  border-radius: 8px !important;
+  font-weight: 700 !important;
+  font-size: 15px !important;
+  height: 44px !important;
+  box-shadow: 0 4px 14px rgba(0, 115, 234, 0.3) !important;
+  transition: all 0.15s ease !important;
+
+  &:hover:not(:disabled) {
+    background: #0060b9 !important;
+    box-shadow: 0 6px 18px rgba(0, 115, 234, 0.42) !important;
+  }
+
+  &:disabled {
+    background: #cbd5e1 !important;
+    box-shadow: none !important;
+  }
+}
+
+.scenarioAffordance {
+  display: flex;
+  justify-content: center;
+  margin-top: 4px;
+
+  button {
+    color: #0073ea !important;
+    font-weight: 600 !important;
+  }
+}
+
+.alertBanner {
+  border-radius: 8px;
+  padding: 10px 14px;
+  font-size: 13px;
+  line-height: 1.4;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.alertError {
+  background: #fdf2f2;
+  border: 1px solid #d83a52;
+  color: #d83a52;
+}
+
+.alertLocked {
+  background: #fffbf0;
+  border: 1px solid #ffcb00;
+  color: #92400e;
+}
+
+.alertOffline {
+  background: #f0f4f8;
+  border: 1px solid #676879;
+  color: #323338;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   RIGHT PANEL — Elevated eFlow | LGU Ormoc City & Bigger Living Board
+   ───────────────────────────────────────────────────────────── */
+.heroColumn {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  background:
+    radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.18) 0%, transparent 45%),
+    linear-gradient(145deg, #0073ea 0%, #004ea0 100%);
+  border-top-left-radius: 28px;
+  border-bottom-left-radius: 28px;
+  margin: 14px 14px 14px 0;
+  padding: 28px 24px;
+  color: #ffffff;
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(0, 30, 80, 0.22);
+}
+
+.heroContent {
+  width: 100%;
+  max-width: 960px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  z-index: 2;
+}
+
+/* Brand lockup shifted even higher up */
+.heroBrandWrapper {
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  cursor: pointer;
+}
+
+.heroBrandDivider {
+  width: 1.5px;
+  height: 28px;
+  background: rgba(255, 255, 255, 0.45);
+}
+
+.heroBrandOrgText {
+  font-size: 17px;
+  color: rgba(255, 255, 255, 0.94);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.kanbanWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+/* ─────────────────────────────────────────────────────────────
+   TABLET BREAKPOINT (768px – 1199px)
+   ───────────────────────────────────────────────────────────── */
+@media (max-width: 1199px) and (min-width: 768px) {
+  .pageLayout {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+  }
+
+  .heroColumn {
+    margin: 0;
+    border-radius: 0;
+    padding: 36px 24px;
+    min-height: 180px;
+    align-items: center;
+    text-align: center;
+  }
+
+  .heroContent {
+    align-items: center;
+    text-align: center;
+    max-width: 540px;
+  }
+
+  .heroBrandWrapper {
+    margin-bottom: 0;
+  }
+
+  .kanbanWrapper {
+    display: none !important;
+  }
+
+  .authColumn {
+    padding: 40px 32px;
+  }
+
+  .authContent {
+    max-width: 440px;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+   MOBILE BREAKPOINT (< 768px)
+   ───────────────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+  .pageLayout {
+    display: flex;
+    flex-direction: column;
+    min-height: 100dvh;
+    overflow-y: auto;
+  }
+
+  .heroColumn {
+    margin: 0;
+    border-radius: 0;
+    padding: 24px 16px;
+    min-height: 90px;
+    align-items: center;
+    text-align: center;
+  }
+
+  .heroContent {
+    align-items: center;
+    text-align: center;
+  }
+
+  .heroBrandWrapper {
+    margin-bottom: 0;
+  }
+
+  .kanbanWrapper {
+    display: none !important;
+  }
+
+  .authColumn {
+    padding: 28px 20px;
+    align-items: flex-start;
+  }
+
+  .authContent {
+    max-width: 100%;
+  }
+
+  .submitAction {
+    position: sticky;
+    bottom: 0;
+    background: #ffffff;
+    padding: 10px 0;
+    padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    z-index: 10;
+  }
+
+  .passwordRevealBtn,
+  .submitButton,
+  button {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  input {
+    font-size: 16px !important;
+  }
+}

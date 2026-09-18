@@ -143,6 +143,19 @@ describe("notification navigation", () => {
       label: "Open task funding",
       intent: { kind: "budget", taskId: "task-5" },
     });
+
+    expect(resolveNotificationDestination(notification({
+      type: "petty_cash_liquidation_accounting_review",
+      title: "Liquidation ready for accounting settlement",
+      taskId: "task-5",
+      financialRecordId: "liquidation-1",
+      financialRecordType: "petty_cash_liquidation",
+    }), "accounting_staff")).toMatchObject({
+      section: "accounting_releases",
+      page: "Voucher & Cash Releases",
+      label: "Open accounting record",
+      intent: { kind: "budget", financialRecordId: "liquidation-1" },
+    });
   });
 
   it("routes a corrected request back to the Team Leader review queue", () => {

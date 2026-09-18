@@ -86,11 +86,25 @@ describe("schedule override confirmation", () => {
   it("retains the normal release path and hides release controls from employees", async () => {
     const view = render(<BudgetReleasesPanel data={bundle()} onChanged={vi.fn()} />);
     fireEvent.click(screen.getByRole("button", { name: "Mark released" }));
+    fireEvent.click(screen.getByRole("checkbox"));
+    fireEvent.click(screen.getByRole("button", { name: /Confirm & Record Release/i }));
     await waitFor(() => expect(mocks.release).toHaveBeenCalledWith("release-6"));
     expect(mocks.override).not.toHaveBeenCalled();
     mocks.role = "employee";
     view.rerender(<BudgetReleasesPanel data={bundle()} onChanged={vi.fn()} />);
     expect(screen.queryByRole("button", { name: "Override schedule" })).toBeNull();
     expect(screen.queryByRole("button", { name: "Mark released" })).toBeNull();
+  });
+
+  it("lets Accounting Staff issue a cheque without exposing the Head-only schedule override", async () => {
+    mocks.role = "accounting_staff";
+    render(<BudgetReleasesPanel data={bundle()} onChanged={vi.fn()} />);
+    expect(screen.queryByRole("button", { name: "Override schedule" })).toBeNull();
+    fireEvent.click(screen.getByRole("button", { name: "Mark released" }));
+    fireEvent.change(screen.getByLabelText("Release method"), { target: { value: "cheque" } });
+    fireEvent.change(screen.getByLabelText("Cheque number"), { target: { value: "CHK-2026-0919" } });
+    fireEvent.click(screen.getByRole("checkbox"));
+    fireEvent.click(screen.getByRole("button", { name: /Confirm & Record Release/i }));
+    await waitFor(() => expect(mocks.release).toHaveBeenCalledWith("release-6", { method: "cheque", chequeNumber: "CHK-2026-0919" }));
   });
 });

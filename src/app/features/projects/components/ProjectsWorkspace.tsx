@@ -38,6 +38,7 @@ import {
   markProposalProjectsCompleted,
 } from "../services/proposalDeliveryService";
 import "./projectsVibe.css";
+import { supabase } from "../../../../lib/supabase";
 
 export interface WorkspaceEditorTab {
   id: string;
@@ -115,6 +116,39 @@ export function ProjectsWorkspace({
     [collaboration.drafts],
   );
   const currentOrgId = userProfile?.org_id || userProfile?.departmentId || "";
+
+  // Supabase Realtime channel listeners on collaboration_drafts, projects, and tasks
+  React.useEffect(() => {
+    const channelId = `projects-workspace-${Math.random().toString(36).slice(2, 9)}`;
+    const channel = supabase
+      .channel(channelId)
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "collaboration_drafts" },
+        () => {
+          void collaboration.refresh();
+        },
+      )
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "projects" },
+        () => {
+          void collaboration.refresh();
+        },
+      )
+      .on(
+        "postgres_changes",
+        { event: "*", schema: "public", table: "tasks" },
+        () => {
+          void collaboration.refresh();
+        },
+      )
+      .subscribe();
+
+    return () => {
+      void supabase.removeChannel(channel);
+    };
+  }, [collaboration.refresh]);
 
   const inScope = React.useMemo(() => {
     if (scope.isSuperAdmin || !scope.enforceOrgScope) return dbProjects;

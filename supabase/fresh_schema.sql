@@ -63,7 +63,7 @@ create table if not exists public.profiles (
   org_id                      uuid references public.organizations(id) on delete set null,
   role                        text not null default 'employee'
                                 check (role in (
-                                  'super_admin','dept_head','assistant_head','employee',
+                                  'super_admin','dept_head','assistant_head','accounting_staff','employee',
                                   -- legacy roles still referenced by older panels
                                   'department_head','executive','legislative',
                                   'hrmo','finance','councilor_pad')),

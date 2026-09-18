@@ -13,6 +13,9 @@ export type BoardView = "list" | "kanban" | "timeline" | "hierarchy";
 
 export interface MondayBoardProps {
   tasks: Task[];
+  projects?: Array<{ id: string; title: string }>;
+  selectedProjectId?: string;
+  onSelectProject?: (projectId: string) => void;
   employees?: Employee[];
   allEmployees?: Employee[];
   employeeNotes?: EmployeeNotesMap;
@@ -356,3 +359,88 @@ export const formatShortDateTime = (value?: number) => {
     minute: "2-digit",
   });
 };
+
+export interface TaskProjectOption {
+  value: string;
+  label: string;
+  count: number;
+}
+
+export function getTaskProjectKey(task: Task): string {
+  const explicitId = task.projectId?.trim() || task.linkedProjectId?.trim();
+  if (explicitId) return explicitId;
+  const explicitTitle = task.projectTitle?.trim() || task.proposalTitle?.trim();
+  if (explicitTitle) return `title:${explicitTitle.toLowerCase()}`;
+  return "unassigned";
+}
+
+export function getTaskProjectLabel(
+  task: Task,
+  projectTitleById?: Map<string, string>,
+): string {
+  const explicitId = task.projectId?.trim() || task.linkedProjectId?.trim();
+  if (explicitId && projectTitleById?.has(explicitId)) {
+    return projectTitleById.get(explicitId)!;
+  }
+  if (task.projectTitle?.trim()) {
+    return task.projectTitle.trim();
+  }
+  if (task.proposalTitle?.trim()) {
+    return task.proposalTitle.trim();
+  }
+  if (explicitId) {
+    return `Project (${explicitId.slice(0, 8)})`;
+  }
+  return "Unlinked / No project";
+}
+
+export function buildProjectFilterOptions(
+  tasks: Task[],
+  knownProjects?: Array<{ id: string; title: string }>,
+): TaskProjectOption[] {
+  const projectTitleById = new Map<string, string>();
+  if (knownProjects) {
+    for (const p of knownProjects) {
+      if (p.id && p.title) {
+        projectTitleById.set(p.id.trim(), p.title.trim());
+      }
+    }
+  }
+
+  const countsByKey = new Map<string, { label: string; count: number }>();
+
+  for (const task of tasks) {
+    const key = getTaskProjectKey(task);
+    const label = getTaskProjectLabel(task, projectTitleById);
+    const existing = countsByKey.get(key);
+    if (existing) {
+      existing.count += 1;
+    } else {
+      countsByKey.set(key, { label, count: 1 });
+    }
+  }
+
+  const sortedKeys = Array.from(countsByKey.entries()).sort((a, b) => {
+    if (a[0] === "unassigned") return 1;
+    if (b[0] === "unassigned") return -1;
+    return a[1].label.localeCompare(b[1].label);
+  });
+
+  return [
+    {
+      value: "all",
+      label: `All projects (${tasks.length})`,
+      count: tasks.length,
+    },
+    ...sortedKeys.map(([key, item]) => ({
+      value: key,
+      label: `${item.label} (${item.count})`,
+      count: item.count,
+    })),
+  ];
+}
+
+export function filterTasksByProject(tasks: Task[], selectedProjectId?: string): Task[] {
+  if (!selectedProjectId || selectedProjectId === "all") return tasks;
+  return tasks.filter((task) => getTaskProjectKey(task) === selectedProjectId);
+}

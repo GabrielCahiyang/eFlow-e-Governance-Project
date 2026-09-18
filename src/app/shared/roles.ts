@@ -16,6 +16,8 @@ export function getRoleLabel(role: string): string {
       return "Head";
     case "assistant_head":
       return "Assistant Head";
+    case "accounting_staff":
+      return "Accounting Staff";
     case "depthead":
       return "Department Head";
     case "teamleader":

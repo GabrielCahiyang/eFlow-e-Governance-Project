@@ -21,6 +21,7 @@ export interface RoleNavItem {
   icon: ReactNode;
   label: string;
   requiresLeadership?: boolean;
+  requiresDepartmentHead?: boolean;
 }
 
 export interface RoleNavigation {
@@ -34,14 +35,30 @@ const compatibilityNavigation: Record<string, RoleNavigation> = {
     defaultSection: "dashboard",
     navItems: [
       { id: "dashboard", icon: <Dashboard size={16} />, label: "Dashboard" },
-      { id: "projects", icon: <FolderOpen size={16} />, label: "Plans & Projects" },
+      {
+        id: "projects",
+        icon: <FolderOpen size={16} />,
+        label: "Plans & Projects",
+      },
       { id: "tasks", icon: <Task size={16} />, label: "Task Oversight" },
       { id: "reports", icon: <ChartBar size={16} />, label: "Reports" },
-      { id: "announcements", icon: <Notification size={16} />, label: "Announcements" },
-      { id: "users", icon: <UserMultiple size={16} />, label: "User Management" },
+      {
+        id: "announcements",
+        icon: <Notification size={16} />,
+        label: "Announcements",
+      },
+      {
+        id: "users",
+        icon: <UserMultiple size={16} />,
+        label: "User Management",
+      },
       { id: "org_tree", icon: <Folder size={16} />, label: "Org Structure" },
       { id: "audit", icon: <Report size={16} />, label: "Audit Trail" },
-      { id: "administration", icon: <Settings size={16} />, label: "System Settings" },
+      {
+        id: "administration",
+        icon: <Settings size={16} />,
+        label: "System Settings",
+      },
       { id: "migration", icon: <Renew size={16} />, label: "Data Tools" },
     ],
   },
@@ -54,9 +71,21 @@ const compatibilityNavigation: Record<string, RoleNavigation> = {
       audit: "Cryptographic Ledger",
     },
     navItems: [
-      { id: "portfolio", icon: <Dashboard size={16} />, label: "Portfolio Intelligence" },
-      { id: "transform", icon: <Renew size={16} />, label: "Project Transformation" },
-      { id: "financial", icon: <ChartBar size={16} />, label: "Financial Oversight" },
+      {
+        id: "portfolio",
+        icon: <Dashboard size={16} />,
+        label: "Portfolio Intelligence",
+      },
+      {
+        id: "transform",
+        icon: <Renew size={16} />,
+        label: "Project Transformation",
+      },
+      {
+        id: "financial",
+        icon: <ChartBar size={16} />,
+        label: "Financial Oversight",
+      },
       { id: "audit", icon: <Security size={16} />, label: "Immutable Audit" },
     ],
   },
@@ -69,10 +98,26 @@ const compatibilityNavigation: Record<string, RoleNavigation> = {
       councilor: "Councilor Dashboard",
     },
     navItems: [
-      { id: "legdash", icon: <Dashboard size={16} />, label: "Legislative Dashboard" },
-      { id: "session", icon: <Report size={16} />, label: "Session Management" },
-      { id: "committee", icon: <UserMultiple size={16} />, label: "Committee Affairs" },
-      { id: "councilor", icon: <Folder size={16} />, label: "Councilor Workspace" },
+      {
+        id: "legdash",
+        icon: <Dashboard size={16} />,
+        label: "Legislative Dashboard",
+      },
+      {
+        id: "session",
+        icon: <Report size={16} />,
+        label: "Session Management",
+      },
+      {
+        id: "committee",
+        icon: <UserMultiple size={16} />,
+        label: "Committee Affairs",
+      },
+      {
+        id: "councilor",
+        icon: <Folder size={16} />,
+        label: "Councilor Workspace",
+      },
     ],
   },
   hrmo: {
@@ -83,9 +128,21 @@ const compatibilityNavigation: Record<string, RoleNavigation> = {
       compliance: "CSC Appraisals",
     },
     navItems: [
-      { id: "workforce", icon: <UserMultiple size={16} />, label: "Workforce Intelligence" },
-      { id: "wellness", icon: <Notification size={16} />, label: "Wellness & Attendance" },
-      { id: "compliance", icon: <Security size={16} />, label: "Performance Compliance" },
+      {
+        id: "workforce",
+        icon: <UserMultiple size={16} />,
+        label: "Workforce Intelligence",
+      },
+      {
+        id: "wellness",
+        icon: <Notification size={16} />,
+        label: "Wellness & Attendance",
+      },
+      {
+        id: "compliance",
+        icon: <Security size={16} />,
+        label: "Performance Compliance",
+      },
     ],
   },
   finance: {
@@ -105,24 +162,52 @@ const compatibilityNavigation: Record<string, RoleNavigation> = {
     defaultSection: "command",
     navItems: [
       { id: "command", icon: <Home size={16} />, label: "Command Center" },
-      { id: "leader", icon: <UserMultiple size={16} />, label: "Leader Workspace" },
-      { id: "deptportfolio", icon: <Folder size={16} />, label: "Department Workspace" },
+      {
+        id: "leader",
+        icon: <UserMultiple size={16} />,
+        label: "Leader Workspace",
+      },
+      {
+        id: "deptportfolio",
+        icon: <Folder size={16} />,
+        label: "Department Workspace",
+      },
     ],
   },
   teamleader: {
     defaultSection: "command",
     navItems: [
-      { id: "command", icon: <Home size={16} />, label: "Leader Command Center" },
-      { id: "leader", icon: <UserMultiple size={16} />, label: "Leader Workspace" },
-      { id: "deptportfolio", icon: <Folder size={16} />, label: "Section Workspace" },
+      {
+        id: "command",
+        icon: <Home size={16} />,
+        label: "Leader Command Center",
+      },
+      {
+        id: "leader",
+        icon: <UserMultiple size={16} />,
+        label: "Leader Workspace",
+      },
+      {
+        id: "deptportfolio",
+        icon: <Folder size={16} />,
+        label: "Section Workspace",
+      },
     ],
   },
   employee: {
     defaultSection: "mywork",
     navItems: [
       { id: "mywork", icon: <Home size={16} />, label: "My Work" },
-      { id: "leader", icon: <UserMultiple size={16} />, label: "Leader Workspace" },
-      { id: "workspace", icon: <Folder size={16} />, label: "Department Workspace" },
+      {
+        id: "leader",
+        icon: <UserMultiple size={16} />,
+        label: "Leader Workspace",
+      },
+      {
+        id: "workspace",
+        icon: <Folder size={16} />,
+        label: "Department Workspace",
+      },
     ],
   },
   councilor_pad: {
@@ -134,16 +219,32 @@ const compatibilityNavigation: Record<string, RoleNavigation> = {
       committee: "Proposed Municipal Budget",
     },
     navItems: [
-      { id: "councilor", icon: <Dashboard size={16} />, label: "Councilor Dashboard" },
-      { id: "legdash", icon: <Report size={16} />, label: "Legislative Measures" },
+      {
+        id: "councilor",
+        icon: <Dashboard size={16} />,
+        label: "Councilor Dashboard",
+      },
+      {
+        id: "legdash",
+        icon: <Report size={16} />,
+        label: "Legislative Measures",
+      },
       { id: "session", icon: <Folder size={16} />, label: "Sessions" },
-      { id: "committee", icon: <UserMultiple size={16} />, label: "Committees" },
+      {
+        id: "committee",
+        icon: <UserMultiple size={16} />,
+        label: "Committees",
+      },
     ],
   },
 };
 
 export function getRoleNavigation(role: string): RoleNavigation {
-  return getCoreRoleNavigation(role) || compatibilityNavigation[role] || compatibilityNavigation.superadmin;
+  return (
+    getCoreRoleNavigation(role) ||
+    compatibilityNavigation[role] ||
+    compatibilityNavigation.superadmin
+  );
 }
 
 /**
@@ -168,9 +269,16 @@ export function getRoleNavigationCandidates(role: string): RoleNavItem[] {
  * lead at least one task visible to their account.
  */
 export function isRoleNavigationItemVisible(
-  item: Pick<RoleNavItem, "requiresLeadership">,
+  item: Pick<RoleNavItem, "requiresLeadership" | "requiresDepartmentHead">,
   hasLeadingWork: boolean,
+  persistedRole?: string,
 ): boolean {
+  if (
+    item.requiresDepartmentHead &&
+    !["dept_head", "department_head"].includes(persistedRole || "")
+  ) {
+    return false;
+  }
   return !item.requiresLeadership || hasLeadingWork;
 }
 

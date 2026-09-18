@@ -1,5 +1,5 @@
 import { supabase } from "../../../../lib/supabase";
-import type { BudgetLineInput, DepartmentBudgetBundle, ReceiptDraft, TaskFundingContext } from "../types";
+import type { AccountingAccount, BudgetLineInput, DepartmentBudgetBundle, GeneralJournalEntry, JournalAdjustmentLineInput, ReceiptDraft, TaskFundingContext } from "../types";
 import { mapAdjustment, mapAllocation, mapAllocationLine, mapBudgetLine, mapBudgetSummary, mapCommitment, mapLedger, mapLiquidation, mapReceipt, mapRelease, mapRequest } from "./budgetMappers";
 
 const throwIf = (error: { message: string } | null) => { if (error) throw new Error(error.message); };
@@ -274,8 +274,22 @@ export async function decidePettyCashLeaderReview(id: string, approve: boolean, 
   const { error } = await supabase.rpc("decide_petty_cash_leader_review", { p_request_id: id, p_approve: approve, p_reason: reason }); throwIf(error);
 }
 
-export async function markPettyCashReleased(releaseId: string) {
-  const { error } = await supabase.rpc("mark_petty_cash_released", { p_release_id: releaseId }); throwIf(error);
+export async function markPettyCashReleased(releaseId: string, release?: { method: "cash" | "cheque"; chequeNumber?: string }) {
+  if (!release) {
+    const { error } = await supabase.rpc("mark_petty_cash_released", { p_release_id: releaseId });
+    throwIf(error);
+    return;
+  }
+  const { error } = await supabase.rpc("record_accounting_petty_cash_release", {
+    p_release_id: releaseId,
+    p_release_method: release?.method || "cash",
+    p_cheque_number: release?.method === "cheque" ? release.chequeNumber?.trim() || null : null,
+  });
+  throwIf(error);
+}
+
+export async function recordAccountingRelease(input: { releaseId: string; method: "cash" | "cheque"; chequeNumber?: string }) {
+  await markPettyCashReleased(input.releaseId, { method: input.method, chequeNumber: input.chequeNumber });
 }
 
 export async function overridePettyCashReleaseSchedule(releaseId: string, reason: string) {
@@ -289,8 +303,11 @@ export async function overridePettyCashReleaseSchedule(releaseId: string, reason
   throwIf(error);
 }
 
-export async function acknowledgePettyCashRelease(releaseId: string) {
-  const { error } = await supabase.rpc("acknowledge_petty_cash_release", { p_release_id: releaseId }); throwIf(error);
+export async function acknowledgePettyCashRelease(releaseId: string, voucherNumber?: string) {
+  const { error } = voucherNumber
+    ? await supabase.rpc("acknowledge_accounting_release", { p_release_id: releaseId, p_voucher_number: voucherNumber })
+    : await supabase.rpc("acknowledge_petty_cash_release", { p_release_id: releaseId });
+  throwIf(error);
 }
 
 export async function adjustDepartmentFiscalBudget(input: { budgetId: string; adjustedAmount: number; reason: string; supportFilePath?: string }) {
@@ -336,7 +353,7 @@ export async function uploadCashRequestAttachment(input: { orgId: string; reques
   return String(data);
 }
 
-export async function submitPettyCashLiquidation(input: { orgId: string; requestId: string; spent: number; note: string; receipts: ReceiptDraft[]; idempotencyKey?: string }) {
+export async function submitPettyCashLiquidation(input: { orgId: string; requestId: string; spent: number; note: string; receipts: ReceiptDraft[]; refundReceiptNumber?: string; refundDate?: string; idempotencyKey?: string }) {
   const uploaded: Array<{ fileName: string; filePath: string; mimeType: string; fileSize: number }> = [];
   const idempotencyKey = input.idempotencyKey || crypto.randomUUID();
   let rpcStarted = false;
@@ -346,8 +363,8 @@ export async function submitPettyCashLiquidation(input: { orgId: string; request
       // A stable command-scoped path makes a network retry idempotent at the
       // storage layer as well as in PostgreSQL, avoiding orphaned duplicates.
       const filePath = `${input.orgId}/${input.requestId}/${idempotencyKey}-${index}-${safeFileName(receipt.file.name)}`;
-      const { error } = await supabase.storage.from("budget-receipts").upload(filePath, receipt.file, { upsert: true });
-      throwIf(error);
+      const { error } = await supabase.storage.from("budget-receipts").upload(filePath, receipt.file, { upsert: false });
+      if (error && !/already exists|duplicate/i.test(error.message)) throwIf(error);
       uploaded.push({ fileName: receipt.file.name, filePath, mimeType: receipt.file.type || "application/octet-stream", fileSize: receipt.file.size });
     }
     const payload = input.receipts.map((receipt, index) => ({
@@ -357,9 +374,11 @@ export async function submitPettyCashLiquidation(input: { orgId: string; request
     // Once PostgreSQL is called, a transport failure cannot prove the command
     // rolled back. Keep the stable files so an idempotent retry can reconcile.
     rpcStarted = true;
-    const { data, error } = await supabase.rpc("submit_contextual_cash_liquidation", {
+    const { data, error } = await supabase.rpc("submit_accounting_cash_liquidation", {
       p_request_id: input.requestId, p_declared_spent: input.spent, p_note: input.note, p_receipts: payload,
       p_idempotency_key: idempotencyKey,
+      p_refund_receipt_number: input.refundReceiptNumber?.trim() || null,
+      p_refund_date: input.refundDate || null,
     });
     if (error) throw error;
     return String(data);
@@ -370,7 +389,7 @@ export async function submitPettyCashLiquidation(input: { orgId: string; request
 }
 
 export async function decidePettyCashLiquidation(id: string, approve: boolean, reason: string) {
-  const { error } = await supabase.rpc("decide_petty_cash_liquidation", { p_liquidation_id: id, p_approve: approve, p_reason: reason }); throwIf(error);
+  const { error } = await supabase.rpc("settle_accounting_liquidation", { p_liquidation_id: id, p_approve: approve, p_reason: reason }); throwIf(error);
 }
 
 export async function decidePettyCashLiquidationLeaderReview(id: string, approve: boolean, reason: string) {
@@ -379,6 +398,79 @@ export async function decidePettyCashLiquidationLeaderReview(id: string, approve
 
 export async function createReceiptSignedUrl(path: string) {
   const { data, error } = await supabase.storage.from("budget-receipts").createSignedUrl(path, 600); throwIf(error); return data!.signedUrl;
+}
+
+export async function fetchAccountingAccounts(): Promise<AccountingAccount[]> {
+  const { data, error } = await supabase.from("accounting_accounts")
+    .select("code,title,classification,normal_balance")
+    .eq("is_active", true)
+    .order("code");
+  throwIf(error);
+  return ((data || []) as Array<Record<string, unknown>>).map((row) => ({
+    code: String(row.code),
+    title: String(row.title),
+    classification: String(row.classification) as AccountingAccount["classification"],
+    normalBalance: String(row.normal_balance) as AccountingAccount["normalBalance"],
+  }));
+}
+
+export async function fetchGeneralJournal(orgId: string, fiscalYear: number): Promise<GeneralJournalEntry[]> {
+  const start = `${fiscalYear}-01-01`;
+  const end = `${fiscalYear + 1}-01-01`;
+  const entriesResult = await supabase.from("general_journal_entries").select("*")
+    .eq("org_id", orgId).gte("entry_date", start).lt("entry_date", end)
+    .order("entry_date", { ascending: false }).order("entry_number", { ascending: false });
+  throwIf(entriesResult.error);
+  const entryRows = (entriesResult.data || []) as Array<Record<string, unknown>>;
+  const entryIds = entryRows.map((row) => String(row.id));
+  const posterIds = uniqueIds(entryRows.map((row) => row.posted_by));
+  const [linesResult, profilesResult] = await Promise.all([
+    entryIds.length ? supabase.from("general_journal_lines").select("*").in("journal_entry_id", entryIds).order("line_number") : Promise.resolve({ data: [], error: null }),
+    posterIds.length ? supabase.from("profiles").select("id,full_name").in("id", posterIds) : Promise.resolve({ data: [], error: null }),
+  ]);
+  throwIf(linesResult.error); throwIf(profilesResult.error);
+  const profileById = rowMap((profilesResult.data || []) as Array<Record<string, unknown>>);
+  const lineRows = (linesResult.data || []) as Array<Record<string, unknown>>;
+  return entryRows.map((row) => ({
+    id: String(row.id),
+    entryNumber: Number(row.entry_number || 0),
+    fiscalBudgetId: String(row.fiscal_budget_id),
+    orgId: String(row.org_id),
+    entryDate: String(row.entry_date),
+    referenceNumber: String(row.reference_number || ""),
+    sourceType: String(row.source_type) as GeneralJournalEntry["sourceType"],
+    sourceId: row.source_id ? String(row.source_id) : undefined,
+    memo: String(row.memo || ""),
+    postedBy: row.posted_by ? String(row.posted_by) : undefined,
+    postedByName: (profileById.get(String(row.posted_by || "")) as { full_name?: string } | undefined)?.full_name,
+    postedAt: row.posted_at ? new Date(String(row.posted_at)).getTime() : 0,
+    lines: lineRows.filter((line) => String(line.journal_entry_id) === String(row.id)).map((line) => ({
+      id: String(line.id),
+      lineNumber: Number(line.line_number || 0),
+      accountCode: String(line.account_code || ""),
+      accountTitle: String(line.account_title || ""),
+      debit: Number(line.debit || 0),
+      credit: Number(line.credit || 0),
+    })),
+  }));
+}
+
+export async function postGeneralJournalAdjustment(input: {
+  fiscalBudgetId: string;
+  entryDate: string;
+  referenceNumber: string;
+  memo: string;
+  lines: JournalAdjustmentLineInput[];
+}) {
+  const { data, error } = await supabase.rpc("post_general_journal_adjustment", {
+    p_fiscal_budget_id: input.fiscalBudgetId,
+    p_entry_date: input.entryDate,
+    p_reference_number: input.referenceNumber,
+    p_memo: input.memo,
+    p_lines: input.lines.map((line) => ({ accountCode: line.accountCode, debit: line.debit, credit: line.credit })),
+  });
+  throwIf(error);
+  return String(data);
 }
 
 function uniqueIds(values: unknown[]) {

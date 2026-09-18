@@ -11,6 +11,7 @@ const { createSubtaskMock, startTaskIfTodoMock, updateSubtaskMock } = vi.hoisted
 }));
 
 vi.mock("../../src/app/services/subtaskService", () => ({
+  getCachedSubtasks: () => undefined,
   subscribeToSubtasks: (_taskId: string, callback: (subtasks: unknown[]) => void) => {
     callback([
       {

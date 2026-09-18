@@ -182,6 +182,9 @@ export interface PettyCashRelease {
   acknowledgedBy?: string;
   acknowledgedAt?: number;
   createdAt: number;
+  voucherNumber?: string;
+  releaseMethod?: "cash" | "cheque";
+  chequeNumber?: string;
 }
 
 export interface PettyCashReceipt {
@@ -232,6 +235,47 @@ export interface PettyCashLiquidation {
   submittedAt: number;
   decisionReason?: string;
   receipts: PettyCashReceipt[];
+  liquidationNumber?: string;
+  refundReceiptNumber?: string;
+  refundDate?: string;
+}
+
+export interface AccountingAccount {
+  code: string;
+  title: string;
+  classification: "asset" | "liability" | "equity" | "income" | "expense";
+  normalBalance: "debit" | "credit";
+}
+
+export interface GeneralJournalLine {
+  id: string;
+  lineNumber: number;
+  accountCode: string;
+  accountTitle: string;
+  debit: number;
+  credit: number;
+}
+
+export interface GeneralJournalEntry {
+  id: string;
+  entryNumber: number;
+  fiscalBudgetId: string;
+  orgId: string;
+  entryDate: string;
+  referenceNumber: string;
+  sourceType: "cash_release" | "liquidation" | "manual_adjustment";
+  sourceId?: string;
+  memo: string;
+  postedBy?: string;
+  postedByName?: string;
+  postedAt: number;
+  lines: GeneralJournalLine[];
+}
+
+export interface JournalAdjustmentLineInput {
+  accountCode: string;
+  debit: number;
+  credit: number;
 }
 
 export interface BudgetLedgerEntry {

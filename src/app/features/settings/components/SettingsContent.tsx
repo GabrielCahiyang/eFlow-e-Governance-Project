@@ -5,14 +5,18 @@ import { NotificationSettingsPage } from './NotificationSettingsPage';
 import { ProfileSettingsPage } from './ProfileSettingsPage';
 import { SecuritySettingsPage } from './SecuritySettingsPage';
 
+function resolvePage(page?: string): string {
+  if (!page) return 'Profile';
+  if (page.toLowerCase() === 'settings') return 'Appearance';
+  if (['Profile', 'Appearance', 'Notifications', 'Security'].includes(page)) return page;
+  return 'Profile';
+}
+
 export function SettingsContent({ activePage }: { activePage?: string }) {
-  const initialPage = activePage && ['Profile', 'Appearance', 'Notifications', 'Security'].includes(activePage) ? activePage : 'Profile';
-  const [selectedPage, setSelectedPage] = useState<string>(initialPage);
+  const [selectedPage, setSelectedPage] = useState<string>(() => resolvePage(activePage));
 
   useEffect(() => {
-    if (activePage && ['Profile', 'Appearance', 'Notifications', 'Security'].includes(activePage)) {
-      setSelectedPage(activePage);
-    }
+    setSelectedPage(resolvePage(activePage));
   }, [activePage]);
 
   const page: Record<string, ReactNode> = {

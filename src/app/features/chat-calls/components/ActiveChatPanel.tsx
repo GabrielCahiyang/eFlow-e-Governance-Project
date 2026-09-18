@@ -1,10 +1,16 @@
+import { useState } from "react";
 import * as Icons from "lucide-react";
+import { AnimatePresence } from "motion/react";
+import * as m from "motion/react-m";
 import { deleteMessage } from "../../../services/chatService";
 import { initiateCall } from "../../../services/callService";
 import { useChatDrawer } from "./ChatDrawerContext";
 import { parseMessage } from "../services/chatMessageCodec";
+import { validateChatMessage } from "../services/chatModerationService";
+import { motionTransition } from "../../../shared/motion/motionTokens";
 
 export function ActiveChatPanel() {
+  const [moderationError, setModerationError] = useState<string | null>(null);
   const {
     userId, userName, channels, activeChannelId, setActiveChannelId, messages,
     draft, setDraft, setOutgoingCall, replyingTo, setReplyingTo,
@@ -376,16 +382,77 @@ export function ActiveChatPanel() {
                 </div>
               )}
 
+              <AnimatePresence>
+                {moderationError && (
+                  <m.div
+                    initial={{ opacity: 0, height: 0 }}
+                    animate={{ opacity: 1, height: "auto" }}
+                    exit={{ opacity: 0, height: 0 }}
+                    transition={motionTransition.productive}
+                    className="px-3.5 py-2 bg-rose-50 border-t border-rose-200 text-rose-800 text-[11px] flex items-center justify-between gap-2 shrink-0 font-medium"
+                  >
+                    <div className="flex items-center gap-1.5 truncate">
+                      <Icons.AlertTriangle size={13} className="text-rose-600 shrink-0" />
+                      <span className="truncate">{moderationError}</span>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setModerationError(null)}
+                      className="text-rose-500 hover:text-rose-700 p-0.5 rounded shrink-0"
+                    >
+                      <Icons.X size={12} />
+                    </button>
+                  </m.div>
+                )}
+              </AnimatePresence>
+
               <div className="p-3 border-t border-neutral-100 bg-white flex items-center gap-2 shrink-0">
-                <input
-                  value={draft}
-                  onChange={(e) => setDraft(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && handleSend()}
-                  placeholder="Message…"
-                  className="flex-1 h-[36px] rounded-full border border-neutral-200 bg-neutral-50 px-4 text-[12px] outline-none focus:border-neutral-300 focus:bg-white transition-all"
-                />
+                <div className="relative flex-1 flex items-center">
+                  <input
+                    value={draft}
+                    maxLength={1000}
+                    onChange={(e) => {
+                      setDraft(e.target.value);
+                      if (moderationError) setModerationError(null);
+                    }}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && !e.shiftKey) {
+                        e.preventDefault();
+                        if (!draft.trim()) return;
+                        const check = validateChatMessage(draft);
+                        if (!check.isValid) {
+                          setModerationError(check.reason || "Message violates workplace communication standards.");
+                          return;
+                        }
+                        setModerationError(null);
+                        handleSend();
+                      }
+                    }}
+                    placeholder="Message… (max 1,000 characters)"
+                    className="w-full h-[36px] rounded-full border border-neutral-200 bg-neutral-50 pl-4 pr-16 text-[12px] outline-none focus:border-neutral-300 focus:bg-white transition-all"
+                  />
+                  {draft.length > 0 && (
+                    <span
+                      className={`absolute right-3 text-[10px] tabular-nums font-medium pointer-events-none select-none ${
+                        draft.length > 900 ? "text-rose-500 font-semibold" : "text-neutral-400"
+                      }`}
+                    >
+                      {draft.length}/1000
+                    </span>
+                  )}
+                </div>
                 <button
-                  onClick={handleSend}
+                  type="button"
+                  onClick={() => {
+                    if (!draft.trim()) return;
+                    const check = validateChatMessage(draft);
+                    if (!check.isValid) {
+                      setModerationError(check.reason || "Message violates workplace communication standards.");
+                      return;
+                    }
+                    setModerationError(null);
+                    handleSend();
+                  }}
                   disabled={!draft.trim()}
                   className="w-9 h-9 rounded-full bg-blue-600 text-white flex items-center justify-center disabled:opacity-40 disabled:bg-neutral-200 hover:bg-blue-700 active:scale-95 transition-all shrink-0 shadow-sm"
                 >

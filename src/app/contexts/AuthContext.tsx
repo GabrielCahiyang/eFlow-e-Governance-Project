@@ -194,8 +194,22 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     })();
 
+    const profileChannel = supabase
+      .channel(`signed-in-profile:${user.id}`)
+      .on(
+        'postgres_changes',
+        { event: 'UPDATE', schema: 'public', table: 'profiles', filter: `id=eq.${user.id}` },
+        (payload) => {
+          if (active && payload.new) {
+            setUserProfile(addCompatAliases(payload.new as Record<string, unknown>));
+          }
+        },
+      )
+      .subscribe();
+
     return () => {
       active = false;
+      void supabase.removeChannel(profileChannel);
     };
   }, [user?.id]);
 

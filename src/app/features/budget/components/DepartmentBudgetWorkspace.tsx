@@ -13,8 +13,11 @@ import { BudgetReleasesPanel } from "./BudgetReleasesPanel";
 import { BudgetExpensesReport } from "./BudgetExpensesReport";
 import { BudgetOperationalSignals } from "./BudgetOperationalSignals";
 import { getCurrentFiscalYear } from "../constants";
+import { useGeneralJournal } from "../hooks/useGeneralJournal";
+import { GeneralJournalWorkspace } from "./GeneralJournalWorkspace";
+import { AccountingTrailPanel } from "./AccountingTrailPanel";
 
-type Tab = "overview" | "annual" | "funding" | "approvals" | "releases" | "expenses" | "ledger";
+type Tab = "overview" | "annual" | "funding" | "approvals" | "releases" | "expenses" | "journal" | "audit";
 
 export function DepartmentBudgetWorkspace() {
   const { userProfile } = useAuth();
@@ -22,6 +25,7 @@ export function DepartmentBudgetWorkspace() {
   const [fiscalYear, setFiscalYear] = useState(getCurrentFiscalYear());
   const [tab, setTab] = useState<Tab>("overview");
   const budget = useDepartmentBudget(orgId, fiscalYear);
+  const journal = useGeneralJournal(orgId, fiscalYear);
   const { tasks } = useTasks();
   const canPrepare = ["dept_head", "department_head"].includes(userProfile?.role || "");
   const pendingCount = budget.allocations.filter((item) => item.status === "pending").length
@@ -42,7 +46,8 @@ export function DepartmentBudgetWorkspace() {
         ["overview", "Overview", <Landmark size={12} />], ["annual", "Annual Budget", <BookOpenCheck size={12} />],
         ["funding", "Proposal & Task Funding", <BriefcaseBusiness size={12} />],
         ["approvals", `Funding Requests${pendingCount ? ` · ${pendingCount}` : ""}`, <WalletCards size={12} />], ["releases", "Releases & Settlement", <ListChecks size={12} />], ["expenses", "Expenses", <ReceiptText size={12} />],
-        ["ledger", "Audit ledger", <Archive size={12} />],
+        ["journal", "General Journal", <BookOpenCheck size={12} />],
+        ["audit", "Accounting Trail", <Archive size={12} />],
       ] as Array<[Tab, string, React.ReactNode]>).map(([id, label, icon]) => <button key={id} onClick={() => setTab(id)} className={`inline-flex h-9 items-center gap-1.5 rounded-xl px-3 text-[10px] font-medium transition ${tab === id ? "bg-neutral-950 text-white" : "text-neutral-500 hover:bg-neutral-50 hover:text-neutral-900"}`}>{icon}{label}</button>)}</nav>
       {!budget.summary && tab !== "annual" ? <BudgetEmpty title={`No ${fiscalYear} annual budget yet`} description="The Department Head must create and lock the annual budget before proposals and task-level cash requests can be funded." action={canPrepare ? <button onClick={() => setTab("annual")} className="rounded-xl bg-neutral-950 px-4 py-2.5 text-[10.5px] font-medium text-white">Create annual budget</button> : undefined} /> : <>
         {tab === "overview" && budget.summary && <Overview data={budget} summary={budget.summary} utilization={utilization} underTarget={underTarget} commitments={budget.commitments.length} pending={pendingCount} />}
@@ -51,7 +56,8 @@ export function DepartmentBudgetWorkspace() {
         {tab === "approvals" && <BudgetApprovalQueue data={budget} onChanged={budget.refresh} />}
         {tab === "releases" && <BudgetReleasesPanel data={budget} onChanged={budget.refresh} />}
         {tab === "expenses" && <BudgetExpensesReport data={budget} />}
-        {tab === "ledger" && <LedgerPanel entries={budget.ledger} />}
+        {tab === "journal" && <GeneralJournalWorkspace orgId={orgId} fiscalYear={fiscalYear} fiscalBudgetId={budget.summary?.id} approvedBudget={budget.summary?.approvedAmount} settledExpenses={budget.summary?.spentAmount} returnedCash={budget.requests.reduce((sum, request) => sum + (request.status === "settled" ? request.returnedAmount || 0 : 0), 0)} />}
+        {tab === "audit" && <AccountingTrailPanel data={budget} journalEntries={journal.entries} />}
       </>}
     </>}
   </div></div>;
@@ -60,5 +66,3 @@ export function DepartmentBudgetWorkspace() {
 function Overview({ data, summary, utilization, underTarget, commitments, pending }: { data: ReturnType<typeof useDepartmentBudget>; summary: NonNullable<ReturnType<typeof useDepartmentBudget>["summary"]>; utilization: number; underTarget: boolean; commitments: number; pending: number }) {
   return <div className="space-y-4"><div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4"><BudgetCard label="Approved annual budget" value={peso.format(summary.approvedAmount)} note={`${summary.fiscalYear} locked appropriation`} icon={<LockKeyhole size={15} />} /><BudgetCard label="Available for proposals" value={peso.format(summary.availableAmount)} note={`${commitments} published proposal commitment(s)`} icon={<Banknote size={15} />} tone={summary.availableAmount > 0 ? "good" : "warn"} /><BudgetCard label="Committed" value={peso.format(summary.committedAmount)} note="Reserved once by published task budgets" icon={<BriefcaseBusiness size={15} />} /><BudgetCard label="Actual spending" value={peso.format(summary.spentAmount)} note={`${utilization.toFixed(1)}% annual utilization`} icon={<TrendingUp size={15} />} tone={underTarget ? "warn" : "good"} /></div><div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4"><BudgetCard label="Cash release room today" value={peso.format(summary.dailyReleaseRemaining)} note={`${peso.format(summary.dailyPettyCashReleaseLimit)} daily ceiling`} icon={<WalletCards size={15} />} tone="good" /><BudgetCard label="Released today" value={peso.format(summary.releasedToday)} note={`${peso.format(summary.scheduledToday)} still scheduled today`} icon={<Banknote size={15} />} /><BudgetCard label="Cash awaiting settlement" value={peso.format(summary.pettyCashReserved)} note="Backed by task allocations—not a separate pool" icon={<Clock3 size={15} />} tone="warn" /><BudgetCard label="Approval inbox" value={String(pending)} note="Allocations, cash requests, and liquidations" icon={<ReceiptText size={15} />} tone={pending ? "warn" : "good"} /></div>{underTarget && <div className="flex gap-3 rounded-2xl border border-amber-200 bg-amber-50 p-4"><AlertTriangle size={18} className="shrink-0 text-amber-700" /><div><div className="text-[12px] font-semibold text-amber-950">Q4 utilization is below target</div><p className="mt-1 text-[10.5px] text-amber-800">Current utilization is {utilization.toFixed(1)}%; the department target is {summary.underutilizationThreshold}%. Review stalled commitments and pending liquidations.</p></div></div>}<section className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm"><div className="flex justify-between text-[10px] text-neutral-500"><span>Annual utilization</span><span>{utilization.toFixed(1)}%</span></div><div className="mt-2 h-3 overflow-hidden rounded-full bg-neutral-100"><div className={`h-full rounded-full ${underTarget ? "bg-amber-500" : "bg-emerald-500"}`} style={{ width: `${Math.min(100, utilization)}%` }} /></div><div className="mt-3 grid grid-cols-3 gap-3 text-[10px]"><div><span className="text-neutral-400">Available</span><div className="mt-1 font-medium">{peso.format(summary.availableAmount)}</div></div><div><span className="text-neutral-400">Committed balance</span><div className="mt-1 font-medium">{peso.format(summary.commitmentRemaining)}</div></div><div><span className="text-neutral-400">Spent</span><div className="mt-1 font-medium">{peso.format(summary.spentAmount)}</div></div></div></section><BudgetOperationalSignals data={data} /></div>;
 }
-
-function LedgerPanel({ entries }: { entries: ReturnType<typeof useDepartmentBudget>["ledger"] }) { if (!entries.length) return <BudgetEmpty title="No ledger entries" description="Locking the annual budget, publishing proposals, approving allocations, and settling expenses will create immutable entries here." />; return <div className="overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm">{entries.map((entry) => <div key={entry.id} className="flex items-center gap-3 border-b border-neutral-100 p-4 last:border-0"><div className="flex h-8 w-8 items-center justify-center rounded-lg bg-neutral-100 text-neutral-600"><Archive size={13} /></div><div className="min-w-0 flex-1"><div className="text-[10.5px] font-medium capitalize text-neutral-800">{entry.entryType.split("_").join(" ")}</div><div className="mt-0.5 truncate text-[9.5px] text-neutral-500">{entry.description} · {new Date(entry.createdAt).toLocaleString()}</div></div><div className="text-[11px] font-semibold tabular-nums">{peso.format(entry.amount)}</div></div>)}</div>; }

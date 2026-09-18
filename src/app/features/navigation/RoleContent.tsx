@@ -5,6 +5,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import { getNavigationPermission, isAdministrativeNavigationSection } from "./navigationPermissions";
 import { AccessDenied } from "./AccessDenied";
 import { getRoleNavigation } from "./roleNavigation";
+import { isAccountingSection } from "../../components/Layout/coreWorkflowNavigation";
 
 const SettingsContent = lazy(() => import("../../components/Settings/SettingsContent").then((module) => ({ default: module.SettingsContent })));
 const SuperAdminContent = lazy(() => import("../../components/SuperAdmin/SuperAdminContent").then((module) => ({ default: module.SuperAdminContent })));
@@ -15,6 +16,7 @@ const FinanceContent = lazy(() => import("../role-finance").then((module) => ({ 
 const DeptHeadContent = lazy(() => import("../role-department-head").then((module) => ({ default: module.DeptHeadContent })));
 const TeamLeaderContent = lazy(() => import("../../components/TeamLeader/TeamLeaderContent").then((module) => ({ default: module.TeamLeaderContent })));
 const EmployeeContent = lazy(() => import("../../components/Employee/EmployeeContent").then((module) => ({ default: module.EmployeeContent })));
+const AccountingStaffContent = lazy(() => import("../role-accounting").then((module) => ({ default: module.AccountingStaffContent })));
 
 interface RoleContentProps {
   role: string;
@@ -87,6 +89,19 @@ export function RoleContent({ role, activeSection, activePage, hasLeadingWork = 
       break;
     case "employee":
       content = <PageFrame padded={!isProjectsWorkspace}><EmployeeContent activeSection={activeSection} activePage={activePage} /></PageFrame>;
+      break;
+    case "accounting_staff":
+      /**
+       * Accounting staff keep their full employee workspace. When the active
+       * section is one of the dedicated accounting destinations, render the
+       * AccountingStaffContent; for all other sections (tasks, projects, etc.)
+       * the standard EmployeeContent handles the page — preserving every
+       * employee-facing workflow that existed before the accounting role was
+       * assigned.
+       */
+      content = isAccountingSection(activeSection)
+        ? <PageFrame padded={false}><AccountingStaffContent activeSection={activeSection} activePage={activePage} /></PageFrame>
+        : <PageFrame padded={!isProjectsWorkspace}><EmployeeContent activeSection={activeSection} activePage={activePage} /></PageFrame>;
       break;
     default:
       content = (

@@ -1,0 +1,1 @@
+export { AccountingStaffContent } from "./AccountingStaffContent";

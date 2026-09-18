@@ -7,18 +7,25 @@ export function PageWalkthroughButton() {
   return (
     <span data-tour-id="page-walkthrough">
       <Button
+        aria-label="Walkthrough"
         disabled={isTourActive}
         kind="tertiary"
         leftIcon={Help}
         onClick={startPageTour}
       >
-        Walkthrough
+        Tab Walkthrough
       </Button>
     </span>
   );
 }
 
-export function SystemWalkthroughButton({ collapsed, onBeforeStart }: { collapsed: boolean; onBeforeStart?: () => void }) {
+export function SystemWalkthroughButton({
+  collapsed,
+  onBeforeStart,
+}: {
+  collapsed: boolean;
+  onBeforeStart?: () => void;
+}) {
   const { isTourActive, startSystemTour } = useGuidedTour();
   const start = () => {
     onBeforeStart?.();

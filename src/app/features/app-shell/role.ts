@@ -7,6 +7,8 @@ export function mapRoleToPanel(role: string): string {
     case "assistant_head":
     case "department_head":
       return "depthead";
+    case "accounting_staff":
+      return "accounting_staff";
     case "team_leader":
     case "teamleader":
       return "employee";

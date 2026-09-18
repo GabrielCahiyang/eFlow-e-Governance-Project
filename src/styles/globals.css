@@ -317,3 +317,11 @@ html {
 .dark input:not([type="checkbox"]):not([type="radio"]),
 .dark textarea,
 .dark select { background-color: #111827; color: #e5edf9; }
+
+/* Ensure Vibe core dialog and dropdown popups appear above table headers and sticky board rows,
+   and are positioned relative to the viewport (not any scroll container) to prevent left-shift */
+.monday-style-dialog-content-wrapper,
+.monday-style-menu {
+  z-index: 9999 !important;
+  position: fixed !important;
+}

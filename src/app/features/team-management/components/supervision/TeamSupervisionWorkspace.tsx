@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { AttentionBox, Tab, TabList, TabsContext } from "@vibe/core";
 import { AlertTriangle, CircleAlert, Clock3, ListFilter } from "lucide-react";
+import { AnimatePresence } from "motion/react";
+import * as m from "motion/react-m";
 import { LoadingState, PageHeader, StatCard, WSelect } from "../../../../components/workflow/primitives";
 import { TaskDetailDrawer } from "../../../tasks";
 import type { Task } from "../../../tasks";
@@ -9,8 +11,9 @@ import type { TeamAttentionKind } from "../../types";
 import { TeamAttentionQueue } from "./TeamAttentionQueue";
 import { TeamMemberBoard } from "./TeamMemberBoard";
 import { TeamMemberOperationsPanel } from "./TeamMemberOperationsPanel";
+import { DepartmentIdentityAccessPanel } from "./DepartmentIdentityAccessPanel";
 
-type View = "attention" | "people";
+type View = "attention" | "people" | "identity";
 
 export function TeamSupervisionWorkspace() {
   const analytics = useDepartmentTeamAnalytics();
@@ -28,6 +31,12 @@ export function TeamSupervisionWorkspace() {
   const selectedMetric = analytics.memberMetrics.find((metric) => metric.employeeId === selectedEmployeeId);
   const filteredAttention = useMemo(() => analytics.attention.filter((item) => attentionFilter === "all" || item.kind === attentionFilter), [analytics.attention, attentionFilter]);
   const criticalCount = analytics.attention.filter((item) => item.severity === "critical").length;
+  const canManageIdentity = ["dept_head", "department_head"].includes(analytics.userProfile?.role || "");
+  const roleByEmployeeId = useMemo(() => new Map(Array.from(analytics.profilesById.entries()).map(([id, profile]) => [id, String(profile.role || "employee")])), [analytics.profilesById]);
+  const directDepartmentEmployees = useMemo(
+    () => analytics.deptEmployees.filter((employee) => employee.department === analytics.userProfile?.departmentId),
+    [analytics.deptEmployees, analytics.userProfile?.departmentId],
+  );
 
   const openTaskById = (taskId: string) => setOpenTask(analytics.tasks.find((task) => task.id === taskId) || null);
   const selectEmployee = (employeeId: string) => {
@@ -52,24 +61,25 @@ export function TeamSupervisionWorkspace() {
       </div>
 
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <TabsContext activeTabId={view === "attention" ? 0 : 1} id="team-supervision-tabs">
+        <TabsContext activeTabId={view === "attention" ? 0 : view === "people" ? 1 : 2} id="team-supervision-tabs">
           <TabList id="team-supervision-tab-list">
             <Tab active={view === "attention"} id="attention" onClick={() => setView("attention")}>Attention queue</Tab>
             <Tab active={view === "people"} id="people" onClick={() => setView("people")}>People & workload</Tab>
+            {canManageIdentity ? <Tab active={view === "identity"} id="identity" onClick={() => setView("identity")}>Identity &amp; Access</Tab> : <></>}
           </TabList>
         </TabsContext>
         {view === "attention" && <WSelect ariaLabel="Filter attention queue" value={attentionFilter} onChange={(value) => setAttentionFilter(value as TeamAttentionKind | "all")} options={[ { value: "all", label: "All attention items" }, { value: "overdue", label: "Overdue" }, { value: "due_soon", label: "Due soon" }, { value: "blocked", label: "Blocked" }, { value: "stalled", label: "Stalled" }, { value: "awaiting_review", label: "Review waiting" }, { value: "changes_requested", label: "Changes requested" }, { value: "unassigned", label: "Unassigned" }, { value: "vague_schedule", label: "Vague schedules" } ]} />}
       </div>
 
-      <div className="grid grid-cols-1 items-start gap-5 xl:grid-cols-[minmax(0,1fr)_390px]">
+      <div className={`grid grid-cols-1 items-start gap-5 ${view === "identity" ? "" : "xl:grid-cols-[minmax(0,1fr)_390px]"}`}>
         <main className="min-w-0">
-          {view === "attention" ? (
-            <TeamAttentionQueue items={filteredAttention} onOpenTask={openTaskById} onSelectEmployee={selectEmployee} />
-          ) : (
-            <TeamMemberBoard employees={analytics.deptEmployees} metrics={analytics.memberMetrics} selectedEmployeeId={selectedEmployeeId} search={search} onSearch={setSearch} onSelect={setSelectedEmployeeId} />
-          )}
+          <AnimatePresence mode="wait" initial={false}>
+            <m.div key={view} initial={{ opacity: 0, x: 8 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -8 }} transition={{ duration: .18 }}>
+              {view === "attention" ? <TeamAttentionQueue items={filteredAttention} onOpenTask={openTaskById} onSelectEmployee={selectEmployee} /> : view === "people" ? <TeamMemberBoard employees={analytics.deptEmployees} metrics={analytics.memberMetrics} selectedEmployeeId={selectedEmployeeId} search={search} onSearch={setSearch} onSelect={setSelectedEmployeeId} /> : <DepartmentIdentityAccessPanel employees={directDepartmentEmployees} roles={roleByEmployeeId} />}
+            </m.div>
+          </AnimatePresence>
         </main>
-        <TeamMemberOperationsPanel employee={selectedEmployee} employees={analytics.deptEmployees} metric={selectedMetric} tasks={analytics.tasks} subtasks={analytics.facts.subtasks} onOpenTask={setOpenTask} />
+        {view !== "identity" && <TeamMemberOperationsPanel employee={selectedEmployee} employees={analytics.deptEmployees} metric={selectedMetric} tasks={analytics.tasks} subtasks={analytics.facts.subtasks} onOpenTask={setOpenTask} />}
       </div>
 
       <TaskDetailDrawer task={openTask} onClose={() => setOpenTask(null)} canDiscuss />

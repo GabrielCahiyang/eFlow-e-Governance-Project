@@ -59,6 +59,10 @@ The current task-flow additions are:
 51. `20260826000002_task_leader_only_subtask_management.sql` — enforces Task Leader authority for subtask creation, ordering, standalone conversion, assignment, deadline, and deletion operations.
 52. `20260826000003_dynamic_task_funding.sql` — consolidates cash into task/subtask context, reserves the shared proposal pool atomically, makes subtask caps optional, requires a source line and fund, skips self-endorsement for Task Leaders, records an append-only audit trail, and repairs proven collaboration workspace membership paths.
 53. `20260826000004_release_correction_holds_and_notify_reviewers.sql` — releases temporary holds while a cash request is returned for correction, restores the hold atomically on resubmission, and alerts the Team Leader or fiscal reviewer when corrected funding re-enters their queue.
+54. `20260831000001_task_evidence_security.sql` — seals task evidence metadata and storage objects behind scoped, append-only verification controls.
+55. `20260831000002_cash_release_schedule_override.sql` — adds an explicit, audited Head-only date override while preserving daily release ceilings.
+56. `20260831000003_project_completion_lifecycle.sql` — adds server-enforced project completion readiness and lifecycle transitions.
+57. `20260919000000_phase04_phase05_accounting.sql` — adds the optional department-scoped Accounting Staff role, Head-managed Identity & Access, stable voucher/liquidation references, cash and cheque release routing, immutable receipts, automated balanced journal posting, controlled correction entries, settlement notifications, and accounting-specific RLS.
 
 Apply these files in the listed order. The Assistant Head migration defensively
 creates the two reviewer columns when absent, but it does not replace the full

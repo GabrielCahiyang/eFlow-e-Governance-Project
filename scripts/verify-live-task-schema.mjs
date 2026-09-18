@@ -39,12 +39,17 @@ async function verifyLiveSchema() {
 
   for (const table of [
     "audit_events",
+    "accounting_accounts",
     "budget_commitments",
     "budget_ledger_entries",
     "department_budget_lines",
     "department_budget_adjustments",
+    "department_accounting_settings",
+    "department_budget_account_mappings",
     "department_fiscal_budgets",
     "milestones",
+    "general_journal_entries",
+    "general_journal_lines",
     "hierarchy_deadline_reminders",
     "monthly_productivity_snapshots",
     "project_members",
@@ -130,6 +135,12 @@ async function verifyLiveSchema() {
   }
   if (!definitions.petty_cash_liquidations?.properties?.idempotency_key) {
     missing.push("petty_cash_liquidations.idempotency_key");
+  }
+  for (const column of ["liquidation_number", "refund_receipt_number", "refund_date"]) {
+    if (!definitions.petty_cash_liquidations?.properties?.[column]) missing.push(`petty_cash_liquidations.${column}`);
+  }
+  for (const column of ["voucher_number", "release_method", "cheque_number"]) {
+    if (!definitions.petty_cash_releases?.properties?.[column]) missing.push(`petty_cash_releases.${column}`);
   }
   for (const column of ["task_id", "subtask_id", "allocation_line_id", "actor_role", "previous_state", "new_state", "reason", "correlation_key"]) {
     if (!definitions.budget_ledger_entries?.properties?.[column]) missing.push(`budget_ledger_entries.${column}`);
@@ -218,6 +229,7 @@ async function verifyLiveSchema() {
     "decide_petty_cash_leader_review",
     "mark_petty_cash_released",
     "acknowledge_petty_cash_release",
+    "acknowledge_accounting_release",
     "resubmit_petty_cash_request",
     "submit_petty_cash_liquidation",
     "decide_petty_cash_liquidation",
@@ -227,6 +239,13 @@ async function verifyLiveSchema() {
     "close_department_fiscal_budget",
     "run_department_budget_maintenance",
     "department_budget_summary",
+    "is_department_accounting_staff",
+    "can_manage_department_accounting",
+    "set_department_accounting_staff",
+    "submit_accounting_cash_liquidation",
+    "record_accounting_petty_cash_release",
+    "settle_accounting_liquidation",
+    "post_general_journal_adjustment",
   ]) {
     if (!paths[`/rpc/${rpc}`]) missing.push(`rpc:${rpc}`);
   }

@@ -98,7 +98,7 @@ function StatCardContent({
   icon,
 }: {
   label: string;
-  value: string | number;
+  value: React.ReactNode;
   hint?: string;
   tone: "neutral" | "good" | "warn" | "bad" | "info";
   icon?: React.ReactNode;
@@ -138,7 +138,7 @@ export function StatCard({
   active,
 }: {
   label: string;
-  value: string | number;
+  value: React.ReactNode;
   hint?: string;
   tone?: "neutral" | "good" | "warn" | "bad" | "info";
   icon?: React.ReactNode;

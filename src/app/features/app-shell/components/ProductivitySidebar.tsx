@@ -16,6 +16,7 @@ export interface ShellPage {
 export interface ShellNavigationItem extends RoleNavItem {
   group: string;
   pages: ShellPage[];
+  hasAlert?: boolean;
 }
 
 interface ProductivitySidebarProps {
@@ -151,7 +152,15 @@ export function ProductivitySidebar({
                             type="button"
                             whileTap={{ scale: 0.92 }}
                           >
-                            <span className="eflow-productivity-sidebar__compact-icon"><Icon size={20} /></span>
+                            <span className="eflow-productivity-sidebar__compact-icon relative">
+                              <Icon size={20} />
+                              {item.hasAlert && (
+                                <span className="absolute -top-0.5 -right-0.5 flex h-2 w-2 pointer-events-none" title="Actions pending">
+                                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75" />
+                                  <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.9)]" />
+                                </span>
+                              )}
+                            </span>
                           </m.button>
                         </Tooltip>
                       </div>
@@ -179,6 +188,12 @@ export function ProductivitySidebar({
                         onClick={() => selectSection(item)}
                       >
                         <span className="eflow-productivity-sidebar__item-label">{item.label}</span>
+                        {item.hasAlert && (
+                          <span className="ml-auto mr-1.5 flex h-2 w-2 shrink-0 pointer-events-none" title="Actions pending">
+                            <span className="animate-ping absolute inline-flex h-2 w-2 rounded-full bg-amber-400 opacity-75" />
+                            <span className="relative inline-flex rounded-full h-2 w-2 bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.9)]" />
+                          </span>
+                        )}
                         {hasSubpages && (
                           <span
                             aria-hidden="true"

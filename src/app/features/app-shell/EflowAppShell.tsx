@@ -13,7 +13,10 @@ import { GuidedTourProvider } from "../guided-tours";
 import { useTasksData } from "../../hooks/useSupabaseData";
 import { isTaskLead } from "../../services/taskSelectors";
 import { EflowTopBar } from "./components/EflowTopBar";
-import { ProductivitySidebar, type ShellNavigationItem } from "./components/ProductivitySidebar";
+import {
+  ProductivitySidebar,
+  type ShellNavigationItem,
+} from "./components/ProductivitySidebar";
 import "./eflowAppShell.css";
 
 interface EflowAppShellProps {
@@ -39,24 +42,31 @@ export function EflowAppShell({ role }: EflowAppShellProps) {
     },
     [role],
   );
-  const { activePage, activeSection, selectPage } = useRoleNavigationState(role, getInitialPage);
+  const { activePage, activeSection, selectPage } = useRoleNavigationState(
+    role,
+    getInitialPage,
+  );
 
   // Keep the browser tab useful as users move between role-specific menus.
   // The login route owns the base "eFlow" title; the authenticated shell sets
   // the currently selected destination without changing navigation behavior.
   useEffect(() => {
     if (typeof document === "undefined") return;
-    const sectionLabel = getRoleNavigationCandidates(role).find(
-      (item) => item.id === activeSection,
-    )?.label;
+    const sectionLabel =
+      activeSection === "settings"
+        ? "Settings"
+        : getRoleNavigationCandidates(role).find(
+            (item) => item.id === activeSection,
+          )?.label;
     const activity = activePage?.trim() || sectionLabel || "eFlow";
     document.title = activity;
   }, [activePage, activeSection, role]);
 
-  const hasLeadingWork = Boolean(userId) && tasks.some((task) => isTaskLead(task, userId));
+  const hasLeadingWork =
+    Boolean(userId) && tasks.some((task) => isTaskLead(task, userId));
   const visibleNavigationItems = getRoleNavigationCandidates(role).filter(
     (item) =>
-      isRoleNavigationItemVisible(item, hasLeadingWork) &&
+      isRoleNavigationItemVisible(item, hasLeadingWork, userProfile?.role) &&
       canOpenNavigationSection(
         role,
         item.id,
@@ -64,26 +74,31 @@ export function EflowAppShell({ role }: EflowAppShellProps) {
         Boolean(item.requiresLeadership && hasLeadingWork),
       ),
   );
+  const hasPendingReviews = tasks.some((task) => task.status === "for_review");
   const navigationItems = useMemo<ShellNavigationItem[]>(
     () =>
       visibleNavigationItems.map((item) => {
         const content = getSidebarContent(role, item.id);
         const pages = getSectionPages(role, item.id);
+        const hasAlert =
+          (item.id === "reviews" || item.id === "approvals") && hasPendingReviews;
         return {
           ...item,
           group: content.sections[0]?.title || "Workspace",
-          pages: pages.length > 0
-            ? pages
-            : [{ label: item.label }],
+          pages: pages.length > 0 ? pages : [{ label: item.label }],
+          hasAlert,
         };
       }),
-    [role, visibleNavigationItems],
+    [role, visibleNavigationItems, hasPendingReviews],
   );
 
   useEffect(() => {
-    if (visibleNavigationItems.some((item) => item.id === activeSection)) return;
+    if (activeSection === "settings") return;
+    if (visibleNavigationItems.some((item) => item.id === activeSection))
+      return;
     const fallback = visibleNavigationItems[0];
-    if (fallback) selectPage(fallback.id, getInitialPage(fallback.id) || fallback.label);
+    if (fallback)
+      selectPage(fallback.id, getInitialPage(fallback.id) || fallback.label);
   }, [activeSection, getInitialPage, selectPage, visibleNavigationItems]);
 
   const handlePageSelect = useCallback(
@@ -110,7 +125,9 @@ export function EflowAppShell({ role }: EflowAppShellProps) {
       userId={user?.id || ""}
     >
       <div className="eflow-app-shell" data-tour-id="application-shell">
-        <a className="eflow-skip-link" href="#eflow-active-workspace">Skip to workspace</a>
+        <a className="eflow-skip-link" href="#eflow-active-workspace">
+          Skip to workspace
+        </a>
         <EflowTopBar
           activePage={activePage}
           activeSection={activeSection}
@@ -127,7 +144,12 @@ export function EflowAppShell({ role }: EflowAppShellProps) {
               onPageSelect={handlePageSelect}
             />
           </div>
-          <main className="eflow-app-shell__workspace" aria-label="Active workspace" id="eflow-active-workspace" tabIndex={-1}>
+          <main
+            className="eflow-app-shell__workspace"
+            aria-label="Active workspace"
+            id="eflow-active-workspace"
+            tabIndex={-1}
+          >
             <RoleContent
               activePage={activePage}
               activeSection={activeSection}

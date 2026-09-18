@@ -3,9 +3,13 @@ import { Button, Label } from "@vibe/core";
 import { Open } from "@vibe/icons";
 import {
   AlertTriangle,
+  Archive,
   CheckCircle2,
   Clock3,
 } from "lucide-react";
+import { AnimatePresence } from "motion/react";
+import * as m from "motion/react-m";
+import { motionTransition } from "../../../shared/motion/motionTokens";
 import { formatDate } from "../../../components/workflow/primitives";
 import type {
   CommittedProposalDeliverySummary,
@@ -38,14 +42,17 @@ export function CommittedProposalDeliveryPanel({
   onArchive: () => Promise<void>;
 }) {
   const [confirmArchive, setConfirmArchive] = React.useState(false);
+  const [isArchivedOptimistic, setIsArchivedOptimistic] = React.useState(false);
+
+  const effectiveStage = isArchivedOptimistic ? "archived" : summary.stage;
 
   const stageColor =
-    summary.stage === "attention"
+    effectiveStage === "attention"
       ? "negative"
-      : summary.stage === "awaiting_review"
+      : effectiveStage === "awaiting_review"
         ? "working_orange"
         : ["ready_to_complete", "ready_to_archive", "archived"].includes(
-              summary.stage,
+              effectiveStage,
             )
           ? "positive"
           : "primary";
@@ -53,10 +60,21 @@ export function CommittedProposalDeliveryPanel({
   const totalAttention =
     summary.overdueCount + summary.changesRequestedCount;
 
+  const handleConfirmArchive = async () => {
+    setIsArchivedOptimistic(true);
+    setConfirmArchive(false);
+    try {
+      await onArchive();
+    } catch (err) {
+      setIsArchivedOptimistic(false);
+      throw err;
+    }
+  };
+
   return (
     <div className="space-y-4">
       {/* Stage Alert when attention or action is required */}
-      {summary.stage === "attention" && (
+      {effectiveStage === "attention" && (
         <div className="flex items-start gap-2.5 rounded-lg border border-red-200 bg-red-50 p-3.5 text-xs text-red-800">
           <AlertTriangle size={16} className="mt-0.5 shrink-0" />
           <div>
@@ -67,7 +85,7 @@ export function CommittedProposalDeliveryPanel({
         </div>
       )}
 
-      {summary.stage === "awaiting_review" && (
+      {effectiveStage === "awaiting_review" && (
         <div className="flex items-start gap-2.5 rounded-lg border border-amber-200 bg-amber-50 p-3.5 text-xs text-amber-800">
           <Clock3 size={16} className="mt-0.5 shrink-0" />
           <div>
@@ -77,7 +95,7 @@ export function CommittedProposalDeliveryPanel({
         </div>
       )}
 
-      {summary.stage === "ready_to_complete" && (
+      {effectiveStage === "ready_to_complete" && (
         <div className="flex items-center justify-between gap-3 rounded-lg border border-emerald-200 bg-emerald-50 p-3.5 text-xs text-emerald-800">
           <div className="flex items-start gap-2.5">
             <CheckCircle2 size={16} className="mt-0.5 shrink-0" />
@@ -98,48 +116,79 @@ export function CommittedProposalDeliveryPanel({
         </div>
       )}
 
-      {summary.stage === "ready_to_archive" && !confirmArchive && (
-        <div className="flex items-center justify-between gap-3 rounded-lg border border-neutral-200 bg-neutral-50 p-3.5 text-xs text-neutral-800">
-          <div>
-            <span className="font-semibold">Delivery is complete.</span> Archive
-            the operational projects when the records no longer need to remain active.
-          </div>
-          {canManage && (
-            <Button
-              kind="secondary"
-              size="small"
-              disabled={busy}
-              onClick={() => setConfirmArchive(true)}
-            >
-              Archive completed proposal
-            </Button>
-          )}
-        </div>
-      )}
+      <AnimatePresence mode="wait">
+        {effectiveStage === "ready_to_archive" && !confirmArchive && (
+          <m.div
+            key="ready-to-archive-banner"
+            initial={{ opacity: 0, y: -4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={motionTransition.productive}
+            className="flex items-center justify-between gap-3 rounded-lg border border-neutral-200 bg-neutral-50 p-3.5 text-xs text-neutral-800"
+          >
+            <div>
+              <span className="font-semibold">Delivery is complete.</span> Archive
+              the operational projects when the records no longer need to remain active.
+            </div>
+            {canManage && (
+              <Button
+                kind="secondary"
+                size="small"
+                disabled={busy}
+                onClick={() => setConfirmArchive(true)}
+              >
+                Archive completed proposal
+              </Button>
+            )}
+          </m.div>
+        )}
 
-      {confirmArchive && (
-        <div className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-amber-200 bg-amber-50 p-3.5 text-xs text-amber-900">
-          <span>
-            Archive all completed operational projects? Governance history and audit logs remain intact.
-          </span>
-          <div className="flex gap-2">
-            <Button
-              kind="tertiary"
-              size="small"
-              onClick={() => setConfirmArchive(false)}
-            >
-              Cancel
-            </Button>
-            <Button
-              size="small"
-              disabled={busy}
-              onClick={() => void onArchive().then(() => setConfirmArchive(false))}
-            >
-              Confirm archive
-            </Button>
-          </div>
-        </div>
-      )}
+        {confirmArchive && !isArchivedOptimistic && (
+          <m.div
+            key="confirm-archive-banner"
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            transition={motionTransition.productive}
+            className="flex flex-wrap items-center justify-between gap-3 rounded-lg border border-amber-200 bg-amber-50 p-3.5 text-xs text-amber-900"
+          >
+            <span>
+              Archive all completed operational projects? Governance history and audit logs remain intact.
+            </span>
+            <div className="flex gap-2">
+              <Button
+                kind="tertiary"
+                size="small"
+                onClick={() => setConfirmArchive(false)}
+              >
+                Cancel
+              </Button>
+              <Button
+                size="small"
+                disabled={busy}
+                onClick={() => void handleConfirmArchive()}
+              >
+                Confirm archive
+              </Button>
+            </div>
+          </m.div>
+        )}
+
+        {effectiveStage === "archived" && (
+          <m.div
+            key="archived-banner"
+            initial={{ opacity: 0, y: -4 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={motionTransition.productive}
+            className="flex items-center gap-2 rounded-lg border border-neutral-200 bg-neutral-100 p-3.5 text-xs text-neutral-700"
+          >
+            <Archive size={16} className="mt-0.5 shrink-0 text-neutral-500" />
+            <div>
+              <span className="font-semibold">Delivery archived.</span> All operational projects for this proposal have been archived.
+            </div>
+          </m.div>
+        )}
+      </AnimatePresence>
 
       {/* Operational Pulse Strip */}
       <div className="eflow-health-strip">
@@ -156,7 +205,7 @@ export function CommittedProposalDeliveryPanel({
         <div className="eflow-health-item">
           <span className="eflow-health-item-label">Delivery status</span>
           <div>
-            <Label text={DELIVERY_STAGE_LABELS[summary.stage]} color={stageColor} />
+            <Label text={DELIVERY_STAGE_LABELS[effectiveStage]} color={stageColor} />
           </div>
         </div>
 

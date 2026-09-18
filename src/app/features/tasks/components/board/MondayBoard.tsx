@@ -1,9 +1,16 @@
 import { useMemo, useState } from "react";
-import { Dropdown, Tab, TabList, TabsContext } from "@vibe/core";
+import { Tab, TabList, TabsContext } from "@vibe/core";
 import { AnimatePresence } from "motion/react";
 import * as m from "motion/react-m";
-import { Archive, BarChart2, Columns, Layers, List } from "lucide-react";
-import { uniqueValues, type BoardView, type MondayBoardProps } from "./model";
+import { Archive, BarChart2, ChevronDown, Columns, FolderOpen, Layers, List } from "lucide-react";
+import * as SelectPrimitive from "@radix-ui/react-select";
+import {
+  buildProjectFilterOptions,
+  filterTasksByProject,
+  uniqueValues,
+  type BoardView,
+  type MondayBoardProps,
+} from "./model";
 import { AssignmentModal } from "./AssignmentModal";
 import { TaskEditorModal } from "./TaskEditorModal";
 import { SubmitForReviewModal, UndoCompletedModal } from "./TaskSubmissionModals";
@@ -29,6 +36,9 @@ const boardViewOptions: { id: BoardView; label: string; icon: React.ReactNode }[
 
 export function MondayBoard({
   tasks,
+  projects,
+  selectedProjectId,
+  onSelectProject,
   employees = [],
   allEmployees = [],
   employeeNotes,
@@ -44,13 +54,34 @@ export function MondayBoard({
   onDeleteTask,
 }: MondayBoardProps) {
   const [recordScope, setRecordScope] = useState<"active" | "archived">("active");
+  const [internalProjectId, setInternalProjectId] = useState<string>("all");
+  const activeProjectId = selectedProjectId ?? internalProjectId;
+  const handleSelectProject = (projectId: string) => {
+    if (onSelectProject) {
+      onSelectProject(projectId);
+    } else {
+      setInternalProjectId(projectId);
+    }
+  };
+
   const scopedTasks = useMemo(
     () => tasks.filter((task) => recordScope === "archived" ? Boolean(task.archivedAt) : !task.archivedAt),
     [recordScope, tasks],
   );
+
+  const projectOptions = useMemo(
+    () => buildProjectFilterOptions(scopedTasks, projects),
+    [scopedTasks, projects],
+  );
+
+  const filteredTasks = useMemo(
+    () => filterTasksByProject(scopedTasks, activeProjectId),
+    [scopedTasks, activeProjectId],
+  );
+
   // ── View & composer state ─────────────────────────────────────
   const controller = useMondayBoardController({
-    tasks: scopedTasks, employees, allEmployees, employeeNotes, role, departmentFilter,
+    tasks: filteredTasks, employees, allEmployees, employeeNotes, role, departmentFilter,
     currentUserId, currentUserName, onAssign, onExecute, onSubmit, onVerify,
     onUpdateTask, onDeleteTask,
   });
@@ -87,18 +118,52 @@ export function MondayBoard({
       {/* ─── Task Board ──────────────────────────────────────────── */}
       <div>
         {/* View switcher header */}
-        <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-          <div className="flex items-center gap-2 text-[11.5px] text-neutral-500">
-            <Archive size={13} />
-            <Dropdown
-              aria-label="Task record scope"
-              className="w-[170px]"
-              clearable={false}
-              options={recordScopeOptions}
-              size="small"
-              value={recordScopeOptions.find((option) => option.value === recordScope)}
-              onChange={(option) => setRecordScope(String(option.value) as typeof recordScope)}
-            />
+        <div className="relative z-30 mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <div className="flex flex-wrap items-center gap-3 text-[11.5px] text-neutral-500">
+            <div className="flex items-center gap-1.5 shrink-0">
+              <Archive size={13} className="shrink-0" />
+              <SelectPrimitive.Root value={recordScope} onValueChange={(v) => setRecordScope(v as typeof recordScope)}>
+                <SelectPrimitive.Trigger className="flex h-[28px] w-[155px] items-center justify-between gap-1 rounded-[4px] border border-[#c5c7d0] bg-white px-2 text-[13px] text-[#323338] outline-none hover:border-[#1f76c2] focus:border-[#1f76c2] data-[placeholder]:text-[#676879]">
+                  <SelectPrimitive.Value />
+                  <SelectPrimitive.Icon asChild>
+                    <ChevronDown size={14} className="shrink-0 text-[#676879]" />
+                  </SelectPrimitive.Icon>
+                </SelectPrimitive.Trigger>
+                <SelectPrimitive.Portal>
+                  <SelectPrimitive.Content position="popper" sideOffset={4} className="z-[9999] min-w-[var(--radix-select-trigger-width)] overflow-hidden rounded-[4px] border border-[#c5c7d0] bg-white shadow-[0_6px_20px_rgba(0,0,0,0.2)]">
+                    <SelectPrimitive.Viewport>
+                      {recordScopeOptions.map((opt) => (
+                        <SelectPrimitive.Item key={opt.value} value={opt.value} className="flex cursor-pointer select-none items-center px-3 py-[6px] text-[13px] text-[#323338] outline-none hover:bg-[#e8f0fe] data-[state=checked]:bg-[#e8f0fe] data-[state=checked]:text-[#1f76c2]">
+                          <SelectPrimitive.ItemText>{opt.label}</SelectPrimitive.ItemText>
+                        </SelectPrimitive.Item>
+                      ))}
+                    </SelectPrimitive.Viewport>
+                  </SelectPrimitive.Content>
+                </SelectPrimitive.Portal>
+              </SelectPrimitive.Root>
+            </div>
+            <div className="flex items-center gap-1.5 shrink-0">
+              <FolderOpen size={13} className="shrink-0" />
+              <SelectPrimitive.Root value={activeProjectId} onValueChange={handleSelectProject}>
+                <SelectPrimitive.Trigger className="flex h-[28px] w-[240px] items-center justify-between gap-1 rounded-[4px] border border-[#c5c7d0] bg-white px-2 text-[13px] text-[#323338] outline-none hover:border-[#1f76c2] focus:border-[#1f76c2] data-[placeholder]:text-[#676879]">
+                  <SelectPrimitive.Value />
+                  <SelectPrimitive.Icon asChild>
+                    <ChevronDown size={14} className="shrink-0 text-[#676879]" />
+                  </SelectPrimitive.Icon>
+                </SelectPrimitive.Trigger>
+                <SelectPrimitive.Portal>
+                  <SelectPrimitive.Content position="popper" sideOffset={4} className="z-[9999] min-w-[var(--radix-select-trigger-width)] overflow-hidden rounded-[4px] border border-[#c5c7d0] bg-white shadow-[0_6px_20px_rgba(0,0,0,0.2)]">
+                    <SelectPrimitive.Viewport>
+                      {projectOptions.map((opt) => (
+                        <SelectPrimitive.Item key={opt.value} value={opt.value} className="flex cursor-pointer select-none items-center px-3 py-[6px] text-[13px] text-[#323338] outline-none hover:bg-[#e8f0fe] data-[state=checked]:bg-[#e8f0fe] data-[state=checked]:text-[#1f76c2]">
+                          <SelectPrimitive.ItemText>{opt.label}</SelectPrimitive.ItemText>
+                        </SelectPrimitive.Item>
+                      ))}
+                    </SelectPrimitive.Viewport>
+                  </SelectPrimitive.Content>
+                </SelectPrimitive.Portal>
+              </SelectPrimitive.Root>
+            </div>
           </div>
           <div className="max-w-full overflow-x-auto">
             <TabsContext
@@ -127,6 +192,7 @@ export function MondayBoard({
         <AnimatePresence mode="wait" initial={false}>
           <m.div
             key={boardView}
+            className="relative z-0"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}

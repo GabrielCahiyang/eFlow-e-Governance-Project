@@ -1,6 +1,11 @@
 import { useEffect, useMemo, useState, type ReactNode } from "react";
+import { Button } from "@vibe/core";
+import { AnimatePresence } from "motion/react";
+import * as m from "motion/react-m";
 import { Banknote, Check, FileCheck2, WalletCards, X } from "lucide-react";
+import { BxSliderAlt, BxsBolt, BxsCheckShield } from "../../../components/ui/boxicons";
 import { useAuth } from "../../../contexts/AuthContext";
+import { motionTransition } from "../../../shared/motion/motionTokens";
 import type { DepartmentBudgetBundle } from "../types";
 import {
   createReceiptSignedUrl,
@@ -12,6 +17,8 @@ import {
   markPettyCashReleased,
 } from "../services/budgetService";
 import { BudgetEmpty, peso, StatusPill } from "./budgetUi";
+import { useApprovalThreshold } from "../hooks/useApprovalThreshold";
+import { ApprovalThresholdDialog } from "./ApprovalThresholdDialog";
 
 type RejectionTarget = {
   id: string;
@@ -30,12 +37,19 @@ export function BudgetApprovalQueue({
 }) {
   const { userProfile } = useAuth();
   const currentUserId = userProfile?.id || "";
+  const orgId = userProfile?.org_id || userProfile?.departmentId || data.summary?.orgId || "";
   const isDepartmentApprover = ["dept_head", "department_head", "assistant_head"].includes(userProfile?.role || "");
+  const { threshold, setThreshold, defaultThreshold } = useApprovalThreshold(orgId);
+  const [thresholdDialogOpen, setThresholdDialogOpen] = useState(false);
+  const [batchBusy, setBatchBusy] = useState(false);
   const [busy, setBusy] = useState("");
   const [message, setMessage] = useState("");
   const [rejection, setRejection] = useState<RejectionTarget | null>(null);
   const pendingAllocations = data.allocations.filter((item) => isDepartmentApprover && item.status === "pending" && item.requestedBy !== currentUserId);
   const pendingRequests = data.requests.filter((item) => (isDepartmentApprover && item.status === "pending_department_approval" && item.requesterId !== currentUserId) || (item.status === "pending_leader_review" && item.taskLeaderId === currentUserId && item.requesterId !== currentUserId));
+  const tier1DepartmentRequests = isDepartmentApprover
+    ? pendingRequests.filter((item) => item.status === "pending_department_approval" && item.requestedAmount <= threshold)
+    : [];
   const pendingLiquidations = data.liquidations.filter((item) => {
     const request = data.requests.find((candidate) => candidate.id === item.requestId);
     return (isDepartmentApprover && item.status === "pending_department_settlement" && request?.cashRecipientId !== currentUserId) || (item.status === "pending_leader_review" && request?.taskLeaderId === currentUserId && request?.cashRecipientId !== currentUserId);
@@ -82,13 +96,98 @@ export function BudgetApprovalQueue({
     if (await act(rejection.id, operation)) setRejection(null);
   };
 
+  const handleBatchAuthorizeTier1 = async () => {
+    if (batchBusy || !tier1DepartmentRequests.length) return;
+    setBatchBusy(true);
+    setMessage("");
+    try {
+      for (const item of tier1DepartmentRequests) {
+        await decidePettyCashRequest(item.id, true, "Fast-track fiscal authorization approved");
+      }
+      await onChanged();
+    } catch (error) {
+      setMessage(error instanceof Error ? error.message : "Some requests could not be fast-track authorized.");
+    } finally {
+      setBatchBusy(false);
+    }
+  };
+
   if (!pendingAllocations.length && !pendingRequests.length && !pendingLiquidations.length && !dueReleases.length) {
-    return <BudgetEmpty title="Approval inbox is clear" description="New task-linked cash requests, release actions, and receipt settlements will appear here." />;
+    return (
+      <div className="space-y-4">
+        {isDepartmentApprover && (
+          <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-neutral-200 bg-white px-4 py-3 shadow-sm">
+            <div className="flex items-center gap-2.5">
+              <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-neutral-100 text-neutral-700">
+                <BxSliderAlt size={16} />
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <span className="text-[11.5px] font-semibold text-neutral-900">Approval Governance Threshold</span>
+                  <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-[9px] font-semibold text-emerald-800">
+                    Fast-Track Limit: {peso.format(threshold)}
+                  </span>
+                </div>
+                <p className="mt-0.5 text-[10px] text-neutral-500">
+                  Requests ≤ {peso.format(threshold)} are flagged as Tier 1 (Fast-Track). Larger amounts require full multi-tier governance.
+                </p>
+              </div>
+            </div>
+            <Button
+              kind="secondary"
+              size="small"
+              onClick={() => setThresholdDialogOpen(true)}
+            >
+              <BxSliderAlt size={13} className="mr-1" />
+              Adjust Threshold
+            </Button>
+          </div>
+        )}
+        <BudgetEmpty title="Approval inbox is clear" description="New task-linked cash requests, release actions, and receipt settlements will appear here." />
+        {thresholdDialogOpen && (
+          <ApprovalThresholdDialog
+            currentThreshold={threshold}
+            defaultThreshold={defaultThreshold}
+            onClose={() => setThresholdDialogOpen(false)}
+            onSave={setThreshold}
+          />
+        )}
+      </div>
+    );
   }
 
   return (
     <div className="space-y-4">
       {message && <div className="rounded-xl border border-rose-200 bg-rose-50 p-3 text-[10.5px] text-rose-700">{message}</div>}
+
+      {isDepartmentApprover && (
+        <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-neutral-200 bg-white px-4 py-3 shadow-sm">
+          <div className="flex items-center gap-2.5">
+            <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-xl bg-neutral-100 text-neutral-700">
+              <BxSliderAlt size={16} />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-[11.5px] font-semibold text-neutral-900">Approval Governance Threshold</span>
+                <span className="rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-[9px] font-semibold text-emerald-800">
+                  Fast-Track Limit: {peso.format(threshold)}
+                </span>
+              </div>
+              <p className="mt-0.5 text-[10px] text-neutral-500">
+                Requests ≤ {peso.format(threshold)} are flagged as Tier 1 (Fast-Track). Larger amounts require full multi-tier governance.
+              </p>
+            </div>
+          </div>
+          <Button
+            kind="secondary"
+            size="small"
+            onClick={() => setThresholdDialogOpen(true)}
+          >
+            <BxSliderAlt size={13} className="mr-1" />
+            Adjust Threshold
+          </Button>
+        </div>
+      )}
 
       {pendingAllocations.length > 0 && (
         <QueueSection icon={<WalletCards size={14} />} title="Legacy subtask allocation proposals" count={pendingAllocations.length}>
@@ -113,26 +212,66 @@ export function BudgetApprovalQueue({
       )}
 
       {pendingRequests.length > 0 && (
-        <QueueSection icon={<WalletCards size={14} />} title="Task-linked cash requests" count={pendingRequests.length}>
+        <QueueSection
+          icon={<WalletCards size={14} />}
+          title="Task-linked cash requests"
+          count={pendingRequests.length}
+          action={
+            isDepartmentApprover && tier1DepartmentRequests.length > 1 ? (
+              <Button
+                kind="primary"
+                color="positive"
+                size="small"
+                disabled={batchBusy || Boolean(busy)}
+                loading={batchBusy}
+                onClick={() => void handleBatchAuthorizeTier1()}
+              >
+                <BxsBolt size={12} className="mr-1" />
+                Quick Authorize All Tier 1 ({tier1DepartmentRequests.length})
+              </Button>
+            ) : undefined
+          }
+        >
           {pendingRequests.map((item) => {
             const line = item.allocationLineId ? lineById.get(item.allocationLineId) : undefined;
             const attachments = data.requestAttachments.filter((attachment) => attachment.requestId === item.id);
             const hierarchy = [commitmentById.get(item.commitmentId)?.title, item.taskTitle, item.subtaskTitle].filter(Boolean).join(" → ");
+            const isTier1 = item.requestedAmount <= threshold;
+            const isLeaderReview = item.status === "pending_leader_review";
+            const tierBadge = isTier1 ? (
+              <span className="inline-flex items-center gap-1 rounded-md border border-emerald-200 bg-emerald-50 px-1.5 py-0.5 text-[9px] font-medium text-emerald-800">
+                <BxsBolt size={10} className="text-emerald-700" />
+                Tier 1 · Fast-Track (≤ {peso.format(threshold)})
+              </span>
+            ) : (
+              <span className="inline-flex items-center gap-1 rounded-md border border-amber-200 bg-amber-50 px-1.5 py-0.5 text-[9px] font-medium text-amber-800">
+                <BxsCheckShield size={10} className="text-amber-700" />
+                Tier 2 · Escalated (&gt; {peso.format(threshold)})
+              </span>
+            );
+            const approveLabel = isLeaderReview
+              ? (isTier1 ? "Endorse (Fast-Track)" : "Endorse to Head")
+              : (isTier1 ? "Quick Authorize" : "Authorize");
+
             return (
             <QueueRow
               key={item.id}
               recordId={item.id}
               focused={focusRecordId === item.id}
               title={`FR-${String(item.requestNumber).padStart(5, "0")} · ${hierarchy || "Funded work"}`}
-              meta={`${item.requesterName || "Employee"} · ${item.purpose} · ${peso.format(item.requestedAmount)} · ${item.status === "pending_leader_review" ? "Operational endorsement" : "Fiscal authorization"}${line ? ` · ${line.category} / ${line.particular} / ${line.fundSource}` : ""}`}
+              meta={`${item.requesterName || "Employee"} · ${item.purpose} · ${peso.format(item.requestedAmount)} · ${isLeaderReview ? "Operational endorsement" : "Fiscal authorization"}${line ? ` · ${line.category} / ${line.particular} / ${line.fundSource}` : ""}`}
               status={item.status}
+              tierBadge={tierBadge}
               details={attachments.length ? <div className="mt-2 flex flex-wrap gap-1.5">{attachments.map((attachment) => <button key={attachment.id} type="button" onClick={async () => window.open(await createReceiptSignedUrl(attachment.filePath), "_blank", "noopener,noreferrer")} className="rounded-md border border-neutral-200 bg-white px-2 py-1 text-[8.8px] text-neutral-600">{attachment.fileName}</button>)}</div> : undefined}
               actions={(
                 <DecisionButtons
-                  busy={busy === item.id}
-                  approveLabel={item.status === "pending_leader_review" ? "Endorse" : "Authorize"}
-                  onApprove={() => void act(item.id, () => item.status === "pending_leader_review" ? decidePettyCashLeaderReview(item.id, true, "Operationally endorsed for fiscal authorization") : decidePettyCashRequest(item.id, true, "Fiscal authorization approved"))}
-                  onReject={() => setRejection({ id: item.id, kind: item.status === "pending_leader_review" ? "request_leader" : "request_department", title: item.status === "pending_leader_review" ? "Return cash request" : "Decline cash request" })}
+                  busy={busy === item.id || batchBusy}
+                  approveLabel={approveLabel}
+                  onApprove={() => void act(item.id, () => isLeaderReview
+                    ? decidePettyCashLeaderReview(item.id, true, isTier1 ? "Operationally endorsed under fast-track limit" : "Operationally endorsed for fiscal authorization")
+                    : decidePettyCashRequest(item.id, true, isTier1 ? "Fast-track fiscal authorization approved" : "Fiscal authorization approved")
+                  )}
+                  onReject={() => setRejection({ id: item.id, kind: isLeaderReview ? "request_leader" : "request_department", title: isLeaderReview ? "Return cash request" : "Decline cash request" })}
                 />
               )}
             />
@@ -193,44 +332,87 @@ export function BudgetApprovalQueue({
           onConfirm={confirmRejection}
         />
       )}
+
+      {thresholdDialogOpen && (
+        <ApprovalThresholdDialog
+          currentThreshold={threshold}
+          defaultThreshold={defaultThreshold}
+          onClose={() => setThresholdDialogOpen(false)}
+          onSave={setThreshold}
+        />
+      )}
     </div>
   );
 }
 
-function QueueSection({ icon, title, count, children }: { icon: ReactNode; title: string; count: number; children: ReactNode }) {
+function QueueSection({ icon, title, count, children, action }: { icon: ReactNode; title: string; count: number; children: ReactNode; action?: ReactNode }) {
   return (
     <section className="overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm">
       <header className="flex items-center gap-2 border-b border-neutral-100 px-4 py-3">
         <span className="text-neutral-500">{icon}</span>
         <h3 className="text-[12px] font-semibold text-neutral-900">{title}</h3>
-        <span className="ml-auto rounded-full bg-amber-50 px-2 py-1 text-[9px] text-amber-700">{count}</span>
+        <div className="ml-auto flex items-center gap-2">
+          {action}
+          <span className="rounded-full bg-amber-50 px-2 py-1 text-[9px] text-amber-700">{count}</span>
+        </div>
       </header>
-      {children}
+      <div className="divide-y divide-neutral-100">
+        <AnimatePresence initial={false} mode="popLayout">
+          {children}
+        </AnimatePresence>
+      </div>
     </section>
   );
 }
 
-function QueueRow({ recordId, title, meta, status, actions, details, focused = false }: { recordId: string; title: string; meta: string; status: string; actions: ReactNode; details?: ReactNode; focused?: boolean }) {
+function QueueRow({ recordId, title, meta, status, actions, details, focused = false, tierBadge }: { recordId: string; title: string; meta: string; status: string; actions: ReactNode; details?: ReactNode; focused?: boolean; tierBadge?: ReactNode }) {
   return (
-    <div id={`financial-record-${recordId}`} className={`flex flex-wrap items-center gap-3 border-b border-neutral-100 p-4 last:border-0 ${focused ? "bg-blue-50 ring-1 ring-inset ring-blue-200" : ""}`}>
+    <m.div
+      id={`financial-record-${recordId}`}
+      layout
+      initial={{ opacity: 0, y: 4 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.98 }}
+      transition={motionTransition.productive}
+      className={`flex flex-wrap items-center gap-3 p-4 ${focused ? "bg-blue-50 ring-1 ring-inset ring-blue-200" : ""}`}
+    >
       <div className="min-w-0 flex-1">
-        <div className="flex items-center gap-2">
+        <div className="flex flex-wrap items-center gap-2">
           <div className="truncate text-[11.5px] font-medium text-neutral-900">{title}</div>
           <StatusPill status={status} />
+          {tierBadge}
         </div>
         <div className="mt-1 text-[10px] text-neutral-500">{meta}</div>
         {details}
       </div>
       {actions}
-    </div>
+    </m.div>
   );
 }
 
 function DecisionButtons({ busy, onApprove, onReject, approveLabel = "Approve" }: { busy: boolean; onApprove: () => void; onReject: () => void; approveLabel?: string }) {
   return (
-    <div className="flex gap-2">
-      <button disabled={busy} onClick={onReject} className="inline-flex h-8 items-center gap-1 rounded-lg border border-rose-200 px-3 text-[9.5px] text-rose-700 disabled:opacity-40"><X size={11} /> Decline</button>
-      <button disabled={busy} onClick={onApprove} className="inline-flex h-8 items-center gap-1 rounded-lg bg-neutral-900 px-3 text-[9.5px] text-white disabled:opacity-40"><Check size={11} /> {approveLabel}</button>
+    <div className="flex items-center gap-1.5">
+      <Button
+        kind="tertiary"
+        color="negative"
+        size="small"
+        disabled={busy}
+        onClick={onReject}
+      >
+        <X size={11} className="mr-1" />
+        Decline
+      </Button>
+      <Button
+        kind="primary"
+        size="small"
+        disabled={busy}
+        loading={busy}
+        onClick={onApprove}
+      >
+        <Check size={11} className="mr-1" />
+        {approveLabel}
+      </Button>
     </div>
   );
 }
