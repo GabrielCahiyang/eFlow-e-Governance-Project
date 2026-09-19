@@ -122,12 +122,16 @@ begin
   where request.id = new.request_id;
   select budget.fiscal_year into fiscal_year_value
   from public.department_fiscal_budgets budget where budget.id = request_row.fiscal_budget_id;
-  if tg_table_name = 'petty_cash_releases' and new.voucher_number is null then
-    new.voucher_number := format('DV-%s-%s-%s', fiscal_year_value,
-      lpad(request_row.request_number::text, 5, '0'), upper(right(replace(new.id::text, '-', ''), 6)));
-  elsif tg_table_name = 'petty_cash_liquidations' and new.liquidation_number is null then
-    new.liquidation_number := format('LIQ-%s-%s-%s', fiscal_year_value,
-      lpad(request_row.request_number::text, 5, '0'), lpad(new.version::text, 2, '0'));
+  if tg_table_name = 'petty_cash_releases' then
+    if new.voucher_number is null then
+      new.voucher_number := format('DV-%s-%s-%s', fiscal_year_value,
+        lpad(request_row.request_number::text, 5, '0'), upper(right(replace(new.id::text, '-', ''), 6)));
+    end if;
+  elsif tg_table_name = 'petty_cash_liquidations' then
+    if new.liquidation_number is null then
+      new.liquidation_number := format('LIQ-%s-%s-%s', fiscal_year_value,
+        lpad(request_row.request_number::text, 5, '0'), lpad(new.version::text, 2, '0'));
+    end if;
   end if;
   return new;
 end;
@@ -446,7 +450,7 @@ create or replace function public.record_accounting_petty_cash_release(
 declare
   caller uuid := auth.uid();
   release public.petty_cash_releases;
-  request public.petty_cash_requests;
+  cash_request public.petty_cash_requests;
   budget public.department_fiscal_budgets;
   released_total numeric;
   used_today numeric;
@@ -456,31 +460,31 @@ begin
   if p_release_method = 'cheque' and nullif(btrim(p_cheque_number), '') is null then
     raise exception 'Enter the cheque number before release' using errcode = '22023';
   end if;
-  select request.* into request from public.petty_cash_releases release_row
-  join public.petty_cash_requests request on request.id = release_row.request_id
-  where release_row.id = p_release_id for update of request;
+  select request_row.* into cash_request from public.petty_cash_releases release_row
+  join public.petty_cash_requests request_row on request_row.id = release_row.request_id
+  where release_row.id = p_release_id for update of request_row;
   if not found then raise exception 'Scheduled release not found' using errcode = 'P0002'; end if;
-  if not public.can_manage_department_accounting(request.org_id, caller) then
+  if not public.can_manage_department_accounting(cash_request.org_id, caller) then
     raise exception 'Only the department accounting staff, Head, or Assistant Head can record a release' using errcode = '42501';
   end if;
-  select * into budget from public.department_fiscal_budgets where id = request.fiscal_budget_id and status = 'locked' for update;
+  select * into budget from public.department_fiscal_budgets where id = cash_request.fiscal_budget_id and status = 'locked' for update;
   if not found then raise exception 'The annual department budget is no longer open' using errcode = '22023'; end if;
-  perform pg_advisory_xact_lock(hashtextextended('eflow:cash-release:' || request.org_id::text, 0));
+  perform pg_advisory_xact_lock(hashtextextended('eflow:cash-release:' || cash_request.org_id::text, 0));
   select * into release from public.petty_cash_releases where id = p_release_id for update;
   if release.status <> 'scheduled' then raise exception 'This release has already been processed' using errcode = '22023'; end if;
   if release.scheduled_date > current_date then
     raise exception 'This release is scheduled for %. A Head must use the audited schedule override.', release.scheduled_date using errcode = '22023';
   end if;
-  if request.status not in ('approved', 'scheduled_for_release', 'partially_released') or request.approved_amount is null then
+  if cash_request.status not in ('approved', 'scheduled_for_release', 'partially_released') or cash_request.approved_amount is null then
     raise exception 'The request must be fiscally approved before release' using errcode = '22023';
   end if;
   select coalesce(sum(amount), 0) into released_total from public.petty_cash_releases
-  where request_id = request.id and status = 'released';
-  if released_total + release.amount > request.approved_amount then
+  where request_id = cash_request.id and status = 'released';
+  if released_total + release.amount > cash_request.approved_amount then
     raise exception 'This release would exceed the approved request amount' using errcode = '22023';
   end if;
   select coalesce(sum(amount), 0) into used_today from public.petty_cash_releases
-  where org_id = request.org_id and id <> release.id and (
+  where org_id = cash_request.org_id and id <> release.id and (
     (status = 'released' and coalesce(released_at::date, scheduled_date) = current_date)
     or (status = 'scheduled' and scheduled_date = current_date)
   );
@@ -494,13 +498,13 @@ begin
   update public.petty_cash_requests set released_amount = released_total,
     status = case when released_total >= approved_amount then 'released' else 'partially_released' end,
     liquidation_due_at = case when released_total >= approved_amount then now() + budget.liquidation_due_days * interval '1 day' else liquidation_due_at end,
-    updated_at = now() where id = request.id;
+    updated_at = now() where id = cash_request.id;
   insert into public.budget_ledger_entries(
     fiscal_budget_id, org_id, commitment_id, allocation_id, petty_cash_request_id,
     task_id, subtask_id, allocation_line_id, entry_type, amount, description,
     actor_id, actor_role, previous_state, new_state, metadata
-  ) select request.fiscal_budget_id, request.org_id, request.commitment_id, request.allocation_id, request.id,
-    request.task_id, request.subtask_id, request.allocation_line_id, 'petty_cash_released', release.amount,
+  ) select cash_request.fiscal_budget_id, cash_request.org_id, cash_request.commitment_id, cash_request.allocation_id, cash_request.id,
+    cash_request.task_id, cash_request.subtask_id, cash_request.allocation_line_id, 'petty_cash_released', release.amount,
     case when p_release_method = 'cheque' then 'Cheque issued and recorded as released' else 'Cash released to recipient' end,
     caller, profile.role::text, 'scheduled', 'released',
     jsonb_build_object('releaseId', release.id, 'voucherNumber', release.voucher_number,

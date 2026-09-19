@@ -34,6 +34,7 @@
   gap: var(--space-8);
 }
 
+
 .eflow-topbar__communications {
   border-left: 1px solid var(--layout-border-color);
   gap: var(--space-4);
@@ -77,6 +78,26 @@
   font: var(--font-text3-medium);
   overflow: hidden;
   text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.eflow-topbar__brand-lockup {
+  align-items: center;
+  display: flex;
+  gap: 12px;
+  margin-left: 8px;
+}
+
+.eflow-topbar__brand-divider {
+  background: var(--layout-border-color);
+  flex-shrink: 0;
+  height: 22px;
+  width: 1.5px;
+}
+
+.eflow-topbar__brand-org {
+  color: var(--secondary-text-color);
+  font: var(--font-text2-medium);
   white-space: nowrap;
 }
 

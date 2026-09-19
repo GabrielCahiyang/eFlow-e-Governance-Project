@@ -3174,6 +3174,13 @@
   border-top: 1px solid #f1f5f9;
 }
 
+/* The work-plan editor needs more room than Vibe's standard 900px large modal.
+   Keep the override scoped to this dialog so other modal sizes are unchanged. */
+.eflow-wide-work-plan-modal {
+  --modal-width: min(1500px, calc(100vw - 32px)) !important;
+  --modal-max-height: calc(100dvh - 48px) !important;
+}
+
 /* ========================================================================== 
    Navigation dock — aligned with the application rail and shaped as a set of
    calm, scannable Vibe surfaces. Kept presentation-only: destinations,

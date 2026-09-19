@@ -1,4 +1,5 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import { Crown, Search, X } from "lucide-react";
 import type { Employee } from "../../../services/employeeService";
 import type { EmployeeNotesMap } from "../../../services/employeeNotesService";
@@ -72,16 +73,24 @@ export function AssignmentModal({
 
   if (!open) return null;
 
-  return (
+  return createPortal(
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm"
+      className="fixed inset-0 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
+      style={{ zIndex: 11000 }}
       onClick={onClose}
+      onKeyDown={(event) => {
+        if (event.key === "Escape") {
+          event.stopPropagation();
+          onClose();
+        }
+      }}
     >
       <div
         role="dialog"
         aria-label="Select Team and Leader"
         data-testid="team-assignment-dialog"
-        className="bg-white rounded-2xl shadow-2xl w-[540px] max-h-[82vh] flex flex-col overflow-hidden border border-neutral-200"
+        aria-modal="true"
+        className="flex max-h-[min(82dvh,780px)] w-full max-w-[640px] flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-2xl"
         onClick={(e) => e.stopPropagation()}
         style={{ animation: "modalIn 0.18s ease" }}
       >
@@ -295,6 +304,7 @@ export function AssignmentModal({
           </div>
         </div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }

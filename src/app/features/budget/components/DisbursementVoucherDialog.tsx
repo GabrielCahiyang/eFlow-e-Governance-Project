@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import { AttentionBox, Button } from "@vibe/core";
 import * as m from "motion/react-m";
-import { CheckCircle2, Copy } from "lucide-react";
+import { AlertTriangle, CheckCircle2, Copy } from "lucide-react";
 import { BxsBox } from "../../../components/ui/boxicons";
 import {
   Dialog,
@@ -12,7 +12,7 @@ import {
   DialogTitle,
 } from "../../../components/ui/dialog";
 import type { PettyCashRelease, PettyCashRequest } from "../types";
-import { markPettyCashReleased } from "../services/budgetService";
+import { markPettyCashReleased, overrideAccountingPettyCashReleaseSchedule } from "../services/budgetService";
 import { motionTransition } from "../../../shared/motion/motionTokens";
 import { peso } from "./budgetUi";
 import { useAuth } from "../../../contexts/AuthContext";
@@ -47,7 +47,11 @@ export function DisbursementVoucherDialog({
   const [error,   setError]     = useState("");
   const [method, setMethod] = useState<"cash" | "cheque">(release.releaseMethod || "cash");
   const [chequeNumber, setChequeNumber] = useState(release.chequeNumber || "");
+  const [overrideSchedule, setOverrideSchedule] = useState(false);
+  const [overrideReason, setOverrideReason] = useState("");
   const inFlight  = useRef(false);
+  const canOverrideSchedule = ["dept_head", "department_head", "accounting_staff"].includes(userProfile?.role || "");
+  const scheduledEarly = release.scheduledDate > new Date().toISOString().slice(0, 10);
 
   const handleCopy = () => {
     void navigator.clipboard.writeText(dvCode).then(() => {
@@ -62,7 +66,8 @@ export function DisbursementVoucherDialog({
     setBusy(true);
     setError("");
     try {
-      if (method === "cash" && userProfile?.role !== "accounting_staff") await markPettyCashReleased(release.id);
+      if (overrideSchedule) await overrideAccountingPettyCashReleaseSchedule({ releaseId: release.id, reason: overrideReason, method, chequeNumber });
+      else if (method === "cash" && userProfile?.role !== "accounting_staff") await markPettyCashReleased(release.id);
       else await markPettyCashReleased(release.id, { method, chequeNumber });
     } catch (caught) {
       setError(caught instanceof Error ? caught.message : "The release could not be recorded.");
@@ -77,7 +82,7 @@ export function DisbursementVoucherDialog({
   return (
     <Dialog open onOpenChange={(open) => { if (!open && !inFlight.current) onClose(); }}>
       <DialogContent
-        className="bg-white sm:max-w-md"
+        className="max-h-[calc(100dvh-2rem)] w-[calc(100vw-2rem)] overflow-y-auto bg-white sm:max-w-[620px]"
         onEscapeKeyDown={(e) => { if (busy) e.preventDefault(); }}
         onInteractOutside={(e) => { if (busy) e.preventDefault(); }}
       >
@@ -95,7 +100,7 @@ export function DisbursementVoucherDialog({
           initial={{ opacity: 0, y: 6 }}
           animate={{ opacity: 1, y: 0 }}
           transition={motionTransition.productive}
-          className="space-y-3.5 py-1"
+          className="space-y-4 py-1"
         >
           {/* Vibe AttentionBox */}
           <AttentionBox
@@ -105,13 +110,16 @@ export function DisbursementVoucherDialog({
           />
 
           {/* Voucher code display */}
-          <div className="flex items-center justify-between rounded-xl border-2 border-emerald-300 bg-emerald-50/80 px-4 py-3">
-            <span className="font-mono text-xl font-bold tracking-widest text-emerald-800">{dvCode}</span>
+          <div className="flex flex-col gap-3 rounded-xl border-2 border-emerald-300 bg-emerald-50/80 px-4 py-3 sm:flex-row sm:items-center sm:justify-between">
+            <div className="min-w-0">
+              <p className="text-[9.5px] font-semibold uppercase tracking-[0.16em] text-emerald-700">Voucher number</p>
+              <span className="mt-1 block truncate font-mono text-[18px] font-bold tracking-[0.08em] text-emerald-800 sm:text-xl">{dvCode}</span>
+            </div>
             <Button
               kind="tertiary"
               size="small"
               onClick={handleCopy}
-              className="ml-2"
+              className="shrink-0"
             >
               {copied ? <CheckCircle2 size={13} className="text-emerald-700" /> : <Copy size={13} />}
               <span className="ml-1 text-[10.5px]">{copied ? "Copied" : "Copy"}</span>
@@ -119,14 +127,16 @@ export function DisbursementVoucherDialog({
           </div>
 
           {/* Release details */}
-          <div className="rounded-xl border border-neutral-200 bg-neutral-50 p-3 text-[11px] text-neutral-600 space-y-1">
-            <div><span className="font-medium text-neutral-800">Recipient: </span>{request?.cashRecipientName || request?.requesterName || "Assigned recipient"}</div>
-            <div><span className="font-medium text-neutral-800">Amount: </span>{peso.format(release.amount)}</div>
-            <div><span className="font-medium text-neutral-800">For: </span>{request?.subtaskTitle || request?.taskTitle || "Funded work"}</div>
-            <div><span className="font-medium text-neutral-800">Request: </span>PC-{String(request?.requestNumber ?? 0).padStart(5, "0")}</div>
+          <div className="grid gap-x-5 gap-y-3 rounded-xl border border-neutral-200 bg-neutral-50 p-4 text-[11px] text-neutral-600 sm:grid-cols-2">
+            <VoucherDetail label="Recipient" value={request?.cashRecipientName || request?.requesterName || "Assigned recipient"} />
+            <VoucherDetail label="Amount" value={peso.format(release.amount)} emphasis />
+            <VoucherDetail label="For" value={request?.subtaskTitle || request?.taskTitle || "Funded work"} />
+            <VoucherDetail label="Request" value={`PC-${String(request?.requestNumber ?? 0).padStart(5, "0")}`} />
           </div>
 
-          <div className="grid gap-3 sm:grid-cols-2">
+          <section className="rounded-xl border border-neutral-200 bg-white p-4">
+            <p className="mb-3 text-[9.5px] font-semibold uppercase tracking-[0.16em] text-neutral-500">Release record</p>
+            <div className="grid gap-3 sm:grid-cols-2">
             <label className="text-[10px] text-neutral-600">
               Release method
               <select aria-label="Release method" value={method} onChange={(event) => setMethod(event.target.value as "cash" | "cheque")} disabled={busy} className="mt-1 h-9 w-full rounded-lg border border-neutral-200 bg-white px-2.5 text-[10.5px]">
@@ -134,22 +144,47 @@ export function DisbursementVoucherDialog({
                 <option value="cheque">Cheque issuance</option>
               </select>
             </label>
-            {method === "cheque" && <label className="text-[10px] text-neutral-600">Cheque number<input aria-label="Cheque number" value={chequeNumber} onChange={(event) => setChequeNumber(event.target.value)} disabled={busy} className="mt-1 h-9 w-full rounded-lg border border-neutral-200 bg-white px-2.5 text-[10.5px]" /></label>}
-          </div>
+              {method === "cheque" && <label className="text-[10px] text-neutral-600">Cheque number<input aria-label="Cheque number" value={chequeNumber} onChange={(event) => setChequeNumber(event.target.value)} disabled={busy} className="mt-1 h-9 w-full rounded-lg border border-neutral-200 bg-white px-2.5 text-[10.5px]" /></label>}
+            </div>
 
-          {/* Confirmation checkbox */}
-          <label className="flex cursor-pointer items-start gap-2 text-sm text-neutral-700">
-            <input
-              type="checkbox"
-              checked={checked}
-              onChange={(e) => setChecked(e.target.checked)}
-              disabled={busy}
-              className="mt-0.5 h-4 w-4 rounded border-neutral-300"
-            />
-            <span className="text-[11.5px] leading-snug text-neutral-800">
-              I confirm the cash has been physically handed over to the recipient.
-            </span>
-          </label>
+            <label className="mt-4 flex cursor-pointer items-start gap-2 rounded-lg bg-neutral-50 p-3 text-sm text-neutral-700">
+              <input
+                type="checkbox"
+                checked={checked}
+                onChange={(e) => setChecked(e.target.checked)}
+                disabled={busy}
+                className="mt-0.5 h-4 w-4 rounded border-neutral-300"
+              />
+              <span className="text-[11.5px] leading-snug text-neutral-800">
+                I confirm the {method === "cheque" ? "cheque has been physically issued to" : "cash has been physically handed over to"} the recipient.
+              </span>
+            </label>
+          </section>
+
+          {scheduledEarly && canOverrideSchedule && (
+            <div className="rounded-xl border border-amber-200 bg-amber-50 p-4">
+              <label className="flex cursor-pointer items-start gap-2 text-[11.5px] text-amber-950">
+                <input
+                  aria-label="Override release schedule"
+                  type="checkbox"
+                  checked={overrideSchedule}
+                  onChange={(event) => setOverrideSchedule(event.target.checked)}
+                  disabled={busy}
+                  className="mt-0.5 h-4 w-4 rounded border-amber-400"
+                />
+                <span><strong>Override schedule</strong><br />Release this tranche before {release.scheduledDate}. This does not bypass funding or the daily release limit.</span>
+              </label>
+              {overrideSchedule && (
+                <m.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: "auto" }} className="mt-4 border-t border-amber-200 pt-3">
+                  <label className="block text-[10.5px] font-medium text-amber-950">
+                    <span className="flex items-center gap-1"><AlertTriangle size={12} /> Override reason</span>
+                    <textarea aria-label="Schedule override reason" value={overrideReason} onChange={(event) => setOverrideReason(event.target.value)} disabled={busy} rows={3} maxLength={1000} placeholder="Explain why the cash must be handed over before its scheduled date…" className="mt-1.5 w-full resize-none rounded-lg border border-amber-300 bg-white p-2.5 text-[11px] text-neutral-800 outline-none focus:border-amber-500 focus:ring-2 focus:ring-amber-200" />
+                  </label>
+                  <p className="mt-1 text-[9.5px] text-amber-800">At least 10 characters. Your identity, reason, original date, and release time are recorded in the financial audit trail.</p>
+                </m.div>
+              )}
+            </div>
+          )}
 
           {error && <p role="alert" className="rounded-lg bg-rose-50 p-3 text-[11px] text-rose-700">{error}</p>}
         </m.div>
@@ -167,7 +202,7 @@ export function DisbursementVoucherDialog({
             kind="primary"
             color="positive"
             size="small"
-            disabled={busy || !checked || (method === "cheque" && !chequeNumber.trim())}
+            disabled={busy || !checked || (method === "cheque" && !chequeNumber.trim()) || (overrideSchedule && overrideReason.trim().length < 10)}
             loading={busy}
             onClick={() => { void confirm(); }}
           >
@@ -177,4 +212,8 @@ export function DisbursementVoucherDialog({
       </DialogContent>
     </Dialog>
   );
+}
+
+function VoucherDetail({ label, value, emphasis = false }: { label: string; value: string; emphasis?: boolean }) {
+  return <div className="min-w-0"><p className="text-[9px] font-semibold uppercase tracking-[0.12em] text-neutral-400">{label}</p><p className={`mt-1 truncate text-[11.5px] ${emphasis ? "font-semibold text-emerald-700" : "font-medium text-neutral-800"}`}>{value}</p></div>;
 }

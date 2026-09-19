@@ -1,5 +1,12 @@
 import { useMemo } from "react";
-import { Check, ChevronRight, Clock, Layers, Loader2, Plus } from "lucide-react";
+import {
+  Check,
+  ChevronRight,
+  Clock,
+  Layers,
+  Loader2,
+  Plus,
+} from "lucide-react";
 import type { Employee } from "../../../services/employeeService";
 import type { EmployeeNotesMap } from "../../../services/employeeNotesService";
 import type { DraftTask } from "./draftModel";
@@ -44,7 +51,11 @@ export function DraftCockpit({
   onAddProject?: (programIdx: number) => void;
   onAddActivity?: (programIdx: number, projectIdx: number) => void;
   onRenameProgram?: (programIdx: number, title: string) => void;
-  onRenameProject?: (programIdx: number, projectIdx: number, title: string) => void;
+  onRenameProject?: (
+    programIdx: number,
+    projectIdx: number,
+    title: string,
+  ) => void;
   onUpdateActivity?: (
     programIdx: number,
     projectIdx: number,
@@ -104,19 +115,26 @@ export function DraftCockpit({
 
   const enabledCount = draftTasks.filter((t) => t.enabled).length;
   const isManual = source === "manual";
-  const proposalTitle = proposalTitleOverride || draftTasks[0]?.proposalTitle || "Untitled plan";
+  const proposalTitle =
+    proposalTitleOverride || draftTasks[0]?.proposalTitle || "Untitled plan";
 
   return (
     <div className="space-y-4">
       {/* Summary bar */}
-      <div className="flex items-center justify-between bg-gradient-to-br from-neutral-900 to-neutral-800 rounded-2xl p-4">
-        <div>
+      <div className="flex flex-wrap items-center justify-between gap-4 rounded-2xl bg-gradient-to-br from-neutral-900 to-neutral-800 p-4">
+        <div className="min-w-0 flex-1">
           {isManual && (
             <div className="text-[10px] uppercase tracking-[0.2em] text-neutral-400 font-medium">
               Manual collaboration draft
             </div>
           )}
-          <div className={isManual ? "hidden" : "text-[10px] uppercase tracking-[0.2em] text-neutral-400 font-medium"}>
+          <div
+            className={
+              isManual
+                ? "hidden"
+                : "text-[10px] uppercase tracking-[0.2em] text-neutral-400 font-medium"
+            }
+          >
             AI collaboration draft
           </div>
           {isManual && (
@@ -124,17 +142,24 @@ export function DraftCockpit({
               Build and review · autosaved
             </div>
           )}
-          <div className={isManual ? "hidden" : "text-[15px] font-semibold text-white mt-0.5"}>
+          <div
+            className={
+              isManual
+                ? "hidden"
+                : "text-[15px] font-semibold text-white mt-0.5"
+            }
+          >
             Review and edit · autosaved
           </div>
           <div className="text-[11px] text-violet-200 mt-1">
             {isManual ? "Plan" : "Proposal"}: {proposalTitle}
           </div>
           <div className="text-[12px] text-neutral-400 mt-0.5">
-            {enabledCount} of {draftTasks.length} tasks selected · operational work is not created yet
+            {enabledCount} of {draftTasks.length} tasks selected · operational
+            work is not created yet
           </div>
         </div>
-        <div className="flex items-center gap-3">
+        <div className="flex flex-wrap items-center gap-3">
           {isManual && onAddProgram && (
             <button
               onClick={onAddProgram}
@@ -150,8 +175,14 @@ export function DraftCockpit({
             </div>
           )}
           {autoSaveState && autoSaveState !== "idle" && (
-            <div className={`text-[10px] ${autoSaveState === "error" ? "text-red-300" : "text-neutral-300"}`}>
-              {autoSaveState === "saving" ? "Saving…" : autoSaveState === "saved" ? "Autosaved" : "Autosave needs attention"}
+            <div
+              className={`text-[10px] ${autoSaveState === "error" ? "text-red-300" : "text-neutral-300"}`}
+            >
+              {autoSaveState === "saving"
+                ? "Saving…"
+                : autoSaveState === "saved"
+                  ? "Autosaved"
+                  : "Autosave needs attention"}
             </div>
           )}
           <button
@@ -186,7 +217,9 @@ export function DraftCockpit({
               <input
                 aria-label={`Program ${program.pi + 1} title`}
                 value={program.title}
-                onChange={(event) => onRenameProgram(program.pi, event.target.value)}
+                onChange={(event) =>
+                  onRenameProgram(program.pi, event.target.value)
+                }
                 className="min-w-0 flex-1 bg-transparent text-[13px] font-semibold text-white outline-none placeholder:text-violet-200"
                 placeholder={`Program ${program.pi + 1}`}
               />
@@ -218,7 +251,13 @@ export function DraftCockpit({
                     <input
                       aria-label={`Project ${project.pj + 1} title`}
                       value={project.title}
-                      onChange={(event) => onRenameProject(program.pi, project.pj, event.target.value)}
+                      onChange={(event) =>
+                        onRenameProject(
+                          program.pi,
+                          project.pj,
+                          event.target.value,
+                        )
+                      }
                       className="min-w-0 flex-1 bg-transparent text-[12px] font-medium text-neutral-700 outline-none placeholder:text-neutral-400"
                       placeholder={`Project ${project.pj + 1}`}
                     />
@@ -250,7 +289,15 @@ export function DraftCockpit({
                           <input
                             aria-label={`Activity ${activity.ai + 1} title`}
                             value={activity.title}
-                            onChange={(event) => onUpdateActivity(program.pi, project.pj, activity.ai, event.target.value, activity.schedule)}
+                            onChange={(event) =>
+                              onUpdateActivity(
+                                program.pi,
+                                project.pj,
+                                activity.ai,
+                                event.target.value,
+                                activity.schedule,
+                              )
+                            }
                             className="min-w-0 flex-1 bg-transparent text-[11px] font-medium text-neutral-600 outline-none placeholder:text-neutral-400"
                             placeholder={`Activity ${activity.ai + 1}`}
                           />
@@ -258,7 +305,15 @@ export function DraftCockpit({
                             aria-label={`${activity.title || `Activity ${activity.ai + 1}`} target date`}
                             type="date"
                             value={activity.schedule}
-                            onChange={(event) => onUpdateActivity(program.pi, project.pj, activity.ai, activity.title, event.target.value)}
+                            onChange={(event) =>
+                              onUpdateActivity(
+                                program.pi,
+                                project.pj,
+                                activity.ai,
+                                activity.title,
+                                event.target.value,
+                              )
+                            }
                             className="w-[126px] rounded-md border border-neutral-200 bg-white px-2 py-1 text-[10px] text-neutral-600 outline-none focus:border-violet-400"
                           />
                         </>

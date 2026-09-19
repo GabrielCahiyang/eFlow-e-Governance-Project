@@ -8,7 +8,14 @@ import {
 } from "@vibe/core";
 import { AnimatePresence } from "motion/react";
 import * as m from "motion/react-m";
-import { BookOpenCheck, CheckCircle2, Plus, Scale, X } from "lucide-react";
+import {
+  BookOpenCheck,
+  CheckCircle2,
+  CircleAlert,
+  Plus,
+  Scale,
+  X,
+} from "lucide-react";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useGeneralJournal } from "../hooks/useGeneralJournal";
 import {
@@ -427,7 +434,10 @@ function JournalAdjustmentDialog({
         if (!open && !busy) onClose();
       }}
     >
-      <DialogContent className="bg-white sm:max-w-2xl">
+      <DialogContent
+        className="max-h-[calc(100dvh-2rem)] w-[calc(100vw-2rem)] min-w-0 overflow-y-auto bg-white"
+        style={{ maxWidth: 760 }}
+      >
         <DialogHeader>
           <DialogTitle>Post correcting journal entry</DialogTitle>
           <DialogDescription>
@@ -435,12 +445,24 @@ function JournalAdjustmentDialog({
             entry instead of editing history.
           </DialogDescription>
         </DialogHeader>
-        <div className="space-y-4">
-          <AttentionBox
-            type="warning"
-            title="Append-only accounting record"
-            text="Confirm the reference, accounts, and amount. This entry cannot be edited or deleted after posting."
-          />
+        <div className="min-w-0 space-y-4">
+          <div
+            className="flex min-w-0 gap-2 rounded-lg border border-amber-200 bg-amber-50 p-3 text-amber-950"
+            role="note"
+          >
+            <CircleAlert
+              aria-hidden="true"
+              className="mt-0.5 shrink-0"
+              size={16}
+            />
+            <div className="min-w-0 text-[11px] leading-relaxed">
+              <div className="font-semibold">Append-only accounting record</div>
+              <p>
+                Confirm the reference, accounts, and amount. This entry cannot
+                be edited or deleted after posting.
+              </p>
+            </div>
+          </div>
           <div className="grid gap-3 sm:grid-cols-2">
             <Field
               label="Entry date"
@@ -459,57 +481,66 @@ function JournalAdjustmentDialog({
             value={memo}
             onChange={setMemo}
           />
-          <div className="space-y-2">
+          <div className="min-w-0 space-y-2">
             {lines.map((line, index) => (
               <m.div
                 layout
                 key={index}
-                className="grid gap-2 rounded-xl border border-neutral-200 p-3 sm:grid-cols-[1fr_130px_130px_auto]"
+                className="grid min-w-0 grid-cols-2 gap-2 rounded-xl border border-neutral-200 p-3 md:grid-cols-[minmax(0,1fr)_minmax(0,112px)_minmax(0,112px)_32px]"
               >
-                <select
-                  aria-label={`Account line ${index + 1}`}
-                  value={line.accountCode}
-                  onChange={(event) =>
-                    update(index, { accountCode: event.target.value })
-                  }
-                  className="h-9 rounded-lg border border-neutral-200 bg-white px-2 text-[10px]"
-                >
-                  {accounts.map((account) => (
-                    <option key={account.code} value={account.code}>
-                      {account.code} · {account.title}
-                    </option>
-                  ))}
-                </select>
-                <input
-                  aria-label={`Debit line ${index + 1}`}
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  placeholder="Debit"
-                  value={line.debit || ""}
-                  onChange={(event) =>
-                    update(index, {
-                      debit: Number(event.target.value),
-                      credit: event.target.value ? 0 : line.credit,
-                    })
-                  }
-                  className="h-9 rounded-lg border border-neutral-200 px-2 text-[10px]"
-                />
-                <input
-                  aria-label={`Credit line ${index + 1}`}
-                  type="number"
-                  min="0"
-                  step="0.01"
-                  placeholder="Credit"
-                  value={line.credit || ""}
-                  onChange={(event) =>
-                    update(index, {
-                      credit: Number(event.target.value),
-                      debit: event.target.value ? 0 : line.debit,
-                    })
-                  }
-                  className="h-9 rounded-lg border border-neutral-200 px-2 text-[10px]"
-                />
+                <label className="col-span-2 min-w-0 text-[10px] text-neutral-600 md:col-span-1">
+                  Account {index + 1}
+                  <select
+                    aria-label={`Account line ${index + 1}`}
+                    value={line.accountCode}
+                    onChange={(event) =>
+                      update(index, { accountCode: event.target.value })
+                    }
+                    className="mt-1 h-9 w-full min-w-0 rounded-lg border border-neutral-200 bg-white px-2 text-[10px]"
+                  >
+                    {accounts.map((account) => (
+                      <option key={account.code} value={account.code}>
+                        {account.code} · {account.title}
+                      </option>
+                    ))}
+                  </select>
+                </label>
+                <label className="min-w-0 text-[10px] text-neutral-600">
+                  Debit
+                  <input
+                    aria-label={`Debit line ${index + 1}`}
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    placeholder="0.00"
+                    value={line.debit || ""}
+                    onChange={(event) =>
+                      update(index, {
+                        debit: Number(event.target.value),
+                        credit: event.target.value ? 0 : line.credit,
+                      })
+                    }
+                    className="mt-1 h-9 w-full min-w-0 rounded-lg border border-neutral-200 px-2 text-[10px]"
+                  />
+                </label>
+                <label className="min-w-0 text-[10px] text-neutral-600">
+                  Credit
+                  <input
+                    aria-label={`Credit line ${index + 1}`}
+                    type="number"
+                    min="0"
+                    step="0.01"
+                    placeholder="0.00"
+                    value={line.credit || ""}
+                    onChange={(event) =>
+                      update(index, {
+                        credit: Number(event.target.value),
+                        debit: event.target.value ? 0 : line.debit,
+                      })
+                    }
+                    className="mt-1 h-9 w-full min-w-0 rounded-lg border border-neutral-200 px-2 text-[10px]"
+                  />
+                </label>
                 <button
                   aria-label={`Remove line ${index + 1}`}
                   type="button"
@@ -519,7 +550,7 @@ function JournalAdjustmentDialog({
                       current.filter((_, lineIndex) => lineIndex !== index),
                     )
                   }
-                  className="text-neutral-400 hover:text-rose-600 disabled:opacity-30"
+                  className="col-span-2 h-9 w-9 justify-self-end rounded-lg text-neutral-500 hover:bg-rose-50 hover:text-rose-600 disabled:opacity-30 md:col-span-1 md:self-end"
                 >
                   <X size={14} />
                 </button>

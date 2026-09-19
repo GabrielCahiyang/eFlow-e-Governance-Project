@@ -5,7 +5,15 @@ import { useManualPlanController } from "../hooks/useManualPlanController";
 import { OrganizationScopePicker } from "../../interdepartment-collaboration";
 import { ProposalTaskBudgetSummary } from "../../budget";
 
-export function ManualPlanBuilder({ onClose, inDialog = false, embedded = false }: { onClose: () => void; inDialog?: boolean; embedded?: boolean }) {
+export function ManualPlanBuilder({
+  onClose,
+  inDialog = false,
+  embedded = false,
+}: {
+  onClose: () => void;
+  inDialog?: boolean;
+  embedded?: boolean;
+}) {
   const {
     allEmployees,
     orgs,
@@ -38,8 +46,13 @@ export function ManualPlanBuilder({ onClose, inDialog = false, embedded = false 
   } = useManualPlanController(onClose);
 
   return (
-    <div className={`${embedded ? "p-0" : "p-6"} font-sans ${inDialog ? "eflow-creation-builder" : ""}`} data-testid="manual-plan-builder">
-      <div className="mx-auto max-w-4xl space-y-6">
+    <div
+      className={`${embedded ? "p-0" : "p-6"} font-sans ${inDialog ? "eflow-creation-builder" : ""}`}
+      data-testid="manual-plan-builder"
+    >
+      <div
+        className={`mx-auto min-w-0 space-y-6 ${embedded ? "max-w-none" : "max-w-4xl"}`}
+      >
         {!embedded && (
           <header className="flex items-start justify-between gap-5 border-b border-neutral-100 pb-4">
             <div className="flex min-w-0 gap-3">
@@ -51,7 +64,9 @@ export function ManualPlanBuilder({ onClose, inDialog = false, embedded = false 
                   Manual work-plan builder
                 </h1>
                 <p className="mt-1 text-xs leading-relaxed text-neutral-500">
-                  Build Programs, Projects, Activities, and Tasks yourself. AI is not used here. Your review draft autosaves; operational work is created only after approval and commit.
+                  Build Programs, Projects, Activities, and Tasks yourself. AI
+                  is not used here. Your review draft autosaves; operational
+                  work is created only after approval and commit.
                 </p>
               </div>
             </div>
@@ -97,11 +112,17 @@ export function ManualPlanBuilder({ onClose, inDialog = false, embedded = false 
         <OrganizationScopePicker
           organizations={orgs}
           value={collaborationOrganizations}
-          ownerOrgId={collaborationOrganizations.find((item) => item.participationRole === "owner")?.orgId || ""}
+          ownerOrgId={
+            collaborationOrganizations.find(
+              (item) => item.participationRole === "owner",
+            )?.orgId || ""
+          }
           onChange={setCollaborationOrganizations}
         />
 
-        {draftTasks.length > 0 && <ProposalTaskBudgetSummary tasks={draftTasks} />}
+        {draftTasks.length > 0 && (
+          <ProposalTaskBudgetSummary tasks={draftTasks} />
+        )}
 
         {validationIssues.length > 0 && (
           <section
@@ -109,7 +130,10 @@ export function ManualPlanBuilder({ onClose, inDialog = false, embedded = false 
             className="rounded-2xl border border-amber-200 bg-amber-50/80 px-5 py-4"
           >
             <div className="flex items-start gap-3">
-              <AlertCircle size={18} className="mt-0.5 shrink-0 text-amber-700" />
+              <AlertCircle
+                size={18}
+                className="mt-0.5 shrink-0 text-amber-700"
+              />
               <div className="min-w-0">
                 <h2 className="text-xs font-bold text-amber-950 uppercase tracking-wide">
                   Complete these items before creating the work plan
@@ -129,9 +153,12 @@ export function ManualPlanBuilder({ onClose, inDialog = false, embedded = false 
             <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-indigo-600 shadow-sm border border-indigo-100">
               <Layers size={22} />
             </div>
-            <h2 className="mt-4 text-sm font-bold text-neutral-800">Start with a Program</h2>
+            <h2 className="mt-4 text-sm font-bold text-neutral-800">
+              Start with a Program
+            </h2>
             <p className="mx-auto mt-1 max-w-md text-xs leading-relaxed text-neutral-500">
-              A Program can contain multiple Projects. Each Project can contain Activities, and every Activity can contain one or more tasks.
+              A Program can contain multiple Projects. Each Project can contain
+              Activities, and every Activity can contain one or more tasks.
             </p>
             <button
               data-testid="manual-plan-add-first-program"

@@ -303,6 +303,27 @@ export async function overridePettyCashReleaseSchedule(releaseId: string, reason
   throwIf(error);
 }
 
+export async function overrideAccountingPettyCashReleaseSchedule(input: {
+  releaseId: string;
+  reason: string;
+  method: "cash" | "cheque";
+  chequeNumber?: string;
+}) {
+  if (input.reason.trim().length < 10) {
+    throw new Error("Explain the schedule override in at least 10 characters.");
+  }
+  const { error } = await supabase.rpc("override_accounting_petty_cash_release_schedule", {
+    p_release_id: input.releaseId,
+    p_reason: input.reason.trim(),
+    p_release_method: input.method,
+    p_cheque_number: input.method === "cheque" ? input.chequeNumber?.trim() || null : null,
+  });
+  if (error?.code === "PGRST202" || (error && /could not find.*override_accounting_petty_cash_release_schedule/i.test(error.message))) {
+    throw new Error("The accounting schedule override is not installed in Supabase. Run migration 20260919000003_accounting_release_schedule_override.sql in the SQL Editor, then retry.");
+  }
+  throwIf(error);
+}
+
 export async function acknowledgePettyCashRelease(releaseId: string, voucherNumber?: string) {
   const { error } = voucherNumber
     ? await supabase.rpc("acknowledge_accounting_release", { p_release_id: releaseId, p_voucher_number: voucherNumber })
@@ -380,11 +401,27 @@ export async function submitPettyCashLiquidation(input: { orgId: string; request
       p_refund_receipt_number: input.refundReceiptNumber?.trim() || null,
       p_refund_date: input.refundDate || null,
     });
-    if (error) throw error;
+    // Older deployments can lack the accounting wrapper while still having the
+    // contextual liquidation command. It is equivalent when no cash is returned.
+    if (error?.code === "PGRST202" && !input.refundReceiptNumber?.trim()) {
+      const fallback = await supabase.rpc("submit_contextual_cash_liquidation", {
+        p_request_id: input.requestId, p_declared_spent: input.spent, p_note: input.note,
+        p_receipts: payload, p_idempotency_key: idempotencyKey,
+      });
+      throwIf(fallback.error);
+      return String(fallback.data);
+    }
+    if (error?.code === "PGRST202") {
+      throw new Error("The accounting liquidation function is not installed in Supabase. Apply migration 20260919000000_phase04_phase05_accounting.sql before submitting a cash return.");
+    }
+    throwIf(error);
     return String(data);
   } catch (error) {
     if (!rpcStarted && uploaded.length) await supabase.storage.from("budget-receipts").remove(uploaded.map((item) => item.filePath));
-    throw new Error(error instanceof Error ? error.message : "Could not submit the liquidation.");
+    const message = error instanceof Error ? error.message
+      : error && typeof error === "object" && "message" in error && typeof error.message === "string"
+        ? error.message : "Could not submit the liquidation.";
+    throw new Error(message);
   }
 }
 

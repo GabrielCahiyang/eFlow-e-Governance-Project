@@ -495,14 +495,18 @@ begin
     from public.tasks task
     where task.source_collaboration_draft_id = new.id
       and task.source_collaboration_revision_id = new.current_revision_id
-      and task.title = task_json ->> 'title'
+      -- Operational tasks are normalized with btrim() at publication time,
+      -- while draft snapshots intentionally preserve what the author typed.
+      -- Match normalized titles so a harmless trailing space cannot orphan a
+      -- funded task budget during the same publication transaction.
+      and btrim(task.title) = btrim(task_json ->> 'title')
       and coalesce(task.project_id, '') = coalesce(task_json ->> 'projectId', '')
       and coalesce(task.activity_id, '') = coalesce(task_json ->> 'activityId', '')
       and task.recommendation_lead_id = nullif(task_json ->> 'leadMemberId', '')::uuid
     order by task.created_at desc
     limit 1;
     if not found then
-      raise exception 'Could not connect task budget for "%" to its operational task', task_budget ->> 'taskTitle' using errcode = '22023';
+      raise exception 'Could not connect task budget for "%" to its operational task', coalesce(task_budget ->> 'taskTitle', task_json ->> 'title') using errcode = '22023';
     end if;
     select coalesce(sum(
       case

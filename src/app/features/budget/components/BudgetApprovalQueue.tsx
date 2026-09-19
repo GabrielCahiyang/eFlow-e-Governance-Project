@@ -293,6 +293,7 @@ export function BudgetApprovalQueue({
                   </div>
                   <DecisionButtons
                     busy={busy === item.id}
+                    approveLabel={item.status === "pending_leader_review" ? "Submit to Head / Assistant Head" : "Settle liquidation"}
                     onApprove={() => void act(item.id, () => item.status === "pending_leader_review" ? decidePettyCashLiquidationLeaderReview(item.id, true, "Receipts endorsed for department settlement") : decidePettyCashLiquidation(item.id, true, "Receipts verified and settled"))}
                     onReject={() => setRejection({ id: item.id, kind: item.status === "pending_leader_review" ? "liquidation_leader" : "liquidation_department", title: "Request receipt corrections" })}
                   />

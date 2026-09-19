@@ -8,6 +8,7 @@ import { getProfileAvatarUrl } from "../../../services/userSettingsService";
 import { getRoleLabel } from "../../../shared/roles";
 import { IncomingCallListener } from "../../../components/ui/IncomingCallListener";
 import { NotificationBell } from "../../../components/ui/NotificationBell";
+import { EFlowMark } from "../../../../components/EFlowMark";
 
 interface EflowTopBarProps {
   activePage?: string;
@@ -150,6 +151,11 @@ export function EflowTopBar({
             size="small"
           />
         </Tooltip>
+        <div className="eflow-topbar__brand-lockup">
+          <EFlowMark variant="default" height={36} />
+          <div className="eflow-topbar__brand-divider" aria-hidden="true" />
+          <span className="eflow-topbar__brand-org">LGU Ormoc City</span>
+        </div>
       </div>
 
       <div className="eflow-topbar__utilities">
