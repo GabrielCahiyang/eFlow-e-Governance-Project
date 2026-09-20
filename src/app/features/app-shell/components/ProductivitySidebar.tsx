@@ -63,6 +63,19 @@ export function ProductivitySidebar({
   }, [activeSection]);
 
   const selectSection = (item: ShellNavigationItem) => {
+    if (mobile && item.pages.length > 1) {
+      setExpandedSections((current) => {
+        const next = new Set(current);
+        if (next.has(item.id)) {
+          next.delete(item.id);
+        } else {
+          next.add(item.id);
+        }
+        return next;
+      });
+      return;
+    }
+
     if (item.pages.length > 1) {
       setExpandedSections((current) => new Set(current).add(item.id));
     }
@@ -127,7 +140,9 @@ export function ProductivitySidebar({
                 const Icon = getEflowNavigationIcon(item.id);
                 const isCurrentSection = activeSection === item.id;
                 const hasSubpages = item.pages.length > 1;
-                const isExpanded = expandedSections.has(item.id);
+                const isExpanded = mobile
+                  ? expandedSections.has(item.id)
+                  : isCurrentSection && expandedSections.has(item.id);
 
                 if (isCompact) {
                   return (
@@ -205,7 +220,7 @@ export function ProductivitySidebar({
                       </Button>
                     </div>
                     <AnimatePresence initial={false}>
-                      {hasSubpages && isCurrentSection && isExpanded && (
+                      {hasSubpages && isExpanded && (
                         <m.div
                           key={`${item.id}-pages`}
                           className="eflow-productivity-sidebar__subpages"
@@ -217,8 +232,8 @@ export function ProductivitySidebar({
                         >
                           {item.pages.map((page) => (
                             <Button
-                              aria-pressed={activePage === page.label}
-                              className={`eflow-productivity-sidebar__subpage ${activePage === page.label ? "eflow-productivity-sidebar__subpage--active" : ""}`}
+                              aria-pressed={activeSection === item.id && activePage === page.label}
+                              className={`eflow-productivity-sidebar__subpage ${activeSection === item.id && activePage === page.label ? "eflow-productivity-sidebar__subpage--active" : ""}`}
                               key={`${item.id}-${page.label}`}
                               kind="tertiary"
                               onClick={() => onPageSelect(item.id, page.label)}

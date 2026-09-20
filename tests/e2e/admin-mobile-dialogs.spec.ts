@@ -29,6 +29,7 @@ test("admin creation dialogs remain usable on a narrow phone", async ({ page }) 
   expect(Math.abs(surfaceBounds!.x - itemBounds!.x)).toBeLessThanOrEqual(2);
   expect(Math.abs(surfaceBounds!.width - itemBounds!.width)).toBeLessThanOrEqual(2);
   await page.locator('.eflow-mobile-navigation [data-tour-section="users"] .eflow-productivity-sidebar__item').click();
+  await page.locator('.eflow-mobile-navigation [data-tour-section="users"] .eflow-productivity-sidebar__subpage', { hasText: "All Users" }).click();
   await page.getByRole("button", { name: "Create user" }).click();
   const userDialog = page.getByRole("dialog", { name: "Create New User" });
   await expect(userDialog).toBeVisible();
