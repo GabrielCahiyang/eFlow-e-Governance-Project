@@ -7,16 +7,16 @@
   width: 100%;
 }
 
-/* Strictly static board container: 960px max-width, 604px fixed height */
+/* Three fixed columns with a capped card viewport in each column. */
 .boardContainer {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 18px;
   width: 100%;
   max-width: 960px;
-  height: 604px;
-  min-height: 604px;
-  max-height: 604px;
+  height: 490px;
+  min-height: 490px;
+  max-height: 490px;
   box-sizing: border-box;
   overflow: hidden;
   background: rgba(255, 255, 255, 0.18);
@@ -35,7 +35,7 @@
   }
 }
 
-/* Strictly static column: 566px fixed height with dynamic drop highlighting */
+/* Column height stays fixed on desktop while card overflow scrolls locally. */
 .column {
   display: flex;
   flex-direction: column;
@@ -45,9 +45,9 @@
   padding: 14px 14px 12px 14px;
   box-sizing: border-box;
   box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
-  height: 566px;
-  min-height: 566px;
-  max-height: 566px;
+  height: 452px;
+  min-height: 452px;
+  max-height: 452px;
   overflow: visible;
   position: relative;
   z-index: 1;
@@ -96,17 +96,27 @@
   font-weight: 700;
 }
 
-/* Strictly static card list: fits 3-4 cards cleanly without overflowing */
+/* The next card peeks into view once a column has more than three cards. */
 .cardList {
   display: flex;
   flex-direction: column;
   gap: 10px;
   flex: 1;
-  height: 494px;
-  min-height: 494px;
-  max-height: 494px;
-  overflow: visible;
+  height: 380px;
+  min-height: 380px;
+  max-height: 380px;
+  min-width: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  padding-right: 2px;
+  /* Hide scrollbar but keep scrollability */
+  scrollbar-width: none;
+  -ms-overflow-style: none;
   position: relative;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 .card {
@@ -126,6 +136,8 @@
   touch-action: none;
   box-sizing: border-box;
   flex-shrink: 0;
+  /* Promote each card to its own GPU compositing layer for jank-free animation */
+  will-change: transform;
   transition: box-shadow 0.18s ease, border-color 0.18s ease;
 
   &:hover {
@@ -253,16 +265,12 @@
 
 @media (max-width: 1199px) {
   .boardWrapper {
-    overflow-x: auto;
-    justify-content: flex-start;
-    padding: 4px 16px 18px;
-    scroll-padding-inline: 16px;
-    scrollbar-width: thin;
+    overflow: visible;
+    padding: 4px 0 18px;
   }
 
   .boardContainer {
-    flex: 0 0 auto;
-    min-width: 640px;
+    min-width: 0;
     height: auto;
     min-height: 0;
     max-height: none;
@@ -276,6 +284,7 @@
   }
 
   .column {
+    min-width: 0;
     height: auto;
     min-height: 270px;
     max-height: none;
@@ -285,7 +294,7 @@
   .cardList {
     height: auto;
     min-height: 0;
-    max-height: none;
+    max-height: 380px;
   }
 
   .card {
@@ -295,17 +304,96 @@
 
 @media (max-width: 767px) {
   .boardContainer {
-    min-width: 690px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 6px;
+    padding: 8px;
     border-radius: 14px;
   }
 
   .boardWrapper {
-    overscroll-behavior-inline: contain;
-    -webkit-overflow-scrolling: touch;
+    min-width: 0;
+    padding: 0;
+  }
+
+  .column {
+    min-height: 0;
+    padding: 7px 5px;
+    border-width: 1px;
+    border-radius: 9px;
+  }
+
+  .columnHeader {
+    gap: 2px;
+    margin-bottom: 6px;
+    padding-bottom: 6px;
+  }
+
+  .columnTitle {
+    font-size: clamp(7px, 2.35vw, 10px);
+    letter-spacing: 0;
+    line-height: 1.15;
+  }
+
+  .columnBadge {
+    min-width: 16px;
+    height: 16px;
+    padding: 0 3px;
+    font-size: 9px;
+  }
+
+  .cardList {
+    gap: 6px;
+    max-height: 350px;
   }
 
   .card {
-    cursor: default;
-    touch-action: pan-x;
+    min-width: 0;
+    gap: 5px;
+    padding: 6px 4px;
+    border-left-width: 3px;
+    border-radius: 7px;
+    cursor: grab;
+    touch-action: none;
+  }
+
+  .cardHeader {
+    min-width: 0;
+    gap: 2px;
+  }
+
+  .cardTitle {
+    min-width: 0;
+    overflow-wrap: anywhere;
+    font-size: clamp(8px, 2.55vw, 11px);
+    line-height: 1.2;
+  }
+
+  .dragHandle {
+    display: none;
+  }
+
+  .checkIcon {
+    width: 11px;
+    height: 11px;
+  }
+
+  .cardFooter {
+    gap: 2px;
+    flex-wrap: wrap;
+  }
+
+  .avatar {
+    width: 17px;
+    height: 17px;
+    margin-left: -5px;
+    font-size: 6px;
+  }
+
+  .statusPill {
+    max-width: 100%;
+    padding: 2px 3px;
+    font-size: 7px;
+    line-height: 1.1;
+    white-space: normal;
   }
 }

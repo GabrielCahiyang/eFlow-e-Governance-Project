@@ -111,8 +111,12 @@
 .passwordRevealBtn {
   position: absolute;
   right: 8px;
-  top: 50%;
-  transform: translateY(-50%);
+  bottom: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
   z-index: 3;
 }
 
@@ -353,7 +357,7 @@
   .heroColumn {
     margin: 0;
     border-radius: 0;
-    padding: 22px 0 28px;
+    padding: 22px 10px 28px;
     min-height: 0;
     align-items: stretch;
     overflow: visible;
@@ -379,7 +383,7 @@
     display: block;
     font-size: 13px;
     font-weight: 600;
-    margin: 0 16px 8px;
+    margin: 0 0 8px;
   }
 
   .authColumn {

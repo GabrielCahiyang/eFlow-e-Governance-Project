@@ -173,6 +173,7 @@ export function EflowAppShell({ role }: EflowAppShellProps) {
       </div>
 
       <Modal
+        className="eflow-mobile-navigation-dialog"
         closeButtonAriaLabel="Close navigation"
         id="eflow-mobile-navigation"
         onClose={() => setMobileNavigationOpen(false)}

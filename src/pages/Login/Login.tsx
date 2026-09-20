@@ -321,7 +321,7 @@ export function Login() {
             </div>
 
             {/* Bigger Living 3D Kanban Board (strictly static) */}
-            <p className={styles.boardHint}>Project preview · swipe to explore</p>
+            <p className={styles.boardHint}>Project preview</p>
             <div className={styles.kanbanWrapper}>
               <LivingBoard />
             </div>

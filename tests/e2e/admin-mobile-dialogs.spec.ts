@@ -13,6 +13,21 @@ test("admin creation dialogs remain usable on a narrow phone", async ({ page }) 
   await dismissTour.waitFor({ timeout: 3000 }).then(() => dismissTour.click()).catch(() => {});
 
   await page.getByRole("button", { name: "Open navigation" }).click();
+  const sidebar = page.locator(".eflow-mobile-navigation .eflow-productivity-sidebar");
+  const navItem = sidebar.locator('[data-tour-section="dashboard"] .eflow-productivity-sidebar__item');
+  const activeSurface = sidebar.locator('[data-tour-section="dashboard"] .eflow-productivity-sidebar__active-surface');
+  await expect(navItem).toBeVisible();
+  const [sidebarBounds, itemBounds, surfaceBounds] = await Promise.all([
+    sidebar.boundingBox(), navItem.boundingBox(), activeSurface.boundingBox(),
+  ]);
+  expect(sidebarBounds).not.toBeNull();
+  expect(itemBounds).not.toBeNull();
+  expect(surfaceBounds).not.toBeNull();
+  expect(sidebarBounds!.x).toBeLessThanOrEqual(1);
+  expect(itemBounds!.x).toBeGreaterThanOrEqual(sidebarBounds!.x);
+  expect(surfaceBounds!.x).toBeGreaterThanOrEqual(sidebarBounds!.x);
+  expect(Math.abs(surfaceBounds!.x - itemBounds!.x)).toBeLessThanOrEqual(2);
+  expect(Math.abs(surfaceBounds!.width - itemBounds!.width)).toBeLessThanOrEqual(2);
   await page.locator('.eflow-mobile-navigation [data-tour-section="users"] .eflow-productivity-sidebar__item').click();
   await page.getByRole("button", { name: "Create user" }).click();
   const userDialog = page.getByRole("dialog", { name: "Create New User" });

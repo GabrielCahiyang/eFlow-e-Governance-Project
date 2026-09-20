@@ -117,9 +117,6 @@ const COLUMNS: { id: ColumnId; label: string }[] = [
 
 export function LivingBoard() {
   const shouldReduceMotion = useReducedMotion();
-  const [isPhoneViewport, setPhoneViewport] = useState(() =>
-    typeof window !== "undefined" && typeof window.matchMedia === "function" && window.matchMedia("(max-width: 767px)").matches,
-  );
   const [cards, setCards] = useState<KanbanCard[]>(INITIAL_CARDS);
   const [draggingCardId, setDraggingCardId] = useState<string | null>(null);
   const [hoveredColumnId, setHoveredColumnId] = useState<ColumnId | null>(null);
@@ -134,15 +131,12 @@ export function LivingBoard() {
   const lastInteractionRef = useRef(0);
   const isHoveringBoardRef = useRef(false);
   const isDraggingRef = useRef(false);
-
-  useEffect(() => {
-    if (typeof window.matchMedia !== "function") return;
-    const media = window.matchMedia("(max-width: 767px)");
-    const update = () => setPhoneViewport(media.matches);
-    update();
-    media.addEventListener("change", update);
-    return () => media.removeEventListener("change", update);
-  }, []);
+  // Per-column round-robin pointers so every card eventually moves.
+  const colPickRef = useRef<Record<ColumnId, number>>({
+    todo: 0,
+    in_progress: 0,
+    done: 0,
+  });
 
   // Determine target column from horizontal cursor coordinate
   const getTargetColumn = (clientX: number): ColumnId | null => {
@@ -193,14 +187,20 @@ export function LivingBoard() {
     });
   };
 
-  // Kanban auto-migration loop: only advances when user is idle, pauses for 2 seconds after user drag
+  // Keep the preview alive while leaving the three-column layout fixed.
   useEffect(() => {
     if (shouldReduceMotion) return;
+
+    // Helper: pick the next card from a column using round-robin and advance the pointer.
+    const pickFromColumn = (cards: KanbanCard[], colId: ColumnId): KanbanCard => {
+      const idx = colPickRef.current[colId] % cards.length;
+      colPickRef.current[colId] = (idx + 1) % cards.length;
+      return cards[idx];
+    };
 
     const interval = window.setInterval(() => {
       if (typeof document !== "undefined" && document.visibilityState === "hidden") return;
       if (isDraggingRef.current || isHoveringBoardRef.current) return;
-      // Pause autonomous migrations for 2s after any user interaction
       if (Date.now() - lastInteractionRef.current < 2000) return;
 
       setCards((prev) => {
@@ -209,9 +209,8 @@ export function LivingBoard() {
         const inProgress = next.filter((c) => c.columnId === "in_progress");
         const done = next.filter((c) => c.columnId === "done");
 
-        // Safety rebalancing if a column was emptied by user moves
         if (inProgress.length === 0 && (todo.length > 1 || done.length > 1)) {
-          const source = todo.length > 1 ? todo[0] : done[0];
+          const source = todo.length > 1 ? pickFromColumn(todo, "todo") : pickFromColumn(done, "done");
           source.columnId = "in_progress";
           source.progress = 0.65;
           source.statusLabel = "In Progress";
@@ -221,9 +220,8 @@ export function LivingBoard() {
         }
 
         const step = cycleStepRef.current % 3;
-
         if (step === 0 && inProgress.length > 1) {
-          const card = inProgress[0];
+          const card = pickFromColumn(inProgress, "in_progress");
           card.columnId = "done";
           card.progress = 1.0;
           card.statusLabel = "Completed";
@@ -231,7 +229,7 @@ export function LivingBoard() {
           card.borderColor = "#00c875";
           cycleStepRef.current++;
         } else if (step === 1 && done.length > 1) {
-          const card = done[0];
+          const card = pickFromColumn(done, "done");
           card.columnId = "todo";
           card.progress = 0.2;
           card.statusLabel = "Queued";
@@ -239,38 +237,35 @@ export function LivingBoard() {
           card.borderColor = "#0073ea";
           cycleStepRef.current++;
         } else if (step === 2 && todo.length > 1) {
-          const card = todo[0];
+          const card = pickFromColumn(todo, "todo");
           card.columnId = "in_progress";
           card.progress = 0.65;
           card.statusLabel = "In Progress";
           card.statusColor = "#fdab3d";
           card.borderColor = "#fdab3d";
           cycleStepRef.current++;
-        } else {
-          if (inProgress.length > 1) {
-            const card = inProgress[0];
-            card.columnId = "done";
-            card.progress = 1.0;
-            card.statusLabel = "Completed";
-            card.statusColor = "#00c875";
-            card.borderColor = "#00c875";
-          } else if (todo.length > 1) {
-            const card = todo[0];
-            card.columnId = "in_progress";
-            card.progress = 0.65;
-            card.statusLabel = "In Progress";
-            card.statusColor = "#fdab3d";
-            card.borderColor = "#fdab3d";
-          } else if (done.length > 1) {
-            const card = done[0];
-            card.columnId = "todo";
-            card.progress = 0.2;
-            card.statusLabel = "Queued";
-            card.statusColor = "#0073ea";
-            card.borderColor = "#0073ea";
-          }
+        } else if (inProgress.length > 1) {
+          const card = pickFromColumn(inProgress, "in_progress");
+          card.columnId = "done";
+          card.progress = 1.0;
+          card.statusLabel = "Completed";
+          card.statusColor = "#00c875";
+          card.borderColor = "#00c875";
+        } else if (todo.length > 1) {
+          const card = pickFromColumn(todo, "todo");
+          card.columnId = "in_progress";
+          card.progress = 0.65;
+          card.statusLabel = "In Progress";
+          card.statusColor = "#fdab3d";
+          card.borderColor = "#fdab3d";
+        } else if (done.length > 1) {
+          const card = pickFromColumn(done, "done");
+          card.columnId = "todo";
+          card.progress = 0.2;
+          card.statusLabel = "Queued";
+          card.statusColor = "#0073ea";
+          card.borderColor = "#0073ea";
         }
-
         return next;
       });
     }, 3000);
@@ -359,7 +354,7 @@ export function LivingBoard() {
 
                     return (
                       <motion.div
-                        layout
+                        layout="position"
                         layoutId={card.id}
                         key={card.id}
                         data-card-id={card.id}
@@ -367,10 +362,11 @@ export function LivingBoard() {
                         style={{
                           borderLeftColor: card.borderColor,
                           zIndex: isThisDragging ? 9999 : 2,
-                          transform: isThisDragging ? "translateZ(60px)" : undefined,
                         }}
-                        drag={!isPhoneViewport}
+                        drag
                         dragSnapToOrigin
+                        dragElastic={0.15}
+                        dragTransition={{ bounceStiffness: 500, bounceDamping: 40 }}
                         whileHover={
                           shouldReduceMotion
                             ? undefined
@@ -408,6 +404,7 @@ export function LivingBoard() {
                               }
                             : { opacity: 1, scale: 1, transition: SPRING_ENTER }
                         }
+                        transition={{ type: "spring", stiffness: 420, damping: 38, mass: 0.7 }}
                       >
                         <div className={styles.cardHeader}>
                           <span className={styles.cardTitle}>{card.title}</span>

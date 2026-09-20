@@ -25,8 +25,8 @@ export const SPRING_SNAP: Transition = {
 
 export const SPRING_DRIFT: Transition = {
   type: "spring",
-  stiffness: 140,
-  damping: 20,
+  stiffness: 280,
+  damping: 30,
 };
 
 export const EASE_EXPO: Transition = {
