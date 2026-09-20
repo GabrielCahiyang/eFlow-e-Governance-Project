@@ -44,9 +44,9 @@ export function EmployeeDeadlines() {
           {tasks.map((t) => {
             const rel = relativeDays(t.deadline || t.dueDate);
             return (
-              <button key={t.id} onClick={() => setOpen(t)} className="w-full text-left flex items-center gap-3 px-4 py-2.5 hover:bg-neutral-50">
+              <button key={t.id} onClick={() => setOpen(t)} className="flex w-full flex-wrap items-center gap-2 px-4 py-2.5 text-left hover:bg-neutral-50 sm:flex-nowrap sm:gap-3">
                 <span className={`w-1.5 h-1.5 rounded-full shrink-0 ${tone === "bad" ? "bg-red-500" : tone === "warn" ? "bg-amber-500" : tone === "info" ? "bg-blue-500" : "bg-neutral-400"}`} />
-                <span className="text-[12.5px] font-normal text-neutral-800 truncate flex-1">{t.title}</span>
+                <span className="min-w-0 basis-[calc(100%-1rem)] break-words text-[12.5px] font-normal text-neutral-800 sm:basis-auto sm:flex-1 sm:truncate">{t.title}</span>
                 <span className={`text-[10.5px] font-medium ${rel.overdue ? "text-red-600" : "text-neutral-400"}`}>{t.status === "for_review" ? "Awaiting review" : rel.label}</span>
                 <TaskStatusLabel status={t.status} />
               </button>
@@ -61,7 +61,7 @@ export function EmployeeDeadlines() {
     <div className="eflow-operational-workspace min-h-full p-4 sm:p-8">
       <PageHeader eyebrow="My Workspace · Deadlines" title="Deadlines" subtitle="Stay ahead of what's due and what's waiting on review." />
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
+      <div className="mb-4 grid grid-cols-1 gap-3 min-[480px]:grid-cols-2 lg:grid-cols-4">
         <StatCard label="Overdue" value={groups.overdue.length} tone={groups.overdue.length ? "bad" : "good"} icon={<AlertTriangle size={15} />} />
         <StatCard label="Due today" value={groups.today.length} tone={groups.today.length ? "warn" : "neutral"} icon={<Clock size={15} />} />
         <StatCard label="Upcoming" value={groups.upcoming.length} tone="info" icon={<CalendarClock size={15} />} />

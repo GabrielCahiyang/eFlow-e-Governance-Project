@@ -99,7 +99,7 @@ export function SubtaskReviewInbox({
         title="Subtask Evidence"
         subtitle="Approve evidence before a subtask contributes to parent-task completion."
         actions={
-          <div className="flex items-center gap-2">
+          <div className="flex w-full min-w-0 max-w-full flex-wrap items-center gap-2">
             <ReviewKindSwitch
               active="subtasks"
               includeBudget={Boolean(onShowBudget)}

@@ -30,7 +30,7 @@ function PermissionSection({
           <p className="mt-0.5 text-[11px] text-neutral-500">{description}</p>
         </div>
       </div>
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto" role="region" aria-label={`${title} role permissions`} tabIndex={0}>
         <table className="w-full min-w-[760px]">
           <thead>
             <tr className="border-b border-neutral-100">

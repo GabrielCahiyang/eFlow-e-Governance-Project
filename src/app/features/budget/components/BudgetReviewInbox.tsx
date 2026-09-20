@@ -39,13 +39,13 @@ export function BudgetReviewInbox({
   const total = counts.allocations + counts.requests + counts.liquidations + counts.releases;
 
   return (
-    <div className="min-h-full p-6 sm:p-8">
+    <div className="min-h-full p-4 sm:p-8">
       <PageHeader
         eyebrow={scope === "leading" ? "Leader Workspace · Financial Reviews" : "Department · Reviews"}
         title="Financial Approvals"
         subtitle={scope === "leading" ? "Operationally endorse cash requests and receipt packages from contributors on work you lead." : "Fiscally authorize task-linked cash requests, releases, and receipt settlements from one review inbox."}
         actions={(
-          <div className="flex flex-wrap items-center gap-2">
+          <div className="flex w-full min-w-0 max-w-full flex-wrap items-center gap-2">
             {actions}
             <FiscalYearControl value={fiscalYear} onChange={setFiscalYear} compact />
             <div className="inline-flex items-center gap-1.5 rounded-lg border border-amber-200 bg-amber-50 px-3 py-1.5 text-[12px] text-amber-700">

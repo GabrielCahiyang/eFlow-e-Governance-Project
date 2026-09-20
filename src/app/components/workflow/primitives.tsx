@@ -34,16 +34,16 @@ export function PageHeader({
             {eyebrow}
           </Text>
         )}
-        <Heading className="leading-tight text-neutral-900" type="h1" weight="medium">
+        <Heading className="!overflow-visible !text-clip !whitespace-normal break-words leading-tight text-neutral-900" type="h1" weight="medium">
           {title}
         </Heading>
         {subtitle && (
-          <Text className="mt-1 max-w-3xl text-neutral-500" type="text2">
+          <Text className="mt-1 max-w-3xl !overflow-visible !text-clip !whitespace-normal break-words text-neutral-500" type="text2">
             {subtitle}
           </Text>
         )}
       </div>
-      {actions && <div className="flex items-center gap-2 flex-wrap shrink-0">{actions}</div>}
+      {actions && <div className="flex w-full min-w-0 max-w-full flex-wrap items-center gap-2 sm:w-auto sm:shrink-0">{actions}</div>}
     </header>
   );
 }
@@ -119,7 +119,7 @@ function StatCardContent({
   };
   return <>
     <div className="flex items-start justify-between gap-3">
-      <Text className="uppercase tracking-[0.08em] text-neutral-500" type="text3" weight="medium">{label}</Text>
+      <Text className="min-w-0 break-words !overflow-visible !text-clip !whitespace-normal uppercase tracking-[0.08em] text-neutral-500" type="text3" weight="medium">{label}</Text>
       {icon && <span aria-hidden="true" className={`grid size-7 shrink-0 place-items-center rounded-lg ${iconTone[tone]}`}>{icon}</span>}
     </div>
     <div className={`eflow-tabular mt-1 text-2xl font-semibold ${toneMap[tone]}`}>{value}</div>
@@ -180,10 +180,10 @@ export function Card({
   bodyClassName?: string;
 }) {
   return (
-    <section className={`rounded-xl border border-neutral-200 bg-white ${className}`}>
+    <section className={`min-w-0 rounded-xl border border-neutral-200 bg-white ${className}`}>
       {(title || right) && (
         <div className="flex items-center justify-between px-4 py-3 border-b border-neutral-100">
-          <div>
+          <div className="min-w-0">
             {title && (
               <Heading className="text-neutral-900" type="h3" weight="medium">{title}</Heading>
             )}

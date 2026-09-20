@@ -163,13 +163,13 @@ export function DeptHeadDashboard() {
   const totalHealth = Object.values(healthBuckets).reduce((s, n) => s + n, 0);
 
   return (
-    <div className="p-6 sm:p-8 min-h-full">
+    <div className="min-h-full p-3 sm:p-8">
       <PageHeader
         eyebrow={isSuperAdmin ? "Administration · Command Center" : `${workspaceLabel} · Command Center`}
         title={`Good day, ${(userProfile?.full_name || "there").split(" ")[0]}`}
         subtitle="Your department at a glance — manage by exception."
         actions={
-          <div className="flex items-center gap-2">
+          <div className="flex flex-wrap items-center gap-2">
             <span className="text-[11px] font-medium text-neutral-400">Completion window</span>
             <WSelect
               value={period}
@@ -185,7 +185,7 @@ export function DeptHeadDashboard() {
       />
 
       {/* KPI row */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
+      <div className="mb-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
           label="Overdue tasks"
           value={overdue.length}
@@ -287,7 +287,7 @@ export function DeptHeadDashboard() {
                     ) : null,
                   )}
                 </div>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                <div className="grid grid-cols-1 gap-2 sm:grid-cols-4">
                   {(Object.keys(healthBuckets) as Health[]).map((h) => (
                     <div key={h} className="flex items-center gap-2">
                       <span className="w-2.5 h-2.5 rounded-full" style={{ background: HEALTH_META[h].color }} />

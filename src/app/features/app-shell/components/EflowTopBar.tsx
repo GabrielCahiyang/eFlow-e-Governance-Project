@@ -62,13 +62,15 @@ function AccountMenu({ onPageSelect, role }: Pick<EflowTopBarProps, "onPageSelec
 
   return (
     <div className="eflow-topbar__account" data-tour-id="profile">
-      <Avatar
-        aria-label={fullName}
-        size="small"
-        src={avatarUrl}
-        text={getInitials(fullName)}
-        type={avatarUrl ? "img" : "text"}
-      />
+      <span className="eflow-topbar__account-avatar">
+        <Avatar
+          aria-label={fullName}
+          size="small"
+          src={avatarUrl}
+          text={getInitials(fullName)}
+          type={avatarUrl ? "img" : "text"}
+        />
+      </span>
       <Dialog
         aria-label="Open account menu"
         content={(

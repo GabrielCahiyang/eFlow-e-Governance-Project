@@ -165,7 +165,7 @@ export function TaskSubtasksWidget({
   };
 
   return (
-    <div className="pt-2">
+    <div className="min-w-0 pt-2">
       <div className="flex items-center justify-between mb-2">
         <label className="text-[10px] uppercase tracking-[0.12em] text-neutral-400 font-semibold flex items-center gap-1.5">
           <CheckSquare size={12} className="text-neutral-500" />
@@ -202,7 +202,7 @@ export function TaskSubtasksWidget({
                 if (canManage && !sequenceLocked && !reordering) event.preventDefault();
               }}
               onDrop={() => dropSubtask(st.id)}
-              className={`flex items-center gap-2 rounded-lg border px-2.5 py-2 group transition-colors ${
+              className={`group flex min-w-0 flex-wrap items-center gap-2 rounded-lg border px-2.5 py-2 transition-colors sm:flex-nowrap ${
                 draggedSubtaskId === st.id
                   ? "border-blue-400 bg-blue-50 shadow-sm"
                   : prerequisite
@@ -239,7 +239,7 @@ export function TaskSubtasksWidget({
                 {st.status === "for_review" ? <Clock3 size={9} /> : <Check size={9} />}
               </span>
               <span
-                className={`flex-1 text-[12px] font-normal ${
+                className={`min-w-0 basis-full text-[12px] font-normal sm:basis-auto sm:flex-1 ${
                   st.isCompleted ? "text-neutral-400 line-through" : "text-neutral-800"
                 }`}
               >
@@ -403,7 +403,7 @@ export function TaskSubtasksWidget({
                 <button
                   type="button"
                   onClick={() => deleteSubtask(st.id)}
-                  className="opacity-0 group-hover:opacity-100 text-neutral-300 hover:text-red-500 transition shrink-0 p-0.5"
+                  className="shrink-0 p-0.5 text-neutral-500 opacity-100 transition hover:text-red-500 sm:opacity-0 sm:group-hover:opacity-100"
                   title="Delete subtask"
                 >
                   <X size={12} />
@@ -418,13 +418,13 @@ export function TaskSubtasksWidget({
         <p className="mt-2 text-[9.5px] text-amber-700">Sequence is locked while the parent task is under review, completed, cancelled, or archived.</p>
       ) : null}
 
-      {canManage && <div className="flex items-center gap-2 mt-2">
+      {canManage && <div className="mt-2 flex min-w-0 flex-wrap items-center gap-2 sm:flex-nowrap">
         <input
           value={newTitle}
           onChange={(e) => setNewTitle(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && handleAdd()}
           placeholder="Add a subtask for team members…"
-          className="flex-1 h-[32px] rounded-lg border border-neutral-200 bg-white px-2.5 text-[12px] text-neutral-900 outline-none focus:border-neutral-400 placeholder:text-neutral-400 font-normal"
+          className="h-[32px] min-w-0 basis-full flex-1 rounded-lg border border-neutral-200 bg-white px-2.5 text-[12px] font-normal text-neutral-900 outline-none placeholder:text-neutral-400 focus:border-neutral-400 sm:basis-0"
         />
         <input
           type="date"

@@ -33,7 +33,7 @@ export function CreateWorkPlanDialog({
       {/* Main Container */}
       <div className="grid min-h-0 min-w-0 flex-1 grid-cols-1 bg-neutral-50/50 xl:grid-cols-[minmax(0,1fr)_260px]">
         {/* Left Column: Form & Tabs */}
-        <div className="min-h-0 min-w-0 space-y-5 overflow-y-auto p-5 sm:p-7 lg:p-8">
+        <div className="min-h-0 min-w-0 space-y-5 overflow-y-auto p-3 sm:p-7 lg:p-8">
           <div className="flex items-center gap-3 border-b border-neutral-200 pb-4">
             <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-indigo-100 bg-indigo-50 text-indigo-600">
               {isManual ? (

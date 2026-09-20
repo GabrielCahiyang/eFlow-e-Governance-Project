@@ -3181,6 +3181,12 @@
   --modal-max-height: calc(100dvh - 48px) !important;
 }
 
+@media (max-width: 639px) {
+  .eflow-wide-work-plan-modal .eflow-creation-builder {
+    padding: 0 !important;
+  }
+}
+
 /* ========================================================================== 
    Navigation dock — aligned with the application rail and shaped as a set of
    calm, scannable Vibe surfaces. Kept presentation-only: destinations,

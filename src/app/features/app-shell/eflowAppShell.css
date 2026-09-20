@@ -30,6 +30,10 @@
   display: flex;
 }
 
+.eflow-topbar__leading {
+  min-width: 0;
+}
+
 .eflow-topbar__utilities {
   gap: var(--space-8);
 }
@@ -459,8 +463,31 @@
 
 @media (max-width: 767px) {
   .eflow-topbar {
+    gap: 4px;
     min-height: 56px;
-    padding: 0 var(--space-12);
+    padding: 0 8px;
+  }
+
+  .eflow-topbar__brand-lockup {
+    margin-left: 2px;
+  }
+
+  .eflow-topbar__brand-divider,
+  .eflow-topbar__brand-org,
+  .eflow-topbar__account-avatar {
+    display: none;
+  }
+
+  .eflow-topbar__utilities {
+    flex: 0 0 auto;
+    gap: 2px;
+  }
+
+  .eflow-topbar__account-trigger {
+    font-size: 0 !important;
+    min-width: 36px !important;
+    padding-inline: 8px !important;
+    width: 36px;
   }
 
   .eflow-topbar__utilities > [data-tour-id="page-walkthrough"],

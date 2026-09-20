@@ -63,14 +63,14 @@ export function AdminTaskOversight() {
   const toggleQuickFilter = (next: QuickFilter) => setQuickFilter((current) => current === next ? "none" : next);
 
   return (
-    <div className="min-h-full bg-neutral-50 p-6 sm:p-8">
+    <div className="min-h-full bg-neutral-50 p-3 sm:p-8">
       <PageHeader
         eyebrow="Administration · Operational Oversight"
         title="Task Oversight"
         subtitle="Inspect every proposal through its programs, projects, and delivery tasks without changing operational work."
       />
 
-      <div className="mb-5 grid grid-cols-2 gap-3 lg:grid-cols-5">
+      <div className="mb-5 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-5">
         <StatCard label="Proposals" value={proposalCount} hint={`${visibleTasks.length} visible tasks`} icon={<Files size={15} />} />
         <StatCard label="Unassigned" value={counts.unassigned} tone={counts.unassigned ? "info" : "neutral"} icon={<UserX size={15} />} onClick={() => toggleQuickFilter("unassigned")} active={quickFilter === "unassigned"} />
         <StatCard label="Overdue" value={counts.overdue} tone={counts.overdue ? "bad" : "good"} icon={<AlertTriangle size={15} />} onClick={() => toggleQuickFilter("overdue")} active={quickFilter === "overdue"} />

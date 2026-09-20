@@ -45,7 +45,7 @@ export function AnnouncementCenter({ eyebrow = "My Workspace · Updates" }: { ey
   ];
 
   return (
-    <div className="mx-auto min-h-full max-w-7xl space-y-5 p-6 sm:p-8">
+    <div className="mx-auto min-h-full max-w-7xl space-y-5 p-4 sm:p-8">
       <PageHeader eyebrow={eyebrow} title="Announcement Center" subtitle="Official executive directives, departmental updates, and urgent broadcasts addressed to your workspace." />
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
         <StatCard icon={<Announcement size={16} />} label="Total" value={items.length} />
@@ -57,16 +57,16 @@ export function AnnouncementCenter({ eyebrow = "My Workspace · Updates" }: { ey
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-white border border-neutral-200/80 rounded-xl p-2.5 shadow-sm">
         {/* Filter Pills */}
         <div className="flex min-w-0 flex-wrap items-center gap-2">
-          <TabsContext activeTabId={activeFilter} id="announcement-center-tabs">
+          <div className="w-full min-w-0 overflow-x-auto sm:w-auto"><TabsContext activeTabId={activeFilter} id="announcement-center-tabs">
             <TabList id="announcement-center-tab-list">
               {filters.map((item) => <Tab active={filter === item.id} id={item.id} key={item.id} onClick={() => setFilter(item.id)}><span className="inline-flex items-center gap-1.5">{item.icon}{item.label}</span></Tab>)}
             </TabList>
-          </TabsContext>
+          </TabsContext></div>
           <Dropdown aria-label="Filter announcement audience" className="w-44 max-w-full" clearable={false} onChange={(option) => setAudienceFilter(String(option.value))} options={audienceOptions} size="small" value={audienceOptions.find((option) => option.value === audienceFilter)} />
         </div>
 
         {/* Search Bar & Mark Read Action */}
-        <div className="flex items-center gap-2">
+        <div className="flex min-w-0 flex-wrap items-center gap-2">
           <VibeSearch className="min-w-0 flex-1 sm:w-64" clearIconLabel="Clear announcement search" inputAriaLabel="Search announcements" onChange={setSearchQuery} onClear={() => setSearchQuery("")} placeholder="Search announcements…" showClearIcon size="small" value={searchQuery} />
 
           {unreadList.length > 0 && (

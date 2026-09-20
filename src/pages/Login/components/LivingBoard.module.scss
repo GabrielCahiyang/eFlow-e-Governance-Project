@@ -250,3 +250,62 @@
   display: inline-flex;
   align-items: center;
 }
+
+@media (max-width: 1199px) {
+  .boardWrapper {
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding: 4px 16px 18px;
+    scroll-padding-inline: 16px;
+    scrollbar-width: thin;
+  }
+
+  .boardContainer {
+    flex: 0 0 auto;
+    min-width: 640px;
+    height: auto;
+    min-height: 0;
+    max-height: none;
+    transform: none;
+    padding: 12px;
+    gap: 12px;
+  }
+
+  .boardContainer:hover {
+    transform: none;
+  }
+
+  .column {
+    height: auto;
+    min-height: 270px;
+    max-height: none;
+    padding: 10px;
+  }
+
+  .cardList {
+    height: auto;
+    min-height: 0;
+    max-height: none;
+  }
+
+  .card {
+    padding: 9px;
+  }
+}
+
+@media (max-width: 767px) {
+  .boardContainer {
+    min-width: 690px;
+    border-radius: 14px;
+  }
+
+  .boardWrapper {
+    overscroll-behavior-inline: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .card {
+    cursor: default;
+    touch-action: pan-x;
+  }
+}

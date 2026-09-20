@@ -63,7 +63,7 @@ export function AccountingStaffWorkspace({
     );
   if (view === "budgets") return <DepartmentBudgetWorkspace />;
   return (
-    <div className="min-h-full bg-neutral-50 p-6 sm:p-8">
+    <div className="min-h-full min-w-0 bg-neutral-50 p-3 sm:p-8">
       <div className="mx-auto max-w-[1500px] space-y-5">
         <m.header
           initial={{ opacity: 0, y: -6 }}

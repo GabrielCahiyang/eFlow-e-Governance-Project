@@ -104,7 +104,7 @@ export function YouAreLeadingView() {
   if (loading) return <div className="p-8"><LoadingState label="Loading tasks you're leading…" /></div>;
 
   return (
-    <div className="eflow-operational-workspace min-h-full p-4 sm:p-8">
+    <div className="eflow-operational-workspace min-h-full min-w-0 p-3 sm:p-8">
       <PageHeader
         eyebrow="Leader Workspace · Pinned"
         title="Pinned — You're Leading"
@@ -112,7 +112,7 @@ export function YouAreLeadingView() {
       />
 
       {/* Stat Cards */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+      <div className="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
           label="Leading Tasks"
           value={stats.total}

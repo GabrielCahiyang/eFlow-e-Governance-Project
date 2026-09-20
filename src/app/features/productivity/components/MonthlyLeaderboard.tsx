@@ -95,7 +95,9 @@ export function MonthlyLeaderboard({ employees, tasks, facts, currentUserId, all
       ) : rows.length === 0 ? (
         <div className="py-20 text-center"><Trophy size={26} className="mx-auto text-neutral-300" /><h3 className="mt-3 text-[12px] font-medium text-neutral-700">No approved contribution for this period</h3><p className="mt-1 text-[10px] text-neutral-400">Work appears after an authorized reviewer approves it.</p></div>
       ) : (
-        <div className="overflow-x-auto">
+        <div>
+          <p className="px-4 py-2 text-[10px] text-neutral-500 sm:hidden">Swipe sideways to see all columns and row actions.</p>
+          <div className="overflow-x-auto" role="region" aria-label="Monthly contribution table" tabIndex={0}>
           <table className="min-w-[920px] w-full border-collapse text-left">
             <thead><tr className="border-b border-neutral-100 bg-neutral-50/70 text-[9px] uppercase tracking-wider text-neutral-400"><th className="px-4 py-3">Rank</th><th className="px-3 py-3">Employee</th><th className="px-3 py-3 text-center">Tasks</th><th className="px-3 py-3 text-center">Subtasks</th><th className="px-3 py-3 text-center">On time</th><th className="px-3 py-3 text-center">Median cycle</th><th className="px-3 py-3 text-center">First pass</th><th className="px-3 py-3 text-right">Score</th><th className="px-4 py-3 text-right">Breakdown</th></tr></thead>
             <tbody>
@@ -115,6 +117,7 @@ export function MonthlyLeaderboard({ employees, tasks, facts, currentUserId, all
               })}
             </tbody>
           </table>
+          </div>
         </div>
       )}
     </section>

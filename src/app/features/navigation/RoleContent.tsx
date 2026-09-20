@@ -28,7 +28,7 @@ interface RoleContentProps {
 function PageFrame({ children, padded = true, dark = false }: { children: ReactNode; padded?: boolean; dark?: boolean }) {
   return (
     <div className={`h-full min-h-0 flex-1 overflow-hidden ${dark ? "bg-neutral-50 dark:bg-slate-950" : "bg-neutral-50"}`}>
-      <div data-tour-page-content className={`h-full overflow-y-auto ${padded ? "p-6" : ""}`}>{children}</div>
+      <div data-tour-page-content className={`h-full min-w-0 overflow-y-auto ${padded ? "p-3 sm:p-6" : ""}`}>{children}</div>
     </div>
   );
 }

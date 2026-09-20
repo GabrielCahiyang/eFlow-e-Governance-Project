@@ -66,7 +66,7 @@ export function EmployeePerformanceView() {
         subtitle="Your workload and delivery status, calculated from the same live tasks as the board."
       />
 
-      <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {[
           ["Total tasks", totals.total, "All assignments"],
           ["In progress", totals.inProgress, "Currently underway"],
@@ -91,7 +91,7 @@ export function EmployeePerformanceView() {
       </div>
 
       <section className={`mt-5 rounded-xl border p-5 ${health.card}`}>
-        <div className="flex items-start justify-between gap-4">
+        <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
             <div className={`text-[11px] font-medium uppercase tracking-wider ${health.text}`}>
               Workload health

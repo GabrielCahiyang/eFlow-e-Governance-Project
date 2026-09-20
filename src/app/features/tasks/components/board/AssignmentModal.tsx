@@ -64,7 +64,7 @@ export function AssignmentModal({
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-2xl shadow-2xl w-[540px] max-h-[82vh] flex flex-col overflow-hidden border border-neutral-200"
+        className="flex max-h-[82dvh] w-[calc(100vw-2rem)] max-w-[540px] flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-2xl"
         onClick={(e) => e.stopPropagation()}
         style={{ animation: "modalIn 0.18s ease" }}
       >

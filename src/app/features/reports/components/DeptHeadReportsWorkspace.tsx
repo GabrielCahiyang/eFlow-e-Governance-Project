@@ -128,7 +128,7 @@ export function DeptHeadReportsWorkspace() {
   if (analytics.loading) return <div className="p-8"><LoadingState label="Building live department reports…" /></div>;
 
   return (
-    <div className="p-6 sm:p-8 min-h-full bg-neutral-50/30">
+    <div className="min-h-full min-w-0 bg-neutral-50/30 p-3 sm:p-8">
       <PageHeader
         eyebrow="Dept. Head · Reports"
         title="Reports"
@@ -163,7 +163,7 @@ export function DeptHeadReportsWorkspace() {
         </Card>
 
         <div className="min-w-0">
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
+          <div className="mb-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
             <StatCard label="Visible rows" value={rows.length} icon={<BarChart3 size={14} />} />
             <StatCard label="People represented" value={uniquePeople} icon={<Users size={14} />} />
             <StatCard label="Projects represented" value={uniqueProjects} icon={<BriefcaseBusiness size={14} />} />

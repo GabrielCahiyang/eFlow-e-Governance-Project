@@ -182,7 +182,7 @@ export function BackupExportWorkspace() {
         </div>
       )}
 
-      <div className="mb-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <div className="mb-5 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard label="Public tables" value={overview?.preflight.table_count || 0} hint="Discovered through Supabase" tone="info" icon={<Table2 size={15} />} />
         <StatCard label="Gateway readiness" value={overview?.preflight.configured ? "Ready" : "Setup needed"} hint="Database URL + pg_dump" tone={overview?.preflight.configured ? "good" : "warn"} icon={<ServerCog size={15} />} />
         <StatCard label="Ready archives" value={recentCompleted} hint={`${overview?.preflight.retention_hours || 24}h temporary retention`} tone="good" icon={<Archive size={15} />} />

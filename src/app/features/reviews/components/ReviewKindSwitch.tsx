@@ -22,7 +22,7 @@ export function ReviewKindSwitch({
   ];
 
   return (
-    <div className="max-w-full overflow-x-auto">
+    <div className="w-full min-w-0 max-w-full overflow-x-auto">
       <TabsContext
         id="review-kind-tabs"
         activeTabId={kinds.findIndex((kind) => kind.id === active)}

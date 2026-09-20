@@ -9,10 +9,12 @@ describe("accounting staff role contract", () => {
     expect(mapRoleToPanel("accounting_staff")).toBe("accounting_staff");
   });
 
-  it("exposes only the five accounting destinations", () => {
+  it("adds the five accounting destinations to the employee workspace", () => {
     const navigation = getCoreRoleNavigation("accounting_staff");
+    const employeeNavigation = getCoreRoleNavigation("employee");
     expect(navigation?.defaultSection).toBe("accounting_overview");
     expect(navigation?.navItems.map((item) => item.id)).toEqual([
+      ...(employeeNavigation?.navItems.map((item) => item.id) ?? []),
       "accounting_overview",
       "accounting_releases",
       "accounting_journal",

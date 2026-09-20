@@ -154,7 +154,7 @@ export function ReportsWorkspace({ scope, eyebrow }: { scope: ProjectScope; eyeb
   const activeReportTab = reportTabs.findIndex((tab) => tab.id === view);
 
   return (
-    <div className="p-6 sm:p-8 min-h-full">
+    <div className="min-h-full min-w-0 p-3 sm:p-8">
       <PageHeader
         eyebrow={eyebrow}
         title="Reports"
@@ -190,7 +190,7 @@ export function ReportsWorkspace({ scope, eyebrow }: { scope: ProjectScope; eyeb
       </div>
 
       {/* KPI */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-4">
+      <div className="mb-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard label="Tasks in scope" value={scoped.length} icon={<BarChart3 size={15} />} />
         <StatCard label="Completion rate" value={`${completionRate}%`} tone="good" hint={`${completed} completed`} icon={<TrendingUp size={15} />} />
         <StatCard label="Overdue" value={overdueTasks.length} tone={overdueTasks.length ? "bad" : "good"} icon={<AlertTriangle size={15} />} />
@@ -198,15 +198,17 @@ export function ReportsWorkspace({ scope, eyebrow }: { scope: ProjectScope; eyeb
       </div>
 
       {/* View tabs */}
-      <TabsContext activeTabId={activeReportTab} className="mb-4" id="reports-workspace-tabs">
-        <TabList id="reports-workspace-tab-list">
-          {reportTabs.map((tab) => (
-            <Tab active={view === tab.id} id={tab.id} key={tab.id} onClick={() => setView(tab.id)}>
-              <span className="inline-flex items-center gap-1.5">{tab.icon}{tab.label}</span>
-            </Tab>
-          ))}
-        </TabList>
-      </TabsContext>
+      <div className="mb-4 max-w-full overflow-x-auto" role="region" aria-label="Report views" tabIndex={0}>
+        <TabsContext activeTabId={activeReportTab} id="reports-workspace-tabs">
+          <TabList id="reports-workspace-tab-list">
+            {reportTabs.map((tab) => (
+              <Tab active={view === tab.id} id={tab.id} key={tab.id} onClick={() => setView(tab.id)}>
+                <span className="inline-flex items-center gap-1.5">{tab.icon}{tab.label}</span>
+              </Tab>
+            ))}
+          </TabList>
+        </TabsContext>
+      </div>
 
       <AnimatePresence initial={false} mode="wait">
         <m.div

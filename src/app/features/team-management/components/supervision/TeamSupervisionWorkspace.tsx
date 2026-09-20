@@ -48,12 +48,12 @@ export function TeamSupervisionWorkspace() {
   if (analytics.loading) return <div className="p-8"><LoadingState label="Building the live supervision view…" /></div>;
 
   return (
-    <div className="min-h-full p-6 sm:p-8">
+    <div className="min-h-full p-4 sm:p-8">
       <PageHeader eyebrow="Department · Operations" title="Team Supervision" subtitle="Act on overdue work, blockers, stalled updates, review queues, and workload imbalance from one live workspace." actions={<span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-[10.5px] font-medium text-emerald-700"><span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" /> Live workflow data</span>} />
 
       {analytics.error && <AttentionBox className="mb-4" text={`Some workflow details could not be loaded: ${analytics.error}. Task-level data remains available.`} type="warning" />}
 
-      <div className="mb-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <div className="mb-5 grid grid-cols-1 gap-3 min-[480px]:grid-cols-2 lg:grid-cols-4">
         <StatCard label="Needs attention" value={analytics.attention.length} hint={`${criticalCount} critical`} tone={criticalCount ? "bad" : analytics.attention.length ? "warn" : "good"} icon={<ListFilter size={15} />} onClick={() => setView("attention")} active={view === "attention"} />
         <StatCard label="Overdue" value={analytics.health.overdue} tone={analytics.health.overdue ? "bad" : "good"} icon={<AlertTriangle size={15} />} onClick={() => { setView("attention"); setAttentionFilter("overdue"); }} />
         <StatCard label="Blocked / stalled" value={analytics.health.blocked + analytics.health.stalled} tone={analytics.health.blocked ? "bad" : analytics.health.stalled ? "warn" : "good"} icon={<CircleAlert size={15} />} onClick={() => { setView("attention"); setAttentionFilter(analytics.health.blocked ? "blocked" : "stalled"); }} />
@@ -61,13 +61,13 @@ export function TeamSupervisionWorkspace() {
       </div>
 
       <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <TabsContext activeTabId={view === "attention" ? 0 : view === "people" ? 1 : 2} id="team-supervision-tabs">
+        <div className="w-full min-w-0 overflow-x-auto"><TabsContext activeTabId={view === "attention" ? 0 : view === "people" ? 1 : 2} id="team-supervision-tabs">
           <TabList id="team-supervision-tab-list">
             <Tab active={view === "attention"} id="attention" onClick={() => setView("attention")}>Attention queue</Tab>
             <Tab active={view === "people"} id="people" onClick={() => setView("people")}>People & workload</Tab>
             {canManageIdentity ? <Tab active={view === "identity"} id="identity" onClick={() => setView("identity")}>Identity &amp; Access</Tab> : <></>}
           </TabList>
-        </TabsContext>
+        </TabsContext></div>
         {view === "attention" && <WSelect ariaLabel="Filter attention queue" value={attentionFilter} onChange={(value) => setAttentionFilter(value as TeamAttentionKind | "all")} options={[ { value: "all", label: "All attention items" }, { value: "overdue", label: "Overdue" }, { value: "due_soon", label: "Due soon" }, { value: "blocked", label: "Blocked" }, { value: "stalled", label: "Stalled" }, { value: "awaiting_review", label: "Review waiting" }, { value: "changes_requested", label: "Changes requested" }, { value: "unassigned", label: "Unassigned" }, { value: "vague_schedule", label: "Vague schedules" } ]} />}
       </div>
 

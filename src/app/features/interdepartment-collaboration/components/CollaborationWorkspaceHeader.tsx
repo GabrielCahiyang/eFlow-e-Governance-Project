@@ -232,9 +232,9 @@ export function CollaborationWorkspaceHeader({
         </div>
 
         {/* Secondary icon rail — contextual / audit panels */}
-        <div className="mt-4 flex items-center gap-2 border-t border-neutral-100 pt-3">
+        <div className="mt-4 flex flex-wrap items-center gap-2 border-t border-neutral-100 pt-3">
           <span className="text-[11px] font-semibold uppercase tracking-wide text-neutral-400">Workspace tools</span>
-          <div className="flex items-center gap-0.5">
+          <div className="flex min-w-0 basis-full flex-wrap items-center gap-0.5 sm:basis-auto">
             {visibleSecondary.map((item) => (
               <button
                 key={item.id}

@@ -56,7 +56,7 @@ export function Modal({
       onClose={() => onClose()}
       show={isOpen}
       size={modalSizeForWidth(width)}
-      className={overlayClassName}
+      className={`eflow-responsive-modal ${overlayClassName}`}
       useFixedPosition
     >
       <ModalBasicLayout className={`eflow-vibe-modal-layout ${className}`}>

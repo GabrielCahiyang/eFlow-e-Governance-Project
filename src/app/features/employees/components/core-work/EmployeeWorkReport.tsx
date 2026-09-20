@@ -48,7 +48,7 @@ export function EmployeeWorkReport() {
   if (loading) return <div className="p-8"><LoadingState label="Preparing your report…" /></div>;
 
   return (
-    <div className="p-6 sm:p-8 min-h-full">
+    <div className="min-h-full p-4 sm:p-8">
       <PageHeader
         eyebrow="My Workspace · Report"
         title="My Work Report"
@@ -71,7 +71,7 @@ export function EmployeeWorkReport() {
         ]} />
       </div>
 
-      <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 mb-4">
+      <div className="mb-4 grid grid-cols-1 gap-3 min-[480px]:grid-cols-2 lg:grid-cols-3">
         <StatCard label="Tasks" value={rows.length} icon={<FileText size={15} />} />
         <StatCard label="Completed" value={completed} tone="good" />
         <StatCard label="Completion rate" value={`${rate}%`} tone="good" />
@@ -81,7 +81,7 @@ export function EmployeeWorkReport() {
         {rows.length === 0 ? (
           <SectionEmpty icon={<FileText size={30} />} title="No tasks in range" description="Adjust the filters to include more of your work." />
         ) : (
-          <div className="overflow-x-auto">
+          <div className="overflow-x-auto" tabIndex={0} role="region" aria-label="Work report table">
             <table className="w-full">
               <thead>
                 <tr className="bg-neutral-50 border-b border-neutral-200">

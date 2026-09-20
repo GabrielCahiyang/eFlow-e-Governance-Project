@@ -18,7 +18,7 @@ export function DepartmentReportTable({
   onOpenTask: (taskId: string) => void;
 }) {
   return (
-    <div className="overflow-x-auto">
+    <div className="max-w-full overflow-x-auto" role="region" aria-label="Department report rows" tabIndex={0}>
       <table className="w-full min-w-[980px]">
         <thead>
           <tr className="bg-neutral-50 border-b border-neutral-200">
@@ -78,4 +78,3 @@ export function DepartmentReportTable({
     </div>
   );
 }
-

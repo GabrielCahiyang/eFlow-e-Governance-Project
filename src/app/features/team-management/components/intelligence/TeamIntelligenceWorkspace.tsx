@@ -51,16 +51,18 @@ export function TeamIntelligenceWorkspace() {
   const activeIntelligenceTab = intelligenceTabs.findIndex((tab) => tab.id === view);
 
   return (
-    <div className="min-h-full p-6 sm:p-8">
+    <div className="min-h-full min-w-0 p-3 sm:p-8">
       <PageHeader eyebrow="Department · Evidence-based insights" title="Team Intelligence" subtitle="Understand delivery quality, workload concentration, review patterns, and skills while preserving the manager context used by AI assignments." actions={<span className="inline-flex items-center gap-1.5 rounded-full border border-violet-200 bg-violet-50 px-3 py-1.5 text-[10px] font-medium text-violet-700"><BrainCircuit size={13} /> AI assignment inputs preserved</span>} />
       {analytics.error && <AttentionBox className="mb-4" text={`Historical workflow details are partially unavailable: ${analytics.error}`} type="warning" />}
 
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
-        <TabsContext activeTabId={activeIntelligenceTab} id="team-intelligence-tabs">
-          <TabList id="team-intelligence-tab-list">
-            {intelligenceTabs.map((tab) => <Tab active={view === tab.id} id={tab.id} key={tab.id} onClick={() => setView(tab.id)}><span className="inline-flex items-center gap-1.5">{tab.icon}{tab.label}</span></Tab>)}
-          </TabList>
-        </TabsContext>
+        <div className="min-w-0 max-w-full overflow-x-auto" role="region" aria-label="Team intelligence views" tabIndex={0}>
+          <TabsContext activeTabId={activeIntelligenceTab} id="team-intelligence-tabs">
+            <TabList id="team-intelligence-tab-list">
+              {intelligenceTabs.map((tab) => <Tab active={view === tab.id} id={tab.id} key={tab.id} onClick={() => setView(tab.id)}><span className="inline-flex items-center gap-1.5">{tab.icon}{tab.label}</span></Tab>)}
+            </TabList>
+          </TabsContext>
+        </div>
         {view === "people" && <VibeSearch className="w-64 max-w-full" clearIconLabel="Clear people search" inputAriaLabel="Search people or skills" onChange={setSearch} onClear={() => setSearch("")} placeholder="Search people or skills…" showClearIcon size="small" value={search} />}
       </div>
 

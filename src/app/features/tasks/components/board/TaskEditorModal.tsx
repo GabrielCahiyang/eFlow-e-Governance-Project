@@ -74,7 +74,7 @@ export function TaskEditorModal({
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-2xl shadow-2xl w-[760px] max-h-[88vh] flex flex-col overflow-hidden border border-neutral-200"
+        className="flex max-h-[88dvh] w-[calc(100vw-2rem)] max-w-[760px] flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-2xl"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="px-5 py-4 border-b border-neutral-100 flex items-center justify-between shrink-0">

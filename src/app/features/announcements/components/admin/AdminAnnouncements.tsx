@@ -57,11 +57,11 @@ export function AdminAnnouncements() {
   const activeStatusTab = statusTabs.indexOf(statusFilter);
 
   return (
-    <div className="mx-auto min-h-full max-w-7xl space-y-5 p-6 sm:p-8">
+    <div className="mx-auto min-h-full max-w-7xl space-y-5 p-4 sm:p-8">
       <PageHeader eyebrow="Administration · Communications" title="Announcement Management" subtitle="Publish executive broadcasts across the entire LGU, target department subtrees, or notify individual personnel." actions={<Button kind="primary" leftIcon={Add} onClick={() => setEditorFor("new")}>New announcement</Button>} />
 
       {/* ─── Metrics Cards ─── */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-3.5">
+      <div className="grid grid-cols-1 gap-3.5 min-[480px]:grid-cols-2 sm:grid-cols-4">
         <StatCard label="Published" tone="good" value={stats.published} />
         <StatCard label="Drafts" value={stats.drafts} />
         <StatCard label="Withdrawn" tone={stats.withdrawn ? "bad" : "neutral"} value={stats.withdrawn} />
@@ -71,10 +71,10 @@ export function AdminAnnouncements() {
       {/* ─── Filter & Search Bar ─── */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-white border border-neutral-200/80 rounded-xl p-2.5 shadow-sm">
         {/* Status Filter Tabs */}
-        <TabsContext activeTabId={activeStatusTab} id="admin-announcements-tabs"><TabList id="admin-announcements-tab-list">{statusTabs.map((status) => <Tab active={statusFilter === status} id={status} key={status} onClick={() => setStatusFilter(status)}><span className="capitalize">{status}</span></Tab>)}</TabList></TabsContext>
+        <div className="w-full min-w-0 overflow-x-auto sm:w-auto"><TabsContext activeTabId={activeStatusTab} id="admin-announcements-tabs"><TabList id="admin-announcements-tab-list">{statusTabs.map((status) => <Tab active={statusFilter === status} id={status} key={status} onClick={() => setStatusFilter(status)}><span className="capitalize">{status}</span></Tab>)}</TabList></TabsContext></div>
 
         {/* Search Bar */}
-        <VibeSearch className="sm:w-72" clearIconLabel="Clear announcement filter" inputAriaLabel="Filter announcements" onChange={setSearchQuery} onClear={() => setSearchQuery("")} placeholder="Filter announcements…" showClearIcon size="small" value={searchQuery} />
+        <VibeSearch className="min-w-0 w-full sm:w-72" clearIconLabel="Clear announcement filter" inputAriaLabel="Filter announcements" onChange={setSearchQuery} onClear={() => setSearchQuery("")} placeholder="Filter announcements…" showClearIcon size="small" value={searchQuery} />
       </div>
 
       {/* ─── Announcement List ─── */}
@@ -95,7 +95,7 @@ export function AdminAnnouncements() {
                 key={a.id}
                 className="bg-white border border-neutral-200/90 hover:border-neutral-300 rounded-2xl p-5 shadow-sm hover:shadow-md transition-all"
               >
-                <div className="flex items-start justify-between gap-4">
+                <div className="flex flex-wrap items-start justify-between gap-4 sm:flex-nowrap">
                   <div className="min-w-0 flex-1">
                     <div className="flex items-center gap-2 mb-2 flex-wrap">
                       {/* Status Badge */}

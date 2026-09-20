@@ -45,7 +45,7 @@ export function SubmitForReviewModal({
       onClick={onClose}
     >
       <div
-        className="bg-white rounded-2xl shadow-2xl w-[560px] max-h-[85vh] flex flex-col overflow-hidden border border-neutral-200"
+        className="flex max-h-[85dvh] w-[calc(100vw-2rem)] max-w-[560px] flex-col overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-2xl"
         onClick={(e) => e.stopPropagation()}
         style={{ animation: "modalIn 0.18s ease" }}
       >

@@ -47,7 +47,7 @@ export function UsersTab({ onOpenAccess }: { onOpenAccess: (userId: string) => v
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between gap-3"><div><h3 className="text-[14px] font-semibold text-neutral-900">Account directory</h3><p className="mt-0.5 text-[10.5px] text-neutral-500">Identity, role, organization, workload, and access are managed from one workspace.</p></div><button type="button" onClick={() => setShowCreate(true)} className="inline-flex items-center gap-1.5 rounded-xl bg-neutral-900 px-4 py-2.5 text-[11px] font-semibold text-white hover:bg-neutral-800"><Plus size={14} /> Create user</button></div>
+      <div className="flex flex-wrap items-center justify-between gap-3"><div className="min-w-0"><h3 className="text-[14px] font-semibold text-neutral-900">Account directory</h3><p className="mt-0.5 text-[10.5px] text-neutral-500">Identity, role, organization, workload, and access are managed from one workspace.</p></div><button type="button" onClick={() => setShowCreate(true)} className="inline-flex shrink-0 items-center gap-1.5 rounded-xl bg-neutral-900 px-4 py-2.5 text-[11px] font-semibold text-white hover:bg-neutral-800"><Plus size={14} /> Create user</button></div>
       <DataTable
         key={filters.sort}
         data={directoryProfiles}

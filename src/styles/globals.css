@@ -325,3 +325,10 @@ html {
   z-index: 9999 !important;
   position: fixed !important;
 }
+
+@media (max-width: 639px) {
+  .eflow-responsive-modal[role="dialog"] {
+    box-sizing: border-box;
+    max-width: calc(100vw - 24px) !important;
+  }
+}

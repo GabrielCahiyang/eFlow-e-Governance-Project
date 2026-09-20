@@ -114,7 +114,7 @@ function WorkloadHeatmap({ users }: { users: UserProfile[] }) {
       {activeUsers.length === 0 ? (
         <div className="text-[12px] text-neutral-400 py-4 text-center">No users found</div>
       ) : (
-        <div className="grid grid-cols-5 gap-2">
+        <div className="grid grid-cols-3 gap-2 sm:grid-cols-5">
           {activeUsers.map((u) => {
             const color =
               u.workload >= 80
@@ -218,7 +218,7 @@ export function DashboardOverview() {
       </div>
 
       {/* Primary Metrics */}
-      <div className="grid grid-cols-4 gap-4 mb-4">
+      <div className="mb-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:gap-4">
         <MetricCard
           label="Total Users"
           value={metrics.totalUsers}
@@ -250,7 +250,7 @@ export function DashboardOverview() {
       </div>
 
       {/* Secondary Metrics */}
-      <div className="grid grid-cols-5 gap-4 mb-6">
+      <div className="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-5 xl:gap-4">
         <MetricCardWide label="Pending Tasks" value={metrics.pendingTasks} color="#f59e0b" loading={loading} />
         <MetricCardWide label="Completed Tasks" value={metrics.completedTasks} color="#10b981" loading={loading} />
         <MetricCardWide label="Heads" value={metrics.departmentHeads} color="#6366f1" loading={loading} />
@@ -259,7 +259,7 @@ export function DashboardOverview() {
       </div>
 
       {/* Charts Row */}
-      <div className="grid grid-cols-2 gap-4 mb-4">
+      <div className="mb-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
         <div className="bg-white rounded-xl border border-neutral-200 p-4">
           <div className="text-[12px] font-semibold text-neutral-700 mb-3">
             Users per Org Unit
@@ -285,7 +285,7 @@ export function DashboardOverview() {
       </div>
 
       {/* Bottom Row */}
-      <div className="grid grid-cols-2 gap-4 mb-4">
+      <div className="mb-4 grid grid-cols-1 gap-4 lg:grid-cols-2">
         <RecentList title="Latest Users" items={latestUsers} emptyText="No users yet" />
         <WorkloadHeatmap users={profiles} />
       </div>

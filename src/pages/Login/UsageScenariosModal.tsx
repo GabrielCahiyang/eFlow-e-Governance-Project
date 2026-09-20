@@ -3,6 +3,7 @@ import {
   QUICK_LOGIN_ACCOUNTS,
   type QuickLoginAccount,
 } from "../../app/shared/quickLoginAccounts";
+import styles from "./Login.module.scss";
 
 export interface UsageScenariosModalProps {
   show: boolean;
@@ -38,6 +39,7 @@ export function UsageScenariosModal({
       }}
     >
       <div
+        className={styles.scenariosDialog}
         style={{
           width: "100%",
           maxWidth: "460px",
@@ -123,6 +125,7 @@ export function UsageScenariosModal({
         <div
           role="menu"
           aria-label="Development accounts"
+          className={styles.scenariosList}
           style={{
             padding: "16px 24px",
             display: "flex",
@@ -134,6 +137,7 @@ export function UsageScenariosModal({
         >
           {QUICK_LOGIN_ACCOUNTS.map((account) => (
             <button
+              className={styles.scenarioAccount}
               key={account.email}
               role="menuitem"
               type="button"

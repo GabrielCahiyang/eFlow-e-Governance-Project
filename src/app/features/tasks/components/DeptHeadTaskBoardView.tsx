@@ -35,7 +35,7 @@ export function DeptHeadTaskBoardView(
         title="Task Board"
         subtitle="Track department work, manage ownership, and move tasks through one governed operational workspace."
       />
-      <div className="mb-5 grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <div className="mb-5 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard label="Open work" value={openCount} tone="info" icon={<ListChecks size={15} />} />
         <StatCard label="In progress" value={activeTasks.filter((task) => task.status === "in_progress").length} tone="warn" icon={<Clock3 size={15} />} />
         <StatCard label="For review" value={activeTasks.filter((task) => task.status === "for_review").length} icon={<Send size={15} />} />

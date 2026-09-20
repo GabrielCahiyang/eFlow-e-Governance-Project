@@ -177,7 +177,7 @@ export function CreateUserModal({
               />
             </FormField>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <FormField label="Email" error={errors.email} required>
                 <TextInput
                   type="email"
@@ -198,7 +198,7 @@ export function CreateUserModal({
               </FormField>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <FormField label="Role" error={errors.role || leadershipConflict || undefined} required>
                 <SelectInput
                   value={form.role}

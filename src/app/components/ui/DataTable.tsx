@@ -72,12 +72,12 @@ export function DataTable<T>({
   };
 
   return (
-    <section className="overflow-hidden rounded-xl border border-neutral-200 bg-white" aria-label="Data table">
+    <section className="min-w-0 overflow-hidden rounded-xl border border-neutral-200 bg-white" aria-label="Data table">
       {/* Search */}
       {searchFilter && (
         <div className="px-4 py-3 border-b border-neutral-100">
           <div className="flex flex-wrap items-center gap-2">
-            <div className="min-w-[260px] flex-1">
+            <div className="min-w-0 w-full flex-1 sm:min-w-[260px]">
               <Search
                 value={search}
                 onChange={setSearch}
@@ -94,8 +94,8 @@ export function DataTable<T>({
       )}
 
       {/* Table */}
-      <div className="overflow-x-auto">
-        <table className="w-full">
+      <div className="overflow-x-auto" role="region" aria-label="Scrollable data table" tabIndex={0}>
+        <table className="w-full min-w-[720px]">
           <thead>
             <tr className="border-b border-neutral-100 bg-neutral-50/50">
               {columns.map((col) => (

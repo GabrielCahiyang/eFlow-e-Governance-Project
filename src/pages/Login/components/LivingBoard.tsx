@@ -117,6 +117,9 @@ const COLUMNS: { id: ColumnId; label: string }[] = [
 
 export function LivingBoard() {
   const shouldReduceMotion = useReducedMotion();
+  const [isPhoneViewport, setPhoneViewport] = useState(() =>
+    typeof window !== "undefined" && typeof window.matchMedia === "function" && window.matchMedia("(max-width: 767px)").matches,
+  );
   const [cards, setCards] = useState<KanbanCard[]>(INITIAL_CARDS);
   const [draggingCardId, setDraggingCardId] = useState<string | null>(null);
   const [hoveredColumnId, setHoveredColumnId] = useState<ColumnId | null>(null);
@@ -131,6 +134,15 @@ export function LivingBoard() {
   const lastInteractionRef = useRef(0);
   const isHoveringBoardRef = useRef(false);
   const isDraggingRef = useRef(false);
+
+  useEffect(() => {
+    if (typeof window.matchMedia !== "function") return;
+    const media = window.matchMedia("(max-width: 767px)");
+    const update = () => setPhoneViewport(media.matches);
+    update();
+    media.addEventListener("change", update);
+    return () => media.removeEventListener("change", update);
+  }, []);
 
   // Determine target column from horizontal cursor coordinate
   const getTargetColumn = (clientX: number): ColumnId | null => {
@@ -357,7 +369,7 @@ export function LivingBoard() {
                           zIndex: isThisDragging ? 9999 : 2,
                           transform: isThisDragging ? "translateZ(60px)" : undefined,
                         }}
-                        drag
+                        drag={!isPhoneViewport}
                         dragSnapToOrigin
                         whileHover={
                           shouldReduceMotion

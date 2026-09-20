@@ -74,7 +74,7 @@ function IAMTabBar({
   onSelect: (tab: IAMTab) => void;
 }) {
   return (
-    <div className="flex gap-1 rounded-xl border border-neutral-200 bg-neutral-50 p-1">
+    <div className="flex w-full min-w-0 max-w-full gap-1 overflow-x-auto rounded-xl border border-neutral-200 bg-neutral-50 p-1">
       {TAB_ORDER.map((tab) => {
         const meta = TAB_META[tab];
         const isActive = tab === active;
@@ -83,7 +83,7 @@ function IAMTabBar({
             key={tab}
             type="button"
             onClick={() => onSelect(tab)}
-            className={`relative flex items-center gap-1.5 rounded-lg px-3.5 py-2 text-[11.5px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 ${
+            className={`relative flex shrink-0 items-center gap-1.5 rounded-lg px-3.5 py-2 text-[11.5px] font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-neutral-900 ${
               isActive
                 ? "bg-white text-neutral-900 shadow-sm"
                 : "text-neutral-500 hover:text-neutral-700"
@@ -876,7 +876,7 @@ export function DeptHeadIAMWorkspace() {
   }
 
   return (
-    <div className="min-h-full space-y-6 p-6 sm:p-8">
+    <div className="min-h-full space-y-6 p-4 sm:p-8">
       {/* Page header */}
       <m.div
         initial={{ opacity: 0, y: -6 }}

@@ -12,7 +12,7 @@ describe("role navigation compatibility", () => {
     expect(departmentHead.defaultSection).toBe("dashboard");
     expect(departmentHead.navItems.map((item) => item.id)).toEqual([
       "dashboard", "projects", "tasks", "budget", "leading", "subtasks", "reviews",
-      "team", "intelligence", "reports", "announcements",
+      "team", "identity", "intelligence", "reports", "announcements",
     ]);
     expect(departmentHead.navItems.find((item) => item.id === "leading")?.requiresLeadership).toBe(true);
 

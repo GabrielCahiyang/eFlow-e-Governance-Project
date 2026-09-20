@@ -206,7 +206,7 @@ export function SubtasksWorkspace() {
         subtitle="Open assigned work, report progress, attach evidence, and submit it to the assigned reviewer for approval."
       />
 
-      <div className="grid grid-cols-2 lg:grid-cols-5 gap-3 mb-6">
+      <div className="mb-6 grid grid-cols-1 gap-3 min-[480px]:grid-cols-2 lg:grid-cols-5">
         <StatCard
           label="Total Subtasks"
           value={totalCount}
@@ -280,8 +280,8 @@ export function SubtasksWorkspace() {
             return (
               <Card key={group.parentTask?.id || Math.random().toString()} bodyClassName="p-4">
                 {/* Parent Task Header */}
-                <div className="flex items-center justify-between gap-3 pb-3 border-b border-neutral-100 mb-3">
-                  <div className="flex items-center gap-2 min-w-0">
+                <div className="mb-3 flex flex-wrap items-center justify-between gap-3 border-b border-neutral-100 pb-3">
+                  <div className="flex min-w-0 flex-wrap items-center gap-2">
                     <span className="text-[13px] font-semibold text-neutral-900 truncate">
                       {parent?.title || "Parent Task"}
                     </span>
@@ -310,7 +310,7 @@ export function SubtasksWorkspace() {
                       type="button"
                       key={st.id}
                       onClick={() => setActiveSubtask(st)}
-                      className={`flex w-full items-center gap-3 rounded-xl border px-3 py-2.5 text-left transition-colors ${
+                      className={`flex w-full min-w-0 flex-wrap items-center gap-2 rounded-xl border px-3 py-2.5 text-left transition-colors sm:flex-nowrap sm:gap-3 ${
                         st.isCompleted
                           ? "bg-neutral-50/70 border-neutral-100"
                           : prerequisite
@@ -328,7 +328,7 @@ export function SubtasksWorkspace() {
                         <CheckCircle2 size={13} />
                       </span>
                       <span
-                        className={`flex-1 text-[13px] font-normal ${
+                        className={`min-w-0 basis-[calc(100%-2rem)] break-words text-[13px] font-normal sm:basis-auto sm:flex-1 ${
                           st.isCompleted
                             ? "text-neutral-400 line-through"
                             : "text-neutral-900"

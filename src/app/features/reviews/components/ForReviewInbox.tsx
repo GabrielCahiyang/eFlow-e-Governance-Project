@@ -269,7 +269,7 @@ export function ForReviewInbox({ scope = "department" }: ForReviewInboxProps) {
         title="For Review"
         subtitle="Validate submitted work, collaborate on proposals, and keep the pipeline moving."
         actions={
-          <div className="flex items-center gap-2">
+          <div className="flex min-w-0 max-w-full flex-wrap items-center gap-2">
             <ReviewKindSwitch
               active={reviewKind}
               includeBudget={canReviewBudget}

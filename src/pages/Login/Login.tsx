@@ -72,6 +72,7 @@ export function Login() {
 
   return (
     <MotionConfig
+      reducedMotion="user"
       transition={{
         type: "spring",
         stiffness: 260,
@@ -95,6 +96,10 @@ export function Login() {
             initial={shouldReduceMotion ? false : "hidden"}
             animate="visible"
           >
+            <div className={styles.mobileBrand} aria-label="eFlow, LGU Ormoc City">
+              <EFlowMark variant="white" height={36} state={markState} />
+              <span>LGU Ormoc City</span>
+            </div>
             {/* Heading & Subhead */}
             <motion.div className={styles.headerGroup} variants={formItemVariants}>
               <Heading type="h2" id="login-heading" className={styles.loginHeading}>
@@ -316,6 +321,7 @@ export function Login() {
             </div>
 
             {/* Bigger Living 3D Kanban Board (strictly static) */}
+            <p className={styles.boardHint}>Project preview · swipe to explore</p>
             <div className={styles.kanbanWrapper}>
               <LivingBoard />
             </div>
