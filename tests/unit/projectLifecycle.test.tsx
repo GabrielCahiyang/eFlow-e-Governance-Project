@@ -16,7 +16,7 @@ function dialog() {
   return props;
 }
 function sidebar(projects: Project[], managed = true) {
-  const props = { projects, canAdd: managed, canArchive: managed, canComplete: managed, canDelete: managed, onCreateWorkPlan: vi.fn(), onOpenPortfolio: vi.fn(), onOpenProject: vi.fn(), onCompleteProject: vi.fn(), onArchiveProject: vi.fn(), onRestoreProject: vi.fn(), onDeleteProject: vi.fn(), profiles: [], summaries: new Map(), tasks: [], projectMembers: [], planningCounts: { workplans: 0, signoff: 0 }, planningView: "portfolio" as const, onOpenPlanning: vi.fn() };
+  const props = { projects, canAdd: managed, canArchive: managed, canComplete: managed, canDelete: managed, onCreateWorkPlan: vi.fn(), onOpenPortfolio: vi.fn(), onOpenProject: vi.fn(), onCompleteProject: vi.fn(), onArchiveProject: vi.fn(), onRestoreProject: vi.fn(), onDeleteProject: vi.fn(), profiles: [], summaries: new Map(), tasks: [], projectMembers: [], planningCounts: { workplans: 0, signoff: 0, actionable: 0 }, planningView: "portfolio" as const, onOpenPlanning: vi.fn() };
   const view = render(<ProjectContextSidebar {...props} />);
   return { ...view, props };
 }

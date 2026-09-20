@@ -50,7 +50,7 @@ export function ProjectContextSidebar({
   summaries: Map<string, any>;
   tasks: any[];
   projectMembers: ProjectMember[];
-  planningCounts: { workplans: number; signoff: number };
+  planningCounts: { workplans: number; signoff: number; actionable: number };
   planningView: "portfolio" | "drafts" | "signoff";
   onOpenPlanning: (view: "drafts" | "signoff") => void;
 }) {
@@ -214,7 +214,9 @@ export function ProjectContextSidebar({
               transition={motionTransition.navigation}
             />
           )}
-          <span>Work plans</span><strong>{planningCounts.workplans}</strong>
+          <span>Work plans</span>
+          {planningCounts.actionable > 0 && <span className="relative inline-flex h-2 w-2" title="Work plans need your action"><span className="absolute inset-0 animate-ping rounded-full bg-amber-400 opacity-70 motion-reduce:animate-none" /><span className="relative h-2 w-2 rounded-full bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.75)]" /></span>}
+          <strong>{planningCounts.workplans}</strong>
         </m.button>
         <m.button
           className={planningView === "signoff" ? "eflow-project-context__planning-item--active" : ""}
@@ -230,7 +232,9 @@ export function ProjectContextSidebar({
               transition={motionTransition.navigation}
             />
           )}
-          <span>Waiting for sign-off</span><strong>{planningCounts.signoff}</strong>
+          <span>Waiting for sign-off</span>
+          {planningCounts.signoff > 0 && <span className="relative inline-flex h-2 w-2" title="Work plans awaiting sign-off"><span className="absolute inset-0 animate-ping rounded-full bg-amber-400 opacity-70 motion-reduce:animate-none" /><span className="relative h-2 w-2 rounded-full bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.75)]" /></span>}
+          <strong>{planningCounts.signoff}</strong>
         </m.button>
       </div>
 

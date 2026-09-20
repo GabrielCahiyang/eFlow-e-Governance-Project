@@ -7,6 +7,7 @@ const [channelId, setChannelId] = useState<string | null>(null);
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [draft, setDraft] = useState("");
   const [sending, setSending] = useState(false);
+  const [sendError, setSendError] = useState("");
   const [replyingTo, setReplyingTo] = useState<ChatMessage | null>(null);
   const [activeReactionMenuFor, setActiveReactionMenuFor] = useState<string | null>(null);
   const [activeMoreMenuFor, setActiveMoreMenuFor] = useState<string | null>(null);
@@ -35,6 +36,7 @@ const [channelId, setChannelId] = useState<string | null>(null);
   const handleSend = async () => {
     if (!channelId || !draft.trim() || !currentUserId) return;
     setSending(true);
+    setSendError("");
     try {
       let contentToSend = draft;
       if (replyingTo) {
@@ -48,6 +50,8 @@ const [channelId, setChannelId] = useState<string | null>(null);
       await sendMessageWithMentions(channelId, currentUserId, currentUserName || "Someone", contentToSend);
       setDraft("");
       setReplyingTo(null);
+    } catch (error) {
+      setSendError(error instanceof Error ? error.message : "Message could not be sent.");
     } finally {
       setSending(false);
     }
@@ -99,5 +103,5 @@ const [channelId, setChannelId] = useState<string | null>(null);
     setActiveReactionMenuFor(null);
   };
 
-  return { activeMoreMenuFor, activeReactionMenuFor, activeReactionTab, channelId, draft, handleSend, handleToggleReaction, messages, messagesEndRef, reactionsModalContent, replyingTo, sending, setActiveMoreMenuFor, setActiveReactionMenuFor, setActiveReactionTab, setDraft, setReactionsModalContent, setReplyingTo };
+  return { activeMoreMenuFor, activeReactionMenuFor, activeReactionTab, channelId, draft, handleSend, handleToggleReaction, messages, messagesEndRef, reactionsModalContent, replyingTo, sending, sendError, setSendError, setActiveMoreMenuFor, setActiveReactionMenuFor, setActiveReactionTab, setDraft, setReactionsModalContent, setReplyingTo };
 }

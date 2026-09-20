@@ -12,8 +12,9 @@ describe("Super Admin task oversight", () => {
     expect(resolveTaskDetailCapabilities(true, {
       canReview: true,
       canPostProgress: true,
+      canSubmitForReview: true,
       canDiscuss: true,
-    })).toEqual({ canReview: false, canPostProgress: false, canDiscuss: false });
+    })).toEqual({ canReview: false, canPostProgress: false, canSubmitForReview: false, canDiscuss: false });
   });
 
   it("preserves normal workflow capabilities outside read-only oversight", () => {
@@ -22,6 +23,15 @@ describe("Super Admin task oversight", () => {
       canPostProgress: false,
       canDiscuss: true,
     })).toEqual({ canReview: true, canPostProgress: false, canDiscuss: true });
+  });
+
+  it("allows leader submission without enabling parent-task progress updates", () => {
+    expect(resolveTaskDetailCapabilities(false, {
+      canReview: false,
+      canPostProgress: false,
+      canSubmitForReview: true,
+      canDiscuss: true,
+    })).toMatchObject({ canPostProgress: false, canSubmitForReview: true });
   });
 
   it("reserves subtask structure management for the Task Leader", () => {

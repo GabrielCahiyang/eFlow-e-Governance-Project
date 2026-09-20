@@ -1,5 +1,11 @@
   import { supabase } from "../../lib/supabase";
   import { controlPanelFetch } from "../shared/controlPanelClient";
+  import { validateOutgoingChatContent } from "../features/chat-calls/services/chatModerationService";
+
+  function validateOutgoingContent(content: string): void {
+    const result = validateOutgoingChatContent(content);
+    if (!result.isValid) throw new Error(result.reason || "Message violates workplace communication standards.");
+  }
 
   export interface ChatMessage {
     id: string;
@@ -118,6 +124,7 @@ export async function sendMessageWithMentions(
   ): Promise<void> {
     const trimmed = content.trim();
     if (!trimmed) return;
+    validateOutgoingContent(trimmed);
     const { error } = await supabase.from("chat_messages").insert({
       channel_id: channelId,
       sender_id: senderId,
@@ -152,6 +159,7 @@ export async function sendMessageWithMentions(
 
   // ─── updateMessageContent ────────────────────────────────────────────
   export async function updateMessageContent(messageId: string, newContent: string): Promise<void> {
+    validateOutgoingContent(newContent);
     const res = await controlPanelFetch("admin/chat/messages/update", {
       method: "POST",
       headers: { "Content-Type": "application/json" },

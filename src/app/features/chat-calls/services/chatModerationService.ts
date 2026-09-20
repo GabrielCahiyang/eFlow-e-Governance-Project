@@ -157,3 +157,17 @@ export function validateChatMessage(text: string): ModerationResult {
     sanitizedText: trimmed,
   };
 }
+
+/** Validate the authored text, not quoted reply metadata in a message envelope. */
+export function validateOutgoingChatContent(content: string): ModerationResult {
+  let text = content;
+  try {
+    const payload: unknown = JSON.parse(content);
+    if (payload && typeof payload === "object" && "text" in payload && typeof payload.text === "string") {
+      text = payload.text;
+    }
+  } catch {
+    // Plain messages are not JSON.
+  }
+  return validateChatMessage(text);
+}

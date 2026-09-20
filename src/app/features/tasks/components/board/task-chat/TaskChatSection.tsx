@@ -4,7 +4,7 @@ import { parseMessage } from './messageCodec';
 import { useTaskChat } from './useTaskChat';
 
 export function TaskChatSection({ taskId, currentUserId, currentUserName }: { taskId: string; currentUserId?: string; currentUserName?: string }) {
-  const { activeMoreMenuFor, activeReactionMenuFor, activeReactionTab, channelId, draft, handleSend, handleToggleReaction, messages, messagesEndRef, reactionsModalContent, replyingTo, sending, setActiveMoreMenuFor, setActiveReactionMenuFor, setActiveReactionTab, setDraft, setReactionsModalContent, setReplyingTo } = useTaskChat(taskId, currentUserId, currentUserName);
+  const { activeMoreMenuFor, activeReactionMenuFor, activeReactionTab, channelId, draft, handleSend, handleToggleReaction, messages, messagesEndRef, reactionsModalContent, replyingTo, sending, sendError, setSendError, setActiveMoreMenuFor, setActiveReactionMenuFor, setActiveReactionTab, setDraft, setReactionsModalContent, setReplyingTo } = useTaskChat(taskId, currentUserId, currentUserName);
 
 if (!channelId) {
     return (
@@ -189,7 +189,8 @@ if (!channelId) {
       <div className="flex items-center gap-2">
         <input
           value={draft}
-          onChange={(e) => setDraft(e.target.value)}
+          maxLength={1000}
+          onChange={(e) => { setDraft(e.target.value); if (sendError) setSendError(""); }}
           onKeyDown={(e) => e.key === "Enter" && handleSend()}
           placeholder="Message the team…"
           className="flex-1 h-[36px] rounded-full border border-neutral-200 bg-neutral-50 px-3.5 text-[12px] outline-none focus:border-neutral-300 focus:bg-white transition-all"
@@ -201,6 +202,10 @@ if (!channelId) {
         >
           <Send size={13} />
         </button>
+      </div>
+      <div className="mt-1 flex items-start justify-between gap-3 text-[10px]">
+        <span role={sendError ? "alert" : undefined} className="text-rose-600">{sendError}</span>
+        <span className={draft.length > 900 ? "shrink-0 text-rose-600" : "shrink-0 text-neutral-400"}>{draft.length}/1000</span>
       </div>
       
       {/* Detailed Reactions Modal */}

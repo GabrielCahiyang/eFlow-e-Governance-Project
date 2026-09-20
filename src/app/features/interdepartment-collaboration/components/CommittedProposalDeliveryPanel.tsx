@@ -65,9 +65,8 @@ export function CommittedProposalDeliveryPanel({
     setConfirmArchive(false);
     try {
       await onArchive();
-    } catch (err) {
+    } catch {
       setIsArchivedOptimistic(false);
-      throw err;
     }
   };
 

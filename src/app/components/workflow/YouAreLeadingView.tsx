@@ -315,7 +315,7 @@ export function YouAreLeadingView() {
         task={selectedTask}
         onClose={() => setSelectedTask(null)}
         canReview={selectedTask?.status === "for_review"}
-        canPostProgress
+        canSubmitForReview
         canDiscuss
         onChanged={() => {}}
       />

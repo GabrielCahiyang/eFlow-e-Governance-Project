@@ -131,10 +131,13 @@ export function CollaborationDraftWorkspace({ draftId, organizations, profiles, 
     setTab(nextTab);
   };
 
-  const act = async (operation: () => Promise<void>, success: string) => {
+  const act = async (operation: () => Promise<void>, success: string, propagateError = false) => {
     setBusy(true);
     try { await operation(); await state.refresh(); toast(success, "success"); }
-    catch (error) { toast(error instanceof Error ? error.message : "The action could not be completed.", "error"); }
+    catch (error) {
+      toast(error instanceof Error ? error.message : "The action could not be completed.", "error");
+      if (propagateError) throw error;
+    }
     finally { setBusy(false); }
   };
   const saveRevision = async (snapshot: CollaborationDraftSnapshot, summary: string) => act(async () => { await saveCollaborationRevision(draftId, snapshot, summary); }, "A new proposal revision was published. Existing approvals must be renewed.");
@@ -196,6 +199,7 @@ export function CollaborationDraftWorkspace({ draftId, organizations, profiles, 
                 await onArchiveProjects(draftId);
               },
               "Completed proposal archived.",
+              true,
             )}
             onSaveOrganizations={(next) => act(
               async () => {

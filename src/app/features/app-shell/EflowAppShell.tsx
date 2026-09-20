@@ -10,7 +10,7 @@ import {
   useRoleNavigationState,
 } from "../navigation";
 import { GuidedTourProvider } from "../guided-tours";
-import { useTasksData } from "../../hooks/useSupabaseData";
+import { useProjectsData, useTasksData } from "../../hooks/useSupabaseData";
 import { isTaskLead } from "../../services/taskSelectors";
 import { EflowTopBar } from "./components/EflowTopBar";
 import {
@@ -18,6 +18,8 @@ import {
   type ShellNavigationItem,
 } from "./components/ProductivitySidebar";
 import "./eflowAppShell.css";
+import { getNavigationActionAlerts } from "./navigationActionAlerts";
+import { usePendingPlanDrafts } from "./usePendingPlanDrafts";
 
 interface EflowAppShellProps {
   role: string;
@@ -33,7 +35,9 @@ function getSectionPages(role: string, section: string) {
 export function EflowAppShell({ role }: EflowAppShellProps) {
   const { can, user, userProfile } = useAuth();
   const { tasks } = useTasksData();
+  const { projects } = useProjectsData();
   const userId = user?.id;
+  const planDrafts = usePendingPlanDrafts(userId);
   const [isMobileNavigationOpen, setMobileNavigationOpen] = useState(false);
   const getInitialPage = useCallback(
     (section: string) => {
@@ -74,14 +78,22 @@ export function EflowAppShell({ role }: EflowAppShellProps) {
         Boolean(item.requiresLeadership && hasLeadingWork),
       ),
   );
-  const hasPendingReviews = tasks.some((task) => task.status === "for_review");
+  const actionAlerts = getNavigationActionAlerts({
+    tasks,
+    projects,
+    drafts: planDrafts,
+    userId,
+    role: userProfile?.role,
+    orgId: userProfile?.org_id || userProfile?.departmentId,
+  });
   const navigationItems = useMemo<ShellNavigationItem[]>(
     () =>
       visibleNavigationItems.map((item) => {
         const content = getSidebarContent(role, item.id);
         const pages = getSectionPages(role, item.id);
-        const hasAlert =
-          (item.id === "reviews" || item.id === "approvals") && hasPendingReviews;
+        const hasAlert = item.id === "projects"
+          ? actionAlerts.projects
+          : (item.id === "reviews" || item.id === "approvals") && actionAlerts.reviews;
         return {
           ...item,
           group: content.sections[0]?.title || "Workspace",
@@ -89,7 +101,7 @@ export function EflowAppShell({ role }: EflowAppShellProps) {
           hasAlert,
         };
       }),
-    [role, visibleNavigationItems, hasPendingReviews],
+    [role, visibleNavigationItems, actionAlerts.projects, actionAlerts.reviews],
   );
 
   useEffect(() => {

@@ -1,6 +1,7 @@
 export interface RequestedTaskDetailCapabilities {
   canReview: boolean;
   canPostProgress: boolean;
+  canSubmitForReview?: boolean;
   canDiscuss: boolean;
 }
 
@@ -16,6 +17,7 @@ export function resolveTaskDetailCapabilities(
   return {
     canReview: false,
     canPostProgress: false,
+    canSubmitForReview: false,
     canDiscuss: false,
   };
 }

@@ -40,6 +40,12 @@ export function ReviewKindSwitch({
           >
             <span className="inline-flex items-center gap-1.5">{kind.label}
             {typeof count === "number" && count > 0 && (
+              <span className="relative inline-flex h-2 w-2 shrink-0" aria-hidden="true">
+                <span className="absolute inset-0 animate-ping rounded-full bg-amber-400 opacity-70 motion-reduce:animate-none" />
+                <span className="relative h-2 w-2 rounded-full bg-amber-500 shadow-[0_0_8px_rgba(245,158,11,0.75)]" />
+              </span>
+            )}
+            {typeof count === "number" && count > 0 && (
               <span
                 className={`inline-flex items-center justify-center min-w-[18px] h-[18px] px-1 rounded-full text-[10px] font-bold ${
                   isActive

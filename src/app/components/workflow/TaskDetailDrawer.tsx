@@ -36,6 +36,7 @@ export function TaskDetailDrawer({
   onClose,
   canReview = false,
   canPostProgress = false,
+  canSubmitForReview = false,
   canDiscuss = true,
   readOnly = false,
   onChanged,
@@ -44,6 +45,7 @@ export function TaskDetailDrawer({
   onClose: () => void;
   canReview?: boolean;
   canPostProgress?: boolean;
+  canSubmitForReview?: boolean;
   canDiscuss?: boolean;
   readOnly?: boolean;
   onChanged?: () => void;
@@ -62,6 +64,7 @@ export function TaskDetailDrawer({
   const capabilities = resolveTaskDetailCapabilities(readOnly, {
     canReview,
     canPostProgress,
+    canSubmitForReview,
     canDiscuss,
   });
   const effectiveCanReview = capabilities.canReview && Boolean(user?.id);
@@ -79,12 +82,13 @@ export function TaskDetailDrawer({
   const canManageSubtasks = resolveSubtaskManagementCapability(readOnly, currentUserIsLead);
   const canManageTaskTeam = canManageSubtasks && !["for_review", "completed", "cancelled"].includes(task.status);
 
-  // The assignee resumes rework by transitioning changes_requested → in_progress.
-  // Only offered to whoever can post progress (the owner surface).
-  const canResume = rejected && capabilities.canPostProgress && isOwnerOrLead;
-  const canStart = capabilities.canPostProgress && task.status === "todo";
+  // Task Leaders can start, resume, and submit parent work without posting
+  // parent-level progress updates (those belong to individual subtasks).
+  const canManageLifecycle = capabilities.canPostProgress || capabilities.canSubmitForReview;
+  const canResume = rejected && canManageLifecycle && isOwnerOrLead;
+  const canStart = canManageLifecycle && isOwnerOrLead && task.status === "todo";
   const canSubmit =
-    capabilities.canPostProgress && isOwnerOrLead && task.status === "in_progress";
+    canManageLifecycle && isOwnerOrLead && task.status === "in_progress";
   const handleStart = async () => {
     setStarting(true);
     try {

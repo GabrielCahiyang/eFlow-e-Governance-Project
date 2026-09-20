@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { validateChatMessage } from "../../src/app/features/chat-calls/services/chatModerationService";
+import { validateChatMessage, validateOutgoingChatContent } from "../../src/app/features/chat-calls/services/chatModerationService";
 
 describe("chatModerationService", () => {
   it("allows standard, clean messages", () => {
@@ -38,5 +38,13 @@ describe("chatModerationService", () => {
     const result = validateChatMessage(longMessage);
     expect(result.isValid).toBe(false);
     expect(result.reason).toContain("1,000-character limit");
+  });
+
+  it("checks authored reply text without re-moderating quoted history", () => {
+    const cleanReply = JSON.stringify({ text: "I will handle it.", replyToText: "fuck this" });
+    const prohibitedReply = JSON.stringify({ text: "fuck this", replyToText: "I will handle it." });
+    expect(validateOutgoingChatContent(cleanReply).isValid).toBe(true);
+    expect(validateOutgoingChatContent(prohibitedReply).isValid).toBe(false);
+    expect(validateOutgoingChatContent(JSON.stringify({ text: "x".repeat(1001) })).isValid).toBe(false);
   });
 });
