@@ -10,6 +10,7 @@ export const CONTROL_PANEL_UNAVAILABLE_MESSAGE =
   "The secure eFlow control service is unavailable. Please try again shortly.";
 
 const AI_HEARTBEAT_MAX_AGE_MS = 45_000;
+const AI_CONNECTION_MODE = import.meta.env.VITE_AI_CONNECTION_MODE?.trim().toLowerCase();
 
 export type AiRuntimeStatus =
   | "online"
@@ -62,8 +63,12 @@ export function normalizeControlPanelBase(rawValue: string): string {
 }
 
 async function readPublishedEndpoint(): Promise<string | null> {
-  const localControlPanelBase = import.meta.env.VITE_CONTROL_PANEL_BASE?.trim();
-  if (localControlPanelBase) return localControlPanelBase;
+  // The local /api proxy is an opt-in development mode. A stale
+  // VITE_CONTROL_PANEL_BASE=/api must not shadow the Cloudflare endpoint
+  // published in Supabase for remote clients or production builds.
+  if (AI_CONNECTION_MODE === "local") {
+    return import.meta.env.VITE_CONTROL_PANEL_BASE?.trim() || "/api";
+  }
   try {
     return await fetchConfig("ai_endpoint");
   } catch {

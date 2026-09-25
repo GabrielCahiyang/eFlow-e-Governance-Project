@@ -82,6 +82,8 @@ If the AI API becomes unavailable, it writes `restarting` and the AI launcher re
 
 AI-aware screens subscribe to the runtime rows through Supabase Realtime and refresh them on a 15-second fallback interval. Before each AI operation, eFlow reads the current endpoint/status from `system_config`, so endpoint rotation does not require a refresh or rebuild even if a Realtime event is delayed. Non-AI control requests do not fail merely because the model status is `restarting`. The browser obtains its current Supabase access token and sends:
 
+Online mode is the default: the browser reads `system_config.ai_endpoint` and follows the currently published Cloudflare URL. `VITE_CONTROL_PANEL_BASE` is only used when `VITE_AI_CONNECTION_MODE=local` is explicitly set; this keeps a local `/api` proxy from overriding the remote endpoint in a build.
+
 ```http
 POST <ai_endpoint>/ai/jobs
 Authorization: Bearer <Supabase access token>
