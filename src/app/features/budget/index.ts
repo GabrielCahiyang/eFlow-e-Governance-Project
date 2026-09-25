@@ -3,6 +3,7 @@ export * from "./constants";
 export * from "./services/budgetService";
 export * from "./hooks/useDepartmentBudget";
 export * from "./selectors/budgetSelectors";
+export * from "./selectors/cashWorkflowRules";
 export { DepartmentBudgetWorkspace } from "./components/DepartmentBudgetWorkspace";
 export { AccountingStaffWorkspace, type AccountingWorkspaceView } from "./components/AccountingStaffWorkspace";
 export { GeneralJournalWorkspace } from "./components/GeneralJournalWorkspace";

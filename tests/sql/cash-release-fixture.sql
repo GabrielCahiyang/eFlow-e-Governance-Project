@@ -8,7 +8,7 @@ create table public.profiles(id uuid primary key, full_name text, role text, org
 create table public.department_fiscal_budgets(
   id uuid primary key, org_id uuid, fiscal_year int, status text default 'locked', approved_amount numeric default 100000,
   daily_petty_cash_release_limit numeric default 10000, per_receipt_limit numeric default 5000,
-  liquidation_due_days int default 5, allow_receipt_limit_override boolean default false,
+  liquidation_due_days int default 15, allow_receipt_limit_override boolean default false,
   underutilization_threshold numeric default 80, notes text, locked_at timestamptz, updated_at timestamptz
 );
 create table public.budget_commitments(id uuid primary key, fiscal_budget_id uuid, status text, amount numeric);

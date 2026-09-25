@@ -19,6 +19,7 @@ import {
 import { BudgetEmpty, peso, StatusPill } from "./budgetUi";
 import { useApprovalThreshold } from "../hooks/useApprovalThreshold";
 import { ApprovalThresholdDialog } from "./ApprovalThresholdDialog";
+import { isLiquidationLate } from "../selectors/cashWorkflowRules";
 
 type RejectionTarget = {
   id: string;
@@ -39,6 +40,7 @@ export function BudgetApprovalQueue({
   const currentUserId = userProfile?.id || "";
   const orgId = userProfile?.org_id || userProfile?.departmentId || data.summary?.orgId || "";
   const isDepartmentApprover = ["dept_head", "department_head", "assistant_head"].includes(userProfile?.role || "");
+  const isDepartmentHead = ["dept_head", "department_head"].includes(userProfile?.role || "");
   const { threshold, setThreshold, defaultThreshold } = useApprovalThreshold(orgId);
   const [thresholdDialogOpen, setThresholdDialogOpen] = useState(false);
   const [batchBusy, setBatchBusy] = useState(false);
@@ -283,17 +285,21 @@ export function BudgetApprovalQueue({
         <QueueSection icon={<FileCheck2 size={14} />} title="Receipt liquidations" count={pendingLiquidations.length}>
           {pendingLiquidations.map((item) => {
             const request = requestById.get(item.requestId);
+            const late = isLiquidationLate(request, item);
+            const needsHead = late && item.status === "pending_department_settlement";
             return (
               <div id={`financial-record-${item.id}`} key={item.id} className={`border-b border-neutral-100 p-4 last:border-0 ${focusRecordId === item.id ? "bg-blue-50 ring-1 ring-inset ring-blue-200" : ""}`}>
                 <div className="flex flex-wrap items-start justify-between gap-3">
                   <div>
                     <div className="text-[11.5px] font-medium text-neutral-900">{request && `FR-${String(request.requestNumber).padStart(5, "0")} · `}{[request ? commitmentById.get(request.commitmentId)?.title : undefined, request?.taskTitle, request?.subtaskTitle].filter(Boolean).join(" → ") || "Cash liquidation"}</div>
                     <div className="mt-1 text-[10px] text-neutral-500">{request?.requesterName} · spent {peso.format(item.declaredSpent)} · return {peso.format(item.returnedAmount)}</div>
+                    {late && <div className="mt-1 inline-flex rounded-md border border-rose-200 bg-rose-50 px-2 py-1 text-[9px] font-medium text-rose-700">Submitted after the liquidation deadline · Department Head approval required</div>}
                     <div className="mt-1 text-[10px] text-neutral-600">{item.note}</div>
                   </div>
                   <DecisionButtons
                     busy={busy === item.id}
-                    approveLabel={item.status === "pending_leader_review" ? "Submit to Head / Assistant Head" : "Settle liquidation"}
+                    approveDisabled={needsHead && !isDepartmentHead}
+                    approveLabel={item.status === "pending_leader_review" ? "Submit to Head / Assistant Head" : needsHead ? "Approve late liquidation" : "Settle liquidation"}
                     onApprove={() => void act(item.id, () => item.status === "pending_leader_review" ? decidePettyCashLiquidationLeaderReview(item.id, true, "Receipts endorsed for department settlement") : decidePettyCashLiquidation(item.id, true, "Receipts verified and settled"))}
                     onReject={() => setRejection({ id: item.id, kind: item.status === "pending_leader_review" ? "liquidation_leader" : "liquidation_department", title: "Request receipt corrections" })}
                   />
@@ -391,7 +397,7 @@ function QueueRow({ recordId, title, meta, status, actions, details, focused = f
   );
 }
 
-function DecisionButtons({ busy, onApprove, onReject, approveLabel = "Approve" }: { busy: boolean; onApprove: () => void; onReject: () => void; approveLabel?: string }) {
+function DecisionButtons({ busy, onApprove, onReject, approveLabel = "Approve", approveDisabled = false }: { busy: boolean; onApprove: () => void; onReject: () => void; approveLabel?: string; approveDisabled?: boolean }) {
   return (
     <div className="flex items-center gap-1.5">
       <Button
@@ -407,7 +413,7 @@ function DecisionButtons({ busy, onApprove, onReject, approveLabel = "Approve" }
       <Button
         kind="primary"
         size="small"
-        disabled={busy}
+        disabled={busy || approveDisabled}
         loading={busy}
         onClick={onApprove}
       >

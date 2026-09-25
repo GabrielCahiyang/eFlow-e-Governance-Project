@@ -20,6 +20,7 @@ import { DepartmentBudgetWorkspace } from "./DepartmentBudgetWorkspace";
 import { FiscalYearControl } from "./FiscalYearControl";
 import { GeneralJournalWorkspace } from "./GeneralJournalWorkspace";
 import { peso } from "./budgetUi";
+import { getScheduledReleaseSummary } from "../selectors/cashWorkflowRules";
 
 export type AccountingWorkspaceView =
   "overview" | "releases" | "journal" | "audit" | "budgets";
@@ -133,21 +134,24 @@ function AccountingOverview({
   budget: ReturnType<typeof useDepartmentBudget>;
   journalCount: number;
 }) {
-  const due = budget.releases.filter(
-    (release) =>
-      release.status === "scheduled" &&
-      release.scheduledDate <= new Date().toISOString().slice(0, 10),
-  ).length;
+  const releases = getScheduledReleaseSummary(budget.releases);
   const settlements = budget.liquidations.filter(
     (liquidation) => liquidation.status === "pending_department_settlement",
   ).length;
   const cards = [
     {
+      label: "Cash to release",
+      value: peso.format(releases.scheduledAmount),
+      note: `${releases.dueCount} due now · ${releases.futureCount} scheduled later`,
+      icon: <Banknote size={16} />,
+      tone: releases.dueCount ? "text-amber-700" : "text-blue-700",
+    },
+    {
       label: "Release room today",
       value: peso.format(budget.summary?.dailyReleaseRemaining || 0),
-      note: `${due} tranche${due === 1 ? "" : "s"} due`,
+      note: `${peso.format(releases.dueAmount)} due today`,
       icon: <Banknote size={16} />,
-      tone: due ? "text-amber-700" : "text-emerald-700",
+      tone: releases.dueCount ? "text-amber-700" : "text-emerald-700",
     },
     {
       label: "Pending settlement",
@@ -173,7 +177,7 @@ function AccountingOverview({
   ];
   return (
     <div className="space-y-4">
-      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-5">
         {cards.map((card, index) => (
           <m.div
             key={card.label}

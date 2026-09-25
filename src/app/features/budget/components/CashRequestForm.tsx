@@ -6,6 +6,10 @@ import {
   resubmitContextualCashRequest,
   uploadCashRequestAttachment,
 } from "../services/budgetService";
+import {
+  getPhilippineCalendarDate,
+  isPastCashNeededBy,
+} from "../selectors/cashWorkflowRules";
 import { peso } from "./budgetUi";
 
 export function CashRequestForm({
@@ -36,6 +40,8 @@ export function CashRequestForm({
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState("");
   const idempotencyKey = useRef(crypto.randomUUID());
+  const today = getPhilippineCalendarDate();
+  const pastNeededBy = isPastCashNeededBy(neededBy, today);
   const selectedLine = context.lines.find((line) => line.id === lineId);
   const requestable = useMemo(
     () => Math.max(0, (selectedLine?.available || 0) + (correction?.allocationLineId === lineId ? correction.requestedAmount : 0)),
@@ -44,6 +50,10 @@ export function CashRequestForm({
 
   const submit = async () => {
     if (!selectedLine) return;
+    if (pastNeededBy) {
+      setError("Needed-by date cannot be earlier than today.");
+      return;
+    }
     setBusy(true);
     setError("");
     try {
@@ -98,8 +108,20 @@ export function CashRequestForm({
       {selectedLine && <div className="rounded-lg bg-emerald-50 px-3 py-2 text-[9.5px] text-emerald-800">Requestable now: <strong>{peso.format(requestable)}</strong></div>}
       <div className="grid gap-2 sm:grid-cols-2">
         <Field label="Amount" type="number" value={amount || ""} onChange={(value) => setAmount(Number(value))} />
-        <Field label="Needed by" type="date" value={neededBy} onChange={setNeededBy} />
+        <Field
+          label="Needed by"
+          type="date"
+          value={neededBy}
+          min={today}
+          invalid={pastNeededBy}
+          onChange={setNeededBy}
+        />
       </div>
+      {pastNeededBy && (
+        <div role="alert" className="rounded-lg border border-rose-200 bg-rose-50 px-3 py-2 text-[9.5px] text-rose-700">
+          Needed-by date cannot be earlier than today.
+        </div>
+      )}
       <label className="block">
         <span className="text-[9.5px] text-neutral-500">Purchase and purpose</span>
         <textarea value={purpose} onChange={(event) => setPurpose(event.target.value)} rows={3} placeholder="Example: Buy two boxes of ball pens for the registration desk" className="mt-1 w-full rounded-lg border border-neutral-200 px-2.5 py-2 text-[10px]" />
@@ -112,12 +134,12 @@ export function CashRequestForm({
       {error && <div className="rounded-lg bg-rose-50 p-2.5 text-[9.5px] text-rose-700">{error}</div>}
       <div className="flex justify-end gap-2">
         <button type="button" onClick={onCancel} className="h-8 rounded-lg border border-neutral-200 px-3 text-[9.5px]">Cancel</button>
-        <button type="button" disabled={busy || !selectedLine || amount <= 0 || amount > requestable || !purpose.trim()} onClick={() => void submit()} className="inline-flex h-8 items-center gap-1 rounded-lg bg-emerald-700 px-3 text-[9.5px] text-white disabled:opacity-40"><Send size={10} /> {busy ? "Submitting…" : correction ? "Resubmit" : "Request cash"}</button>
+        <button type="button" disabled={busy || pastNeededBy || !selectedLine || amount <= 0 || amount > requestable || !purpose.trim()} onClick={() => void submit()} className="inline-flex h-8 items-center gap-1 rounded-lg bg-emerald-700 px-3 text-[9.5px] text-white disabled:opacity-40"><Send size={10} /> {busy ? "Submitting…" : correction ? "Resubmit" : "Request cash"}</button>
       </div>
     </div>
   );
 }
 
-function Field({ label, value, onChange, type = "text" }: { label: string; value: string | number; onChange: (value: string) => void; type?: string }) {
-  return <label><span className="text-[9.5px] text-neutral-500">{label}</span><input type={type} min={type === "number" ? 0 : undefined} step={type === "number" ? "0.01" : undefined} value={value} onChange={(event) => onChange(event.target.value)} className="mt-1 h-9 w-full rounded-lg border border-neutral-200 px-2.5 text-[10px]" /></label>;
+function Field({ label, value, onChange, type = "text", min, invalid = false }: { label: string; value: string | number; onChange: (value: string) => void; type?: string; min?: string; invalid?: boolean }) {
+  return <label><span className="text-[9.5px] text-neutral-500">{label}</span><input aria-invalid={invalid || undefined} type={type} min={type === "number" ? 0 : min} step={type === "number" ? "0.01" : undefined} value={value} onChange={(event) => onChange(event.target.value)} className={`mt-1 h-9 w-full rounded-lg border px-2.5 text-[10px] ${invalid ? "border-rose-300 bg-rose-50" : "border-neutral-200"}`} /></label>;
 }

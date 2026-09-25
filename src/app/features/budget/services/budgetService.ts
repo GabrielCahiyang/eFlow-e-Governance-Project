@@ -1,6 +1,7 @@
 import { supabase } from "../../../../lib/supabase";
 import type { AccountingAccount, BudgetLineInput, DepartmentBudgetBundle, GeneralJournalEntry, JournalAdjustmentLineInput, ReceiptDraft, TaskFundingContext } from "../types";
 import { mapAdjustment, mapAllocation, mapAllocationLine, mapBudgetLine, mapBudgetSummary, mapCommitment, mapLedger, mapLiquidation, mapReceipt, mapRelease, mapRequest } from "./budgetMappers";
+import { assertCashNeededByIsCurrentOrFuture } from "../selectors/cashWorkflowRules";
 
 const throwIf = (error: { message: string } | null) => { if (error) throw new Error(error.message); };
 
@@ -117,7 +118,7 @@ export async function saveDepartmentFiscalBudget(input: {
   const { data, error } = await supabase.rpc("save_department_fiscal_budget_v2", {
     p_org_id: input.orgId, p_fiscal_year: input.fiscalYear,
     p_daily_release_limit: input.pettyCashLimit, p_per_receipt_limit: input.requestLimit,
-    p_liquidation_due_days: input.liquidationDueDays ?? 5,
+    p_liquidation_due_days: input.liquidationDueDays ?? 15,
     p_allow_receipt_limit_override: input.allowReceiptLimitOverride ?? false,
     p_underutilization_threshold: input.threshold, p_notes: input.notes,
     p_lines: input.lines.map((line, position) => ({ ...line, position })),
@@ -148,6 +149,7 @@ export async function decideWorkBudgetAllocation(id: string, approve: boolean, r
 }
 
 export async function createPettyCashRequest(input: { allocationId: string; amount: number; purpose: string; neededBy?: string }) {
+  assertCashNeededByIsCurrentOrFuture(input.neededBy);
   const { data, error } = await supabase.rpc("create_petty_cash_request", {
     p_allocation_id: input.allocationId, p_amount: input.amount, p_purpose: input.purpose, p_needed_by: input.neededBy || null,
   }); throwIf(error); return String(data);
@@ -192,6 +194,7 @@ export async function createContextualCashRequest(input: {
   neededBy?: string;
   idempotencyKey: string;
 }) {
+  assertCashNeededByIsCurrentOrFuture(input.neededBy);
   const { data, error } = await supabase.rpc("create_contextual_cash_request", {
     p_task_id: input.taskId,
     p_subtask_id: input.subtaskId || null,
@@ -212,6 +215,7 @@ export async function resubmitContextualCashRequest(input: {
   purpose: string;
   neededBy?: string;
 }) {
+  assertCashNeededByIsCurrentOrFuture(input.neededBy);
   const { error } = await supabase.rpc("resubmit_contextual_cash_request", {
     p_request_id: input.requestId,
     p_allocation_line_id: input.allocationLineId,
@@ -260,6 +264,7 @@ export async function cancelContextualCashRequest(requestId: string, reason: str
 }
 
 export async function resubmitPettyCashRequest(input: { requestId: string; amount: number; purpose: string; neededBy?: string }) {
+  assertCashNeededByIsCurrentOrFuture(input.neededBy);
   const { error } = await supabase.rpc("resubmit_petty_cash_request", {
     p_request_id: input.requestId, p_amount: input.amount,
     p_purpose: input.purpose, p_needed_by: input.neededBy || null,

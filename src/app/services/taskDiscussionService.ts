@@ -47,22 +47,46 @@ export async function fetchComments(taskId: string): Promise<TaskComment[]> {
   return (data || []).map(rowToComment);
 }
 
+export function mergeTaskComments(
+  current: TaskComment[],
+  incoming: TaskComment | TaskComment[],
+) {
+  const byId = new Map(current.map((comment) => [comment.id, comment]));
+  for (const comment of Array.isArray(incoming) ? incoming : [incoming]) {
+    byId.set(comment.id, comment);
+  }
+  return Array.from(byId.values()).sort(
+    (left, right) => left.createdAt - right.createdAt,
+  );
+}
+
 export function subscribeToComments(taskId: string, callback: (c: TaskComment[]) => void): () => void {
   const load = () => fetchComments(taskId).then(callback);
-  load();
+  void load();
   const channelId = `comments-${taskId}-${Math.random().toString(36).slice(2)}`;
   const channel = supabase
     .channel(channelId)
     .on('postgres_changes', { event: '*', schema: 'public', table: 'task_comments', filter: `task_id=eq.${taskId}` }, () => load())
-    .subscribe();
-  return () => { supabase.removeChannel(channel); };
+    .subscribe((status) => {
+      if (status === 'SUBSCRIBED') void load();
+    });
+  const reloadWhenVisible = () => {
+    if (document.visibilityState === 'visible') void load();
+  };
+  window.addEventListener('focus', load);
+  document.addEventListener('visibilitychange', reloadWhenVisible);
+  return () => {
+    window.removeEventListener('focus', load);
+    document.removeEventListener('visibilitychange', reloadWhenVisible);
+    void supabase.removeChannel(channel);
+  };
 }
 
 export async function postComment(
   taskId: string,
   body: string,
   author: { id: string; name: string },
-): Promise<void> {
+): Promise<TaskComment> {
   const trimmed = body.trim();
   if (!trimmed) throw new Error('Comment cannot be empty.');
   if (!author.id) throw new Error('You must be signed in to comment.');
@@ -100,6 +124,7 @@ export async function postComment(
   }
 
   await recordAudit({ entityType: 'task_comment', entityId: data.id, action: 'comment.posted', metadata: { taskId } });
+  return rowToComment(data as Record<string, unknown>);
 }
 
 export async function editComment(commentId: string, body: string): Promise<void> {

@@ -25,7 +25,7 @@ export const mapBudgetSummary = (row: Record<string, unknown>): DepartmentBudget
   pettyCashSpent: number(row.pettyCashSpent), pettyCashAvailable: number(row.pettyCashAvailable),
   dailyPettyCashReleaseLimit: number(row.dailyPettyCashReleaseLimit ?? row.pettyCashLimit),
   perReceiptLimit: number(row.perReceiptLimit ?? row.pettyCashRequestLimit),
-  liquidationDueDays: number(row.liquidationDueDays || 5),
+  liquidationDueDays: number(row.liquidationDueDays || 15),
   allowReceiptLimitOverride: Boolean(row.allowReceiptLimitOverride),
   releasedToday: number(row.releasedToday), scheduledToday: number(row.scheduledToday),
   dailyReleaseRemaining: number(row.dailyReleaseRemaining ?? row.pettyCashAvailable),

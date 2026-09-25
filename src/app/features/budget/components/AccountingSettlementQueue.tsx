@@ -14,6 +14,7 @@ import {
 } from "../services/budgetService";
 import type { DepartmentBudgetBundle } from "../types";
 import { peso } from "./budgetUi";
+import { isLiquidationLate } from "../selectors/cashWorkflowRules";
 
 export function AccountingSettlementQueue({
   data,
@@ -101,6 +102,7 @@ export function AccountingSettlementQueue({
           <AnimatePresence mode="popLayout">
             {items.map((item) => {
               const request = requestById.get(item.requestId);
+              const late = isLiquidationLate(request, item);
               return (
                 <m.article
                   layout
@@ -139,6 +141,9 @@ export function AccountingSettlementQueue({
                             text={`Refund OR ${item.refundReceiptNumber}`}
                           />
                         )}
+                        {late && (
+                          <Label color="negative" text="Late · Head approval required" />
+                        )}
                       </div>
                       <div className="mt-3 flex flex-wrap gap-2">
                         {item.receipts.map((receipt) => (
@@ -171,13 +176,18 @@ export function AccountingSettlementQueue({
                         color="positive"
                         size="small"
                         loading={busy === item.id}
-                        disabled={Boolean(busy)}
+                        disabled={Boolean(busy) || late}
                         onClick={() => void decide(item.id, true)}
                       >
-                        <CheckCircle2 size={12} /> Settle &amp; post
+                        <CheckCircle2 size={12} /> {late ? "Awaiting Department Head" : "Settle & post"}
                       </Button>
                     </div>
                   </div>
+                  {late && (
+                    <div className="mt-3 rounded-lg border border-amber-200 bg-amber-50 px-3 py-2 text-[9.5px] text-amber-900">
+                      This package was submitted after its liquidation deadline. Accounting cannot settle it; the Department Head must review and approve it in Financial Approvals.
+                    </div>
+                  )}
                   {rejecting === item.id && (
                     <m.div
                       initial={{ opacity: 0, height: 0 }}

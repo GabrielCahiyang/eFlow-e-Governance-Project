@@ -9,6 +9,7 @@ import {
   subscribeToComments,
   postComment,
   moderateDeleteComment,
+  mergeTaskComments,
   type TaskComment,
 } from "../../services/taskDiscussionService";
 import { useAuth } from "../../contexts/AuthContext";
@@ -57,7 +58,8 @@ export function TaskDiscussion({
     if (!draft.trim() || !user?.id) return;
     setSending(true);
     try {
-      await postComment(taskId, draft, { id: user.id, name: userProfile?.full_name || "You" });
+      const posted = await postComment(taskId, draft, { id: user.id, name: userProfile?.full_name || "You" });
+      setComments((current) => mergeTaskComments(current, posted));
       setDraft("");
     } catch (e: any) {
       toast(e?.message || "Failed to post comment.", "error");

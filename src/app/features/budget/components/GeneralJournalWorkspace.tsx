@@ -10,6 +10,7 @@ import { AnimatePresence } from "motion/react";
 import * as m from "motion/react-m";
 import {
   BookOpenCheck,
+  CalendarDays,
   CheckCircle2,
   CircleAlert,
   Plus,
@@ -159,19 +160,15 @@ export function GeneralJournalWorkspace({
             value={query}
           />
           <div className="flex flex-wrap gap-2">
-            <input
-              aria-label="Journal start date"
-              type="date"
+            <JournalDateInput
+              ariaLabel="Journal start date"
               value={startDate}
-              onChange={(event) => setStartDate(event.target.value)}
-              className="h-8 rounded-lg border border-neutral-200 px-2 text-[10px]"
+              onChange={setStartDate}
             />
-            <input
-              aria-label="Journal end date"
-              type="date"
+            <JournalDateInput
+              ariaLabel="Journal end date"
               value={endDate}
-              onChange={(event) => setEndDate(event.target.value)}
-              className="h-8 rounded-lg border border-neutral-200 px-2 text-[10px]"
+              onChange={setEndDate}
             />
             <select
               aria-label="Account classification"
@@ -616,13 +613,59 @@ function Field({
   return (
     <label className="text-[10px] text-neutral-600">
       {label}
+      <span className="relative mt-1 block min-w-0">
+        {type === "date" && (
+          <CalendarDays
+            aria-hidden="true"
+            size={13}
+            className="pointer-events-none absolute left-2.5 top-1/2 z-10 -translate-y-1/2 text-neutral-500"
+          />
+        )}
+        <input
+          aria-label={label}
+          type={type}
+          value={value}
+          onClick={type === "date" ? openDatePicker : undefined}
+          onChange={(event) => onChange(event.target.value)}
+          className={`h-9 w-full min-w-0 rounded-lg border border-neutral-200 pr-2.5 text-[10.5px] ${type === "date" ? "cursor-pointer pl-8" : "pl-2.5"}`}
+        />
+      </span>
+    </label>
+  );
+}
+
+function JournalDateInput({
+  ariaLabel,
+  value,
+  onChange,
+}: {
+  ariaLabel: string;
+  value: string;
+  onChange: (value: string) => void;
+}) {
+  return (
+    <label className="relative block min-w-[150px] flex-1 sm:flex-none">
+      <CalendarDays
+        aria-hidden="true"
+        size={13}
+        className="pointer-events-none absolute left-2.5 top-1/2 z-10 -translate-y-1/2 text-neutral-500"
+      />
       <input
-        aria-label={label}
-        type={type}
+        aria-label={ariaLabel}
+        type="date"
         value={value}
+        onClick={openDatePicker}
         onChange={(event) => onChange(event.target.value)}
-        className="mt-1 h-9 w-full rounded-lg border border-neutral-200 px-2.5 text-[10.5px]"
+        className="h-8 w-full min-w-0 cursor-pointer rounded-lg border border-neutral-200 bg-white pl-8 pr-2 text-[10px]"
       />
     </label>
   );
+}
+
+function openDatePicker(event: React.MouseEvent<HTMLInputElement>) {
+  try {
+    event.currentTarget.showPicker?.();
+  } catch {
+    // Native date controls still work when a browser does not expose showPicker.
+  }
 }

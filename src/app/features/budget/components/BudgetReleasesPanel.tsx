@@ -10,6 +10,7 @@ import { BudgetEmpty, peso, StatusPill } from "./budgetUi";
 import { CashReleaseOverrideDialog } from "./CashReleaseOverrideDialog";
 import { DisbursementVoucherDialog } from "./DisbursementVoucherDialog";
 import { VoucherConfirmDialog } from "./VoucherConfirmDialog";
+import { getScheduledReleaseSummary } from "../selectors/cashWorkflowRules";
 
 type ActiveDialog =
   | { kind: "release"; release: PettyCashRelease; request?: PettyCashRequest }
@@ -45,6 +46,18 @@ export function BudgetReleasesPanel({
     () => new Map(data.requests.map((item) => [item.id, item])),
     [data.requests],
   );
+  const releaseSummary = useMemo(
+    () => getScheduledReleaseSummary(data.releases),
+    [data.releases],
+  );
+  const orderedReleases = useMemo(
+    () => [...data.releases].sort((left, right) => {
+      if (left.status === "scheduled" && right.status !== "scheduled") return -1;
+      if (left.status !== "scheduled" && right.status === "scheduled") return 1;
+      return left.scheduledDate.localeCompare(right.scheduledDate);
+    }),
+    [data.releases],
+  );
   const refresh = async () => {
     setMessage("");
     try {
@@ -57,12 +70,36 @@ export function BudgetReleasesPanel({
       );
     }
   };
+  const summaryCards = (
+    <div className="grid gap-3 sm:grid-cols-3">
+      <ReleaseSummaryCard
+        label="Cash to release"
+        value={peso.format(releaseSummary.scheduledAmount)}
+        note={`${releaseSummary.scheduledCount} scheduled tranche${releaseSummary.scheduledCount === 1 ? "" : "s"}`}
+        urgent={releaseSummary.dueCount > 0}
+      />
+      <ReleaseSummaryCard
+        label="Due now"
+        value={peso.format(releaseSummary.dueAmount)}
+        note={`${releaseSummary.dueCount} tranche${releaseSummary.dueCount === 1 ? "" : "s"} ready for release`}
+        urgent={releaseSummary.dueCount > 0}
+      />
+      <ReleaseSummaryCard
+        label="Scheduled later"
+        value={String(releaseSummary.futureCount)}
+        note="Future release tranches"
+      />
+    </div>
+  );
   if (!data.releases.length && !data.liquidations.length)
     return (
-      <BudgetEmpty
-        title="No releases or liquidations"
-        description="Approved requests will be scheduled against the daily release ceiling. Released cash remains here until its receipts and returns are settled."
-      />
+      <div className="space-y-4">
+        {summaryCards}
+        <BudgetEmpty
+          title="No releases or liquidations"
+          description="Approved requests will be scheduled against the daily release ceiling. Released cash remains here until its receipts and returns are settled."
+        />
+      </div>
     );
   return (
     <div className="space-y-4">
@@ -71,6 +108,7 @@ export function BudgetReleasesPanel({
           {message}
         </div>
       )}
+      {summaryCards}
       <section className="overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm">
         <header className="flex items-center gap-2 border-b border-neutral-100 px-4 py-3">
           <Banknote size={14} />
@@ -79,7 +117,7 @@ export function BudgetReleasesPanel({
             Daily ceiling is enforced by the server
           </span>
         </header>
-        {data.releases.map((release) => {
+        {orderedReleases.map((release) => {
           const request = requestById.get(release.requestId);
           const canAcknowledge =
             release.status === "released" &&
@@ -242,6 +280,26 @@ export function BudgetReleasesPanel({
           onAcknowledged={refresh}
         />
       )}
+    </div>
+  );
+}
+
+function ReleaseSummaryCard({
+  label,
+  value,
+  note,
+  urgent = false,
+}: {
+  label: string;
+  value: string;
+  note: string;
+  urgent?: boolean;
+}) {
+  return (
+    <div className={`rounded-xl border p-3 ${urgent ? "border-amber-200 bg-amber-50" : "border-neutral-200 bg-white"}`}>
+      <div className="text-[9px] uppercase tracking-[0.12em] text-neutral-500">{label}</div>
+      <div className={`mt-1 text-[16px] font-semibold ${urgent ? "text-amber-900" : "text-neutral-950"}`}>{value}</div>
+      <div className="mt-0.5 text-[9.5px] text-neutral-500">{note}</div>
     </div>
   );
 }

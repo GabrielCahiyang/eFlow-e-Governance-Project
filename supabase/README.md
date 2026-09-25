@@ -63,6 +63,9 @@ The current task-flow additions are:
 55. `20260831000002_cash_release_schedule_override.sql` — adds an explicit, audited Head-only date override while preserving daily release ceilings.
 56. `20260831000003_project_completion_lifecycle.sql` — adds server-enforced project completion readiness and lifecycle transitions.
 57. `20260919000000_phase04_phase05_accounting.sql` — adds the optional department-scoped Accounting Staff role, Head-managed Identity & Access, stable voucher/liquidation references, cash and cheque release routing, immutable receipts, automated balanced journal posting, controlled correction entries, settlement notifications, and accounting-specific RLS.
+58. `20260925000000_task_discussion_realtime.sql` — guarantees task discussions are included in Supabase Realtime on incrementally migrated databases.
+59. `20260925000001_cash_request_future_dates.sql` — rejects past needed-by dates for new and corrected cash requests at the database boundary.
+60. `20260925000002_fifteen_day_liquidation_head_approval.sql` — changes the default liquidation window from five to fifteen days, extends open legacy-default deadlines, and requires Department Head approval for late receipt packages.
 
 Apply these files in the listed order. The Assistant Head migration defensively
 creates the two reviewer columns when absent, but it does not replace the full
