@@ -62,18 +62,28 @@ export function normalizeControlPanelBase(rawValue: string): string {
   return value;
 }
 
+function isLocalBrowser(): boolean {
+  return typeof window !== "undefined" && (
+    window.location.hostname === "localhost" ||
+    window.location.hostname === "127.0.0.1"
+  );
+}
+
 async function readPublishedEndpoint(): Promise<string | null> {
-  // The local /api proxy is an opt-in development mode. A stale
-  // VITE_CONTROL_PANEL_BASE=/api must not shadow the Cloudflare endpoint
-  // published in Supabase for remote clients or production builds.
-  if (AI_CONNECTION_MODE === "local") {
-    return import.meta.env.VITE_CONTROL_PANEL_BASE?.trim() || "/api";
-  }
+  // The published Cloudflare endpoint is the only route for online clients.
+  // Build-time environment variables must never redirect a deployed browser
+  // back to its own /api path.
   try {
-    return await fetchConfig("ai_endpoint");
+    const endpoint = await fetchConfig("ai_endpoint");
+    if (endpoint?.trim()) return endpoint;
   } catch {
-    return null;
+    // Local development may continue through Vite's proxy when Supabase is
+    // unavailable. Online clients fail clearly instead of using /api.
   }
+
+  return isLocalBrowser()
+    ? import.meta.env.VITE_CONTROL_PANEL_BASE?.trim() || "/api"
+    : null;
 }
 
 export async function resolveControlPanelBase(): Promise<string> {
@@ -84,14 +94,14 @@ export async function resolveControlPanelBase(): Promise<string> {
 
 export async function resolveAiControlPanelBase(): Promise<string> {
   const runtime = await getAiEndpointStatus();
-  if (
-    runtime.status === "offline" ||
-    runtime.status === "starting" ||
-    runtime.status === "restarting"
-  ) {
+
+  // Supabase status and heartbeat are advisory. The Cloudflare endpoint can
+  // still be live while a state update is delayed or another host has just
+  // restarted. Do not reject an import before attempting the authenticated
+  // request; the gateway is the authoritative availability check.
+  if (!runtime.endpoint) {
     throw new AiServiceUnavailableError(runtime.message || AI_RESTARTING_MESSAGE);
   }
-  if (!runtime.endpoint) throw new AiServiceUnavailableError();
   return runtime.endpoint;
 }
 
