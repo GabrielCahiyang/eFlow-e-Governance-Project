@@ -62,28 +62,17 @@ export function normalizeControlPanelBase(rawValue: string): string {
   return value;
 }
 
-function isLocalBrowser(): boolean {
-  return typeof window !== "undefined" && (
-    window.location.hostname === "localhost" ||
-    window.location.hostname === "127.0.0.1"
-  );
-}
-
 async function readPublishedEndpoint(): Promise<string | null> {
   // The published Cloudflare endpoint is the only route for online clients.
-  // Build-time environment variables must never redirect a deployed browser
-  // back to its own /api path.
+  // Do not fall back to /api: when eFlow runs on another laptop, that route
+  // points at the browser host instead of the machine running the AI server.
   try {
     const endpoint = await fetchConfig("ai_endpoint");
     if (endpoint?.trim()) return endpoint;
   } catch {
-    // Local development may continue through Vite's proxy when Supabase is
-    // unavailable. Online clients fail clearly instead of using /api.
+    // The caller reports the missing endpoint with a user-visible error.
   }
-
-  return isLocalBrowser()
-    ? import.meta.env.VITE_CONTROL_PANEL_BASE?.trim() || "/api"
-    : null;
+  return null;
 }
 
 export async function resolveControlPanelBase(): Promise<string> {
@@ -153,7 +142,16 @@ export function isAiServiceUnavailableError(
 async function getAccessToken(): Promise<string> {
   const { data, error } = await supabase.auth.getSession();
   if (error) throw error;
-  const token = data.session?.access_token;
+  let session = data.session;
+  const expiresSoon = Boolean(
+    session?.expires_at && session.expires_at * 1_000 <= Date.now() + 60_000,
+  );
+  if (expiresSoon) {
+    const { data: refreshed, error: refreshError } = await supabase.auth.refreshSession();
+    if (refreshError) throw new Error("Your session has expired. Please sign in again.");
+    session = refreshed.session;
+  }
+  const token = session?.access_token;
   if (!token) throw new Error("Your session has expired. Please sign in again.");
   return token;
 }
@@ -166,9 +164,9 @@ async function authenticatedFetch(
   base: string,
   path: string,
   init: RequestInit,
+  accessToken: string,
   timeoutMs?: number,
 ): Promise<Response> {
-  const accessToken = await getAccessToken();
   const headers = new Headers(init.headers);
   headers.set("Authorization", `Bearer ${accessToken}`);
 
@@ -194,13 +192,23 @@ export async function controlPanelFetch(
   options: ControlPanelFetchOptions = {},
 ): Promise<Response> {
   const retryOnEndpointChange = options.retryOnEndpointChange !== false;
+  // Refresh the signed-in user's token before reading system_config. Its RLS
+  // policy returns an empty endpoint for an expired session, which previously
+  // sent a remote browser to its own local /api route.
+  const accessToken = await getAccessToken();
   const resolveBase = options.requireAiOnline
     ? resolveAiControlPanelBase
     : resolveControlPanelBase;
   const firstBase = await resolveBase();
 
   try {
-    const response = await authenticatedFetch(firstBase, path, init, options.timeoutMs);
+    const response = await authenticatedFetch(
+      firstBase,
+      path,
+      init,
+      accessToken,
+      options.timeoutMs,
+    );
     if (!retryOnEndpointChange || !RETRYABLE_GATEWAY_STATUSES.has(response.status)) {
       return response;
     }
@@ -212,5 +220,11 @@ export async function controlPanelFetch(
 
   // A Quick Tunnel can rotate after discovery. Refetch and retry exactly once.
   const refreshedBase = await resolveBase();
-  return authenticatedFetch(refreshedBase, path, init, options.timeoutMs);
+  return authenticatedFetch(
+    refreshedBase,
+    path,
+    init,
+    accessToken,
+    options.timeoutMs,
+  );
 }
