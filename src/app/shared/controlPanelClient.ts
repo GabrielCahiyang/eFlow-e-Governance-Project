@@ -68,8 +68,11 @@ async function readPublishedEndpoint(): Promise<string | null> {
   try {
     const endpoint = await fetchConfig("ai_endpoint");
     if (endpoint?.trim()) return endpoint;
-  } catch {
-    // The caller reports the missing endpoint with a user-visible error.
+    console.warn("[controlPanel] ai_endpoint key exists but value is empty or null");
+  } catch (err) {
+    // Surface this so we can diagnose — the UI shows a generic "restarting" message
+    // but the real Supabase error is logged here.
+    console.error("[controlPanel] fetchConfig(ai_endpoint) failed:", err);
   }
   return null;
 }
@@ -88,6 +91,7 @@ export async function resolveAiControlPanelBase(): Promise<string> {
   // restarted. Do not reject an import before attempting the authenticated
   // request; the gateway is the authoritative availability check.
   if (!runtime.endpoint) {
+    console.error("[controlPanel] resolveAiControlPanelBase: endpoint is empty. Runtime state:", runtime);
     throw new AiServiceUnavailableError(runtime.message || AI_RESTARTING_MESSAGE);
   }
   return runtime.endpoint;
