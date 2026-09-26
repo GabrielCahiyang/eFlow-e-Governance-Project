@@ -10,7 +10,6 @@ export const CONTROL_PANEL_UNAVAILABLE_MESSAGE =
   "The secure eFlow control service is unavailable. Please try again shortly.";
 
 const AI_HEARTBEAT_MAX_AGE_MS = 45_000;
-const AI_CONNECTION_MODE = import.meta.env.VITE_AI_CONNECTION_MODE?.trim().toLowerCase();
 
 export type AiRuntimeStatus =
   | "online"
@@ -181,6 +180,16 @@ async function authenticatedFetch(
       headers,
       signal: init.signal || controller.signal,
     });
+  } catch (error) {
+    // TypeError means the browser could not reach the server at all (dead tunnel
+    // URL, DNS not resolved, connection refused). Surface a clear message so the
+    // user knows the AI server is offline rather than seeing a raw "Failed to fetch".
+    if (error instanceof TypeError) {
+      throw new AiServiceUnavailableError(
+        "The AI service connection is unreachable. The server may be offline or the secure tunnel has not started yet. Please try again in a moment.",
+      );
+    }
+    throw error;
   } finally {
     if (timeout !== null) globalThis.clearTimeout(timeout);
   }
@@ -218,8 +227,16 @@ export async function controlPanelFetch(
     }
   }
 
-  // A Quick Tunnel can rotate after discovery. Refetch and retry exactly once.
+  // A Quick Tunnel can rotate after discovery. Refetch the published endpoint
+  // and retry exactly once — but only if the endpoint actually changed.
+  // If the URL is the same the server is genuinely down; propagate the error.
   const refreshedBase = await resolveBase();
+  if (refreshedBase === firstBase) {
+    // Endpoint did not change — server is unreachable, surface a clear message.
+    throw new AiServiceUnavailableError(
+      "The AI service is unreachable. The secure tunnel may have gone offline. Please wait for it to restart automatically.",
+    );
+  }
   return authenticatedFetch(
     refreshedBase,
     path,
