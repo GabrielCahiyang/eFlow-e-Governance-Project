@@ -72,7 +72,7 @@ export function DepartmentIdentityAccessPanel({
             <h2 className="text-[14px] font-semibold text-neutral-950">
               Identity &amp; Access
             </h2>
-            <p className="mt-1 max-w-2xl text-[10.5px] leading-relaxed text-neutral-500">
+            <p className="mt-1 max-w-2xl text-[12px] leading-relaxed text-neutral-500">
               Assign or remove the Accounting Staff workspace for active people
               in your department. No assignment is required; more than one
               person can be assigned when workload or continuity requires it.
@@ -127,22 +127,22 @@ export function DepartmentIdentityAccessPanel({
                 className="flex flex-col gap-3 p-4 sm:flex-row sm:items-center"
               >
                 <div
-                  className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[10px] font-semibold ${assigned ? "bg-blue-100 text-blue-800" : "bg-neutral-100 text-neutral-600"}`}
+                  className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-[12px] font-semibold ${assigned ? "bg-blue-100 text-blue-800" : "bg-neutral-100 text-neutral-600"}`}
                 >
                   {employee.initials || employee.name.slice(0, 2).toUpperCase()}
                 </div>
                 <div className="min-w-0 flex-1">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="truncate text-[11.5px] font-medium text-neutral-900">
+                    <span className="truncate text-[13px] font-medium text-neutral-900">
                       {employee.name}
                     </span>
                     {assigned && (
-                      <span className="inline-flex items-center gap-1 text-[9.5px] font-medium text-blue-700">
+                      <span className="inline-flex items-center gap-1 text-[12px] font-medium text-blue-700">
                         <BadgeCheck size={12} /> Accounting access
                       </span>
                     )}
                   </div>
-                  <p className="mt-0.5 truncate text-[9.5px] text-neutral-500">
+                  <p className="mt-0.5 truncate text-[12px] text-neutral-500">
                     {employee.email || "No email listed"} · {getRoleLabel(role)}
                   </p>
                 </div>
@@ -169,7 +169,7 @@ export function DepartmentIdentityAccessPanel({
             );
           })}
           {!filtered.length && (
-            <div className="p-8 text-center text-[10.5px] text-neutral-500">
+            <div className="p-8 text-center text-[12px] text-neutral-500">
               No department people match this search.
             </div>
           )}

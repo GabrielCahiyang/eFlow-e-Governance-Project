@@ -1,10 +1,25 @@
-import { useMemo } from "react";
-import { ChevronRight, Layers } from "lucide-react";
+import { useEffect, useMemo, useState } from "react";
+import { CircleDotDashed, FolderKanban, ListTodo, ListTree } from "lucide-react";
 import type { Employee } from "../../../../services/employeeService";
 import type { Task } from "../../../../services/taskService";
-import { getHierarchyDisplay } from "./model";
+import { fetchSubtasksForTasks, type Subtask } from "../../../../services/subtaskService";
+import { getHierarchyDisplay, statusMeta } from "./model";
 import type { MondayBoardProps } from "./model";
 import { HierarchyTaskRow } from "./HierarchyTaskRow";
+
+type ActivityNode = {
+  key: string;
+  title: string;
+  kind: "Activity" | "Milestone";
+  schedule?: string;
+  tasks: Task[];
+};
+type ProjectNode = {
+  key: string;
+  title: string;
+  sourcePath?: string;
+  activities: ActivityNode[];
+};
 
 export function HierarchyBoardView({
   tasks,
@@ -31,215 +46,133 @@ export function HierarchyBoardView({
   onArchiveTaskRequest?: (task: Task) => void;
   onCancelTaskRequest?: (task: Task) => void;
   currentUserId?: string;
-  currentUserName?: string;
   onUndoRequest?: (task: Task) => void;
 }) {
-  type ActivityNode = {
-    key: string;
-    title: string;
-    schedule?: string;
-    tasks: Task[];
-  };
-  type ProjectNode = { key: string; title: string; activities: ActivityNode[] };
-  type ProgramNode = { key: string; title: string; projects: ProjectNode[] };
-  type ProposalNode = { key: string; title: string; programs: ProgramNode[] };
+  const [subtasksByTask, setSubtasksByTask] = useState<Record<string, Subtask[]>>({});
+  const taskIds = useMemo(() => tasks.map((task) => task.id).sort(), [tasks]);
+  const taskIdsKey = taskIds.join(",");
   const employeeById = useMemo(
-    () =>
-      Object.fromEntries(
-        employees.map((employee) => [employee.id, employee]),
-      ) as Record<string, Employee>,
+    () => Object.fromEntries(employees.map((employee) => [employee.id, employee])) as Record<string, Employee>,
     [employees],
   );
 
+  useEffect(() => {
+    let active = true;
+    void fetchSubtasksForTasks(taskIds)
+      .then((subtasks) => {
+        if (!active) return;
+        const next: Record<string, Subtask[]> = {};
+        for (const subtask of subtasks) (next[subtask.taskId] ||= []).push(subtask);
+        setSubtasksByTask(next);
+      })
+      .catch(() => {
+        if (active) setSubtasksByTask({});
+      });
+    return () => { active = false; };
+  }, [taskIds, taskIdsKey]);
+
   const tree = useMemo(() => {
-    const proposals: ProposalNode[] = [];
-
-    tasks.forEach((task) => {
+    const projects: ProjectNode[] = [];
+    for (const task of tasks) {
       const hierarchy = getHierarchyDisplay(task);
-      const proposalKey = task.proposalId || hierarchy.proposalTitle;
-      const programKey =
-        task.programId || `${proposalKey}|${hierarchy.programTitle}`;
-      const projectKey =
-        task.projectId || `${programKey}|${hierarchy.projectTitle}`;
-      const activityKey =
-        task.activityId || `${projectKey}|${hierarchy.activityTitle}`;
-
-      let proposal = proposals.find((item) => item.key === proposalKey);
-      if (!proposal) {
-        proposal = {
-          key: proposalKey,
-          title: hierarchy.proposalTitle,
-          programs: [],
-        };
-        proposals.push(proposal);
-      }
-
-      let program = proposal.programs.find((item) => item.key === programKey);
-      if (!program) {
-        program = {
-          key: programKey,
-          title: hierarchy.programTitle,
-          projects: [],
-        };
-        proposal.programs.push(program);
-      }
-
-      let project = program.projects.find((item) => item.key === projectKey);
+      const projectKey = task.projectId || task.linkedProjectId || hierarchy.projectTitle;
+      const activityKey = task.activityId || task.milestoneId || `${projectKey}|${hierarchy.activityTitle}`;
+      let project = projects.find((item) => item.key === projectKey);
       if (!project) {
         project = {
           key: projectKey,
           title: hierarchy.projectTitle,
+          sourcePath: [hierarchy.proposalTitle, hierarchy.programTitle].filter(Boolean).join(" · ") || undefined,
           activities: [],
         };
-        program.projects.push(project);
+        projects.push(project);
       }
-
-      let activity = project.activities.find(
-        (item) => item.key === activityKey,
-      );
+      let activity = project.activities.find((item) => item.key === activityKey);
       if (!activity) {
         activity = {
           key: activityKey,
           title: hierarchy.activityTitle,
+          kind: task.milestoneId ? "Milestone" : "Activity",
           schedule: hierarchy.activitySchedule,
           tasks: [],
         };
         project.activities.push(activity);
       }
-
       activity.tasks.push(task);
-    });
-
-    return proposals;
+    }
+    return projects;
   }, [tasks]);
 
   if (tree.length === 0) {
-    return (
-      <div className="rounded-2xl border border-neutral-200 bg-white p-10 text-center text-[12px] text-neutral-400">
-        No tasks yet in this board.
-      </div>
-    );
+    return <div className="rounded-2xl border border-neutral-200 bg-white p-10 text-center text-[12px] text-neutral-500">No tasks yet in this board.</div>;
   }
 
   return (
-    <div className="space-y-4">
-      {tree.map((proposal) => {
-        const proposalTaskCount = proposal.programs.reduce(
-          (sum, program) =>
-            sum +
-            program.projects.reduce(
-              (projectSum, project) =>
-                projectSum +
-                project.activities.reduce(
-                  (activitySum, activity) =>
-                    activitySum + activity.tasks.length,
-                  0,
-                ),
-              0,
-            ),
-          0,
-        );
+    <div className="space-y-4" aria-label="Task work breakdown">
+      <div className="rounded-2xl border border-neutral-200 bg-white px-4 py-4 shadow-sm sm:px-5">
+        <div className="flex items-start gap-3">
+          <span className="mt-0.5 inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-violet-50 text-violet-700"><ListTree size={15} /></span>
+          <div>
+            <h2 className="text-sm font-semibold text-neutral-900">Work breakdown</h2>
+            <p className="mt-1 text-xs leading-relaxed text-neutral-500">Project → activity or milestone → task → subtask. Proposal and program provenance stays available without obscuring operational work.</p>
+          </div>
+        </div>
+      </div>
 
-        return (
-          <section
-            key={proposal.key}
-            className="rounded-2xl border border-neutral-200 bg-white shadow-sm overflow-hidden"
-          >
-            <div className="flex items-center justify-between gap-3 px-4 py-3 bg-neutral-900">
-              <div className="min-w-0">
-                <div className="text-[10px] uppercase tracking-[0.2em] text-neutral-300">
-                  Proposal
-                </div>
-                <div className="text-[14px] text-white font-semibold truncate">
-                  {proposal.title}
-                </div>
-              </div>
-              <div className="rounded-full bg-white/10 border border-white/20 px-3 py-1 text-[10px] uppercase tracking-wider text-white">
-                {proposalTaskCount} tasks
-              </div>
+      {tree.map((project) => (
+        <section key={project.key} className="overflow-hidden rounded-2xl border border-neutral-200 bg-white shadow-sm">
+          <header className="flex flex-wrap items-start justify-between gap-3 border-b border-neutral-200 bg-neutral-900 px-4 py-3.5">
+            <div className="min-w-0">
+              <div className="flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[0.16em] text-neutral-300"><FolderKanban size={12} /> Project</div>
+              <h3 className="mt-1 break-words text-[14px] font-semibold leading-snug text-white">{project.title}</h3>
+              {project.sourcePath && <p className="mt-1 break-words text-[10px] leading-relaxed text-neutral-300">Source: {project.sourcePath}</p>}
             </div>
+            <span className="rounded-full border border-white/20 bg-white/10 px-2.5 py-1 text-[10px] text-white">{project.activities.reduce((count, activity) => count + activity.tasks.length, 0)} tasks</span>
+          </header>
 
-            <div className="divide-y divide-neutral-100">
-              {proposal.programs.map((program) => (
-                <div key={program.key}>
-                  <div className="flex items-center gap-2 px-4 py-2.5 bg-violet-50 border-b border-violet-100">
-                    <Layers size={13} className="text-violet-600" />
-                    <div className="text-[12px] font-medium text-violet-900">
-                      {program.title}
-                    </div>
-                    <span className="ml-auto text-[10px] uppercase tracking-wider text-violet-500">
-                      Program
-                    </span>
-                  </div>
-
-                  <div className="space-y-2 px-4 py-3">
-                    {program.projects.map((project) => (
-                      <div
-                        key={project.key}
-                        className="rounded-xl border border-neutral-200 bg-neutral-50/70"
-                      >
-                        <div className="flex items-center gap-2 px-3 py-2 border-b border-neutral-200 bg-white">
-                          <ChevronRight
-                            size={12}
-                            className="text-neutral-400"
+          <div className="divide-y divide-neutral-100">
+            {project.activities.map((activity) => (
+              <div key={activity.key} className="p-3 sm:p-4">
+                <div className="flex flex-wrap items-center gap-2 rounded-lg border border-violet-100 bg-violet-50 px-3 py-2">
+                  <CircleDotDashed size={13} className="shrink-0 text-violet-700" />
+                  <span className="text-[10px] font-semibold uppercase tracking-[0.12em] text-violet-700">{activity.kind}</span>
+                  <span className="min-w-0 break-words text-[12px] font-semibold leading-snug text-violet-950">{activity.title}</span>
+                  {activity.schedule && <span className="ml-auto text-[10px] text-violet-700">{activity.schedule}</span>}
+                </div>
+                <div className="mt-2 divide-y divide-neutral-100 rounded-lg border border-neutral-200">
+                  {activity.tasks.map((task) => {
+                    const subtasks = subtasksByTask[task.id] || [];
+                    return (
+                      <div key={task.id}>
+                        <div className="border-l-2 border-l-neutral-200">
+                          <HierarchyTaskRow
+                            task={task}
+                            employeeById={employeeById}
+                            role={role}
+                            currentUserId={currentUserId}
+                            onVerify={onVerify}
+                            onExecute={onExecute}
+                            onSubmitRequest={onSubmitRequest}
+                            onOpenTaskEditor={onOpenTaskEditor}
+                            onDeleteTaskRequest={onDeleteTaskRequest}
+                            onArchiveTaskRequest={onArchiveTaskRequest}
+                            onCancelTaskRequest={onCancelTaskRequest}
+                            onUndoRequest={onUndoRequest}
                           />
-                          <div className="text-[11px] font-medium text-neutral-700">
-                            {project.title}
-                          </div>
-                          <span className="ml-auto text-[9px] uppercase tracking-wider text-neutral-400">
-                            Task hierarchy · Project
-                          </span>
                         </div>
-
-                        <div className="space-y-2 p-2.5">
-                          {project.activities.map((activity) => (
-                            <div
-                              key={activity.key}
-                              className="rounded-lg border border-neutral-200 bg-white"
-                            >
-                              <div className="flex items-center gap-2 px-3 py-2 border-b border-neutral-100 bg-neutral-50">
-                                <div className="w-1.5 h-1.5 rounded-full bg-violet-400" />
-                                <div className="text-[11px] text-neutral-700 font-medium">
-                                  {activity.title}
-                                </div>
-                                {activity.schedule && (
-                                  <span className="ml-auto rounded-full border border-emerald-200 bg-emerald-50 px-2 py-0.5 text-[9px] text-emerald-700">
-                                    {activity.schedule}
-                                  </span>
-                                )}
-                              </div>
-
-                              <div className="divide-y divide-neutral-100">
-                                {activity.tasks.map((task) => (
-                                  <HierarchyTaskRow
-                                    key={task.id}
-                                    task={task}
-                                    employeeById={employeeById}
-                                    role={role}
-                                    currentUserId={currentUserId}
-                                    onVerify={onVerify}
-                                    onExecute={onExecute}
-                                    onSubmitRequest={onSubmitRequest}
-                                    onOpenTaskEditor={onOpenTaskEditor}
-                                    onDeleteTaskRequest={onDeleteTaskRequest}
-                                    onArchiveTaskRequest={onArchiveTaskRequest}
-                                    onCancelTaskRequest={onCancelTaskRequest}
-                                    onUndoRequest={onUndoRequest}
-                                  />
-                                ))}
-                              </div>
-                            </div>
-                          ))}
-                        </div>
+                        {subtasks.length > 0 && <div className="ml-5 border-l border-dashed border-neutral-200 py-1.5 pl-3 sm:ml-7">{subtasks.map((subtask) => {
+                          const meta = statusMeta[subtask.status];
+                          return <div key={subtask.id} className="flex items-start gap-2 py-1.5"><ListTodo size={12} className="mt-0.5 shrink-0 text-neutral-400" /><div className="min-w-0"><p className="break-words text-[11px] font-medium leading-snug text-neutral-800">{subtask.title}</p><span className={`mt-1 inline-block rounded-full border px-1.5 py-0.5 text-[9px] ${meta.color}`}>{meta.label}</span></div></div>;
+                        })}</div>}
                       </div>
-                    ))}
-                  </div>
+                    );
+                  })}
                 </div>
-              ))}
-            </div>
-          </section>
-        );
-      })}
+              </div>
+            ))}
+          </div>
+        </section>
+      ))}
     </div>
   );
 }

@@ -268,7 +268,7 @@ export function ProjectProposalContextTab({
                 className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-neutral-900 hover:bg-neutral-800 text-white text-xs font-semibold shadow-xs transition-colors cursor-pointer disabled:opacity-50"
               >
                 <FileText size={14} />
-                <span>{pdfLoading ? "Loading PDF…" : "Preview Source PDF"}</span>
+                <span>{pdfLoading ? "Opening PDF…" : "View source PDF"}</span>
               </button>
             </div>
           )}

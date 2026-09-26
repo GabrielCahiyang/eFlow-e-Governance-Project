@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { getRoleNavigation } from "../../src/app/features/navigation/roleNavigation";
+import { getNavigationPath } from "../../src/app/features/navigation/navigationUrl";
 
 interface E2EAccount {
   role: string;
@@ -23,11 +24,12 @@ test.describe("authenticated navigation smoke coverage", () => {
       await page.locator("#login-email").fill(account.email);
       await page.locator("#login-password").fill(account.password);
       await page.locator("#login-submit").click();
-      await expect(page.getByText("eFlow Console", { exact: true })).toBeVisible();
+      await expect(page.getByRole("main", { name: "Active workspace" })).toBeVisible();
 
       for (const item of getRoleNavigation(account.role).navItems) {
         await page.getByRole("button", { name: item.label, exact: true }).click();
         await expect(page.getByText(item.label, { exact: true }).first()).toBeVisible();
+        expect(new URL(page.url()).pathname).toBe(getNavigationPath(item.id));
       }
     });
   }

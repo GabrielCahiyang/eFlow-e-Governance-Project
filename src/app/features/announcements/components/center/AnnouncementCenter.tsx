@@ -2,7 +2,8 @@ import type { ComponentProps, ReactNode } from 'react';
 import { Button, Dropdown, Heading, IconButton, Label, Search as VibeSearch, Tab, TabList, TabsContext } from '@vibe/core';
 import { Announcement, Calendar, Check, Close, Completed, Email, Globe, Inbox, Info, NavigationChevronRight, Team, Time, Workspace } from '@vibe/icons';
 import type { Audience } from '../../../../services/announcementService';
-import { LoadingState, PageHeader, SectionEmpty, StatCard, formatDate } from '../../../../components/workflow/primitives';
+import { PageHeader, SectionEmpty, StatCard, formatDate } from '../../../../components/workflow/primitives';
+import { WorkspaceLoadingSkeleton } from '../../../../components/workflow/WorkspaceLoadingSkeleton';
 import { InspectorPanel } from '../../../../shared/motion';
 import { useAnnouncementCenter } from '../../hooks/useAnnouncementCenter';
 
@@ -30,7 +31,7 @@ const AUDIENCE_META: Record<Audience, { label: string; icon: ReactNode; color: s
 export function AnnouncementCenter({ eyebrow = "My Workspace · Updates" }: { eyebrow?: string }) {
   const { audienceFilter, filter, filteredItems, items, loading, markAllRead, openAnnouncement, readList, searchQuery, selectedAnnouncement, setAudienceFilter, setFilter, setSearchQuery, setSelectedAnnouncement, unreadList } = useAnnouncementCenter();
 
-  if (loading) return <div className="p-8"><LoadingState label="Loading announcement center…" /></div>;
+  if (loading) return <div className="p-4 sm:p-8"><WorkspaceLoadingSkeleton label="Loading announcement center…" rows={3} /></div>;
 
   const filters = [
     { id: "all", label: `All (${items.length})`, icon: <Inbox size={13} /> },

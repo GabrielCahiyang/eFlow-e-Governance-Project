@@ -7,7 +7,7 @@ import type {
   TaskStatus,
   UpdateTaskPayload,
 } from "../taskTypes";
-import { readString, rowToTask, taskToRow } from "./taskMapper";
+import { readString, readStringArray, rowToTask, taskToRow } from "./taskMapper";
 import { fetchTaskById, notifyTaskListeners } from "./taskRealtimeService";
 
 export const createTask = async (
@@ -163,6 +163,59 @@ export const assignTask = async (
 // (e.g. the task editor advancing pending_assignment → todo on assignment), we
 // route that part through the authoritative RPC and strip it from the plain
 // column update, so one call keeps working without bypassing the lifecycle.
+const sameStringList = (left: readonly string[], right: readonly string[]) =>
+  left.length === right.length && left.every((value, index) => value === right[index]);
+
+/**
+ * The editor submits a complete assignment snapshot with ordinary task
+ * fields. Avoid sending an unchanged snapshot through the protected
+ * assignment RPC: a rejected no-op call would otherwise be reported as a
+ * failed save after the ordinary task update has already completed.
+ */
+const hasAssignmentDetailsChanged = (
+  current: Record<string, unknown>,
+  details: Pick<
+    UpdateTaskPayload,
+    | "assigneeId"
+    | "teamId"
+    | "teamName"
+    | "teamMemberIds"
+    | "teamMemberNames"
+    | "reviewerId"
+    | "backupReviewerId"
+  >,
+) => {
+  if (
+    details.assigneeId !== undefined &&
+    (details.assigneeId || "") !== (readString(current.assigned_to) || "")
+  ) return true;
+  if (
+    details.teamId !== undefined &&
+    (details.teamId || "") !== (readString(current.team_id) || "")
+  ) return true;
+  if (
+    details.teamName !== undefined &&
+    (details.teamName || "") !== (readString(current.team_name) || "")
+  ) return true;
+  if (
+    details.teamMemberIds !== undefined &&
+    !sameStringList(details.teamMemberIds, readStringArray(current.team_member_ids))
+  ) return true;
+  if (
+    details.teamMemberNames !== undefined &&
+    !sameStringList(details.teamMemberNames, readStringArray(current.team_member_names))
+  ) return true;
+  if (
+    details.reviewerId !== undefined &&
+    (details.reviewerId || "") !== (readString(current.reviewer_id) || "")
+  ) return true;
+  return (
+    details.backupReviewerId !== undefined &&
+    (details.backupReviewerId || "") !==
+      (readString(current.backup_reviewer_id) || "")
+  );
+};
+
 export const updateTask = async (
   taskId: string,
   payload: UpdateTaskPayload,
@@ -182,13 +235,7 @@ export const updateTask = async (
   const current = await fetchTaskById(taskId);
   if (!current) throw new Error('Task not found.');
 
-  const row = taskToRow(rest as Partial<Task>);
-  if (Object.keys(row).length > 0) {
-    const { error } = await supabase.from('tasks').update(row).eq('id', taskId);
-    if (error) throw error;
-  }
-
-  const hasAssignmentChanges = [
+  const hasAssignmentChanges = hasAssignmentDetailsChanged(current, {
     assigneeId,
     teamId,
     teamName,
@@ -196,37 +243,65 @@ export const updateTask = async (
     teamMemberNames,
     reviewerId,
     backupReviewerId,
-  ].some((value) => value !== undefined);
-  if (hasAssignmentChanges) {
-    const nextAssignee = assigneeId === undefined
-      ? readString(current.assigned_to)
-      : assigneeId || undefined;
-    const { error } = await supabase.rpc('assign_task_with_details', {
-      p_task_id: taskId,
-      p_assignee: nextAssignee || null,
-      p_assignee_name: null,
-      p_team_id: teamId ?? null,
-      p_team_name: teamName ?? null,
-      p_team_member_ids: teamMemberIds ?? null,
-      p_team_member_names: teamMemberNames ?? null,
-      p_reviewer: reviewerId || null,
-      p_backup_reviewer: backupReviewerId || null,
-      p_set_reviewers: reviewerId !== undefined || backupReviewerId !== undefined,
-    });
-    if (error) throw new Error(error.message);
-  }
+  }) || (status === 'todo' && current.status === 'pending_assignment' &&
+    Boolean(assigneeId === undefined ? current.assigned_to : assigneeId));
+  const savedParts: string[] = [];
+  let savingPart = 'task details';
+  try {
+    const row = taskToRow(rest as Partial<Task>);
+    if (Object.keys(row).length > 0) {
+      const { error } = await supabase.from('tasks').update(row).eq('id', taskId);
+      if (error) throw error;
+      savedParts.push('task details');
+    }
 
-  if (status) {
-    const refreshed = await fetchTaskById(taskId);
-    if (refreshed && refreshed.status !== status) {
-      const { error } = await supabase.rpc('transition_task_status', {
+    if (hasAssignmentChanges) {
+      savingPart = 'team and reviewer changes';
+      const nextAssignee = assigneeId === undefined
+        ? readString(current.assigned_to)
+        : assigneeId || undefined;
+      const { error } = await supabase.rpc('assign_task_with_details', {
         p_task_id: taskId,
-        p_to_status: status,
-        p_feedback: null,
-        p_reason: null,
+        p_assignee: nextAssignee || null,
+        p_assignee_name: null,
+        p_team_id: teamId ?? null,
+        p_team_name: teamName ?? null,
+        p_team_member_ids: teamMemberIds ?? null,
+        p_team_member_names: teamMemberNames ?? null,
+        p_reviewer: (reviewerId === undefined ? readString(current.reviewer_id) : reviewerId) || null,
+        p_backup_reviewer: (backupReviewerId === undefined ? readString(current.backup_reviewer_id) : backupReviewerId) || null,
+        p_set_reviewers: reviewerId !== undefined || backupReviewerId !== undefined,
       });
       if (error) throw new Error(error.message);
+      savedParts.push('team and reviewer changes');
     }
+
+    if (status) {
+      savingPart = 'status change';
+      const refreshed = await fetchTaskById(taskId);
+      if (!refreshed) throw new Error('Could not verify the current task status.');
+      if (refreshed.status !== status) {
+        const { error } = await supabase.rpc('transition_task_status', {
+          p_task_id: taskId,
+          p_to_status: status,
+          p_feedback: null,
+          p_reason: null,
+        });
+        if (error) throw new Error(error.message);
+        savedParts.push('status change');
+      }
+    }
+  } catch (error) {
+    // Multiple existing workflow calls can partially succeed. Refresh committed
+    // changes and tell the editor precisely which part still needs attention.
+    if (savedParts.length > 0) await notifyTaskListeners();
+    const reason = error && typeof error === 'object' && 'message' in error
+      ? String(error.message)
+      : 'Please try again.';
+    const saved = savedParts.length > 0
+      ? `Saved ${savedParts.join(' and ')}, but could not save ${savingPart}. `
+      : `Could not save ${savingPart}. `;
+    throw new Error(saved + reason);
   }
 
   await notifyTaskListeners();

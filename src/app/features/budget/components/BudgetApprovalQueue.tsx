@@ -160,7 +160,7 @@ export function BudgetApprovalQueue({
 
   return (
     <div className="space-y-4">
-      {message && <div className="rounded-xl border border-rose-200 bg-rose-50 p-3 text-[10.5px] text-rose-700">{message}</div>}
+      {message && <div className="rounded-xl border border-rose-200 bg-rose-50 p-3 text-[12px] text-rose-700">{message}</div>}
 
       {isDepartmentApprover && (
         <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-neutral-200 bg-white px-4 py-3 shadow-sm">
@@ -293,7 +293,7 @@ export function BudgetApprovalQueue({
                   <div>
                     <div className="text-[11.5px] font-medium text-neutral-900">{request && `FR-${String(request.requestNumber).padStart(5, "0")} · `}{[request ? commitmentById.get(request.commitmentId)?.title : undefined, request?.taskTitle, request?.subtaskTitle].filter(Boolean).join(" → ") || "Cash liquidation"}</div>
                     <div className="mt-1 text-[10px] text-neutral-500">{request?.requesterName} · spent {peso.format(item.declaredSpent)} · return {peso.format(item.returnedAmount)}</div>
-                    {late && <div className="mt-1 inline-flex rounded-md border border-rose-200 bg-rose-50 px-2 py-1 text-[9px] font-medium text-rose-700">Submitted after the liquidation deadline · Department Head approval required</div>}
+                    {late && <div className="mt-1 inline-flex rounded-md border border-rose-200 bg-rose-50 px-2 py-1 text-[11px] font-medium text-rose-700">Submitted after the liquidation deadline · Department Head approval required</div>}
                     <div className="mt-1 text-[10px] text-neutral-600">{item.note}</div>
                   </div>
                   <DecisionButtons
@@ -360,7 +360,7 @@ function QueueSection({ icon, title, count, children, action }: { icon: ReactNod
         <h3 className="text-[12px] font-semibold text-neutral-900">{title}</h3>
         <div className="ml-auto flex items-center gap-2">
           {action}
-          <span className="rounded-full bg-amber-50 px-2 py-1 text-[9px] text-amber-700">{count}</span>
+          <span className="rounded-full bg-amber-50 px-2 py-1 text-[11px] text-amber-700">{count}</span>
         </div>
       </header>
       <div className="divide-y divide-neutral-100">
@@ -389,7 +389,7 @@ function QueueRow({ recordId, title, meta, status, actions, details, focused = f
           <StatusPill status={status} />
           {tierBadge}
         </div>
-        <div className="mt-1 text-[10px] text-neutral-500">{meta}</div>
+        <div className="mt-1 text-[12px] text-neutral-500">{meta}</div>
         {details}
       </div>
       {actions}
@@ -431,11 +431,11 @@ function RejectionDialog({ title, busy, onClose, onConfirm }: { title: string; b
       <div className="fixed inset-0 z-[80] bg-neutral-950/35 backdrop-blur-[1px]" onClick={onClose} />
       <div className="fixed left-1/2 top-1/2 z-[81] w-[calc(100%-2rem)] max-w-md -translate-x-1/2 -translate-y-1/2 rounded-2xl border border-neutral-200 bg-white p-5 shadow-2xl">
         <h3 className="text-[14px] font-semibold text-neutral-900">{title}</h3>
-        <p className="mt-1 text-[10.5px] text-neutral-500">Record a clear reason so the requester knows exactly what to correct.</p>
-        <textarea autoFocus rows={4} value={reason} onChange={(event) => setReason(event.target.value)} placeholder="Reason or required correction" className="mt-4 w-full rounded-xl border border-neutral-200 px-3 py-2 text-[10.5px]" />
+        <p className="mt-1 text-[12px] text-neutral-500">Record a clear reason so the requester knows exactly what to correct.</p>
+        <textarea autoFocus rows={4} value={reason} onChange={(event) => setReason(event.target.value)} placeholder="Reason or required correction" className="mt-4 w-full rounded-xl border border-neutral-200 px-3 py-2 text-[12px]" />
         <div className="mt-4 flex justify-end gap-2">
-          <button disabled={busy} onClick={onClose} className="h-9 rounded-lg border border-neutral-200 px-4 text-[10px]">Cancel</button>
-          <button disabled={busy || !reason.trim()} onClick={() => void onConfirm(reason.trim())} className="h-9 rounded-lg bg-rose-600 px-4 text-[10px] text-white disabled:opacity-40">Confirm decision</button>
+          <button disabled={busy} onClick={onClose} className="h-9 rounded-lg border border-neutral-200 px-4 text-[12px]">Cancel</button>
+          <button disabled={busy || !reason.trim()} onClick={() => void onConfirm(reason.trim())} className="h-9 rounded-lg bg-rose-600 px-4 text-[12px] text-white disabled:opacity-40">Confirm decision</button>
         </div>
       </div>
     </>

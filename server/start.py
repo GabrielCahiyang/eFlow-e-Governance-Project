@@ -29,14 +29,14 @@ def _is_venv_valid() -> bool:
     if not PYTHON.exists():
         return False
     try:
-        res = subprocess.run(
+        result = subprocess.run(
             [str(PYTHON), "-c", "import sys"],
             capture_output=True,
             timeout=5,
             check=False,
         )
-        return res.returncode == 0
-    except Exception:
+        return result.returncode == 0
+    except (OSError, subprocess.SubprocessError):
         return False
 
 

@@ -1,7 +1,8 @@
 import { useMemo, useState, type ReactNode } from "react";
 import { CheckCircle2, Inbox, ReceiptText } from "lucide-react";
 import { useAuth } from "../../../contexts/AuthContext";
-import { LoadingState, PageHeader } from "../../../components/workflow/primitives";
+import { PageHeader } from "../../../components/workflow/primitives";
+import { WorkspaceLoadingSkeleton } from "../../../components/workflow/WorkspaceLoadingSkeleton";
 import { useDepartmentBudget } from "../hooks/useDepartmentBudget";
 import { BudgetApprovalQueue } from "./BudgetApprovalQueue";
 import { BudgetCard, BudgetEmpty } from "./budgetUi";
@@ -12,6 +13,7 @@ import type { CashReviewFocus } from "../types";
 
 export function BudgetReviewInbox({
   actions,
+  embedded = false,
   focus,
   cashReviewFocus,
   scope = "department",
@@ -20,6 +22,7 @@ export function BudgetReviewInbox({
   focus?: NotificationNavigationIntent | null;
   cashReviewFocus?: CashReviewFocus | null;
   scope?: "department" | "leading";
+  embedded?: boolean;
 }) {
   const { userProfile } = useAuth();
   const orgId = cashReviewFocus?.orgId || userProfile?.org_id || userProfile?.departmentId || "";
@@ -39,8 +42,8 @@ export function BudgetReviewInbox({
   const total = counts.allocations + counts.requests + counts.liquidations + counts.releases;
 
   return (
-    <div className="min-h-full p-4 sm:p-8">
-      <PageHeader
+    <div className={embedded ? "space-y-4" : "min-h-full p-4 sm:p-8"}>
+      {!embedded && <PageHeader
         eyebrow={scope === "leading" ? "Leader Workspace · Financial Reviews" : "Department · Reviews"}
         title="Financial Approvals"
         subtitle={scope === "leading" ? "Operationally endorse cash requests and receipt packages from contributors on work you lead." : "Fiscally authorize task-linked cash requests, releases, and receipt settlements from one review inbox."}
@@ -53,10 +56,15 @@ export function BudgetReviewInbox({
             </div>
           </div>
         )}
-      />
+      />}
+
+      {embedded && <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-neutral-200 bg-white p-3 shadow-sm">
+        <div><div className="text-[14px] font-semibold text-neutral-900">Financial approvals</div><div className="text-[12px] text-neutral-500">Task-linked cash requests, releases, and receipt settlements.</div></div>
+        <div className="flex items-center gap-2"><FiscalYearControl value={fiscalYear} onChange={setFiscalYear} compact /><div className="inline-flex items-center gap-1.5 rounded-lg border border-amber-200 bg-amber-50 px-3 py-1.5 text-[12px] text-amber-700"><Inbox size={14} /> {total} awaiting review</div></div>
+      </div>}
 
       {budget.loading ? (
-        <div className="rounded-xl border border-neutral-200 bg-white p-8"><LoadingState label="Loading financial approvals…" /></div>
+        <WorkspaceLoadingSkeleton label="Loading financial approvals…" rows={4} />
       ) : budget.error ? (
         <div className="rounded-xl border border-rose-200 bg-rose-50 p-4 text-[11px] text-rose-700">{budget.error}</div>
       ) : !budget.summary ? (

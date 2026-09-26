@@ -78,6 +78,31 @@ describe("committed proposal delivery board", () => {
     expect(onRequestReview).not.toHaveBeenCalled();
   });
 
+  it("asks for confirmation before sending an inter-department review request", () => {
+    const onRequestReview = vi.fn(async () => undefined);
+    render(
+      <CollaborationActionRail
+        departmentOnly={false}
+        isOwner
+        status="draft"
+        readiness={null}
+        busy={false}
+        hasRevision
+        onRequestReview={onRequestReview}
+        onCommit={vi.fn(async () => undefined)}
+        onDelete={vi.fn(async () => undefined)}
+        ownerName="LEDIPO"
+      />,
+    );
+
+    fireEvent.click(screen.getByTestId("request-collaboration-review"));
+    expect(onRequestReview).not.toHaveBeenCalled();
+    expect(screen.getByRole("alert").textContent).toContain("Send this plan for review?");
+
+    fireEvent.click(screen.getByTestId("confirm-request-collaboration-review"));
+    expect(onRequestReview).toHaveBeenCalledOnce();
+  });
+
   it("hides collaboration-only tabs for a department proposal", () => {
     const view = render(
       <CollaborationWorkspaceHeader

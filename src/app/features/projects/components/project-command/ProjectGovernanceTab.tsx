@@ -1,11 +1,5 @@
-import { useMemo, useState } from "react";
-import {
-  CheckCircle2,
-  Clock,
-  FileCheck2,
-  History,
-  ShieldCheck,
-} from "lucide-react";
+import { useMemo } from "react";
+import { CheckCircle2, Clock } from "lucide-react";
 import type { ProjectCommandData } from "./types";
 import type { Organization } from "../../../../types";
 import { formatDate } from "../../../../components/workflow/primitives";
@@ -24,7 +18,10 @@ export function ProjectGovernanceTab({
   organizations: Organization[];
   onOpenTask?: (taskId: string) => void;
 }) {
-  const [subView, setSubView] = useState<GovernanceSubView>(view);
+  // Governance views are separate workspace views. Keeping a second pill bar
+  // here duplicated the same navigation and made the content hierarchy hard
+  // to scan when users added multiple views.
+  const subView = view;
   const collaboration = useCollaborationDraft(data.project.sourceCollaborationDraftId || null);
 
   // Evidence items extracted from project tasks
@@ -46,52 +43,14 @@ export function ProjectGovernanceTab({
 
   return (
     <div className="space-y-6 font-sans">
-      {/* Sub-navigation pills */}
-      <div className="flex items-center justify-between border-b border-neutral-200 bg-white px-5 py-3 rounded-2xl shadow-xs">
-        <div className="flex items-center gap-2">
-          <button
-            type="button"
-            onClick={() => setSubView("signoff")}
-            className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
-              subView === "signoff"
-                ? "bg-purple-50 text-purple-900 border border-purple-200"
-                : "text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50"
-            }`}
-          >
-            <ShieldCheck size={14} className={subView === "signoff" ? "text-purple-700" : "text-neutral-400"} />
-            <span>Sign-off Status</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setSubView("evidence")}
-            className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
-              subView === "evidence"
-                ? "bg-purple-50 text-purple-900 border border-purple-200"
-                : "text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50"
-            }`}
-          >
-            <FileCheck2 size={14} className={subView === "evidence" ? "text-purple-700" : "text-neutral-400"} />
-            <span>Evidence Register ({evidenceTasks.length})</span>
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setSubView("decisions")}
-            className={`inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl text-xs font-semibold transition-all cursor-pointer ${
-              subView === "decisions"
-                ? "bg-purple-50 text-purple-900 border border-purple-200"
-                : "text-neutral-600 hover:text-neutral-900 hover:bg-neutral-50"
-            }`}
-          >
-            <History size={14} className={subView === "decisions" ? "text-purple-700" : "text-neutral-400"} />
-            <span>Decision History ({decisions.length})</span>
-          </button>
+      <div className="rounded-2xl border border-neutral-200 bg-white px-5 py-4 shadow-xs">
+        <div className="text-[11px] font-semibold uppercase tracking-[0.16em] text-neutral-400">Governance workspace</div>
+        <div className="mt-1 text-sm font-semibold text-neutral-900">
+          {subView === "signoff" ? "Sign-off status" : subView === "evidence" ? "Evidence register" : "Decision history"}
         </div>
-
-        <div className="text-xs text-neutral-400 font-medium">
-          Project Governance &amp; Compliance Register
-        </div>
+        <p className="mt-1 text-xs leading-relaxed text-neutral-600">
+          This view is selected from the Governance group in the workspace view bar.
+        </p>
       </div>
 
       {/* Sub-View: Sign-off Status */}

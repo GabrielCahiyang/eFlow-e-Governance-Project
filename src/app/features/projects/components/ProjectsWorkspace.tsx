@@ -1,6 +1,6 @@
 import * as React from "react";
 import * as Icons from "lucide-react";
-import { Button, Loader } from "@vibe/core";
+import { Button, Skeleton } from "@vibe/core";
 import { Add } from "@vibe/icons";
 import { CreateWorkPlanDialog, type WorkPlanCreationMode } from "../../proposal-import";
 import { useDeptDirectoryEmployees } from "../../employees";
@@ -293,11 +293,27 @@ export function ProjectsWorkspace({
   if (loading)
     return (
       <div
-        className="eflow-projects-surface flex min-h-[360px] items-center justify-center"
+        className="eflow-projects-surface eflow-projects-loading grid min-h-[360px] grid-cols-[minmax(220px,304px)_minmax(0,1fr)] gap-4 p-4"
         aria-live="polite"
+        role="status"
       >
-        <Loader size="medium" />
-        <span className="ml-2">Loading Plans &amp; Projects…</span>
+        <div className="space-y-3 rounded-2xl border border-neutral-200 bg-white p-4">
+          <Skeleton type="text" width={96} />
+          <Skeleton type="rectangle" size="custom" height={42} fullWidth />
+          <Skeleton type="rectangle" size="custom" height={42} fullWidth />
+          <Skeleton type="rectangle" size="custom" height={42} fullWidth />
+          <Skeleton type="rectangle" size="custom" height={42} fullWidth />
+        </div>
+        <div className="space-y-4 rounded-2xl border border-neutral-200 bg-white p-5">
+          <Skeleton type="text" width={220} />
+          <Skeleton type="text" width={320} />
+          <div className="grid gap-3 sm:grid-cols-3">
+            <Skeleton type="rectangle" size="custom" height={78} fullWidth />
+            <Skeleton type="rectangle" size="custom" height={78} fullWidth />
+            <Skeleton type="rectangle" size="custom" height={78} fullWidth />
+          </div>
+          <Skeleton type="rectangle" size="custom" height={240} fullWidth />
+        </div>
       </div>
     );
 
@@ -398,8 +414,11 @@ export function ProjectsWorkspace({
 
             {workspaceView !== "portfolio" ? (
               collaboration.loading ? (
-                <div className="flex items-center gap-2 py-12">
-                  <Loader size="small" /> Loading proposals…
+                <div className="space-y-3 rounded-2xl border border-neutral-200 bg-white p-5" aria-live="polite" role="status">
+                  <Skeleton type="text" width={190} />
+                  <Skeleton type="text" width={280} />
+                  <Skeleton type="rectangle" size="custom" height={96} fullWidth />
+                  <Skeleton type="rectangle" size="custom" height={96} fullWidth />
                 </div>
               ) : collaboration.error ? (
                 <div

@@ -12,7 +12,8 @@ import { useAuth } from "../../../contexts/AuthContext";
 import { useOrgs } from "../../../hooks/useSupabaseData";
 import { useCollaborationDrafts, isActiveCollaborationDraft } from "../../interdepartment-collaboration";
 import { queueNotificationNavigationIntent } from "../../notifications";
-import { SectionEmpty, LoadingState } from "../../../components/workflow/primitives";
+import { SectionEmpty } from "../../../components/workflow/primitives";
+import { WorkspaceLoadingSkeleton } from "../../../components/workflow/WorkspaceLoadingSkeleton";
 
 const workPlanSortOptions = [
   { value: "newest", label: "Newest updated" },
@@ -93,7 +94,7 @@ export function WorkPlanReviewInbox({ onNavigate }: { onNavigate?: (section: str
   if (collaboration.loading) {
     return (
       <div className="p-8">
-        <LoadingState label="Loading incoming work plan reviews…" />
+      <WorkspaceLoadingSkeleton label="Loading incoming work plan reviews…" rows={4} />
       </div>
     );
   }

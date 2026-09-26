@@ -69,12 +69,12 @@ export function ListTaskRow({ task, role, employeeById, currentUserId, onEditTea
                               e.stopPropagation();
                               onOpenTaskEditor(task);
                             }}
-                            className="text-left text-[13px] font-medium text-neutral-900 leading-snug truncate hover:text-violet-700 transition"
+                            className="break-words text-left text-[13px] font-medium leading-snug text-neutral-900 hover:text-violet-700 transition"
                           >
                             {task.title}
                           </button>
                         ) : (
-                          <div className="text-[13px] font-medium text-neutral-900 leading-snug truncate">
+                          <div className="break-words text-[13px] font-medium leading-snug text-neutral-900">
                             {task.title}
                           </div>
                         )}
@@ -94,7 +94,7 @@ export function ListTaskRow({ task, role, employeeById, currentUserId, onEditTea
                           ))}
                           <SubtaskProgressChip task={task} />
                         </div>
-                        <div className="mt-1 text-[10px] text-violet-600/80 line-clamp-1">
+                        <div className="mt-1 break-words text-[10px] leading-relaxed text-violet-600/80">
                           {hierarchy.path}
                         </div>
                         {role === "depthead" &&

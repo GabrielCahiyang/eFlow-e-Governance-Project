@@ -56,7 +56,7 @@ export function AccountingTrailPanel({
       <section className="rounded-2xl border border-neutral-200 bg-white p-5 shadow-sm">
         <div className="flex items-center gap-2">
           <ShieldCheck size={16} className="text-emerald-700" />
-          <h2 className="text-[12px] font-semibold">
+          <h2 className="text-[14px] font-semibold">
             End-to-end accounting trail
           </h2>
         </div>
@@ -73,7 +73,7 @@ export function AccountingTrailPanel({
             </div>
           ))}
         </div>
-        <p className="mt-3 text-[9.5px] text-neutral-500">
+        <p className="mt-3 text-[12px] text-neutral-600">
           Operational events remain separate from the double-entry journal.
           Select any event below to inspect its actor, state transition, reason,
           metadata, and linked accounting rows.
@@ -114,26 +114,26 @@ export function AccountingTrailPanel({
                 </div>
                 <div className="min-w-0">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="text-[10.5px] font-semibold capitalize text-neutral-850">
+                      <span className="text-[12px] font-semibold capitalize text-neutral-850">
                       {entry.entryType.split("_").join(" ")}
                     </span>
                     {entry.previousState && entry.newState && (
-                      <span className="text-[9px] text-neutral-400">
+                      <span className="text-[11px] text-neutral-500">
                         {entry.previousState} → {entry.newState}
                       </span>
                     )}
                   </div>
-                  <p className="mt-1 truncate text-[9.5px] text-neutral-500">
+                  <p className="mt-1 truncate text-[12px] text-neutral-500">
                     {entry.description}
                   </p>
-                  <p className="mt-1 text-[8.5px] text-neutral-400">
+                  <p className="mt-1 text-[11px] text-neutral-500">
                     {new Date(entry.createdAt).toLocaleString()} ·{" "}
                     {entry.actorRole
                       ? entry.actorRole.split("_").join(" ")
                       : "system"}
                   </p>
                 </div>
-                <strong className="text-[10.5px] tabular-nums text-neutral-800">
+                <strong className="text-right text-[12px] tabular-nums text-neutral-800">
                   {peso.format(entry.amount)}
                 </strong>
               </m.button>
@@ -170,7 +170,7 @@ export function AccountingTrailPanel({
             >
               <header className="flex items-start justify-between gap-3">
                 <div>
-                  <div className="text-[9px] uppercase tracking-wider text-neutral-400">
+                  <div className="text-[11px] uppercase tracking-wider text-neutral-500">
                     Financial audit event
                   </div>
                   <h2 className="mt-1 text-[16px] font-semibold capitalize">
@@ -216,15 +216,15 @@ export function AccountingTrailPanel({
                   value={selected.correlationKey || "Not supplied"}
                 />
                 <div>
-                  <div className="text-[9px] uppercase tracking-wider text-neutral-400">
+                  <div className="text-[11px] uppercase tracking-wider text-neutral-500">
                     Metadata
                   </div>
-                  <pre className="mt-2 overflow-x-auto rounded-xl bg-neutral-950 p-3 text-[9px] leading-relaxed text-neutral-100">
+                  <pre className="mt-2 overflow-x-auto rounded-xl bg-neutral-950 p-3 text-[11px] leading-relaxed text-neutral-100">
                     {JSON.stringify(selected.metadata || {}, null, 2)}
                   </pre>
                 </div>
                 <div>
-                  <div className="text-[9px] uppercase tracking-wider text-neutral-400">
+                  <div className="text-[11px] uppercase tracking-wider text-neutral-500">
                     Linked journal rows
                   </div>
                   {linkedJournal.length ? (
@@ -233,13 +233,13 @@ export function AccountingTrailPanel({
                         key={entry.id}
                         className="mt-2 rounded-xl border border-neutral-200 p-3"
                       >
-                        <div className="font-mono text-[9px] text-neutral-500">
+                        <div className="font-mono text-[11px] text-neutral-500">
                           {entry.referenceNumber}
                         </div>
                         {entry.lines.map((line) => (
                           <div
                             key={line.id}
-                            className="mt-2 flex justify-between gap-3 text-[9.5px]"
+                            className="mt-2 flex justify-between gap-3 text-[12px]"
                           >
                             <span>
                               {line.accountCode} · {line.accountTitle}
@@ -254,7 +254,7 @@ export function AccountingTrailPanel({
                       </div>
                     ))
                   ) : (
-                    <p className="mt-2 text-[9.5px] text-neutral-500">
+                    <p className="mt-2 text-[12px] text-neutral-500">
                       This operational event has no directly linked journal row.
                       Journal entries are created only when money is released,
                       settled, returned, or adjusted.
@@ -273,10 +273,10 @@ export function AccountingTrailPanel({
 function Detail({ label, value }: { label: string; value: string }) {
   return (
     <div className="rounded-xl border border-neutral-200 p-3">
-      <div className="text-[8.5px] uppercase tracking-wider text-neutral-400">
+      <div className="text-[11px] uppercase tracking-wider text-neutral-500">
         {label}
       </div>
-      <div className="mt-1 break-words text-[10.5px] text-neutral-800">
+      <div className="mt-1 break-words text-[12px] text-neutral-800">
         {value}
       </div>
     </div>

@@ -174,7 +174,7 @@ export function GeneralJournalWorkspace({
               aria-label="Account classification"
               value={classification}
               onChange={(event) => setClassification(event.target.value)}
-              className="h-8 rounded-lg border border-neutral-200 bg-white px-2 text-[10px]"
+              className="h-9 rounded-lg border border-neutral-200 bg-white px-2 text-[12px]"
             >
               <option value="all">All account classes</option>
               <option value="asset">Assets</option>
@@ -195,13 +195,13 @@ export function GeneralJournalWorkspace({
           </div>
         </header>
         {journal.loading ? (
-          <div className="flex items-center justify-center gap-2 p-12 text-[11px] text-neutral-500">
+          <div className="flex items-center justify-center gap-2 p-12 text-[12px] text-neutral-500">
             <Loader size="small" /> Loading balanced entries…
           </div>
         ) : filteredEntries.length ? (
           <div className="overflow-x-auto">
             <table className="w-full min-w-[900px] border-collapse text-left">
-              <thead className="bg-neutral-50 text-[9px] uppercase tracking-wider text-neutral-500">
+              <thead className="bg-neutral-50 text-[11px] uppercase tracking-wider text-neutral-500">
                 <tr>
                   <th className="px-4 py-3">Date / JEV</th>
                   <th className="px-4 py-3">Reference</th>
@@ -223,7 +223,7 @@ export function GeneralJournalWorkspace({
                         exit={{ opacity: 0 }}
                         className="border-t border-neutral-100 align-top"
                       >
-                        <td className="px-4 py-3 text-[10px] text-neutral-600">
+                        <td className="px-4 py-3 text-[12px] text-neutral-600">
                           {index === 0 && (
                             <>
                               <div>
@@ -231,31 +231,31 @@ export function GeneralJournalWorkspace({
                                   `${entry.entryDate}T00:00:00`,
                                 ).toLocaleDateString()}
                               </div>
-                              <div className="mt-1 font-mono text-[9px] text-neutral-400">
+                              <div className="mt-1 font-mono text-[11px] text-neutral-400">
                                 JEV-{fiscalYear}-
                                 {String(entry.entryNumber).padStart(6, "0")}
                               </div>
                             </>
                           )}
                         </td>
-                        <td className="px-4 py-3 font-mono text-[9.5px] text-neutral-700">
+                        <td className="px-4 py-3 font-mono text-[11px] text-neutral-700">
                           {index === 0 ? entry.referenceNumber : ""}
                         </td>
                         <td className="px-4 py-3">
-                          <div className="text-[10.5px] font-medium text-neutral-800">
+                          <div className="text-[12px] font-medium text-neutral-800">
                             {line.accountTitle}
                           </div>
-                          <div className="mt-0.5 font-mono text-[9px] text-neutral-400">
+                          <div className="mt-0.5 font-mono text-[11px] text-neutral-400">
                             {line.accountCode}
                           </div>
                         </td>
-                        <td className="px-4 py-3 text-right text-[10.5px] tabular-nums">
+                        <td className="px-4 py-3 text-right text-[12px] tabular-nums">
                           {line.debit ? peso.format(line.debit) : "—"}
                         </td>
-                        <td className="px-4 py-3 text-right text-[10.5px] tabular-nums">
+                        <td className="px-4 py-3 text-right text-[12px] tabular-nums">
                           {line.credit ? peso.format(line.credit) : "—"}
                         </td>
-                        <td className="max-w-[260px] px-4 py-3 text-[9.5px] text-neutral-500">
+                        <td className="max-w-[260px] px-4 py-3 text-[11px] text-neutral-500">
                           {index === 0 && (
                             <>
                               <div>{entry.memo}</div>
@@ -272,13 +272,13 @@ export function GeneralJournalWorkspace({
               </tbody>
               <tfoot>
                 <tr className="border-t-2 border-neutral-300 bg-neutral-50 font-semibold">
-                  <td colSpan={3} className="px-4 py-3 text-[10px]">
+                  <td colSpan={3} className="px-4 py-3 text-[12px]">
                     Filtered trial balance
                   </td>
-                  <td className="px-4 py-3 text-right text-[10.5px]">
+                  <td className="px-4 py-3 text-right text-[12px] tabular-nums">
                     {peso.format(totals.debit)}
                   </td>
-                  <td className="px-4 py-3 text-right text-[10.5px]">
+                  <td className="px-4 py-3 text-right text-[12px] tabular-nums">
                     {peso.format(totals.credit)}
                   </td>
                   <td className="px-4 py-3">
@@ -305,7 +305,7 @@ export function GeneralJournalWorkspace({
             <h3 className="mt-3 text-[12px] font-semibold">
               No journal entries match
             </h3>
-            <p className="mt-1 text-[10px] text-neutral-500">
+            <p className="mt-1 text-[12px] text-neutral-500">
               Cash releases and settled liquidations post here automatically.
             </p>
           </div>
@@ -344,17 +344,17 @@ function JournalMetric({
       layout
       className="rounded-2xl border border-neutral-200 bg-white p-4 shadow-sm"
     >
-      <div className="flex items-center gap-2 text-[9.5px] uppercase tracking-wider text-neutral-400">
+      <div className="flex items-center gap-2 text-[11px] uppercase tracking-wider text-neutral-500">
         {icon}
         {label}
       </div>
       <div
-        className={`mt-2 text-[18px] font-semibold ${good ? "text-neutral-950" : "text-rose-700"}`}
+        className={`mt-2 text-right text-[18px] font-semibold tabular-nums ${good ? "text-neutral-950" : "text-rose-700"}`}
       >
         {value}
       </div>
       <div
-        className={`mt-1 text-[9.5px] ${good ? "text-emerald-700" : "text-rose-600"}`}
+        className={`mt-1 text-right text-[11px] ${good ? "text-emerald-700" : "text-rose-600"}`}
       >
         {note}
       </div>

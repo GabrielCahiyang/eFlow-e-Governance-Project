@@ -67,6 +67,8 @@ The current task-flow additions are:
 59. `20260925000001_cash_request_future_dates.sql` — rejects past needed-by dates for new and corrected cash requests at the database boundary.
 60. `20260925000002_fifteen_day_liquidation_head_approval.sql` — changes the default liquidation window from five to fifteen days, extends open legacy-default deadlines, and requires Department Head approval for late receipt packages.
 
+61. `20260927000000_fix_task_editor_assignment.sql` — restores typed team-array conversion in older deployed assignment functions and correctly reads the task returned during lead reassignment, fixing task-editor saves that previously persisted details but failed on assignment.
+
 Apply these files in the listed order. The Assistant Head migration defensively
 creates the two reviewer columns when absent, but it does not replace the full
 review-hardening migration that supplies submission history, evidence records,

@@ -159,6 +159,7 @@ export function ProductivitySidebar({
                         <Tooltip content={item.label}>
                           <m.button
                             aria-label={item.label}
+                            aria-current={isCurrentSection ? "page" : undefined}
                             aria-pressed={isCurrentSection}
                             className={`eflow-productivity-sidebar__compact-item ${
                               isCurrentSection ? "eflow-productivity-sidebar__compact-item--active" : ""
@@ -195,6 +196,7 @@ export function ProductivitySidebar({
                         />
                       )}
                       <Button
+                        aria-current={isCurrentSection ? "page" : undefined}
                         aria-pressed={isCurrentSection}
                         className={`eflow-productivity-sidebar__item ${isCurrentSection ? "eflow-productivity-sidebar__item--active" : ""}`}
                         key={item.id}
@@ -232,6 +234,7 @@ export function ProductivitySidebar({
                         >
                           {item.pages.map((page) => (
                             <Button
+                              aria-current={activeSection === item.id && activePage === page.label ? "page" : undefined}
                               aria-pressed={activeSection === item.id && activePage === page.label}
                               className={`eflow-productivity-sidebar__subpage ${activeSection === item.id && activePage === page.label ? "eflow-productivity-sidebar__subpage--active" : ""}`}
                               key={`${item.id}-${page.label}`}

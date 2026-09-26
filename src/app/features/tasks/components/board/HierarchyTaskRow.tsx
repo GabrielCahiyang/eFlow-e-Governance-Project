@@ -47,12 +47,12 @@ export function HierarchyTaskRow({ task, employeeById, role, currentUserId, onVe
                                                 e.stopPropagation();
                                                 onOpenTaskEditor(task);
                                               }}
-                                              className="text-left text-[12px] text-neutral-900 font-medium truncate hover:text-violet-700 transition"
+                                              className="break-words text-left text-[12px] font-medium leading-snug text-neutral-900 hover:text-violet-700 transition"
                                             >
                                               {task.title}
                                             </button>
                                           ) : (
-                                            <div className="text-[12px] text-neutral-900 font-medium truncate">
+                                            <div className="break-words text-[12px] font-medium leading-snug text-neutral-900">
                                               {task.title}
                                             </div>
                                           )}

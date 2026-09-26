@@ -7,7 +7,7 @@
 // 4. Subtasks & Budget reviews
 
 import { useEffect, useMemo, useState } from "react";
-import { Dropdown, Search as VibeSearch } from "@vibe/core";
+import { Dropdown, Search as VibeSearch, Skeleton } from "@vibe/core";
 import {
   Inbox,
   Clock,
@@ -35,7 +35,6 @@ import {
 import {
   PageHeader,
   SectionEmpty,
-  LoadingState,
   formatDate,
 } from "../../../components/workflow/primitives";
 import { InitialsAvatar, PriorityPill } from "../../../components/workflow/StatusBadges";
@@ -86,15 +85,40 @@ export function ForReviewInbox({ scope = "department" }: ForReviewInboxProps) {
   const [sort, setSort] = useState("oldest");
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [progress, setProgress] = useState<ProgressUpdate[]>([]);
-  const [reviewKind, setReviewKind] = useState<ReviewKind>(
-    getInitialReviewWorkspaceKind(scope),
-  );
+  const [reviewKind, setReviewKindState] = useState<ReviewKind>(() => {
+    if (typeof window !== "undefined") {
+      const view = new URLSearchParams(window.location.search).get("view");
+      if (["tasks", "subtasks", "budget", "workplans", "governance"].includes(view || "")) return view as ReviewKind;
+    }
+    return getInitialReviewWorkspaceKind(scope);
+  });
   const [subtaskFocus, setSubtaskFocus] = useState<NotificationNavigationIntent | null>(null);
   const [budgetFocus, setBudgetFocus] = useState<NotificationNavigationIntent | null>(null);
   const [cashReviewFocus, setCashReviewFocus] = useState<CashReviewFocus | null>(null);
 
   const { user, userProfile } = useAuth();
   const canReviewBudget = canOpenBudgetReviewWorkspace(scope, userProfile?.role);
+
+  const setReviewKind = (next: ReviewKind) => {
+    setReviewKindState(next);
+    if (typeof window === "undefined") return;
+    const url = new URL(window.location.href);
+    url.pathname = "/reviews";
+    url.searchParams.set("page", "For Review");
+    url.searchParams.set("view", next);
+    window.history.pushState({ page: "For Review", view: next }, "", `${url.pathname}?${url.searchParams.toString()}`);
+  };
+
+  useEffect(() => {
+    const onPopState = () => {
+      const view = new URLSearchParams(window.location.search).get("view");
+      if (["tasks", "subtasks", "budget", "workplans", "governance"].includes(view || "")) {
+        setReviewKindState(view as ReviewKind);
+      }
+    };
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, []);
 
   const currentOrgId = userProfile?.org_id || userProfile?.departmentId || "";
   const accessibleOrgIds = useMemo(
@@ -223,37 +247,17 @@ export function ForReviewInbox({ scope = "department" }: ForReviewInboxProps) {
     error: subtaskEvidenceError,
   } = useTaskReviewEvidence(selected?.id);
 
-  if (reviewKind === "budget" && canReviewBudget) {
-    return (
-      <BudgetReviewInbox
-        key={`${cashReviewFocus?.orgId || "default"}:${cashReviewFocus?.fiscalYear || "current"}`}
-        focus={budgetFocus}
-        cashReviewFocus={cashReviewFocus}
-        scope={scope}
-        actions={
-          <ReviewKindSwitch
-            active="budget"
-            includeBudget
-            counts={reviewCounts}
-            onChange={setReviewKind}
-          />
-        }
-      />
-    );
-  }
-
-  if (reviewKind === "subtasks") {
-    return (
-      <SubtaskReviewInbox
-        focus={subtaskFocus}
-        onShowTasks={() => setReviewKind("tasks")}
-        onShowBudget={canReviewBudget ? () => setReviewKind("budget") : undefined}
-      />
-    );
-  }
-
   if (tasksLoading || projectsLoading) {
-    return <div className="p-8"><LoadingState label="Loading the review queue…" /></div>;
+    return (
+      <div className="space-y-4 p-8" aria-live="polite" role="status">
+        <Skeleton type="text" width={220} />
+        <Skeleton type="text" width={340} />
+        <div className="grid gap-4 lg:grid-cols-[minmax(300px,380px)_1fr]">
+          <Skeleton type="rectangle" size="custom" height={320} fullWidth />
+          <Skeleton type="rectangle" size="custom" height={420} fullWidth />
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -276,7 +280,7 @@ export function ForReviewInbox({ scope = "department" }: ForReviewInboxProps) {
               counts={reviewCounts}
               onChange={setReviewKind}
             />
-            {reviewKind === "tasks" && (
+          {reviewKind === "tasks" && (
               <div className="inline-flex items-center gap-1.5 bg-amber-50 border border-amber-200 rounded-xl px-3 py-1.5 text-xs font-semibold text-amber-700">
                 <Inbox size={14} /> {queue.length} awaiting review
               </div>
@@ -286,6 +290,16 @@ export function ForReviewInbox({ scope = "department" }: ForReviewInboxProps) {
       />
 
       {/* Review Category Content */}
+      {reviewKind === "budget" && canReviewBudget && (
+        <BudgetReviewInbox
+          key={`${cashReviewFocus?.orgId || "default"}:${cashReviewFocus?.fiscalYear || "current"}`}
+          embedded
+          focus={budgetFocus}
+          cashReviewFocus={cashReviewFocus}
+          scope={scope}
+        />
+      )}
+
       {reviewKind === "workplans" && <WorkPlanReviewInbox />}
 
       {reviewKind === "governance" && <GovernanceReviewInbox />}
@@ -457,7 +471,17 @@ export function ForReviewInbox({ scope = "department" }: ForReviewInboxProps) {
               </div>
             </div>
           )}
+
         </>
+      )}
+
+      {reviewKind === "subtasks" && (
+        <SubtaskReviewInbox
+          embedded
+          focus={subtaskFocus}
+          onShowTasks={() => setReviewKind("tasks")}
+          onShowBudget={canReviewBudget ? () => setReviewKind("budget") : undefined}
+        />
       )}
     </div>
   );

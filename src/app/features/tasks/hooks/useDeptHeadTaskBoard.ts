@@ -10,7 +10,7 @@ import { useDeptDirectoryEmployees } from "../../employees";
  * triage even when it has no organization ID.
  */
 export function useDeptHeadTaskBoard() {
-  const { tasks } = useTasks();
+  const { tasks, loading: tasksLoading } = useTasks();
   const { deptEmployees, allEmployees, directoryLoading, userProfile } =
     useDeptDirectoryEmployees({
       scope: "exact",
@@ -40,7 +40,12 @@ export function useDeptHeadTaskBoard() {
     allEmployees,
     deptEmployees,
     deptTasks,
-    isLoading: directoryLoading || notesLoading,
+    // The board can render safely while directory notes are still arriving.
+    // Keep the primary loading state focused on the task stream so the page
+    // does not remain blank for secondary metadata.
+    isLoading: tasksLoading,
+    directoryLoading,
+    notesLoading,
     notes,
     userProfile,
   };

@@ -930,12 +930,20 @@
 }
 .eflow-project-context__empty { margin: 0; color: #6b7280; font-size: 13px; }
 
-.eflow-figma-board { min-width: 0; }
+.eflow-figma-board {
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  overflow-x: auto;
+  overflow-y: visible;
+  overscroll-behavior-x: contain;
+}
 .eflow-figma-board__columns {
   display: grid;
   grid-template-columns: repeat(4, minmax(290px, 1fr));
   gap: 20px;
   min-width: 1240px;
+  width: 100%;
   padding: 4px 0 20px;
 }
 .eflow-figma-board__column { min-width: 0; }
@@ -3512,5 +3520,148 @@
   .eflow-project-context__members h2,
   .eflow-project-context__members > .eflow-project-context__empty {
     grid-column: 1 / -1;
+  }
+}
+
+/* ============================================================================
+   Phase 03 — Project workspace ergonomics
+   Keep project context available while the canvas grows, and give the view
+   bar an explicit scroll lane plus a non-overlapping action lane.
+   ========================================================================== */
+
+.eflow-ide-workspace {
+  align-items: flex-start;
+  min-height: 100%;
+  height: auto;
+}
+
+.eflow-ide-workspace__content {
+  min-height: 100%;
+  overflow: visible;
+}
+
+.eflow-project-context {
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
+  height: calc(100dvh - 100px);
+  max-height: calc(100dvh - 100px);
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.eflow-workspace-tabs {
+  justify-content: flex-start;
+  gap: 8px;
+  min-height: 45px;
+  overflow: visible;
+}
+
+.eflow-workspace-tabs__scroller {
+  flex: 1 1 0%;
+  gap: 4px;
+  min-width: 0;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding-bottom: 2px;
+  scrollbar-width: thin;
+  scrollbar-color: var(--layout-border-color, #d6d9e0) transparent;
+}
+
+.eflow-workspace-tabs__scroller [role="tablist"] {
+  flex: 0 0 auto;
+  justify-content: flex-start;
+  margin-inline: 0;
+  white-space: nowrap;
+}
+
+.eflow-workspace-tabs__actions {
+  display: flex;
+  align-items: center;
+  flex: 0 0 auto;
+  gap: 4px;
+  min-height: 40px;
+  padding-left: 8px;
+  background: var(--primary-background-color, #fff);
+}
+
+.eflow-workspace-tabs__more {
+  display: flex;
+  align-items: center;
+}
+
+.eflow-workspace-tabs__actions > button {
+  white-space: nowrap;
+}
+
+.eflow-project-command [class*="text-[9px]"],
+.eflow-project-command [class*="text-[10px]"],
+.eflow-project-command [class*="text-[10.5px]"],
+.eflow-project-command [class*="text-[11px]"],
+.eflow-collaboration-inspector [class*="text-[9px]"],
+.eflow-collaboration-inspector [class*="text-[10px]"],
+.eflow-collaboration-inspector [class*="text-[10.5px]"],
+.eflow-collaboration-inspector [class*="text-[11px]"] {
+  font-size: 0.75rem !important;
+  line-height: 1.45;
+}
+
+.eflow-project-command [class*="text-[8.5px]"] {
+  font-size: 0.7rem !important;
+  line-height: 1.4;
+}
+
+.eflow-project-tools-inspector__tabs [role="tab"] {
+  min-height: 40px;
+  font-size: 0.8125rem;
+}
+
+.eflow-project-tools-inspector__body {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+.eflow-collaboration-scope__save {
+  border-top: 1px solid var(--layout-border-color, #e6e8ec);
+  padding-top: 14px;
+}
+
+.eflow-collaboration-inspector__header {
+  padding: 18px 22px 16px;
+}
+
+.eflow-collaboration-inspector__body {
+  font-size: 0.8125rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 768px) {
+  .eflow-projects-loading {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .eflow-project-context {
+    position: static;
+    height: auto;
+    max-height: 380px;
+    overflow-y: auto;
+  }
+
+  .eflow-workspace-tabs {
+    align-items: stretch;
+  }
+
+  .eflow-workspace-tabs__scroller {
+    max-width: 100%;
+  }
+
+  .eflow-workspace-tabs__actions {
+    padding-left: 4px;
+  }
+
+  .eflow-workspace-tabs__actions > button {
+    padding-inline: 8px;
   }
 }

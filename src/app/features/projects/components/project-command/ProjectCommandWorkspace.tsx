@@ -1,5 +1,5 @@
 import { useMemo, useState, useEffect } from "react";
-import { Loader } from "@vibe/core";
+import { Skeleton } from "@vibe/core";
 import type { Organization } from "../../../../types";
 import { useProfiles } from "../../../../hooks/useSupabaseData";
 import { useTasks } from "../../../../hooks/useFirebaseData";
@@ -42,6 +42,11 @@ export interface ProjectCommandWorkspaceProps {
   onOpenSourceGovernance?: (draftId: string) => void;
 }
 
+const projectTabFromUrl = (value: string | null): ProjectCommandTab | null => {
+  const valid: ProjectCommandTab[] = ["overview", "tasks", "timeline", "calendar", "reports", "proposal_context", "activity", "reviews", "dashboard", "workload", "budget", "signoff", "evidence", "decisions"];
+  return value && valid.includes(value as ProjectCommandTab) ? value as ProjectCommandTab : null;
+};
+
 export function ProjectCommandWorkspace({
   project,
   initialTab = "overview",
@@ -60,15 +65,25 @@ export function ProjectCommandWorkspace({
   const { tasks } = useTasks();
   const { profiles } = useProfiles();
   const { toast } = useToast();
-  const [tab, setTab] = useState<ProjectCommandTab>(initialTool || initialTab);
+  const [tab, setTabState] = useState<ProjectCommandTab>(() => projectTabFromUrl(typeof window !== "undefined" ? new URLSearchParams(window.location.search).get("view") : null) || initialTool || initialTab);
   const [openTaskId, setOpenTaskId] = useState<string | null>(null);
   const [deleteOpen, setDeleteOpen] = useState(false);
 
   useEffect(() => {
     if (initialTool) {
-      setTab(initialTool);
+      setTabState(initialTool);
     }
   }, [initialTool]);
+
+  useEffect(() => {
+    const onPopState = () => {
+      const next = projectTabFromUrl(new URLSearchParams(window.location.search).get("view"));
+      const projectId = new URLSearchParams(window.location.search).get("project");
+      if (next && (!projectId || projectId === project.id)) setTabState(next);
+    };
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, [project.id]);
 
   const projectTasks = useMemo(
     () => tasksForProject(tasks, project.id),
@@ -88,7 +103,15 @@ export function ProjectCommandWorkspace({
           : tab;
 
   const selectTab = (nextTab: ProjectCommandTab) => {
-    setTab(nextTab);
+    setTabState(nextTab);
+    if (typeof window !== "undefined") {
+      const url = new URL(window.location.href);
+      url.pathname = "/projects";
+      url.searchParams.set("page", "Projects");
+      url.searchParams.set("project", project.id);
+      url.searchParams.set("view", nextTab);
+      window.history.pushState({ page: "Projects", project: project.id, view: nextTab }, "", `${url.pathname}?${url.searchParams.toString()}`);
+    }
     onWorkspaceTabChange?.(nextTab);
   };
 
@@ -121,10 +144,23 @@ export function ProjectCommandWorkspace({
       {/* Main Workspace Canvas Body */}
       {data.loading ? (
         <div
-          className="flex min-h-[300px] items-center justify-center gap-2 text-sm text-neutral-500"
+          className="space-y-4 rounded-2xl border border-neutral-200 bg-white p-5"
           aria-live="polite"
+          role="status"
         >
-          <Loader size="medium" /> Loading project workspace…
+          <div className="flex items-center justify-between gap-4">
+            <div className="min-w-0 space-y-2">
+              <Skeleton type="text" width={230} />
+              <Skeleton type="text" width={320} />
+            </div>
+            <Skeleton type="rectangle" size="custom" width={120} height={32} />
+          </div>
+          <div className="grid gap-3 sm:grid-cols-3">
+            <Skeleton type="rectangle" size="custom" height={82} fullWidth />
+            <Skeleton type="rectangle" size="custom" height={82} fullWidth />
+            <Skeleton type="rectangle" size="custom" height={82} fullWidth />
+          </div>
+          <Skeleton type="rectangle" size="custom" height={260} fullWidth />
         </div>
       ) : data.error ? (
         <div

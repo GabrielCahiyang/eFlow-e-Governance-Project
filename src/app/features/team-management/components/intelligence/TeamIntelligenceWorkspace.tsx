@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { AttentionBox, Avatar, Search as VibeSearch, Tab, TabList, TabsContext } from "@vibe/core";
 import { BrainCircuit, Sparkles, Trophy, UsersRound } from "lucide-react";
-import { LoadingState, PageHeader, SectionEmpty } from "../../../../components/workflow/primitives";
+import { PageHeader, SectionEmpty } from "../../../../components/workflow/primitives";
+import { WorkspaceLoadingSkeleton } from "../../../../components/workflow/WorkspaceLoadingSkeleton";
 import { useEmployeeNotes } from "../../../../hooks/useFirebaseData";
 import type { Employee } from "../../../employees";
 import { buildSkillCoverage } from "../../selectors/teamAnalyticsSelectors";
@@ -40,8 +41,6 @@ export function TeamIntelligenceWorkspace() {
   const selectedEmployee = analytics.deptEmployees.find((employee) => employee.id === selectedEmployeeId);
   const selectedMetric = analytics.memberMetrics.find((metric) => metric.employeeId === selectedEmployeeId);
 
-  if (analytics.loading || notesLoading) return <div className="p-8"><LoadingState label="Building team intelligence from workflow history…" /></div>;
-
   const intelligenceTabs = [
     { id: "overview", label: "Department health", icon: <Sparkles size={13} /> },
     { id: "people", label: "Employee 360", icon: <UsersRound size={13} /> },
@@ -52,9 +51,10 @@ export function TeamIntelligenceWorkspace() {
 
   return (
     <div className="min-h-full min-w-0 p-3 sm:p-8">
-      <PageHeader eyebrow="Department · Evidence-based insights" title="Team Intelligence" subtitle="Understand delivery quality, workload concentration, review patterns, and skills while preserving the manager context used by AI assignments." actions={<span className="inline-flex items-center gap-1.5 rounded-full border border-violet-200 bg-violet-50 px-3 py-1.5 text-[10px] font-medium text-violet-700"><BrainCircuit size={13} /> AI assignment inputs preserved</span>} />
+      <PageHeader eyebrow="Department · Evidence-based insights" title="Team Intelligence" subtitle="Understand delivery quality, workload concentration, review patterns, and skills while preserving the manager context used by AI assignments." actions={<span className="inline-flex items-center gap-1.5 rounded-full border border-violet-200 bg-violet-50 px-3 py-1.5 text-[12px] font-medium text-violet-700"><BrainCircuit size={13} /> AI assignment inputs preserved</span>} />
       {analytics.error && <AttentionBox className="mb-4" text={`Historical workflow details are partially unavailable: ${analytics.error}`} type="warning" />}
 
+      {analytics.loading || notesLoading ? <WorkspaceLoadingSkeleton label="Loading team intelligence…" rows={5} /> : <>
       <div className="mb-5 flex flex-wrap items-center justify-between gap-3">
         <div className="min-w-0 max-w-full overflow-x-auto" role="region" aria-label="Team intelligence views" tabIndex={0}>
           <TabsContext activeTabId={activeIntelligenceTab} id="team-intelligence-tabs">
@@ -71,7 +71,7 @@ export function TeamIntelligenceWorkspace() {
       {view === "people" && (
         <div className="grid grid-cols-1 items-start gap-4 xl:grid-cols-[250px_minmax(0,1fr)]">
           <aside className="rounded-xl border border-neutral-200 bg-white p-2 xl:sticky xl:top-4">
-            {filteredEmployees.map((employee) => { const metric = analytics.memberMetrics.find((row) => row.employeeId === employee.id); return <button aria-pressed={selectedEmployeeId === employee.id} key={employee.id} type="button" onClick={() => setSelectedEmployeeId(employee.id)} className={`mb-1 flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left transition ${selectedEmployeeId === employee.id ? "bg-neutral-100" : "hover:bg-neutral-50"}`}><Avatar aria-label={employee.name} size="small" text={employee.initials || "??"} /><div className="min-w-0 flex-1"><div className="truncate text-[10.5px] font-medium text-neutral-800">{employee.name}</div><div className="truncate text-[9px] text-neutral-400">{employee.jobTitle}</div></div><span className={`eflow-tabular text-[9.5px] font-medium ${metric && metric.workloadSignal >= TEAM_WORKLOAD_HIGH_THRESHOLD ? "text-red-600" : metric && metric.workloadSignal >= TEAM_WORKLOAD_ELEVATED_THRESHOLD ? "text-amber-600" : "text-emerald-600"}`}>{metric?.workloadSignal ?? 0}</span></button>; })}
+            {filteredEmployees.map((employee) => { const metric = analytics.memberMetrics.find((row) => row.employeeId === employee.id); return <button aria-pressed={selectedEmployeeId === employee.id} key={employee.id} type="button" onClick={() => setSelectedEmployeeId(employee.id)} className={`mb-1 flex w-full items-center gap-2.5 rounded-lg px-2.5 py-2 text-left transition ${selectedEmployeeId === employee.id ? "bg-neutral-100" : "hover:bg-neutral-50"}`}><Avatar aria-label={employee.name} size="small" text={employee.initials || "??"} /><div className="min-w-0 flex-1"><div className="truncate text-[13px] font-medium text-neutral-800">{employee.name}</div><div className="truncate text-[12px] text-neutral-500">{employee.jobTitle}</div></div><span className={`eflow-tabular text-[12px] font-medium ${metric && metric.workloadSignal >= TEAM_WORKLOAD_HIGH_THRESHOLD ? "text-red-600" : metric && metric.workloadSignal >= TEAM_WORKLOAD_ELEVATED_THRESHOLD ? "text-amber-600" : "text-emerald-600"}`}>{metric?.workloadSignal ?? 0}</span></button>; })}
             {filteredEmployees.length === 0 && <SectionEmpty title="No matching people" description="Try a different name, role, or skill." />}
           </aside>
           {selectedEmployee && selectedMetric ? <EmployeeIntelligencePanel employee={selectedEmployee} metric={selectedMetric} note={notes[selectedEmployee.id]} storedSkills={storedSkillsFor(selectedEmployee)} facts={analytics.facts} tasks={analytics.tasks} updatedBy={analytics.userProfile?.uid} /> : <div className="rounded-xl border border-dashed border-neutral-200"><SectionEmpty title="Select an employee" description="Choose a person to inspect their source activity and delivery context." /></div>}
@@ -80,6 +80,7 @@ export function TeamIntelligenceWorkspace() {
 
       {view === "skills" && <SkillCoveragePanel rows={skills} />}
       {view === "leaderboard" && <div className="space-y-3"><AttentionBox title="Governance note" text="This ranking is a recognition and supervision aid. It is not added to the AI employee-recommendation inputs and must not be used as the sole assignment or personnel decision signal." type="neutral" /><MonthlyLeaderboard employees={analytics.deptEmployees} tasks={analytics.tasks} facts={analytics.facts} currentUserId={analytics.userProfile?.id || analytics.userProfile?.uid} /></div>}
+      </>}
     </div>
   );
 }

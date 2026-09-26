@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import {
   buildProjectFilterOptions,
+  filterTasksByRecordScope,
+  filterTasksByBoardView,
   filterTasksByProject,
   getTaskProjectKey,
   getTaskProjectLabel,
@@ -117,5 +119,37 @@ describe("Task Board Project Filter", () => {
     const unlinkedTasks = filterTasksByProject(sampleTasks, "unassigned");
     expect(unlinkedTasks).toHaveLength(1);
     expect(unlinkedTasks[0].id).toBe("task-5");
+  });
+
+  it("derives additive work views from real task fields", () => {
+    const now = Date.parse("2026-09-10T00:00:00Z");
+    const tasks = [
+      { id: "mine", status: "in_progress", assigneeId: "user-1", deadline: "2026-09-12" },
+      { id: "soon", status: "todo", deadline: "2026-09-16" },
+      { id: "late", status: "in_progress", deadline: "2026-09-01" },
+      { id: "review", status: "for_review" },
+      { id: "done", status: "completed" },
+    ] as Task[];
+
+    expect(filterTasksByBoardView(tasks, "my_work", "user-1", now).map((task) => task.id)).toEqual(["mine"]);
+    expect(filterTasksByBoardView(tasks, "due_soon", undefined, now).map((task) => task.id)).toEqual(["mine", "soon"]);
+    expect(filterTasksByBoardView(tasks, "overdue", undefined, now).map((task) => task.id)).toEqual(["late"]);
+    expect(filterTasksByBoardView(tasks, "for_review", undefined, now).map((task) => task.id)).toEqual(["review"]);
+    expect(filterTasksByBoardView(tasks, "completed", undefined, now).map((task) => task.id)).toEqual(["done"]);
+  });
+
+  it("keeps Active work actionable by default while allowing an explicit status filter", () => {
+    const tasks = [
+      { id: "open", status: "in_progress" },
+      { id: "review", status: "for_review" },
+      { id: "done", status: "completed" },
+      { id: "cancelled", status: "cancelled" },
+      { id: "archived", status: "todo", archivedAt: 1 },
+    ] as Task[];
+
+    expect(filterTasksByRecordScope(tasks, "active").map((task) => task.id)).toEqual(["open", "review"]);
+    expect(filterTasksByRecordScope(tasks, "active", "completed").map((task) => task.id)).toEqual(["done"]);
+    expect(filterTasksByRecordScope(tasks, "active", "cancelled").map((task) => task.id)).toEqual(["cancelled"]);
+    expect(filterTasksByRecordScope(tasks, "archived").map((task) => task.id)).toEqual(["archived"]);
   });
 });

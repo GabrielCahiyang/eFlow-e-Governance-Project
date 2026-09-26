@@ -15,14 +15,13 @@ import { useDepartmentTeamAnalytics } from "../../team-management";
 import {
   Card,
   ExportMenu,
-  LoadingState,
   PageHeader,
   SearchInput,
   SectionEmpty,
-  StatCard,
   WSelect,
   formatDate,
 } from "../../../components/workflow/primitives";
+import { WorkspaceLoadingSkeleton } from "../../../components/workflow/WorkspaceLoadingSkeleton";
 import { exportCsv, exportPdf, type ReportColumn } from "../../../services/reportService";
 import { DEPARTMENT_REPORTS } from "../constants";
 import { buildDepartmentReportRows, filterDepartmentReportRows } from "../selectors/departmentReportSelectors";
@@ -125,8 +124,6 @@ export function DeptHeadReportsWorkspace() {
     format === "csv" ? exportCsv(rows, columns, meta) : exportPdf(rows, columns, meta);
   };
 
-  if (analytics.loading) return <div className="p-8"><LoadingState label="Building live department reports…" /></div>;
-
   return (
     <div className="min-h-full min-w-0 bg-neutral-50/30 p-3 sm:p-8">
       <PageHeader
@@ -141,8 +138,9 @@ export function DeptHeadReportsWorkspace() {
         )}
       />
 
-      {analytics.error && <div className="mb-4 px-4 py-3 rounded-xl bg-red-50 border border-red-200 text-[11.5px] text-red-700">Some workflow facts could not be loaded: {analytics.error}</div>}
+      {analytics.error && <div className="mb-4 rounded-xl border border-red-200 bg-red-50 px-4 py-3 text-[12px] text-red-700">Some workflow facts could not be loaded: {analytics.error}</div>}
 
+      {analytics.loading ? <WorkspaceLoadingSkeleton label="Loading live department reports…" rows={6} /> : <>
       <div className="mb-4"><ContributionSummaryCard rows={contributionRows} title="Department contribution this month" /></div>
 
       <div className="grid grid-cols-1 xl:grid-cols-[250px_minmax(0,1fr)] gap-4">
@@ -155,23 +153,23 @@ export function DeptHeadReportsWorkspace() {
                 onClick={() => changeKind(report.id)}
                 className={`w-full text-left p-3 rounded-lg transition-colors ${kind === report.id ? "bg-neutral-900 text-white" : "hover:bg-neutral-50 text-neutral-700"}`}
               >
-                <div className="flex items-center gap-2 text-[11.5px] font-medium">{reportIcons[report.id]} {report.title}</div>
-                <p className={`text-[9.5px] leading-4 mt-1 ${kind === report.id ? "text-neutral-300" : "text-neutral-400"}`}>{report.description}</p>
+                <div className="flex items-center gap-2 text-[12px] font-medium">{reportIcons[report.id]} {report.title}</div>
+                <p className={`mt-1 text-[12px] leading-5 ${kind === report.id ? "text-neutral-300" : "text-neutral-500"}`}>{report.description}</p>
               </button>
             ))}
           </div>
         </Card>
 
         <div className="min-w-0">
-          <div className="mb-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            <StatCard label="Visible rows" value={rows.length} icon={<BarChart3 size={14} />} />
-            <StatCard label="People represented" value={uniquePeople} icon={<Users size={14} />} />
-            <StatCard label="Projects represented" value={uniqueProjects} icon={<BriefcaseBusiness size={14} />} />
-            <StatCard label="Urgent signals" value={urgent} tone={urgent ? "bad" : "good"} icon={<AlertTriangle size={14} />} />
+          <div className="mb-4 flex flex-wrap items-center gap-x-6 gap-y-3 rounded-xl border border-neutral-200 bg-white px-4 py-3 shadow-sm" aria-label="Report summary">
+            <ReportMetric label="Visible rows" value={rows.length} icon={<BarChart3 size={14} />} />
+            <ReportMetric label="People" value={uniquePeople} icon={<Users size={14} />} />
+            <ReportMetric label="Projects" value={uniqueProjects} icon={<BriefcaseBusiness size={14} />} />
+            <ReportMetric label="Urgent signals" value={urgent} icon={<AlertTriangle size={14} />} tone={urgent ? "bad" : "good"} />
           </div>
 
           <Card title={definition.title} subtitle={definition.description} bodyClassName="p-0">
-            <div className="p-3 border-b border-neutral-100 space-y-2">
+            <div className="sticky top-3 z-10 border-b border-neutral-100 bg-white/95 p-3 shadow-sm backdrop-blur supports-[backdrop-filter]:bg-white/80 space-y-2">
               <div className="flex flex-wrap gap-2">
                 <SearchInput value={search} onChange={setSearch} placeholder="Search visible report fields…" className="min-w-[230px] flex-1" />
                 <WSelect value={personId} onChange={setPersonId} options={[{ value: "all", label: "All people" }, ...analytics.deptEmployees.map((employee) => ({ value: employee.id, label: employee.name }))]} />
@@ -186,9 +184,9 @@ export function DeptHeadReportsWorkspace() {
                 ]} />
               </div>
               {period === "custom" && (
-                <div className="flex items-center gap-2 text-[10.5px] text-neutral-500">
-                  <label className="flex items-center gap-1.5">From <input type="date" value={fromDate} onChange={(event) => setFromDate(event.target.value)} className="h-[32px] border border-neutral-200 rounded-lg px-2 text-[11px]" /></label>
-                  <label className="flex items-center gap-1.5">To <input type="date" value={toDate} onChange={(event) => setToDate(event.target.value)} className="h-[32px] border border-neutral-200 rounded-lg px-2 text-[11px]" /></label>
+                <div className="flex items-center gap-2 text-[12px] text-neutral-500">
+                  <label className="flex items-center gap-1.5">From <input type="date" value={fromDate} onChange={(event) => setFromDate(event.target.value)} className="h-[32px] rounded-lg border border-neutral-200 px-2 text-[12px]" /></label>
+                  <label className="flex items-center gap-1.5">To <input type="date" value={toDate} onChange={(event) => setToDate(event.target.value)} className="h-[32px] rounded-lg border border-neutral-200 px-2 text-[12px]" /></label>
                 </div>
               )}
             </div>
@@ -200,8 +198,32 @@ export function DeptHeadReportsWorkspace() {
           </Card>
         </div>
       </div>
+      </>}
 
       <TaskDetailDrawer task={selectedTask} onClose={() => setSelectedTaskId(undefined)} canReview canPostProgress={false} />
+    </div>
+  );
+}
+
+function ReportMetric({
+  icon,
+  label,
+  tone = "neutral",
+  value,
+}: {
+  icon: ReactNode;
+  label: string;
+  tone?: "neutral" | "good" | "bad";
+  value: number;
+}) {
+  const valueClass = tone === "bad" ? "text-red-700" : tone === "good" ? "text-emerald-700" : "text-neutral-900";
+  return (
+    <div className="inline-flex min-w-[100px] items-center gap-2">
+      <span className="text-neutral-400">{icon}</span>
+      <span className="min-w-0">
+        <span className="block text-[12px] font-medium text-neutral-500">{label}</span>
+        <span className={`eflow-tabular block text-[16px] font-semibold leading-tight ${valueClass}`}>{value}</span>
+      </span>
     </div>
   );
 }

@@ -60,10 +60,7 @@ export function CollaborationSourcePanel({
         cleanupOnMetadataFailure: false,
       });
       await onUploaded();
-      toast(
-        draft.sourceFilePath ? "Source PDF replaced." : "Source PDF attached.",
-        "success",
-      );
+      toast("Source PDF attached.", "success");
     } catch (error) {
       toast(
         error instanceof Error
@@ -77,7 +74,7 @@ export function CollaborationSourcePanel({
     }
   };
 
-  const uploadControl = canUpload ? (
+  const attachControl = canUpload && !draft.sourceFilePath ? (
     <>
       <input
         ref={inputRef}
@@ -92,11 +89,7 @@ export function CollaborationSourcePanel({
         disabled={uploading}
         onClick={() => inputRef.current?.click()}
       >
-        {uploading
-          ? "Uploading…"
-          : draft.sourceFilePath
-            ? "Replace PDF"
-            : "Attach PDF"}
+        {uploading ? "Uploading…" : "Attach PDF"}
       </Button>
     </>
   ) : null;
@@ -108,8 +101,8 @@ export function CollaborationSourcePanel({
           title="No source PDF attached"
           description="The owning office may attach the signed proposal, supporting plan, or reference document for all participating reviewers."
         />
-        {canUpload && (
-          <div className="mt-4 flex justify-center">{uploadControl}</div>
+        {attachControl && (
+          <div className="mt-4 flex justify-center">{attachControl}</div>
         )}
       </section>
     );
@@ -133,11 +126,11 @@ export function CollaborationSourcePanel({
         </div>
 
         <div className="flex items-center gap-2">
-          {uploadControl}
           <Button
             size="small"
             disabled={loading}
             onClick={() => void preview()}
+            aria-label={`View source PDF: ${draft.sourceFileName || "source document"}`}
           >
             {loading ? "Opening…" : "View source PDF"}
           </Button>

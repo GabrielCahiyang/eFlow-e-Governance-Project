@@ -291,8 +291,12 @@ export function useMondayBoardController({
     try {
       await onUpdateTask(editingTask.id, payload);
       closeTaskEditor();
-    } catch {
-      setTaskEditorError("Failed to save task changes. Please try again.");
+    } catch (error) {
+      setTaskEditorError(
+        error instanceof Error
+          ? error.message
+          : "Failed to save task changes. Please try again.",
+      );
       setTaskEditorSaving(false);
     }
   };

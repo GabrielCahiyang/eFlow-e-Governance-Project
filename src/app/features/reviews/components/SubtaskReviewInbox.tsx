@@ -1,10 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
-import { Search as VibeSearch } from "@vibe/core";
+import { Search as VibeSearch, Skeleton } from "@vibe/core";
 import { CheckCircle2, Clock, Inbox, MessageSquareWarning, Search } from "lucide-react";
 import { useAuth } from "../../../contexts/AuthContext";
 import { useToast } from "../../../components/ui/Toast";
 import {
-  LoadingState,
   PageHeader,
   SectionEmpty,
   formatDate,
@@ -22,10 +21,12 @@ export function SubtaskReviewInbox({
   onShowTasks,
   onShowBudget,
   focus,
+  embedded = false,
 }: {
   onShowTasks: () => void;
   onShowBudget?: () => void;
   focus?: NotificationNavigationIntent | null;
+  embedded?: boolean;
 }) {
   const { user, userProfile } = useAuth();
   const { toast } = useToast();
@@ -90,11 +91,20 @@ export function SubtaskReviewInbox({
     }
   };
 
-  if (loading) return <div className="p-8"><LoadingState label="Loading subtask evidence…" /></div>;
+  if (loading) return (
+    <div className={embedded ? "space-y-3 rounded-2xl border border-neutral-200 bg-white p-6" : "space-y-4 p-8"} aria-live="polite" role="status">
+      <Skeleton type="text" width={220} />
+      <Skeleton type="text" width={340} />
+      <div className="grid gap-4 lg:grid-cols-[minmax(300px,380px)_1fr]">
+        <Skeleton type="rectangle" size="custom" height={280} fullWidth />
+        <Skeleton type="rectangle" size="custom" height={360} fullWidth />
+      </div>
+    </div>
+  );
 
-  return (
-    <div className="eflow-operational-workspace min-h-full p-4 sm:p-8">
-      <PageHeader
+  const inboxContent = (
+    <div className={embedded ? "space-y-4" : "eflow-operational-workspace min-h-full p-4 sm:p-8"}>
+      {!embedded && <PageHeader
         eyebrow="Leader Workspace · Reviews"
         title="Subtask Evidence"
         subtitle="Approve evidence before a subtask contributes to parent-task completion."
@@ -113,7 +123,7 @@ export function SubtaskReviewInbox({
             </div>
           </div>
         }
-      />
+      />}
 
       {items.length === 0 ? (
         <div className="rounded-xl border border-neutral-200 bg-white">
@@ -200,4 +210,6 @@ export function SubtaskReviewInbox({
       )}
     </div>
   );
+
+  return inboxContent;
 }

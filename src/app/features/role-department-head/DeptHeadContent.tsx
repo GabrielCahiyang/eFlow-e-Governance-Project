@@ -39,20 +39,9 @@ export function DeptHeadTaskBoard() {
   } = useDeptHeadTaskBoard();
   const workspaceLabel = getHeadWorkspaceLabel(userProfile?.role);
 
-  if (isLoading) {
-    return (
-      <div className="p-8 h-full bg-neutral-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="text-[13px] font-normal text-neutral-600">
-            Loading tasks and team members...
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <DeptHeadTaskBoardView
+      loading={isLoading}
       tasks={deptTasks}
       employees={deptEmployees}
       allEmployees={allEmployees}

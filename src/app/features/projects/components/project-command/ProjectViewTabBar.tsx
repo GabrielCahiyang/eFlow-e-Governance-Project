@@ -291,9 +291,10 @@ export function ProjectViewTabBar({
   const activeTabIndex = allCurrentTabIds.indexOf(activeTab as any);
 
   return (
-    <div className="eflow-workspace-tabs relative flex items-center justify-center w-full">
-      {/* Centered Tab Navigation List */}
-      <div className="flex items-center justify-center min-w-0 max-w-full">
+    <div className="eflow-workspace-tabs relative flex items-center w-full">
+      {/* The tab scroller reserves a dedicated action lane so adding views can
+          never cover a tab or its overflow menu. */}
+      <div className="eflow-workspace-tabs__scroller flex items-center min-w-0 max-w-full">
         <TabsContext
           id={`project-workspace-tabs-${projectId}`}
           activeTabId={activeTabIndex >= 0 ? activeTabIndex : 0}
@@ -304,11 +305,18 @@ export function ProjectViewTabBar({
           </TabList>
         </TabsContext>
 
+      </div>
+
+      {/* Fixed action lane: More and Add view stay outside the horizontal
+          tab scroller so their menus cannot be clipped by overflow. */}
+      <div className="eflow-workspace-tabs__actions relative shrink-0" ref={addViewMenuRef}>
         {/* Overflow Menu (More ▾) */}
         {overflowOptionalViews.length > 0 && (
-          <div className="relative shrink-0 flex items-center" ref={moreMenuRef}>
+          <div className="eflow-workspace-tabs__more relative shrink-0" ref={moreMenuRef}>
             <button
               type="button"
+              aria-haspopup="menu"
+              aria-expanded={moreOpen}
               onClick={() => setMoreOpen(!moreOpen)}
               className={`h-[37px] px-3 -mb-[1px] inline-flex items-center gap-1 text-[13px] font-medium rounded-t-[10px] transition-colors cursor-pointer border ${
                 isOverflowActive
@@ -321,7 +329,7 @@ export function ProjectViewTabBar({
             </button>
 
             {moreOpen && (
-              <div className="absolute left-0 top-full mt-1.5 w-56 rounded-xl border border-neutral-200 bg-white p-1.5 shadow-xl z-[100] animate-in fade-in zoom-in-95 duration-100 font-sans">
+              <div role="menu" aria-label="More project views" className="absolute right-0 top-full mt-1.5 w-56 rounded-xl border border-neutral-200 bg-white p-1.5 shadow-xl z-[100] animate-in fade-in zoom-in-95 duration-100 font-sans">
                 <div className="text-[10.5px] font-bold uppercase tracking-wider text-neutral-400 px-2 py-1">
                   Open Project Views
                 </div>
@@ -334,9 +342,18 @@ export function ProjectViewTabBar({
                   return (
                     <div
                       key={viewId}
+                      role="menuitem"
+                      tabIndex={0}
                       onClick={() => {
                         onSelectTab(viewId);
                         setMoreOpen(false);
+                      }}
+                      onKeyDown={(event) => {
+                        if (event.key === "Enter" || event.key === " ") {
+                          event.preventDefault();
+                          onSelectTab(viewId);
+                          setMoreOpen(false);
+                        }
                       }}
                       className={`flex items-center justify-between rounded-lg px-2.5 py-1.5 text-xs font-medium cursor-pointer ${
                         isActive
@@ -350,6 +367,7 @@ export function ProjectViewTabBar({
                       </div>
                       <button
                         type="button"
+                        aria-label={`Close ${meta.label}`}
                         onClick={(e) => handleCloseView(e, viewId)}
                         className="p-0.5 rounded text-neutral-400 hover:text-neutral-700 hover:bg-neutral-200/60"
                       >
@@ -362,10 +380,8 @@ export function ProjectViewTabBar({
             )}
           </div>
         )}
-      </div>
 
-      {/* + Add view Button (Right-aligned) */}
-      <div className="absolute right-2 top-1/2 -translate-y-1/2" ref={addViewMenuRef}>
+        {/* + Add view Button (Right-aligned) */}
         <Button
           kind="tertiary"
           size="small"

@@ -97,6 +97,32 @@ export async function fetchTaskSubtasks(taskId: string): Promise<Subtask[]> {
   return subtasks;
 }
 
+/**
+ * Read the subtasks for a visible board slice in one request. This is read-only
+ * and leaves the existing per-task cache and mutation contracts untouched.
+ */
+export async function fetchSubtasksForTasks(taskIds: string[]): Promise<Subtask[]> {
+  const ids = Array.from(new Set(taskIds.filter(Boolean)));
+  if (ids.length === 0) return [];
+  const { data, error } = await supabase
+    .from('subtasks')
+    .select('*')
+    .in('task_id', ids)
+    .order('position', { ascending: true });
+  if (error) throw new Error(error.message);
+  const subtasks = (data || []).map(rowToSubtask);
+  const byTask = new Map<string, Subtask[]>();
+  for (const subtask of subtasks) {
+    const current = byTask.get(subtask.taskId) || [];
+    current.push(subtask);
+    byTask.set(subtask.taskId, current);
+  }
+  for (const [taskId, items] of byTask) {
+    subtaskMemoryCache.set(taskId, items);
+  }
+  return subtasks;
+}
+
 // ─── subscribeToSubtasks ───────────────────────────────────────────
 export function subscribeToSubtasks(
   taskId: string,

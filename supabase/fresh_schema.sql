@@ -692,6 +692,7 @@ create table if not exists public.chat_channels (
 create index if not exists chat_channels_task_idx on public.chat_channels(task_id);
 create index if not exists chat_channels_org_idx  on public.chat_channels(org_id);
 create unique index if not exists chat_channels_task_uni on public.chat_channels(task_id) where task_id is not null;
+create unique index if not exists chat_channels_org_uni on public.chat_channels(org_id) where org_id is not null and channel_type = 'org';
 
 create table if not exists public.chat_channel_members (
   channel_id   uuid not null references public.chat_channels(id) on delete cascade,
@@ -998,6 +999,23 @@ drop trigger if exists on_profile_created on public.profiles;
 create trigger on_profile_created after insert on public.profiles
   for each row execute function public.on_profile_created();
 
+-- Each organization has one standing channel. Membership is derived from the
+-- organization tree by is_channel_member below, not duplicated in the task
+-- channel membership table.
+create or replace function public.ensure_org_chat_channel()
+returns trigger as $$
+begin
+  insert into public.chat_channels (channel_type, org_id, name)
+  values ('org', new.id, new.name || ' Chat')
+  on conflict do nothing;
+  return new;
+end;
+$$ language plpgsql security definer;
+
+drop trigger if exists organizations_create_chat_channel on public.organizations;
+create trigger organizations_create_chat_channel after insert on public.organizations
+  for each row execute function public.ensure_org_chat_channel();
+
 -- When a task gains an assignee, ensure a 'task' chat channel exists with the
 -- assignee + creator as members (matches chatService expectations).
 create or replace function public.ensure_task_channel()
@@ -1183,12 +1201,24 @@ select public._mkpolicy('user_permission_overrides','upo_write','ALL','public.is
 
 -- ─── chat + calls (membership-scoped) ──────────────────────────────────────────────
 create or replace function public.is_channel_member(p_channel uuid, caller uuid)
-returns boolean language sql stable security definer set search_path = public as $$
-  select exists (select 1 from public.chat_channel_members m where m.channel_id = p_channel and m.user_id = caller)
-      or exists (select 1 from public.chat_channels c
-                 where c.id = p_channel and c.channel_type = 'org'
-                   and public.org_in_my_subtree(c.org_id, caller));
-$$;
+returns boolean as $$
+  select exists (
+    select 1 from public.chat_channel_members m
+    where m.channel_id = p_channel and m.user_id = caller
+  ) or exists (
+    select 1
+    from public.chat_channels c
+    join public.organizations channel_org on channel_org.id = c.org_id
+    join public.profiles profile on profile.id = caller
+    join public.organizations user_org on user_org.id = profile.org_id
+    where c.id = p_channel
+      and c.channel_type = 'org'
+      and (
+        user_org.path::text = channel_org.path::text
+        or pg_catalog.starts_with(user_org.path::text, channel_org.path::text || '.')
+      )
+  );
+$$ language sql security definer;
 
 select public._mkpolicy('chat_channels','cc_read','SELECT','public.is_channel_member(id, auth.uid()) or public.is_super_admin(auth.uid())');
 select public._mkpolicy('chat_channels','cc_write','ALL','auth.uid() is not null','auth.uid() is not null');

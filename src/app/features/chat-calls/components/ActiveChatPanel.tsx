@@ -49,7 +49,7 @@ export function ActiveChatPanel() {
                           ?.name
                       }
                     </div>
-                    <div className="text-[9px] text-neutral-400 font-normal flex items-center gap-1">
+                    <div className="text-[12px] text-neutral-500 font-normal flex items-center gap-1">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-500"></span>
                       <span>Active now</span>
                     </div>
@@ -226,7 +226,7 @@ export function ActiveChatPanel() {
                                 deleteMessage(m.id);
                                 setActiveMoreMenuFor(null);
                               }}
-                              className="w-full text-left px-3 py-1.5 text-[11px] text-red-500 hover:bg-red-50 font-semibold cursor-pointer"
+                              className="w-full text-left px-3 py-1.5 text-[12px] text-red-500 hover:bg-red-50 font-semibold cursor-pointer"
                             >
                               Remove
                             </button>
@@ -237,7 +237,7 @@ export function ActiveChatPanel() {
                                   alert(`${opt}!`);
                                   setActiveMoreMenuFor(null);
                                 }}
-                                className="w-full text-left px-3 py-1.5 text-[11px] text-neutral-700 hover:bg-neutral-50 cursor-pointer"
+                            className="w-full text-left px-3 py-1.5 text-[12px] text-neutral-700 hover:bg-neutral-50 cursor-pointer"
                               >
                                 {opt}
                               </button>
@@ -266,14 +266,14 @@ export function ActiveChatPanel() {
                         className={`flex flex-col ${mine ? "items-end" : "items-start"} max-w-[72%] relative`}
                       >
                         {!mine && (
-                          <span className="text-[9px] text-neutral-500 ml-2 mb-0.5 font-semibold">
+                          <span className="text-[12px] text-neutral-500 ml-2 mb-0.5 font-semibold">
                             {m.senderName}
                           </span>
                         )}
 
                         {parsed.replyToText && (
                           <div
-                            className={`mb-1 text-[9px] text-neutral-500 bg-white/70 rounded-xl px-2.5 py-1.5 max-w-[90%] border-l-2 border-blue-400 shadow-xs ${mine ? "self-end" : "self-start"}`}
+                            className={`mb-1 text-[12px] text-neutral-600 bg-white/70 rounded-xl px-2.5 py-1.5 max-w-[90%] break-words border-l-2 border-blue-400 shadow-xs ${mine ? "self-end" : "self-start"}`}
                           >
                             <span className="font-bold text-blue-600 block">
                               {parsed.replyToName}
@@ -354,7 +354,7 @@ export function ActiveChatPanel() {
                     <div className="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
                       <Icons.MessageCircle size={18} className="text-blue-400" />
                     </div>
-                    <p className="text-[11px] text-neutral-400 text-center">
+                    <p className="text-[12px] text-neutral-500 text-center">
                       No messages yet.
                       <br />
                       Say hello! 👋
@@ -365,7 +365,7 @@ export function ActiveChatPanel() {
               </div>
 
               {replyingTo && (
-                <div className="px-3.5 py-1.5 bg-neutral-100 border-t border-neutral-200 flex items-center justify-between text-[10px] text-neutral-500 shrink-0 font-normal">
+                <div className="px-3.5 py-1.5 bg-neutral-100 border-t border-neutral-200 flex items-center justify-between text-[12px] text-neutral-500 shrink-0 font-normal">
                   <span className="truncate">
                     Replying to{" "}
                     <span className="font-semibold">

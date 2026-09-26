@@ -11,7 +11,8 @@ import { useAuth } from "../../../contexts/AuthContext";
 import { useOrgs, useScopedOrgIds } from "../../../hooks/useSupabaseData";
 import { useCollaborationDrafts, isActiveCollaborationDraft } from "../../interdepartment-collaboration";
 import { queueNotificationNavigationIntent } from "../../notifications";
-import { SectionEmpty, LoadingState } from "../../../components/workflow/primitives";
+import { SectionEmpty } from "../../../components/workflow/primitives";
+import { WorkspaceLoadingSkeleton } from "../../../components/workflow/WorkspaceLoadingSkeleton";
 
 const governanceSortOptions = [
   { value: "newest", label: "Newest updated" },
@@ -94,7 +95,7 @@ export function GovernanceReviewInbox({ onNavigate }: { onNavigate?: (section: s
   if (collaboration.loading) {
     return (
       <div className="p-8">
-        <LoadingState label="Loading governance & sign-off items…" />
+        <WorkspaceLoadingSkeleton label="Loading governance & sign-off items…" rows={4} />
       </div>
     );
   }

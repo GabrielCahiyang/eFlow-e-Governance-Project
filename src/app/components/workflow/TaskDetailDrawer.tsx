@@ -5,6 +5,7 @@
 // same component serves every role.
 
 import React, { useState } from "react";
+import DOMPurify from "dompurify";
 import { Button, IconButton, Tab, TabList, TabsContext } from "@vibe/core";
 import { Close } from "@vibe/icons";
 import { Info, Activity, MessageSquare, ClipboardCheck, Calendar, User, Building2, Layers, Pencil, UsersRound } from "lucide-react";
@@ -330,9 +331,12 @@ export function TaskDetailDrawer({
                     </span>
                     <span className="text-[10.5px] text-neutral-400">submitted {formatDate(task.latestSubmission.submittedAt)}</span>
                   </div>
-                  <div className="text-[12px] font-normal text-neutral-600 whitespace-pre-wrap">
-                    {task.latestSubmission.note}
-                  </div>
+                  <div
+                    className="text-[12px] font-normal text-neutral-600 whitespace-pre-wrap [&_p]:m-0 [&_table]:w-full [&_table]:border-collapse [&_td]:border [&_td]:border-neutral-200 [&_td]:p-1.5 [&_ul]:pl-4 [&_ol]:pl-4"
+                    dangerouslySetInnerHTML={{
+                      __html: DOMPurify.sanitize(task.latestSubmission.note),
+                    }}
+                  />
                 </div>
               )}
 

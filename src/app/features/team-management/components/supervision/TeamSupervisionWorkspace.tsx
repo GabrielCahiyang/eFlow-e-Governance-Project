@@ -3,7 +3,8 @@ import { AttentionBox, Tab, TabList, TabsContext } from "@vibe/core";
 import { AlertTriangle, CircleAlert, Clock3, ListFilter } from "lucide-react";
 import { AnimatePresence } from "motion/react";
 import * as m from "motion/react-m";
-import { LoadingState, PageHeader, StatCard, WSelect } from "../../../../components/workflow/primitives";
+import { PageHeader, StatCard, WSelect } from "../../../../components/workflow/primitives";
+import { WorkspaceLoadingSkeleton } from "../../../../components/workflow/WorkspaceLoadingSkeleton";
 import { TaskDetailDrawer } from "../../../tasks";
 import type { Task } from "../../../tasks";
 import { useDepartmentTeamAnalytics } from "../../hooks/useDepartmentTeamAnalytics";
@@ -45,14 +46,13 @@ export function TeamSupervisionWorkspace() {
     setView("people");
   };
 
-  if (analytics.loading) return <div className="p-8"><LoadingState label="Building the live supervision view…" /></div>;
-
   return (
     <div className="min-h-full p-4 sm:p-8">
-      <PageHeader eyebrow="Department · Operations" title="Team Supervision" subtitle="Act on overdue work, blockers, stalled updates, review queues, and workload imbalance from one live workspace." actions={<span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-[10.5px] font-medium text-emerald-700"><span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" /> Live workflow data</span>} />
+      <PageHeader eyebrow="Department · Operations" title="Team Supervision" subtitle="Act on overdue work, blockers, stalled updates, review queues, and workload imbalance from one live workspace." actions={<span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1.5 text-[12px] font-medium text-emerald-700"><span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" /> Live workflow data</span>} />
 
       {analytics.error && <AttentionBox className="mb-4" text={`Some workflow details could not be loaded: ${analytics.error}. Task-level data remains available.`} type="warning" />}
 
+      {analytics.loading ? <WorkspaceLoadingSkeleton label="Loading live supervision data…" rows={5} /> : <>
       <div className="mb-5 grid grid-cols-1 gap-3 min-[480px]:grid-cols-2 lg:grid-cols-4">
         <StatCard label="Needs attention" value={analytics.attention.length} hint={`${criticalCount} critical`} tone={criticalCount ? "bad" : analytics.attention.length ? "warn" : "good"} icon={<ListFilter size={15} />} onClick={() => setView("attention")} active={view === "attention"} />
         <StatCard label="Overdue" value={analytics.health.overdue} tone={analytics.health.overdue ? "bad" : "good"} icon={<AlertTriangle size={15} />} onClick={() => { setView("attention"); setAttentionFilter("overdue"); }} />
@@ -81,6 +81,7 @@ export function TeamSupervisionWorkspace() {
         </main>
         {view !== "identity" && <TeamMemberOperationsPanel employee={selectedEmployee} employees={analytics.deptEmployees} metric={selectedMetric} tasks={analytics.tasks} subtasks={analytics.facts.subtasks} onOpenTask={setOpenTask} />}
       </div>
+      </>}
 
       <TaskDetailDrawer task={openTask} onClose={() => setOpenTask(null)} canDiscuss />
     </div>

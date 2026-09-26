@@ -56,18 +56,18 @@ export function TeamAttentionQueue({
               <div className={`mt-0.5 grid h-8 w-8 shrink-0 place-items-center rounded-lg border ${tone}`}>{kindIcon[item.kind]}</div>
               <div className="min-w-0 flex-1">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className={`rounded-full border px-2 py-0.5 text-[9.5px] font-medium uppercase tracking-wide ${tone}`}>{kindLabel[item.kind]}</span>
-                  {item.subtaskId && <span className="text-[9.5px] uppercase tracking-wide text-neutral-400">Subtask</span>}
+                  <span className={`rounded-full border px-2 py-0.5 text-[12px] font-medium uppercase tracking-wide ${tone}`}>{kindLabel[item.kind]}</span>
+                  {item.subtaskId && <span className="text-[12px] uppercase tracking-wide text-neutral-500">Subtask</span>}
                 </div>
                 <h3 className="mt-1.5 text-[12.5px] font-semibold text-neutral-900">{item.title}</h3>
-                <p className="mt-0.5 text-[11.5px] leading-5 text-neutral-600">{item.detail}</p>
-                <p className="mt-1 truncate text-[10.5px] text-neutral-400">Parent task: {item.taskTitle}</p>
+                <p className="mt-0.5 text-[12px] leading-5 text-neutral-600">{item.detail}</p>
+                <p className="mt-1 truncate text-[12px] text-neutral-500">Parent task: {item.taskTitle}</p>
               </div>
               <div className="flex shrink-0 items-center gap-1">
                 {item.employeeIds[0] && (
-                  <button type="button" onClick={() => onSelectEmployee(item.employeeIds[0])} className="rounded-lg border border-neutral-200 px-2.5 py-1.5 text-[10.5px] text-neutral-600 transition hover:bg-neutral-50">Person</button>
+                  <button type="button" onClick={() => onSelectEmployee(item.employeeIds[0])} className="rounded-lg border border-neutral-200 px-2.5 py-1.5 text-[12px] text-neutral-600 transition hover:bg-neutral-50">Person</button>
                 )}
-                <button type="button" onClick={() => onOpenTask(item.taskId)} className="inline-flex items-center gap-1 rounded-lg bg-neutral-900 px-2.5 py-1.5 text-[10.5px] font-medium text-white transition hover:bg-neutral-800">Open <ExternalLink size={11} /></button>
+                <button type="button" onClick={() => onOpenTask(item.taskId)} className="inline-flex items-center gap-1 rounded-lg bg-neutral-900 px-2.5 py-1.5 text-[12px] font-medium text-white transition hover:bg-neutral-800">Open <ExternalLink size={11} /></button>
               </div>
             </div>
           </article>

@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import { Bold, Italic, List, ListOrdered } from "lucide-react";
@@ -22,6 +23,11 @@ export function RichTextEditor({
     },
   });
 
+  useEffect(() => {
+    if (!editor || value === editor.getHTML()) return;
+    editor.commands.setContent(value || "", { emitUpdate: false });
+  }, [editor, value]);
+
   if (!editor) return null;
 
   return (
@@ -29,6 +35,7 @@ export function RichTextEditor({
       <div className="flex items-center gap-1 border-b border-neutral-100 px-2 py-1.5">
         <button
           type="button"
+          aria-label="Bold completion note text"
           onClick={() => editor.chain().focus().toggleBold().run()}
           className={`p-1.5 rounded ${editor.isActive("bold") ? "bg-neutral-200" : "hover:bg-neutral-100"}`}
         >
@@ -36,6 +43,7 @@ export function RichTextEditor({
         </button>
         <button
           type="button"
+          aria-label="Italicize completion note text"
           onClick={() => editor.chain().focus().toggleItalic().run()}
           className={`p-1.5 rounded ${editor.isActive("italic") ? "bg-neutral-200" : "hover:bg-neutral-100"}`}
         >
@@ -43,6 +51,7 @@ export function RichTextEditor({
         </button>
         <button
           type="button"
+          aria-label="Create a bulleted list"
           onClick={() => editor.chain().focus().toggleBulletList().run()}
           className={`p-1.5 rounded ${editor.isActive("bulletList") ? "bg-neutral-200" : "hover:bg-neutral-100"}`}
         >
@@ -50,6 +59,7 @@ export function RichTextEditor({
         </button>
         <button
           type="button"
+          aria-label="Create a numbered list"
           onClick={() => editor.chain().focus().toggleOrderedList().run()}
           className={`p-1.5 rounded ${editor.isActive("orderedList") ? "bg-neutral-200" : "hover:bg-neutral-100"}`}
         >

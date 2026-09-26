@@ -9,7 +9,8 @@ import {
   type Announcement,
 } from "../../../../services/announcementService";
 import { useToast } from "../../../../components/ui/Toast";
-import { LoadingState, PageHeader, SectionEmpty, StatCard, formatDate } from "../../../../components/workflow/primitives";
+import { PageHeader, SectionEmpty, StatCard, formatDate } from "../../../../components/workflow/primitives";
+import { WorkspaceLoadingSkeleton } from "../../../../components/workflow/WorkspaceLoadingSkeleton";
 import { AnnouncementEditor } from "./AnnouncementEditor";
 import { AUDIENCE_META, STATUS_META } from "./announcementMeta";
 
@@ -51,7 +52,7 @@ export function AdminAnnouncements() {
     return list;
   }, [announcements, statusFilter, searchQuery]);
 
-  if (loading) return <div className="p-8"><LoadingState label="Loading announcement control panel…" /></div>;
+  if (loading) return <div className="p-4 sm:p-8"><WorkspaceLoadingSkeleton label="Loading announcement control panel…" rows={4} /></div>;
 
   const statusTabs = ["all", "published", "draft", "withdrawn"] as const;
   const activeStatusTab = statusTabs.indexOf(statusFilter);

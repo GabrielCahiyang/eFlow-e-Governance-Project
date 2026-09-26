@@ -9,10 +9,56 @@ import type {
   UpdateTaskPayload,
 } from "../../../../services/taskService";
 
-export type BoardView = "list" | "kanban" | "timeline" | "hierarchy";
+export type BoardView =
+  | "list"
+  | "kanban"
+  | "timeline"
+  | "activity"
+  | "hierarchy"
+  | "calendar"
+  | "workload"
+  | "dependencies"
+  | "my_work"
+  | "due_soon"
+  | "overdue"
+  | "for_review"
+  | "completed";
+
+export type BoardFilterView =
+  | "my_work"
+  | "due_soon"
+  | "overdue"
+  | "for_review"
+  | "completed";
+
+export const isBoardFilterView = (view: BoardView): view is BoardFilterView =>
+  ["my_work", "due_soon", "overdue", "for_review", "completed"].includes(view);
+
+/** The default scope deliberately excludes work that is no longer actionable. */
+export type TaskRecordScope = "active" | "archived";
+export type TaskStatusFilter = "active" | TaskStatus;
+
+const CLOSED_TASK_STATUSES: readonly TaskStatus[] = ["completed", "cancelled"];
+
+export const filterTasksByRecordScope = (
+  tasks: Task[],
+  recordScope: TaskRecordScope,
+  statusFilter: TaskStatusFilter = "active",
+): Task[] =>
+  tasks.filter((task) => {
+    if (recordScope === "archived") {
+      return Boolean(task.archivedAt) &&
+        (statusFilter === "active" || task.status === statusFilter);
+    }
+
+    if (task.archivedAt) return false;
+    if (statusFilter === "active") return !CLOSED_TASK_STATUSES.includes(task.status);
+    return task.status === statusFilter;
+  });
 
 export interface MondayBoardProps {
   tasks: Task[];
+  loading?: boolean;
   projects?: Array<{ id: string; title: string }>;
   selectedProjectId?: string;
   onSelectProject?: (projectId: string) => void;
@@ -346,6 +392,45 @@ export const getDeadlineInfo = (task: Task) => {
     label: `${days}d left`,
     cls: "text-slate-500 bg-slate-50 border-slate-200",
   };
+};
+
+/**
+ * Derive additive work views from the existing task records. These are
+ * presentation filters only; lifecycle transitions remain owned by the
+ * existing task services and board actions.
+ */
+export const filterTasksByBoardView = (
+  tasks: Task[],
+  view: BoardFilterView,
+  currentUserId?: string,
+  now = Date.now(),
+): Task[] => {
+  if (view === "my_work") {
+    if (!currentUserId) return [];
+    return tasks.filter((task) => getTaskMemberIds(task).includes(currentUserId));
+  }
+
+  if (view === "for_review") {
+    return tasks.filter((task) => task.status === "for_review");
+  }
+
+  if (view === "completed") {
+    return tasks.filter((task) => task.status === "completed");
+  }
+
+  return tasks.filter((task) => {
+    const deadline = parseTaskDeadline(task.deadline || task.dueDate || "");
+    if (!deadline) return false;
+    const timestamp = deadline.getTime();
+    if (view === "overdue") {
+      return timestamp < now && !["completed", "cancelled"].includes(task.status);
+    }
+    return (
+      timestamp >= now &&
+      timestamp <= now + 7 * 86400000 &&
+      !["completed", "cancelled"].includes(task.status)
+    );
+  });
 };
 
 export const formatShortDateTime = (value?: number) => {

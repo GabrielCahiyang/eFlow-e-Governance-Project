@@ -158,12 +158,12 @@ export function TimelineView({
                     {role === "depthead" && onOpenTaskEditor ? (
                       <button
                         onClick={() => onOpenTaskEditor(task)}
-                        className="text-left text-[12px] font-medium text-neutral-900 truncate hover:text-violet-700 transition"
+                        className="break-words text-left text-[12px] font-medium leading-snug text-neutral-900 hover:text-violet-700 transition"
                       >
                         {task.title}
                       </button>
                     ) : (
-                      <div className="text-[12px] font-medium text-neutral-900 truncate">
+                      <div className="break-words text-[12px] font-medium leading-snug text-neutral-900">
                         {task.title}
                       </div>
                     )}

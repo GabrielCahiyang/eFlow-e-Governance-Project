@@ -16,7 +16,7 @@ export function ChatChannelList() {
               </div>
               {/* Header */}
               <div className="flex items-center justify-between px-3 py-2 border-b border-neutral-100 bg-white shrink-0">
-                <span className="text-[11px] font-semibold text-neutral-700">Chats</span>
+                <span className="text-[14px] font-semibold text-neutral-800">Chats</span>
                 <button
                   onMouseDown={(e) => e.stopPropagation()}
                   onClick={() => setIsFullscreen((v) => !v)}
@@ -28,7 +28,7 @@ export function ChatChannelList() {
               <div className="flex-1 overflow-y-auto">
                 {channels.filter((c) => c.channelType === "direct").length >
                   0 && (
-                  <div className="px-3 py-1.5 text-[9px] uppercase tracking-wider text-neutral-400 bg-neutral-50">
+                  <div className="px-3 py-1.5 text-[12px] uppercase tracking-wider text-neutral-500 bg-neutral-50">
                     Direct Messages
                   </div>
                 )}
@@ -44,7 +44,7 @@ export function ChatChannelList() {
                         <div className="text-[12px] text-neutral-800 truncate font-medium">
                           {c.name}
                         </div>
-                        <div className="text-[10px] text-neutral-400 truncate">
+                        <div className="text-[12px] text-neutral-500 truncate">
                           {c.lastMessage
                             ? parseMessage(c.lastMessage).text
                             : "No messages yet"}
@@ -56,7 +56,7 @@ export function ChatChannelList() {
                     </button>
                   ))}
                 {channels.filter((c) => c.isLeadOf).length > 0 && (
-                  <div className="px-3 py-1.5 text-[9px] uppercase tracking-wider text-amber-700 bg-amber-50 border-l-2 border-amber-500 flex items-center gap-1">
+                  <div className="px-3 py-1.5 text-[12px] uppercase tracking-wider text-amber-700 bg-amber-50 border-l-2 border-amber-500 flex items-center gap-1">
                     <Icons.Star size={10} className="fill-amber-500 text-amber-500" />
                     Pinned — You're Leading
                   </div>
@@ -77,7 +77,7 @@ export function ChatChannelList() {
                           />
                           {c.name}
                         </div>
-                        <div className="text-[10px] text-neutral-400 truncate">
+                        <div className="text-[12px] text-neutral-500 truncate">
                           {c.lastMessage
                             ? parseMessage(c.lastMessage).text
                             : "No messages yet"}
@@ -89,7 +89,7 @@ export function ChatChannelList() {
                     </button>
                   ))}
                 {channels.filter((c) => c.orgId).length > 0 && (
-                  <div className="px-3 py-1.5 text-[9px] uppercase tracking-wider text-neutral-400 bg-neutral-50">
+                  <div className="px-3 py-1.5 text-[12px] uppercase tracking-wider text-neutral-500 bg-neutral-50">
                     Standing Channels
                   </div>
                 )}
@@ -105,7 +105,7 @@ export function ChatChannelList() {
                         <div className="text-[12px] text-neutral-800 truncate font-medium">
                           {c.name}
                         </div>
-                        <div className="text-[10px] text-neutral-400 truncate">
+                        <div className="text-[12px] text-neutral-500 truncate">
                           {c.lastMessage
                             ? parseMessage(c.lastMessage).text
                             : "No messages yet"}
@@ -117,7 +117,7 @@ export function ChatChannelList() {
                     </button>
                   ))}
                 {channels.filter((c) => c.taskId && !c.isLeadOf).length > 0 && (
-                  <div className="px-3 py-1.5 text-[9px] uppercase tracking-wider text-neutral-400 bg-neutral-50">
+                  <div className="px-3 py-1.5 text-[12px] uppercase tracking-wider text-neutral-500 bg-neutral-50">
                     Task Chats
                   </div>
                 )}
@@ -133,7 +133,7 @@ export function ChatChannelList() {
                         <div className="text-[12px] text-neutral-800 truncate font-medium">
                           {c.name}
                         </div>
-                        <div className="text-[10px] text-neutral-400 truncate">
+                        <div className="text-[12px] text-neutral-500 truncate">
                           {c.lastMessage
                             ? parseMessage(c.lastMessage).text
                             : "No messages yet"}
@@ -145,7 +145,7 @@ export function ChatChannelList() {
                     </button>
                   ))}
                 {channels.length === 0 && (
-                  <div className="px-3 py-6 text-center text-[11px] text-neutral-400">
+                  <div className="px-3 py-6 text-center text-[12px] text-neutral-500">
                     No chats yet.
                   </div>
                 )}

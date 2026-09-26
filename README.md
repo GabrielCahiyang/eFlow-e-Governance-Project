@@ -58,11 +58,11 @@ The two repositories remain separate. Start each from its own terminal:
 
 ```powershell
 # Terminal 1 — eFlow frontend and eFlow gateway
-Set-Location "C:\Users\gabri\OneDrive\Desktop\EflowWeb"
+Set-Location "..\eflow-e-Governance-Project"
 npm run dev
 
 # Terminal 2 — private AI API, AI dashboard, and automatic tunnel publisher
-Set-Location "C:\Users\gabri\OneDrive\Desktop\Ollama reactjs LLM DeepSeek Integration"
+Set-Location "..\Ollama reactjs LLM DeepSeek Integration"
 npm run dev
 ```
 
