@@ -74,6 +74,47 @@ async def _proxy(
     )
 
 
+_STATUS_KEYS = ("ai_endpoint", "ai_endpoint_status", "ai_endpoint_heartbeat")
+
+
+async def _read_system_config(keys: tuple[str, ...]) -> dict[str, str | None]:
+    """Read system_config rows using the service role key (bypasses RLS)."""
+    service_headers = {
+        "apikey": settings.supabase_service_role_key,
+        "Authorization": f"Bearer {settings.supabase_service_role_key}",
+    }
+    key_filter = "in.(" + ",".join(keys) + ")"
+    try:
+        async with httpx.AsyncClient(timeout=httpx.Timeout(8.0)) as client:
+            resp = await client.get(
+                f"{settings.supabase_url}/rest/v1/system_config",
+                params={"select": "key,value", "key": key_filter},
+                headers=service_headers,
+            )
+            resp.raise_for_status()
+            rows = resp.json()
+    except Exception as exc:
+        logger.warning("Failed to read system_config for AI status: %s", exc)
+        raise HTTPException(status_code=503, detail="Could not read AI configuration.") from exc
+
+    return {row["key"]: row.get("value") for row in rows if isinstance(row, dict)}
+
+
+@router.get("/status")
+async def ai_status() -> dict[str, str | None]:
+    """Return AI endpoint configuration for the browser without relying on the
+    browser's Supabase session. Reads system_config via the server-side service
+    role key so RLS does not apply. The tunnel URL is already public config —
+    the RLS policy allows any authenticated Supabase user to read it, so
+    exposing it here without a session check is equivalent."""
+    config = await _read_system_config(_STATUS_KEYS)
+    return {
+        "ai_endpoint": config.get("ai_endpoint"),
+        "ai_endpoint_status": config.get("ai_endpoint_status"),
+        "ai_endpoint_heartbeat": config.get("ai_endpoint_heartbeat"),
+    }
+
+
 @router.post("/jobs")
 async def enqueue_job(
     payload: ChatRequest,

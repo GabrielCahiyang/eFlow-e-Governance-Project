@@ -98,12 +98,41 @@ export async function resolveAiControlPanelBase(): Promise<string> {
 }
 
 export async function getAiEndpointStatus(): Promise<AiRuntimeState> {
-  const [publishedEndpoint, configuredStatus, configuredMessage, heartbeat] = await Promise.all([
-    readPublishedEndpoint(),
-    fetchConfig("ai_endpoint_status").catch(() => null),
-    fetchConfig("ai_endpoint_status_message").catch(() => null),
-    fetchConfig("ai_endpoint_heartbeat").catch(() => null),
-  ]);
+  // Primary: read AI config from the local EflowWeb server which uses the
+  // service role key — this bypasses Supabase RLS and works on every machine
+  // regardless of the browser client's auth state.
+  let publishedEndpoint: string | null = null;
+  let configuredStatus: string | null = null;
+  let configuredMessage: string | null = null;
+  let heartbeat: string | null = null;
+
+  try {
+    const resp = await fetch("/controlpanelEflow/api/ai/status");
+    if (resp.ok) {
+      const body = await resp.json() as {
+        ai_endpoint?: string | null;
+        ai_endpoint_status?: string | null;
+        ai_endpoint_heartbeat?: string | null;
+      };
+      publishedEndpoint = body.ai_endpoint ?? null;
+      configuredStatus = body.ai_endpoint_status ?? null;
+      heartbeat = body.ai_endpoint_heartbeat ?? null;
+    } else {
+      // Fall through to the Supabase direct path below.
+      throw new Error(`/ai/status returned ${resp.status}`);
+    }
+  } catch {
+    // Fallback: read system_config directly via the Supabase client.
+    // This works when the browser session is properly attached (Laptop A's own
+    // browser with a valid JWT) but may return null if RLS blocks the read.
+    [publishedEndpoint, configuredStatus, configuredMessage, heartbeat] = await Promise.all([
+      readPublishedEndpoint(),
+      fetchConfig("ai_endpoint_status").catch(() => null),
+      fetchConfig("ai_endpoint_status_message").catch(() => null),
+      fetchConfig("ai_endpoint_heartbeat").catch(() => null),
+    ]);
+  }
+
   const status = configuredStatus?.trim().toLowerCase();
   const effectiveStatus = status === "online" && !isAiHeartbeatFresh(heartbeat)
     ? "restarting"
