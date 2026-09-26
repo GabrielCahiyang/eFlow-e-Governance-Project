@@ -1,135 +1,356 @@
 # eFlow Web
 
-eFlow is a role-based local-government work-management application built with React, TypeScript, Vite, Supabase, and a JWT-protected FastAPI control gateway. It combines governed task and project workflows with a separately hosted local DeepSeek node.
+eFlow is an enterprise-grade, role-based work management and local governance application designed for Local Government Units (LGUs). The platform combines governed task and project lifecycles, inter-departmental proposal collaboration, statutory municipal fiscal control, and an integrated System-1/System-2 artificial intelligence architecture powered by a dedicated local DeepSeek reasoning engine and the Laya decision layer.
 
-## Current capabilities
+The system is built on React 18, TypeScript, Vite, the Vibe Design System, Supabase (PostgreSQL with Row-Level Security and Realtime events), and a local JWT-protected Python FastAPI control gateway.
 
-- Role-specific workspaces for Super Admin, Department Head, Employee, Team Leader, Executive, Legislative, HRMO, Finance, and Settings users.
-- Project and milestone workspaces with members, task rollups, archive/restore behavior, filtering, and schedule-health calculation.
-- A shared Project Command Workspace with project editing, milestone sequencing, member-role management, operational task/milestone linking, complete ordered work hierarchy, review queue, activity timeline, and project-scoped CSV/PDF reports.
-- Complete reviewed-task lifecycle: assignment, dependencies, progress, delegated subtasks, evidence submission, versioned review attempts, changes requested, approval, completion, reopening, cancellation, reminders, notifications, and audit history.
-- Primary and backup reviewers, prevention of self-review, immutable submission evidence, and server-generated approval audit hashes.
-- Recurring task templates, reminder/escalation generation, reports, announcements, chat/calls, permissions, organization management, and data-health checks.
-- Proposal PDF decomposition through `deepseek-r1:8b`, including queued execution, employee recommendations, task/subtask generation, and structured draft review before commit. Proposal decomposition is AI-required: an unavailable or malformed AI response produces a visible error and never fabricates a local fallback proposal.
-- Automatically saved, persistent inter-department proposal governance for both AI imports and manual plans: mixed staffing pools, activity/task-specific Board routing, required/consulted/observer participation, named approvers and delegates, quorum or sequential approval policies, private source PDFs, structured change requests, immutable revision approvals, final-delivery closeout, formal resolution/minutes records, a unified governance timeline, print-ready decision packets, and atomic commit/completion/archive operations. Proposed people remain unassigned until the approved revision commits.
-- Automatic Cloudflare Quick Tunnel discovery through Supabase `system_config`, so deployed clients receive rotated AI gateway URLs without a rebuild or manual Admin entry.
-- A shared FIFO AI queue: concurrent users receive queue positions while the local node processes one DeepSeek job at a time.
-- Privileged Admin user creation through the authenticated gateway, including unique placeholder employee IDs, recovery of incomplete Auth/profile creation, and cleanup after partial failures.
-- Unified User Management with Role Defaults, per-user access exceptions, page/action entitlements, audited cross-organization scope grants, and direct-route enforcement.
-- Super Admin Backup & Export with recent-password confirmation, server-only `pg_dump`, JSONL, schema/data SQL, SHA-256 manifests, optional AES-256 disaster-recovery archives, audit history, and automatic temporary-file cleanup.
-- Atomic drag/keyboard sequencing for numbered subtasks, preserving assignees, evidence, progress, submissions, and review history.
-- An approved-work monthly contribution leaderboard with Manila calendar periods, transparent delivery/quality/speed/collaboration scoring, historical snapshots, department filtering, Reports summaries, and a private employee score view. It is deliberately excluded from AI assignment inputs.
-- Cross-tab session protection that warns after 55 minutes of inactivity and signs out the local browser session at 60 minutes; background AI jobs, realtime traffic, and timers do not extend the session.
-- Department fiscal control tied directly to delivery work: the Head locks the annual appropriation; every proposal task is explicitly funded or marked no-cost; publication atomically reserves the proposal once and creates immutable task budget lines; Team Leaders distribute task funding to subtasks; assigned contributors request cash through Team Leader and Head/Assistant review; daily releases, recipient acknowledgement, receipts, returns, and final settlement remain traceable to the originating proposal. Petty cash has no separate annual pool: the configurable ₱30,000 default is a daily release ceiling, while the configurable ₱5,000 default is a per-receipt review threshold.
+---
 
-## Development
+## Architecture Overview
 
-Install dependencies and start eFlow:
+eFlow utilizes a distributed, multi-tiered architecture that separates browser execution, relational data governance, administrative control gateways, and local hardware-accelerated AI inference.
 
-```powershell
-npm install
-npm run dev
+```mermaid
+flowchart TD
+    subgraph Client ["Client Presentation Tier (Browser)"]
+        UI["React 18 / Vite Client\n(Port 5173)\nVibe Design System & Figtree Typography"]
+        State["Feature Controllers & Zustand Stores"]
+        Inspector["Shared InspectorPanel Surface"]
+        Session["Cross-Tab Inactivity Monitor (55m/60m)"]
+    end
+
+    subgraph Ingress ["Ingress & Authentication Tier"]
+        JWT["Supabase User JWT Authentication"]
+        CF["Cloudflare Quick Tunnel (Dynamic Ingress)"]
+        Config["Supabase system_config (Endpoint Discovery)"]
+    end
+
+    subgraph Data ["Data & Governance Tier (Supabase)"]
+        Postgres["PostgreSQL Database (60+ Atomic Migrations)"]
+        RLS["Row-Level Security (RLS) Policies"]
+        Realtime["Supabase Realtime Channels"]
+        Storage["Encrypted Object Storage (Proposals, Evidence, Minutes)"]
+    end
+
+    subgraph Gateway ["Administrative Control Tier"]
+        FastAPIGateway["eFlow Control Gateway (127.0.0.1:8322)\n- Supabase JWT Session Validation\n- Privileged Identity Management\n- Server-Side pg_dump Backup Engine\n- Notification Dispatch\n- AI Proxy & Job Scoping"]
+    end
+
+    subgraph AI_Node ["Private AI & Optimization Node"]
+        Loopback["Loopback Ingress (127.0.0.1:8321)\nllm_auth_key Authentication"]
+        Queue["FIFO Job Queue (Serialized DeepSeek Worker)"]
+        DeepSeek["DeepSeek R1 8B (CUDA llama-cpp-python)\nWork Breakdown Structure (WBS) Extraction"]
+        Laya["Laya Decision Layer (System-1)\nMunicipal Routing & Statutory Clearance"]
+        PyGAD["PyGAD Genetic Algorithm Optimizer\nRCPSP Workload & Schedule Balancing"]
+        Polygon["Polygon Blockchain Governance Ledger\nAmoy Testnet 0-MATIC Calldata Anchoring"]
+    end
+
+    UI --> State
+    State --> Inspector
+    State --> Session
+    State -->|"Authenticated PostgREST & Realtime"| Postgres
+    State -->|"Reads ai_endpoint"| Config
+    State -->|"Dispatches AI Jobs (User JWT)"| CF
+    CF --> FastAPIGateway
+    FastAPIGateway -->|"Validates JWT & Applies Internal Key"| Loopback
+    Loopback --> Queue
+    Queue --> DeepSeek
+    DeepSeek --> Laya
+    FastAPIGateway --> PyGAD
+    FastAPIGateway --> Polygon
+    Postgres --> RLS
+    Postgres --> Realtime
+    Postgres --> Storage
 ```
 
-`npm run dev` starts only the eFlow repository's two development processes:
+### Architectural Boundaries and Ingress Guarantees
 
-- the control gateway on `127.0.0.1:8322`;
-- the Vite frontend, normally on `5173` or the next available port.
+1. **Private AI Loopback Boundary**: The model inference server runs strictly on private loopback address `127.0.0.1:8321`. Direct external access to port `8321` is prohibited. All client AI requests must pass through the authenticated control gateway on port `8322`.
+2. **Zero-Trust Client Ingress**: Remote clients never receive the internal model authorization key (`llm_auth_key`) or Supabase service-role keys. Clients authenticate using their active Supabase session JWT. The control gateway validates the JWT, enforces active-profile checks, and proxies the request to the loopback AI server.
+3. **Dynamic Cloudflare Tunnel Discovery**: The AI supervisor manages a Cloudflare Quick Tunnel targeting gateway port `8322`. The active tunnel hostname, heartbeat timestamp, and health status are automatically published to Supabase table `system_config`. Client browsers subscribe to `system_config` via Supabase Realtime, enabling automatic endpoint rotation without frontend rebuilds or manual URL entry.
+4. **FIFO Hardware Protection**: The local node processes one DeepSeek reasoning job at a time in GPU VRAM. Additional requests receive assigned queue positions and poll until completion, eliminating GPU memory exhaustion and concurrency collisions.
+5. **Decoupled System Availability**: The gateway and tunnel remain available for administrative, task, and project workflows while the AI process restarts. If the local model node is offline or restarting, normal non-AI operations continue uninterrupted, while AI-dependent screens display explicit status messages.
 
-The gateway launcher creates `server/.venv`, installs `server/requirements.txt` when needed, replaces a verified stale eFlow gateway, and reloads Python routes during development. You no longer need to run `python server/main.py` separately.
+---
 
-Focused commands remain available for diagnosis:
+## Role-Based Governance Matrix
 
-```powershell
-npm run dev:gateway
-npm run restart:gateway
-npm run dev:frontend
+eFlow enforces a strict Role-Based Access Control (RBAC) framework aligned with Philippine Local Government Unit structures:
+
+| Role Identifier | Role Title | Primary Workspaces | Governance Scope |
+| :--- | :--- | :--- | :--- |
+| `superadmin` | Super Administrator | User Management, Organization Hierarchy, Entitlements, Backup & Export, Audit Logs, System Settings | Global configuration, identity recovery, disaster recovery, read-only oversight across operational projects and tasks. |
+| `depthead` | Department Head / Assistant Head | Overview, Projects, Task Board, Team Supervision, Team Intelligence, Proposal Cockpit, Department Budgets, Reports | Office operations, annual budget appropriation locking, team workload balancing, proposal drafting, inter-departmental review. |
+| `teamleader` | Team Leader | Work I'm Leading, Leader Reviews, Task Milestones, Subtask Allocation, Petty Cash Endorsements | Direct execution supervision, subtask ordering and assignment, evidence review, task budget distribution to subtasks. |
+| `employee` | Department Contributor | My Tasks, My Subtasks, Deadlines, Task History, Performance Self-View, Petty Cash Requests & Liquidation | Direct delivery, checklist check-off with evidence submission, expense receipt submission, personal contribution metrics. |
+| `executive` | City Mayor / Administrator | City Project Pulse, Portfolio Intelligence, Project Transformation, Financial Oversight, Immutable Audit | Executive monitoring, strategic goal tracking, municipal bottleneck detection, macro fiscal review. |
+| `legislative` | Sangguniang Panlungsod | Legislative Dashboard, Session Management, Committee Affairs, Councilor Workspace | Council sessions, ordinance and resolution authoring, committee referrals, legislative audit trails. |
+| `hrmo` | Human Resource Management | Workforce Intelligence, Wellness & Attendance, Burnout Prediction Radar, Performance Compliance | Staffing distribution, single-person dependency alerts, burnout monitoring, genetic algorithm workload simulation. |
+| `finance` | City Finance / Accounting | Project Finance, Programmatic Buckets, Liquidation Review, Immutable Financial Ledger, Journal Posting | Appropriation enforcement, petty cash daily ceiling audits, two-stage liquidation approval, COA compliance. |
+
+---
+
+## Core Operational Workflows
+
+### 1. Governed Task Lifecycle and Non-Repudiation
+
+Task management in eFlow follows an audited lifecycle designed for local government compliance:
+
+- **State Progression**: `Draft` -> `Open / In Progress` -> `In Review` -> `Changes Requested` -> `Approved / Completed` -> `Archived`.
+- **Reviewer Designation and Authorization**: Each task defines primary and backup reviewers. Self-review is strictly prevented at both the database RLS level and gateway boundary.
+- **Evidence-Based Submissions**: Submitting work for review requires verifiable evidence (documentation links, file attachments, or qualitative proof). Evidence records are immutable once submitted.
+- **Audited Review Decisions**: Approvals and rejection attempts are recorded with timestamped reviewer notes. Approved submissions generate an SHA-256 cryptographic audit hash stored directly in the audit record.
+- **Subtask Hierarchy and Dependency**: Subtasks support explicit parent-child sequencing, prerequisite dependencies, and dedicated assignees. Task leaders maintain drag-and-drop ordering authority through atomic reorder RPCs.
+
+### 2. Inter-Department Proposal Collaboration & AI Decomposition
+
+Municipal initiatives requiring cross-department coordination are managed through a persistent, versioned proposal engine:
+
+- **PDF Ingestion & AI-Required Decomposition**: Proposal source documents are parsed client-side via PDF.js and dispatched to the local DeepSeek R1 8B node via the gateway.
+  - The model performs Work Breakdown Structure (WBS) extraction, generating actionable activities, tasks, skills, and subtasks.
+  - The output is immediately piped through the **Laya Decision Layer**, which applies heuristic System-1 governance logic:
+    - Automatically routes tasks to responsible departments (IT, GSO/Procurement, CPDO, LEDIPO, BPLO, Budget, HRMO).
+    - Detects statutory clearance requirements (Bids and Awards Committee / BAC resolutions, Petty Cash / Cash Advance, or standard execution).
+    - Classifies priority and urgency (`High`, `Med`, `Low`) based on critical-path schedules.
+    - Evaluates municipal staff skill vectors to recommend optimal personnel assignments.
+  - Strict AI Integrity Contract: eFlow enforces an AI-required boundary. If the AI model is offline or returns invalid output, the application displays an explicit error. It never fabricates a silent fallback proposal.
+- **Collaborative Draft Governance**:
+  - Proposing departments draft and refine proposals in the `DraftCockpit`.
+  - External entities participate under defined tiers: `Required Approver`, `Consulted`, or `Observer`.
+  - Approval policies support quorum-based, all-signer, or sequential governance paths.
+  - Board/Committee reviews generate formal meeting minutes and print-ready decision packets.
+  - Committing an approved revision atomically materializes projects, milestones, task hierarchies, and team memberships within a single database transaction.
+
+### 3. Department Fiscal Control and Petty Cash Operations
+
+Fiscal management enforces strict accountability tied to actual project delivery:
+
+- **Locked Annual Appropriations**: The Department Head locks the fiscal year budget. Proposals cannot be published without allocating funds against valid budget line items.
+- **Proposal Budget Reservation**: Publication of a proposal atomically reserves the total required budget from the annual appropriation, creating immutable operational budget lines.
+- **Subtask Budget Distribution**: Team Leaders allocate task funding to operational subtasks. Contributors request cash directly within their assigned subtask context.
+- **Two-Stage Petty Cash Operations**:
+  - Default daily release ceiling: Configurable ₱30,000 per day.
+  - Default review threshold: Configurable ₱5,000 per receipt.
+  - Request Chain: Contributor initiates request -> Team Leader provides first-stage review -> Department Head / Assistant Head issues final release approval.
+  - Recipient Acknowledgement: Releases require formal recipient acknowledgement before funds are marked disbursed.
+  - 15-Day Liquidation Window: Contributors submit receipt packages within 15 calendar days. Late packages require explicit Department Head approval.
+  - Financial Settlement: Accounting staff perform journal posting, record returned unspent cash, and reconcile balanced ledger entries.
+
+### 4. Process Optimization, Genetic Algorithms and Workforce Intelligence
+
+- **PyGAD Genetic Algorithm Optimizer**: Integrates multi-objective heuristic optimization to solve the Resource-Constrained Project Scheduling Problem (RCPSP). Supports three profiles:
+  - `balanced`: Harmonizes skill overlap (35%), workload leveling (25%), risk aversion (20%), and timeline makespan (15%).
+  - `fast_track`: Minimizes makespan by parallelizing independent critical-path tasks (45% schedule weight).
+  - `low_risk`: Strictly avoids employee burnout thresholds and penalizes known skill gaps (35% risk weight).
+- **Burnout Prediction Radar (HRMO)**: Evaluates live active task load, review backlog, and overtime signals to prevent municipal staff overload.
+- **Manila Monthly Productivity Leaderboard**: Computes objective monthly contribution scores (delivery, quality, speed, collaboration) based strictly on Manila timezone calendar periods. To prevent perverse incentives, leaderboard metrics are strictly excluded from AI proposal staffing recommendations.
+
+### 5. Polygon Blockchain Governance Ledger
+
+For non-repudiation and external compliance, project milestones are anchored to the Polygon Amoy Testnet (Chain ID `80002`):
+
+- **Calldata-Only Architecture**: Computes canonical SHA-256 digests of proposal payloads and dispatches 0-MATIC transactions with the hash embedded in the transaction payload.
+- **Genesis & Milestone Receipts**: Records proposal creation, BAC statutory clearances, cash advance approvals, and project completion.
+- **Public Auditability**: Anyone with the transaction hash or document digest can verify the authenticity and chronological timestamp on the public blockchain explorer without centralized dependency.
+
+---
+
+## Technology Stack
+
+| Domain | Technology / Library | Purpose & Implementation |
+| :--- | :--- | :--- |
+| **Frontend Framework** | **React 18.3**, **TypeScript**, **Vite** | Component-driven UI, type safety, Hot Module Replacement (HMR). |
+| **Design System & Styling** | **Vibe Design System (`@vibe/core`)**, **Tailwind CSS v4** | Consistent accessible governance UI primitives, theme tokens. |
+| **Typography & Fonts** | **Figtree Variable (`@fontsource-variable/figtree`)** | Single official application font; tabular numbers for finance and codes. |
+| **Component Primitives** | **Radix UI Primitives** | Headless accessible modals, dropdowns, accordions, tooltips, dialogs. |
+| **Animation & Motion** | **Motion (`motion` 12.x)** | Accessible transitions, drawer motion, reduced-motion compliance. |
+| **Workflow Graphs & Flows** | **XYFlow (`@xyflow/react`)**, **Dagre Layout** | Interactive directed node graphs for task dependencies and approval flows. |
+| **Calendars & Timelines** | **FullCalendar**, **Frappe Gantt** | Operational schedules, milestone roadmaps, session calendars. |
+| **Data Analytics & Charts** | **Recharts** | Executive KPIs, budget burn rate, workload distribution, burnout radar. |
+| **Document Processing** | **Tiptap**, **PDF.js**, **SheetJS (`xlsx`)** | Rich text editor for minutes, client-side PDF parsing, spreadsheet exports. |
+| **Primary Database & Auth** | **Supabase (PostgreSQL 15+)** | Relational schemas, Row-Level Security, JWT Auth, Realtime channels, Storage. |
+| **Control Gateway** | **Python 3.10+**, **FastAPI**, **Uvicorn**, **httpx** | Port 8322 gateway, session verification, admin actions, backup engine. |
+| **Local AI Inference Engine** | **llama-cpp-python (CUDA 12.4/12.6)**, **GGUF** | Port 8321 server, hardware-accelerated DeepSeek R1 8B local execution. |
+| **Decision Intelligence** | **Laya Router (`convaiinnovations/laya-typed-decisions`)** | System-1 bounded governance heuristics, statutory clearance detection. |
+| **Process Optimization** | **PyGAD**, **NumPy** | Multi-objective genetic algorithm for workforce allocation and RCPSP. |
+| **Blockchain Audit** | **Web3.py**, **Polygon Amoy Testnet** | 0-MATIC calldata anchoring, SHA-256 verification receipts. |
+| **Network & Ingress** | **Cloudflare Quick Tunnels (`cloudflared`)** | Zero-trust public gateway access with Supabase dynamic discovery. |
+
+---
+
+## Directory Structure and Module Boundaries
+
+The frontend architecture strictly adheres to feature modularization under `src/app/features/`, where each feature exposes a focused public `index.ts` API:
+
+```text
+EflowWeb/
+├── docs/                               # Architecture, flow specifications, and feature inventories
+│   ├── ai-quick-tunnel.md              # Cloudflare tunnel and dynamic discovery architecture
+│   ├── department-budget-flow.md       # Fiscal appropriation and petty cash workflows
+│   ├── feature-inventory.md            # Compatibility baseline for modularization
+│   ├── interdepartment-collaboration.md# Collaborative proposal draft and governance specifications
+│   └── task-management-flow.md         # Governed task lifecycle and review rules
+├── scripts/                            # Verification, backup, and live schema validation utilities
+├── server/                             # eFlow Control Gateway (Port 8322)
+│   ├── routers/                        # FastAPI sub-routers (admin, ai, backups, collaboration, notifications)
+│   ├── services/                       # Gateway business logic (backup_service, collaboration_ai)
+│   ├── gateway_config.py               # Environment configuration and settings
+│   ├── gateway_dependencies.py         # JWT verification and user scoping dependencies
+│   ├── main.py                         # Gateway entry point and CORS middleware
+│   ├── requirements.txt                # Python dependencies for control gateway
+│   └── start.py                        # Automated gateway launcher and process supervisor
+├── src/
+│   ├── app/
+│   │   ├── components/                 # Shared UI components and layout shells
+│   │   ├── features/                   # Domain feature modules
+│   │   │   ├── administration/         # Identity, role defaults, organization management
+│   │   │   ├── ai/                     # AI gateway client, tunnel discovery, and queue polling
+│   │   │   ├── announcements/          # Broadcast notifications and communication feed
+│   │   │   ├── app-shell/              # App providers, auth guard, layout shell
+│   │   │   ├── audit/                  # Audit trail viewers and activity logs
+│   │   │   ├── budget/                 # Appropriations, task budget lines, petty cash liquidations
+│   │   │   ├── chat-calls/             # Direct messaging, task discussions, audio calls
+│   │   │   ├── employees/              # Employee directories, skills inventory, PDS parser
+│   │   │   ├── guided-tours/           # Accessible role onboarding and AI audio tours
+│   │   │   ├── interdepartment-collaboration/ # Persistent proposal drafts, revisions, voting
+│   │   │   ├── navigation/             # Role sidebar sections, routes, navigation dispatch
+│   │   │   ├── notifications/          # Realtime alerts, review requests, escalations
+│   │   │   ├── productivity/           # Monthly Manila-time contribution leaderboard
+│   │   │   ├── projects/               # Project Command Center, milestones, Gantt roadmaps
+│   │   │   ├── proposal-import/        # PDF extraction, DeepSeek R1 decomposition, DraftCockpit
+│   │   │   ├── reports/                # Department Head report library, CSV/PDF generation
+│   │   │   ├── reviews/                # Review queue, evidence inspection, decision recording
+│   │   │   ├── role-accounting/        # Balanced journal entries, voucher disbursement
+│   │   │   ├── role-department-head/   # Operations overview, supervision, workload radar
+│   │   │   ├── role-executive/         # City Project Pulse, portfolio analytics
+│   │   │   ├── role-finance/           # Programmatic budget oversight, liquidation approval
+│   │   │   ├── role-hrmo/              # Burnout radar, genetic algorithm simulation
+│   │   │   ├── role-legislative/       # Council sessions, measures, committee tracking
+│   │   │   ├── session-security/       # Cross-tab heartbeat, 55m warning, 60m logout
+│   │   │   ├── subtasks/               # Checklist execution, drag reordering, evidence
+│   │   │   ├── tasks/                  # Task board, Kanban, hierarchy, timeline views
+│   │   │   ├── team-management/        # Staff workload rebalancing, skill coverage
+│   │   │   └── work-templates/         # Reusable task checklists, recurring templates
+│   │   └── shared/                     # Reusable utilities, formatting helpers, adapters
+│   └── main.tsx                        # Application mount and bootstrap
+└── supabase/                           # Database architecture
+    ├── migrations/                     # 60+ sequential SQL migrations
+    ├── fresh_schema.sql                # Base bootstrap database schema
+    └── README.md                       # Migration order and schema documentation
 ```
 
-### Backup & Export setup
+---
 
-The Super Admin Backup & Export tool needs the private PostgreSQL connection URI because it creates restore-grade `schema.sql` and `data.sql` files. In Supabase, open the project connection panel, copy the direct or session-pooler URI, and add it to the repository's private `.env` as `EFLOW_DATABASE_URL`. Never place that URI in a `VITE_` variable or send it to the browser.
+## Local Development Setup
 
-On Windows, eFlow automatically finds `pg_dump.exe` from a standard PostgreSQL or pgAdmin installation. After changing the private `.env`, stop the current development process with `Ctrl+C` and run `npm run dev` again. The Data Tools readiness panel will then verify the gateway route, database URI, PostgreSQL tools, and visible public tables before enabling an export.
+### Prerequisites
 
-### Running eFlow with the AI server
+- **Node.js 18+** (Node 20+ recommended)
+- **Python 3.10+** (Python 3.11/3.12 recommended)
+- **Git**
+- **PostgreSQL / pg_dump** (Installed locally or via pgAdmin for Super Admin backup features)
+- **Supabase Project** (Cloud instance or local Docker Supabase instance)
 
-The two repositories remain separate. Start each from its own terminal:
+### Installation Steps
+
+1. **Clone the repository and install frontend dependencies**:
+   ```powershell
+   Set-Location "C:\Users\gabri\OneDrive\Desktop\EflowWeb"
+   npm install
+   ```
+
+2. **Configure environment variables**:
+   Create a `.env` file in the project root with the following configuration:
+   ```env
+   # Frontend Supabase Configuration (Browser visible)
+   VITE_SUPABASE_URL=https://your-project.supabase.co
+   VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+
+   # eFlow Control Gateway Configuration (Private, used by server/start.py)
+   SUPABASE_URL=https://your-project.supabase.co
+   SUPABASE_SERVICE_ROLE_KEY=sb_secret_your_private_service_role_key
+
+   # Database Connection for Super Admin Backup & Export (Private, server-only)
+   EFLOW_DATABASE_URL=postgresql://postgres.your-project:your-password@aws-0-region.pooler.supabase.com:6543/postgres
+
+   # Local Gateway and AI Ingress Settings
+   EFLOW_GATEWAY_ORIGIN=http://127.0.0.1:8322
+   VITE_AI_CONNECTION_MODE=online
+   ```
+   > Note: Never place the Supabase service-role key or database URI in `VITE_` variables. All `VITE_` variables are bundled into the client build.
+
+3. **Start the eFlow development environment**:
+   ```powershell
+   npm run dev
+   ```
+   `npm run dev` concurrently executes:
+   - **eFlow Control Gateway** on `127.0.0.1:8322` (automatically provisions `server/.venv`, installs requirements from `server/requirements.txt`, and enables auto-reload).
+   - **Vite Frontend** on `http://localhost:5173`.
+
+### Running eFlow with the Dedicated AI Server
+
+To enable local AI proposal decomposition, Laya governance routing, and PyGAD optimization, run both repositories in separate terminals:
 
 ```powershell
-# Terminal 1 — eFlow frontend and eFlow gateway
-Set-Location "..\eflow-e-Governance-Project"
+# Terminal 1: eFlow Frontend & Control Gateway
+Set-Location "..\eflow-e-Governance-Project" # or "C:\Users\gabri\OneDrive\Desktop\EflowWeb"
 npm run dev
 
-# Terminal 2 — private AI API, AI dashboard, and automatic tunnel publisher
+# Terminal 2: Private AI Inference Node & Tunnel Supervisor
 Set-Location "..\Ollama reactjs LLM DeepSeek Integration"
 npm run dev
 ```
 
-If the AI-side processes become duplicated or stuck, use its clean restart command:
-
+If the AI node processes become stale or require cleanup, execute the scoped restart utility in Terminal 2:
 ```powershell
 npm run restart
 ```
+*(This cleans up stale llama-cpp, uvicorn, and cloudflared processes without interrupting eFlow).*
 
-That command stops and replaces only the Ollama/AI repository's API, dashboard, queue worker, tunnel supervisor, and matching Quick Tunnel. It does not launch or stop eFlow.
+---
 
-| Service | Address | Responsibility |
-|---|---|---|
-| eFlow web | `http://localhost:5173` (or next free port) | Role workspaces and normal application UI |
-| eFlow gateway | `http://127.0.0.1:8322` | Supabase JWT validation, Admin APIs, notification delivery, and AI proxy |
-| Private AI API | `http://127.0.0.1:8321` | Model loading, inference, and FIFO jobs |
-| AI dashboard | `http://localhost:5175` | Local AI administration and logs |
-| Quick Tunnel | Rotating `https://*.trycloudflare.com` | Remote authenticated access to the eFlow gateway |
+## Quality Assurance & Verification
 
-Normal eFlow work continues when the AI node is offline. Only AI-backed actions report the outage. The gateway and Cloudflare endpoint remain available for Admin and other control routes while the supervised AI process restarts.
-
-Keep SMTP and service credentials in local environment files. Never expose a Supabase service-role key through a `VITE_` variable.
-
-## Verification
+Before committing code or declaring a development slice complete, execute the full verification suite:
 
 ```powershell
+# 1. TypeScript static analysis
 npm run check
+
+# 2. Vitest unit and regression tests
 npm test
+
+# 3. Production Vite build validation
 npm run build
+
+# 4. Security verification (ensures no service-role secrets exist in dist/)
 npm run verify:client-secrets
+
+# 5. Live Supabase database schema contract check
+npm run verify:live-schema
+
+# 6. Python gateway unit tests
 python -m unittest discover -s server/tests -p "test_*.py" -v
 ```
 
-After applying the task-flow migrations to the target Supabase project, verify the live API schema with `npm run verify:live-schema`.
+### End-to-End Smoke Testing (Playwright)
 
-Authenticated browser smoke tests require dedicated non-production accounts:
-
+To execute authenticated browser end-to-end tests:
 ```powershell
 $env:EFLOW_E2E = "1"
-$env:EFLOW_E2E_ACCOUNTS = '[{"role":"superadmin","email":"...","password":"..."}]'
+$env:EFLOW_E2E_ACCOUNTS = '[{"role":"superadmin","email":"admin@eflow.local","password":"your_test_password"}]'
 npm run test:e2e
 ```
 
-## Module map
+---
 
-Feature-owned application code lives under `src/app/features/`. Each feature exposes a deliberately small `index.ts`; files under old component paths are temporary compatibility bridges only.
+## Technical Documentation References
 
-- `app-shell`: providers, authentication gate, loading state, role resolution, and development quick-login handling.
-- `navigation`: declarative role sections, default destinations, sidebar state, lazy role-content loading, and role dispatch.
-- `guided-tours`: accessible role-aware onboarding with first-login prompts, page walkthroughs, smooth spotlight highlighting, keyboard navigation, automatic scrolling, replay controls, optional natural English AI voice narration, and versioned per-user resume and voice preferences.
-- `tasks`: task contracts, mapping, realtime subscriptions, focused mutation/review/activity/archive services, recurring-task scheduling, maintenance, and decomposed list/Kanban/hierarchy/timeline boards with controller hooks and a consistent overflow-management menu.
-- `work-templates`: the Projects-owned template workspace for recurring whole-task schedules and reusable subtask checklists, including personal/department sharing, leadership approval, editable assignment previews, and guarded merge-or-replace application.
-- `reviews`: reviewer authorization, review services, immutable submission history, inbox, and decision components.
-- `subtasks`: permission-aware subtask services and task checklist UI.
-- `session-security`: trusted human-activity tracking, cross-tab coordination, inactivity warning/countdown, and local-only one-hour sign-out.
-- `productivity`: approved-work Manila-month scoring, live and immutable snapshot readers, department leaderboard, employee self-view, and Reports summary components.
-- `ai`: Supabase-authenticated AI gateway client, dynamic Quick Tunnel endpoint discovery, AI-only runtime gating, FIFO job submission/polling, queue-position updates, model configuration, and common response handling.
-- `team-management`: the shared Department Head operations model for live task/subtask workload, attention signals, review quality, delivery health, skill coverage, safe lead/member reassignment, and AI-compatible employee coaching inputs. The persisted AI assignment fields remain `strengths`, `weaknesses`, `notes`, and `tags`; the clearer “Development areas” label still writes to `weaknesses` for compatibility.
-- `reports`: the Department Head report library for department operations, projects, full team/subtask contributions, review attempts, evidence, risks, and lifecycle history; exact-row CSV/PDF export; and an optional queue-aware DeepSeek management brief using only visible permission-scoped rows. The legacy shared Super Admin report workspace remains intact.
-- `projects`, `employees`, `announcements`: active workflow workspaces with the shared Project Command tabs, project query/mutation/member/milestone operations, the manual/AI work-plan entry points and Projects-owned template library, PDS parser stages, employee core-work pages, and announcement inbox controllers kept in focused modules.
-- `proposal-import`: PDF extraction, AI-required per-part/whole-document DeepSeek decomposition, hierarchy validation/repair of the same AI response, employee-scope selection, draft model, queue-aware controller hook, assignment UI, import cockpit, and a separate project/task commit operation. It contains no silent non-AI proposal fallback.
-- `interdepartment-collaboration`: the shared AI/manual persistent-draft engine, organization participation and responsibility model, mixed-team staffing review, private backend recommendation client, source-document access, messages, formal changes, revision-bound named approvals, per-task governance routing, final closeout, resolution/minutes records, decision packets, realtime refresh, and atomic commit/completion/archive boundaries.
-- `budget`: annual department appropriations and audited adjustments; task-owned PDF-style proposal budgets; atomic publication commitments; immutable task particulars; guarded subtask allocations; employee → Team Leader → Head/Assistant petty-cash review; concurrency-safe daily release scheduling; recipient acknowledgement; two-stage receipt liquidation; Q4/aging/category/accountability reporting; CSV/print exports; exact-record notification routing; and the immutable financial ledger. The owner department funds collaborative proposals in this phase; inter-department transfers remain a separate phase.
-- `role-department-head`, `role-executive`, `role-finance`, `role-hrmo`, `role-legislative`: role registries and focused page components, including committee, session, councilor, portfolio, finance, audit, and project-health submodules.
-- `chat-calls`: chat/call public API plus separate controller, channel-list, active-chat, reaction, and message-codec modules.
-- `administration`, `organization`, `permissions`, `audit`, `settings`: administrative boundaries, including componentized identity/access management, secure Supabase Backup & Export, and organization-tree tooling.
+For in-depth operational flow specifications, consult the companion documentation:
 
-Generated design imports and reusable UI primitive collections can remain physically long when they already consist of small independent functions; application page controllers and service workflows should not.
-
-See [task-management-flow.md](docs/task-management-flow.md) for the task lifecycle, [department-budget-flow.md](docs/department-budget-flow.md) for the fiscal workflow, [interdepartment-collaboration.md](docs/interdepartment-collaboration.md) for the governed proposal workflow, [feature-inventory.md](docs/feature-inventory.md) for the compatibility baseline, and [ai-quick-tunnel.md](docs/ai-quick-tunnel.md) for secure remote AI testing. Database setup and migration order are documented in [supabase/README.md](supabase/README.md).
+- [Task Management Flow](docs/task-management-flow.md): Governed task lifecycle, reviewer rules, and evidence audit trails.
+- [Department Budget & Petty Cash Flow](docs/department-budget-flow.md): Appropriation locking, subtask funding, and two-stage liquidation.
+- [Inter-Department Collaboration](docs/interdepartment-collaboration.md): Multi-agency proposal drafts, voting policies, and commit boundaries.
+- [AI Quick Tunnel & Gateway Integration](docs/ai-quick-tunnel.md): Dynamic Cloudflare tunnel discovery, JWT verification, and FIFO queuing.
+- [Feature Inventory & Compatibility Baseline](docs/feature-inventory.md): Authoritative registry of all role routes and system screens.
+- [Database Schema & Migration Order](supabase/README.md): Sequential guide for applying database migrations.
